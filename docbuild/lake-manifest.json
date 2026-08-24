@@ -3,11 +3,11 @@
  "packages":
  [{"type": "path",
    "scope": "",
-   "name": "PalomarTemplate",
+   "name": "GenMarkoff",
    "manifestFile": "lake-manifest.json",
    "inherited": false,
    "dir": "../",
-   "configFile": "lakefile.toml"},
+   "configFile": "lakefile.lean"},
   {"url": "https://github.com/leanprover/doc-gen4.git",
    "type": "git",
    "subDir": null,
