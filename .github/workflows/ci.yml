@@ -84,29 +84,47 @@ jobs:
       - name: Test the Landrun wrapper
         run: ./test/landrun_wrapper_test.sh
 
-  build:
-    name: Build with Lean
+  verify:
+    name: Build, document, and compare
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
-        with:
-          build: true
 
-  docs:
-    name: Build API documentation
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      # Keep the expensive project compilation, but do not cache the entire
+      # `.lake` tree. Lake recreates dependency checkouts, while Mathlib's own
+      # binary cache below supplies their compiled artifacts.
+      - name: Restore Lean build cache
+        id: lean-build-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
         with:
-          persist-credentials: false
+          path: .lake/build
+          key: ${{ runner.os }}-${{ runner.arch }}-lean-build-v1-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.lean') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-lean-build-v1-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.lean') }}-
+
       - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
         with:
+          auto-config: false
           build: false
+          test: false
+          use-github-cache: false
+          use-mathlib-cache: true
+
+      - name: Build Lean project once
+        run: lake build
+
+      # Save immediately after a successful build so a later documentation or
+      # Comparator failure does not discard the completed compilation.
+      - name: Save Lean build cache
+        if: steps.lean-build-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: ${{ steps.lean-build-cache.outputs.cache-primary-key }}
+
       - name: Build doc-gen4 output
         working-directory: docbuild
         env:
@@ -120,20 +138,20 @@ jobs:
           path: docbuild/.lake/build/doc
           if-no-files-found: error
 
-  comparator:
-    name: Check statement against solution
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
-        with:
-          build: false
+      # Documentation has already consumed the experimental module IR.  The
+      # Comparator needs only the legacy `.olean` files in `.lake/build/lib`.
+      - name: Reclaim disk space for Comparator
+        run: |
+          rm -rf -- "$GITHUB_WORKSPACE/.lake/build/ir"
+          rm -rf -- "$GITHUB_WORKSPACE/docbuild/.lake/build"
+          df -h "$GITHUB_WORKSPACE"
+          du -sh .lake/packages .lake/build 2>/dev/null || true
+
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           go-version: "1.24.0"
           cache: false
       - name: Run pinned Comparator toolchain
+        env:
+          PALOMAR_SKIP_MATHLIB_CACHE: "1"
         run: ./scripts/verify-comparator.sh

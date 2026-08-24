@@ -82,7 +82,9 @@ GOBIN="$bin_dir" go install "github.com/zouuup/landrun/cmd/landrun@$landrun_comm
 (cd "$nanoda_dir" && cargo build --release --locked)
 
 cd "$repository_root"
-lake exe cache get
+if [ "${PALOMAR_SKIP_MATHLIB_CACHE:-0}" != "1" ]; then
+  lake exe cache get
+fi
 PALOMAR_LANDRUN_BIN="$bin_dir/landrun" \
 COMPARATOR_LEAN4EXPORT="$lean4export_dir/.lake/build/bin/lean4export" \
 COMPARATOR_NANODA="$nanoda_dir/target/release/nanoda_bin" \
