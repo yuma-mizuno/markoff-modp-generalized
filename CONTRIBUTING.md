@@ -1,31 +1,28 @@
-# Adapting this template
+# Contributing
 
-1. Rename the package and namespace throughout the repository.
-2. Put the proof development in the library and import it from `Solution.lean`.
-3. Rewrite `Challenge.lean` as a small, independently auditable statement
-   surface. Keep its advertised declarations statement-only with `sorry`; the
-   corresponding proofs belong in `Solution.lean`. Its imports must satisfy the
-   current Palomar policy.
-4. Update `comparator.json` with every advertised theorem and any definition
-   holes. Definition holes require special editorial scrutiny.
-5. Replace every `TEMPLATE` value in `formalization.yaml` with honest,
-   independently checkable metadata. Run
-   `ruby scripts/validate-formalization.rb`; it parses the file and lists every
-   retained sentinel, including deliberately invalid classification, proof,
-   automation, and review defaults. Replace a placeholder list with `[]` only
-   where its adjacent comment permits that; lists described as required must
-   remain nonempty. In particular, follow the result-origin instructions beside
-   `sources` rather than replacing that list with `[]`. Keep the Apache-2.0
-   `LICENSE` file and the matching `project.license: "Apache-2.0"` metadata.
-   This starter template supports only that root licence. A project deliberately
-   using another root licence permitted by Palomar policy needs another starting
-   point or must own and maintain its licence-validation CI contract. Leave the
-   `repository` example commented out unless this repository is only a wrapper
-   around a separately pinned substantive formalization.
-6. Run `lake update` and `cd docbuild && lake update` after changing dependencies,
-   then commit both manifest files.
-7. Run `lake build`, build the docs, and run Comparator before submitting to
-   Palomar.
+Contributions should preserve the audited Palomar boundary and the mathematical
+scope recorded in `formalization.yaml`.
 
-Do not submit the toy theorem unchanged. Palomar applies a substantive
-research-interest floor in addition to mechanical verification.
+1. Keep `Challenge.lean` short, Mathlib-only, and statement-focused.
+2. Put proof changes in `GenMarkoff/` and expose the proved endpoint through
+   `Solution.lean`.
+3. Do not add `sorry`, `admit`, custom axioms, Blueprint dependencies, or
+   local path dependencies to the production submission.
+4. Keep the ordered coefficient triple fixed and explicit. Coordinate
+   permutations must carry the coefficient permutation with them.
+5. Keep the individual Vieta group distinct from the two-factor rotation
+   group, and use punctured to mean removal of `(0, 0, 0)` only.
+6. Update `formalization.yaml`, `README.md`, and `comparator.json` whenever a
+   public statement or proof boundary changes.
+
+Before committing, run:
+
+```text
+lake build
+lake env lean scripts/AxiomAudit.lean
+ruby scripts/validate-formalization.rb
+git diff --check
+```
+
+On Linux, also run `./scripts/verify-comparator.sh`. Stage only the intended
+paths and commit the resulting verified milestone locally.

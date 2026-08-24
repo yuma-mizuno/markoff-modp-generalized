@@ -1,13 +1,9 @@
-import PalomarTemplate
+import GenMarkoff.General.Assembly.ExplicitStrongApproximation
 
 /-!
 # Proved solution
 
-This module may import the full proof development. Comparator checks that the
-declaration below has exactly the same statement as its counterpart in
-`Challenge.lean` and uses only the permitted axioms.
+The imported production module contains the proved declaration corresponding
+to `Challenge.lean`. Comparator checks that it has exactly the advertised
+type and depends only on the permitted axioms.
 -/
-
-theorem PalomarTemplate.main_result (n : ℕ) : n + n = 2 * n := by
-  exact add_self_eq_two_mul n
-

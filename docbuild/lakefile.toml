@@ -10,6 +10,5 @@ git = "https://github.com/leanprover/doc-gen4.git"
 rev = "v4.32.0"
 
 [[require]]
-name = "PalomarTemplate"
+name = "GenMarkoff"
 path = "../"
-
