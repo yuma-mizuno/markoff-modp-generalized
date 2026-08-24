@@ -129,6 +129,7 @@ local instance frobeniusRestrictionConstantTower :
     IsScalarTower K (RatFunc K) L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [DecidableEq K] in
 /-- Raising to `(#K) ^ n` scales every exhaustive place order by that
 integer. -/
 theorem finiteExtensionPrincipalDivisor_powCardLinearMap
@@ -138,6 +139,7 @@ theorem finiteExtensionPrincipalDivisor_powCardLinearMap
   rw [powCardLinearMap_apply,
     finiteExtensionPrincipalDivisor_pow K L x hx]
 
+omit [DecidableEq K] in
 /-- Pointwise form of the Frobenius order-scaling identity. -/
 theorem finiteExtensionPrincipalDivisor_powCardLinearMap_apply
     (x : L) (hx : x ≠ 0) (n : ℕ)

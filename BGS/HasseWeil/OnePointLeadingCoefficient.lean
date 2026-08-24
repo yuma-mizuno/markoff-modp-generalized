@@ -410,6 +410,7 @@ local instance onePointCancellationInfinityConstantTowerToField :
   rfl
 
 omit [Fintype K] in
+omit [DecidableEq K] in
 private theorem finiteExtensionPrincipalDivisor_inr_eq_finitePlaceOrder
     (x : L) (P : FiniteExtensionInfinityPlace K L) :
     finiteExtensionPrincipalDivisor K L x (.inr P) =

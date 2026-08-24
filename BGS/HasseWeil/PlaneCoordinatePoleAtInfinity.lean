@@ -89,6 +89,7 @@ local instance coordinatePoleInfinityIntegralClosureIsFractionRing :
       (RatFuncInfinityIntegralClosure K L)
 
 omit [Fintype K] in
+omit [DecidableEq K] in
 private theorem principalDivisor_algebraMap_X_inl_nonnegative
     (q : FiniteExtensionFinitePlace K L) :
     0 ≤ finiteExtensionPrincipalDivisor K L
@@ -111,6 +112,7 @@ private theorem principalDivisor_algebraMap_X_inl_nonnegative
   exact finitePlaceOrder_algebraMap_nonnegative q s hs
 
 omit [Fintype K] in
+omit [DecidableEq K] in
 /-- At every place above the rational-function place at infinity, the image
 of `RatFunc.X` has strictly negative order.  This is stronger than merely
 knowing that some infinity place is a pole: it makes the pole divisor of the
@@ -176,6 +178,7 @@ theorem finiteExtensionPrincipalDivisor_algebraMap_X_inr_negative
 variable {K}
 
 omit [Fintype K] in
+omit [DecidableEq K] in
 /-- The first plane coordinate has nonnegative principal-divisor order at
 every finite place in its rational-function model. -/
 theorem finiteExtensionPrincipalDivisor_planeCurveFirstCoordinate_inl_nonnegative
@@ -210,6 +213,8 @@ theorem finiteExtensionPrincipalDivisor_planeCurveFirstCoordinate_inl_nonnegativ
   rw [← planeCurveFirstCoordinateRatFuncAlgebra_X f hx]
   exact principalDivisor_algebraMap_X_inl_nonnegative K L q
 
+omit [Fintype K] in
+omit [DecidableEq K] in
 /-- Consequently, the pole divisor of the first plane coordinate vanishes at
 every finite place. -/
 theorem finiteExtensionPoleDivisor_planeCurveFirstCoordinate_inl_eq_zero
@@ -245,6 +250,8 @@ theorem finiteExtensionPoleDivisor_planeCurveFirstCoordinate_inl_eq_zero
     (finiteExtensionPrincipalDivisor_planeCurveFirstCoordinate_inl_nonnegative
       hf hpartialSecond q))]
 
+omit [Fintype K] in
+omit [DecidableEq K] in
 /-- Every place above infinity occurs with positive coefficient in the pole
 divisor of the first plane coordinate. -/
 theorem finiteExtensionPoleDivisor_planeCurveFirstCoordinate_inr_positive

@@ -32,6 +32,7 @@ noncomputable def probeRatFuncDerivation :
     Algebra.FormallyEtale.of_isLocalization K[X]⁰
   exact formallyEtaleDerivationExtension (Polynomial.mkDerivation K 1)
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 @[simp] theorem probeRatFuncDerivation_algebraMap (f : K[X]) :
     probeRatFuncDerivation K (algebraMap K[X] (RatFunc K) f) =
       algebraMap K[X] (RatFunc K) f.derivative := by
@@ -49,6 +50,7 @@ example : probeRatFuncDerivation K RatFunc.X = 1 := by
   rw [probeRatFuncDerivation_algebraMap]
   simp
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 theorem probeRatFuncDerivation_eq (x : RatFunc K) :
     probeRatFuncDerivation K x =
       (algebraMap K[X] (RatFunc K) x.denom)⁻¹ ^ 2 *
@@ -61,6 +63,7 @@ theorem probeRatFuncDerivation_eq (x : RatFunc K) :
   rw [map_sub, map_mul, map_mul]
   simp only [Algebra.smul_def, Algebra.algebraMap_self_apply]
 
+omit [DecidableEq (RatFunc K)] in
 private theorem natDegree_derivativeNumerator_le
     (p q : K[X]) (hp : p ≠ 0) (hq : q ≠ 0)
     (hN : q * p.derivative - p * q.derivative ≠ 0) :
@@ -105,6 +108,7 @@ private theorem natDegree_derivativeNumerator_le
       omega
   exact (Polynomial.natDegree_sub_le _ _).trans (max_le hleft hright)
 
+omit [DecidableEq (RatFunc K)] in
 theorem probeRatFuncDerivation_intDegree_le_sub_one
     (x : RatFunc K) (hx : x ≠ 0)
     (hDx : probeRatFuncDerivation K x ≠ 0) :
@@ -156,6 +160,7 @@ noncomputable def probeRatFuncReciprocalDerivation :
     Derivation K (RatFunc K) (RatFunc K) :=
   (-RatFunc.X ^ 2 : RatFunc K) • probeRatFuncDerivation K
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 @[simp] theorem probeRatFuncReciprocalDerivation_apply (x : RatFunc K) :
     probeRatFuncReciprocalDerivation K x =
       -RatFunc.X ^ 2 * probeRatFuncDerivation K x := by
@@ -365,6 +370,8 @@ local instance probeFrobeniusConstantTower :
     IsScalarTower K (frobeniusSubfield L p) L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 theorem probe_normalizedDerivation_comp_ratFunc
     (D : Derivation (frobeniusSubfield L p) L L)
     (hDX : D (algebraMap (RatFunc K) L RatFunc.X) = 1) :
@@ -418,6 +425,7 @@ noncomputable def probeAmbientReciprocalDerivation
   (-(algebraMap (RatFunc K) L RatFunc.X) ^ 2) •
     D.restrictScalars K
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 theorem probeAmbientReciprocalDerivation_extends
     (D : Derivation (frobeniusSubfield L p) L L)
     (hDX : D (algebraMap (RatFunc K) L RatFunc.X) = 1)
@@ -450,6 +458,7 @@ theorem probeAmbientReciprocalDerivation_extends
       (probeRatFuncReciprocalDerivation K (r : RatFunc K))
   rw [probeRatFuncReciprocalDerivation_apply, map_mul, map_neg, map_pow]
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 theorem probeAmbientReciprocalDerivation_changeParameter
     (D : Derivation (frobeniusSubfield L p) L L) :
     D.restrictScalars K =

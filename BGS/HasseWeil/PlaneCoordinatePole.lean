@@ -25,6 +25,7 @@ noncomputable section
 variable {K : Type*} [Field K] [Fintype K] [DecidableEq K]
   [DecidableEq (RatFunc K)]
 
+omit [Fintype K] in
 /-- In the first-coordinate `RatFunc` model, the pole height of the first
 coordinate is the degree of the plane equation in the second variable. -/
 theorem finiteExtensionHeight_planeCurveFirstCoordinate
@@ -65,9 +66,10 @@ theorem finiteExtensionHeight_planeCurveFirstCoordinate
     _ = MvPolynomial.degreeOf 1 f := by
       have hpositive :=
         finiteExtensionPositiveDegree_planeCurveFirstCoordinate_pow
-          hf hpartialSecond 1 (by omega)
+          hf hpartialSecond 1
       simpa only [x, pow_one, one_mul] using hpositive
 
+omit [Fintype K] in
 /-- Equivalently, the effective pole divisor of the first coordinate has
 degree equal to the degree of the plane equation in the second variable. -/
 theorem finiteExtensionDivisorDegree_planeCurveFirstCoordinate_poleDivisor
@@ -102,6 +104,7 @@ theorem finiteExtensionDivisorDegree_planeCurveFirstCoordinate_poleDivisor
   rw [finiteExtensionDivisorDegree_poleDivisor,
     finiteExtensionHeight_planeCurveFirstCoordinate hf hpartialSecond]
 
+omit [Fintype K] in
 /-- A positive coefficient of an effective divisor contributes at least the
 degree of its place to the total divisor degree. -/
 theorem finiteExtensionPlaceDegree_le_divisorDegree_of_effective_of_pos
@@ -129,6 +132,7 @@ theorem finiteExtensionPlaceDegree_le_divisorDegree_of_effective_of_pos
       exact Finset.single_le_sum
         (fun v _hv => mul_nonneg (hD v) (by positivity)) hPmem
 
+omit [Fintype K] in
 /-- The first-coordinate pole divisor has nonempty support. -/
 theorem planeCurveFirstCoordinate_poleDivisor_support_nonempty
     {f : MvPolynomial (Fin 2) K} (hf : Irreducible f)
@@ -169,6 +173,7 @@ theorem planeCurveFirstCoordinate_poleDivisor_support_nonempty
     degreeOf_second_pos_of_pderiv_ne_zero hpartialSecond
   omega
 
+omit [Fintype K] in
 /-- There is a pole place for the first coordinate.  Its coefficient in the
 pole divisor is positive, and its (not necessarily one) place degree lies
 between one and the degree of the plane equation in the second variable. -/

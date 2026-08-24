@@ -202,8 +202,7 @@ private theorem
     (p : ℕ) [Fact p.Prime]
     (hpTwo : p ≠ 2)
     (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
-    (state : AlternatingRegularState a) (q : (ZMod p)ˣ)
+    (state : AlternatingRegularState a)
     (hstart :
       alternatingPrimitiveSplitEndgameResult
         p a state.direction state.point.1)
@@ -400,7 +399,7 @@ theorem
         (max squareThreshold 3)).trans hp)
   exact
     alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p (by omega) a hA1 hA2 state q
+      p (by omega) a state
       (hstart p hpStart a hA1 hA2 state q heigen hlarge)
       (fun next v hnext hnextLarge =>
         hprimitive p hpPrimitive a hA1 hA2 next v hnext hnextLarge)
@@ -432,7 +431,7 @@ theorem alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_anal
     omega
   exact
     alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p hpTwo a hA1 hA2 state q
+      p hpTwo a state
       (alternatingRegularState_actualSplitPrimitiveEndgame_of_analyticCutoff
         coefficient hWeil hdelta hcoefficient p hp
           a hA1 hA2 state q heigen hlarge)
@@ -469,7 +468,7 @@ theorem alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_reas
     omega
   exact
     alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p hpTwo a hA1 hA2 state q
+      p hpTwo a state
       (alternatingRegularState_actualSplitPrimitiveEndgame_of_reasonableCutoff
         coefficient hWeil hdelta hcoefficient p hp
           a hA1 hA2 state q heigen hlarge)

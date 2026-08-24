@@ -169,6 +169,7 @@ variable (L : Type*) [Field L] [Algebra (RatFunc K) L]
   [FiniteDimensional (RatFunc K) L]
   [Algebra.IsSeparable (RatFunc K) L]
 
+omit [DecidableEq K] in
 /-- Finite-place form used after the two Stepanov restriction maps.
 
 The families are assumed regular at `q`.  The residue hypothesis is stated

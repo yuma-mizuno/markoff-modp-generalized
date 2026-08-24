@@ -41,6 +41,7 @@ def heightOneOfPrimesOverFinset (p : HeightOneSpectrum A)
   exact ⟨Q, hQover.1,
     Ideal.ne_bot_of_mem_primesOver p.ne_bot hQover⟩
 
+omit [Algebra.IsIntegral A B] in
 @[simp]
 theorem heightOneOfPrimesOverFinset_asIdeal (p : HeightOneSpectrum A)
     (Q : Ideal B) (hQ : Q ∈ IsDedekindDomain.primesOverFinset p.asIdeal B) :
@@ -63,6 +64,7 @@ theorem mem_primesOverFinset_iff_under_eq (p : HeightOneSpectrum A)
     rw [Ideal.liesOver_iff]
     exact (congrArg HeightOneSpectrum.asIdeal h).symm
 
+omit [Algebra.IsIntegral A B] in
 /-- Every ideal selected by `primesOverFinset` is prime in the factorization
 monoid sense required by the weak-approximation theorem. -/
 theorem prime_of_mem_primesOverFinset (p : HeightOneSpectrum A)
@@ -88,6 +90,7 @@ theorem le_count_spanSingleton_of_valuation_le_exp_neg
   have := WithZero.exp_le_exp.mp hval
   omega
 
+omit [Algebra A L] [IsScalarTower A B L] [IsIntegralClosure B A L] in
 /-- Weak approximation realizes simultaneous lower order bounds over one
 base prime and realizes a prescribed negative order exactly at one chosen
 prime. -/
@@ -190,7 +193,7 @@ theorem exists_element_with_counts_over_and_exact_at
         simpa [hprecision, target, hideal] using h
       have hnle : n q ≤ (Int.toNat (n q) : ℤ) := by
         by_cases hn : 0 ≤ n q
-        · simpa [Int.toNat_of_nonneg hn]
+        · simp [Int.toNat_of_nonneg hn]
         · rw [Int.toNat_of_nonpos (le_of_not_ge hn)]
           exact le_of_not_ge hn
       exact hnle.trans
@@ -304,7 +307,8 @@ theorem exists_trace_eq_of_count_threshold_lt_neg_different
         omega
       simpa [t] using
         valuation_trace_le_one_of_different_count_bounds_over
-          (A := A) (K₀ := K₀) (B := B) (L := L) v hz₀0 hlocal
+          (A := A) (K₀ := K₀) (B := B) (L := L)
+          inferInstance v hz₀0 hlocal
   have hpGt : 1 < p.valuation K₀ t := lt_of_not_ge hpNotIntegral
   have htVal : p.valuation K₀ t =
       WithZero.exp (-FractionalIdeal.count K₀ p

@@ -83,6 +83,7 @@ theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseI_of_normalized
       huOrder hvOrder hrhoOrder hW
   simpa only [canonicalDifferent, hcOrder] using hcase
 
+omit [DecidableEq K] in
 /-- Canonical finite-place case (ii), outside the exceptional set without a
 pole of `(1-u)/(1-v)`. -/
 theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseII_of_normalized

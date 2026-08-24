@@ -178,12 +178,14 @@ def finitePlaceUnder
     FiniteExtensionFinitePlace K M :=
   HeightOneSpectrum.under (RatFuncFiniteIntegralClosure K M) P
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem finitePlaceUnder_asIdeal
     (P : FiniteExtensionFinitePlace K L) :
     (finitePlaceUnder K M L P).asIdeal =
       P.asIdeal.under (RatFuncFiniteIntegralClosure K M) := rfl
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Restricting a finite place through the intermediate field preserves the
 place below it in the rational function field. -/
 @[simp]
@@ -333,6 +335,7 @@ def infinityPlaceUnder
   exact Ideal.LiesOver.tower_bot wL.asIdeal wM.asIdeal
     (ratFuncInfinityPlace K).asIdeal
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem infinityPlaceUnder_asIdeal
     (P : FiniteExtensionInfinityPlace K L) :
@@ -345,16 +348,19 @@ def placeUnder : FiniteExtensionPlace K L → FiniteExtensionPlace K M
   | .inl P => .inl (finitePlaceUnder K M L P)
   | .inr P => .inr (infinityPlaceUnder K M L P)
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem placeUnder_inl
     (P : FiniteExtensionFinitePlace K L) :
     placeUnder K M L (.inl P) = .inl (finitePlaceUnder K M L P) := rfl
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem placeUnder_inr
     (P : FiniteExtensionInfinityPlace K L) :
     placeUnder K M L (.inr P) = .inr (infinityPlaceUnder K M L P) := rfl
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Every finite place of the intermediate field has a finite place above it
 in the top field.  This is lying-over for the induced integral-closure map. -/
 theorem finitePlaceUnder_surjective :
@@ -370,6 +376,7 @@ theorem finitePlaceUnder_surjective :
   apply HeightOneSpectrum.ext
   exact (Ideal.over_def Q.1 P.asIdeal).symm
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Every place above infinity in the intermediate field has a place above it
 in the top field. -/
 theorem infinityPlaceUnder_surjective :
@@ -387,6 +394,7 @@ theorem infinityPlaceUnder_surjective :
   apply Subtype.ext
   exact (Ideal.over_def Q.1 P.1).symm
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Restriction from the top field is surjective on the exhaustive place
 type. -/
 theorem placeUnder_surjective :
@@ -470,6 +478,7 @@ noncomputable instance infinityPlaceUnderFiberFintype
     (P.1.primesOver (RatFuncInfinityIntegralClosure K L))
     (infinityPlaceUnderFiberEquivPrimesOver K M L P).symm
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] in
 /-- The rank of the relative finite integral-closure extension is the field
 degree of the top function field over the intermediate field. -/
 theorem finiteIntegralClosure_relative_finrank_eq_field_finrank :
@@ -480,6 +489,7 @@ theorem finiteIntegralClosure_relative_finrank_eq_field_finrank :
     (RatFuncFiniteIntegralClosure K M) M
     (RatFuncFiniteIntegralClosure K L) L).symm
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) M] in
 /-- The infinity integral-closure model has the same relative rank, namely
 the degree of the field extension. -/
 theorem infinityIntegralClosure_relative_finrank_eq_field_finrank :
@@ -502,6 +512,7 @@ noncomputable def finitePlaceRelativeInertiaDeg
     (Q : FiniteExtensionFinitePlace K L) : ℕ :=
   Q.asIdeal.inertiaDeg (RatFuncFiniteIntegralClosure K M)
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- The fundamental equality for the finite-place restriction fiber. -/
 theorem sum_finitePlaceUnderFiber_ramification_inertia_eq_finrank
     (P : FiniteExtensionFinitePlace K M) :
@@ -522,6 +533,7 @@ theorem sum_finitePlaceUnderFiber_ramification_inertia_eq_finrank
     _ = _ := Ideal.sum_ramification_inertia_eq_finrank P.asIdeal
       (RatFuncFiniteIntegralClosure K L)
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- Field-degree form of the finite-place fundamental equality. -/
 theorem sum_finitePlaceUnderFiber_ramification_inertia_eq_field_finrank
     (P : FiniteExtensionFinitePlace K M) :
@@ -544,6 +556,7 @@ noncomputable def infinityPlaceRelativeInertiaDeg
     (Q : FiniteExtensionInfinityPlace K L) : ℕ :=
   Q.1.inertiaDeg (RatFuncInfinityIntegralClosure K M)
 
+omit [DecidableEq K] in
 /-- The fundamental equality for the restriction fiber above infinity. -/
 theorem sum_infinityPlaceUnderFiber_ramification_inertia_eq_finrank
     (P : FiniteExtensionInfinityPlace K M) :
@@ -565,6 +578,7 @@ theorem sum_infinityPlaceUnderFiber_ramification_inertia_eq_finrank
     _ = _ := Ideal.sum_ramification_inertia_eq_finrank P.1
       (RatFuncInfinityIntegralClosure K L)
 
+omit [DecidableEq K] in
 /-- Field-degree form of the fundamental equality above infinity. -/
 theorem sum_infinityPlaceUnderFiber_ramification_inertia_eq_field_finrank
     (P : FiniteExtensionInfinityPlace K M) :
@@ -575,6 +589,7 @@ theorem sum_infinityPlaceUnderFiber_ramification_inertia_eq_field_finrank
   rw [sum_infinityPlaceUnderFiber_ramification_inertia_eq_finrank K M L P,
     infinityIntegralClosure_relative_finrank_eq_field_finrank K M L]
 
+omit [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Place degree is multiplicative when a finite place is restricted through
 an intermediate function field.  The second factor is the residue-field
 degree in the relative extension. -/
@@ -593,6 +608,7 @@ theorem finiteExtensionPlaceDegree_inl_eq_mul_relativeInertiaDeg
   rw [finitePlaceUnder_under]
   ring
 
+omit [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The analogous degree-tower formula for places above infinity. -/
 theorem finiteExtensionPlaceDegree_inr_eq_mul_relativeInertiaDeg
     (Q : FiniteExtensionInfinityPlace K L) :
@@ -607,6 +623,7 @@ theorem finiteExtensionPlaceDegree_inr_eq_mul_relativeInertiaDeg
     infinityPlaceRelativeInertiaDeg]
   exact Ideal.inertiaDeg_tower P.1 Q.1
 
+omit [FiniteDimensional (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Exhaustive place degree is multiplicative under restriction through an
 intermediate function field. -/
 theorem finiteExtensionPlaceDegree_eq_under_mul_relativeInertiaDeg
@@ -635,6 +652,7 @@ noncomputable def finiteIntegralClosureGalAction :
     (RatFuncFiniteIntegralClosure K M) M L
     (RatFuncFiniteIntegralClosure K L)
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The relative Galois action fixes the intermediate finite integral
 closure. -/
 theorem finiteIntegralClosureGalSmulComm :
@@ -684,6 +702,7 @@ noncomputable def finitePlaceGalAction :
         change (g * h) • P.asIdeal = g • h • P.asIdeal
         rw [mul_smul] }
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Relative Galois conjugation does not change the restricted finite place. -/
 @[simp]
 theorem finitePlaceUnder_finitePlaceGalSmul
@@ -723,6 +742,7 @@ def FinitePlacesGaloisConjugate
   letI := finiteIntegralClosureGalAction K M L
   ∃ g : Gal(L/M), Q.asIdeal = g • P.asIdeal
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Two finite places above the same intermediate place are conjugate under
 the relative field Galois group. -/
 theorem exists_gal_smul_finitePlace_asIdeal_of_same_under
@@ -747,6 +767,7 @@ theorem exists_gal_smul_finitePlace_asIdeal_of_same_under
   simpa only [finitePlaceUnder_asIdeal] using
     congrArg HeightOneSpectrum.asIdeal hPQ
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Each finite-place restriction fiber is a transitive relative Galois
 set. -/
 theorem finitePlaceUnderFiberGalAction_isPretransitive
@@ -773,6 +794,7 @@ noncomputable def finitePlaceUnderFiberFixedBy
   letI := finitePlaceUnderFiberGalAction K M L P
   MulAction.fixedBy (FinitePlaceUnderFiber K M L P) g
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- The exact local fixed-point trace identity for a finite-place restriction
 fiber. -/
 theorem sum_card_finitePlaceUnderFiberFixedBy_eq_card_galoisGroup
@@ -804,6 +826,7 @@ noncomputable def infinityIntegralClosureGalAction :
     (RatFuncInfinityIntegralClosure K M) M L
     (RatFuncInfinityIntegralClosure K L)
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The relative Galois action fixes the intermediate infinity integral
 closure. -/
 theorem infinityIntegralClosureGalSmulComm :
@@ -823,6 +846,7 @@ theorem infinityIntegralClosureGalSmulComm :
         (RatFuncInfinityIntegralClosure K L) g s
   rw [map_mul, AlgEquiv.commutes]
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The relative Galois action also commutes with scalars from the base
 infinity valuation ring. -/
 theorem ratFuncInfinityIntegersGalSmulComm :
@@ -879,6 +903,7 @@ noncomputable def infinityPlaceGalAction :
         change (g * h) • P.1 = g • h • P.1
         rw [mul_smul] }
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Relative Galois conjugation does not change the restricted infinity
 place. -/
 @[simp]
@@ -920,6 +945,7 @@ def InfinityPlacesGaloisConjugate
   letI := infinityIntegralClosureGalAction K M L
   ∃ g : Gal(L/M), Q.1 = g • P.1
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Two places above infinity with the same intermediate restriction are
 conjugate under the relative field Galois group. -/
 theorem exists_gal_smul_infinityPlace_asIdeal_of_same_under
@@ -944,6 +970,7 @@ theorem exists_gal_smul_infinityPlace_asIdeal_of_same_under
   simpa only [infinityPlaceUnder_asIdeal] using
     congrArg Subtype.val hPQ
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Each infinity-place restriction fiber is a transitive relative Galois
 set. -/
 theorem infinityPlaceUnderFiberGalAction_isPretransitive
@@ -970,6 +997,7 @@ noncomputable def infinityPlaceUnderFiberFixedBy
   letI := infinityPlaceUnderFiberGalAction K M L P
   MulAction.fixedBy (InfinityPlaceUnderFiber K M L P) g
 
+omit [DecidableEq K] in
 /-- The exact local fixed-point trace identity for an infinity-place
 restriction fiber. -/
 theorem sum_card_infinityPlaceUnderFiberFixedBy_eq_card_galoisGroup
@@ -992,6 +1020,7 @@ theorem sum_card_infinityPlaceUnderFiberFixedBy_eq_card_galoisGroup
   exact sum_card_fixedBy_eq_card_group_of_isPretransitive
     Gal(L/M) (InfinityPlaceUnderFiber K M L P)
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Ramification index and inertia degree are constant on each finite-place
 restriction fiber in a Galois tower. -/
 theorem finitePlaceRelative_ramificationIdx_inertiaDeg_eq_of_same_under
@@ -1013,6 +1042,7 @@ theorem finitePlaceRelative_ramificationIdx_inertiaDeg_eq_of_same_under
   · unfold finitePlaceRelativeInertiaDeg
     rw [hg, Ideal.inertiaDeg_smul]
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Ramification index and inertia degree are constant on each restriction
 fiber above infinity in a Galois tower. -/
 theorem infinityPlaceRelative_ramificationIdx_inertiaDeg_eq_of_same_under
@@ -1034,6 +1064,7 @@ theorem infinityPlaceRelative_ramificationIdx_inertiaDeg_eq_of_same_under
   · unfold infinityPlaceRelativeInertiaDeg
     rw [hg, Ideal.inertiaDeg_smul]
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- In a Galois tower, the number of finite places in a restriction fiber
 times their common ramification index and inertia degree is the relative field
 degree. -/
@@ -1061,6 +1092,7 @@ theorem finitePlaceUnderFiber_card_mul_ramificationIdx_mul_inertiaDeg_eq_field_f
           K M L Q.1 Q₀.1 (Q.2.trans Q₀.2.symm)
       rw [he, hf]
 
+omit [DecidableEq K] in
 /-- The analogous Galois decomposition formula for a restriction fiber above
 infinity. -/
 theorem infinityPlaceUnderFiber_card_mul_ramificationIdx_mul_inertiaDeg_eq_field_finrank
@@ -1116,6 +1148,7 @@ section FiniteConstants
 
 variable [Fintype K]
 
+omit [DecidableEq (RatFunc K)] in
 private theorem ratFuncFinitePlaceResidueField_finite
     (p : HeightOneSpectrum K[X]) : Finite p.asIdeal.ResidueField := by
   let r := finitePlaceNormalizedPrime p
@@ -1133,6 +1166,7 @@ private theorem ratFuncFinitePlaceResidueField_finite
   letI : Finite (K[X] ⧸ p.asIdeal) := Module.finite_of_finite K
   infer_instance
 
+omit [DecidableEq (RatFunc K)] in
 private theorem finitePlaceResidueField_finite
     (P : FiniteExtensionFinitePlace K M) : Finite P.asIdeal.ResidueField := by
   let p := HeightOneSpectrum.under K[X] P
@@ -1165,6 +1199,7 @@ private theorem infinityPlaceResidueField_finite
   letI : Module.Finite p.ResidueField P.1.ResidueField := inferInstance
   exact Module.finite_of_finite p.ResidueField
 
+omit [DecidableEq (RatFunc K)] in
 /-- The inertia-group cardinality is the ramification index at a finite
 place. -/
 theorem finitePlaceInertiaGroup_card_eq_ramificationIdx
@@ -1188,6 +1223,7 @@ theorem finitePlaceInertiaGroup_card_eq_ramificationIdx
   rw [Ideal.card_inertia_eq_ramificationIdxIn p.asIdeal P.asIdeal]
   exact Ideal.ramificationIdxIn_eq_ramificationIdx p.asIdeal P.asIdeal Gal(L/M)
 
+omit [DecidableEq (RatFunc K)] in
 /-- The decomposition-group cardinality is ramification index times inertia
 degree at a finite place. -/
 theorem finitePlaceDecompositionGroup_card_eq_ramificationIdx_mul_inertiaDeg

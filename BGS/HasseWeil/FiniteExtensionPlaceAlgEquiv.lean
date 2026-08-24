@@ -283,6 +283,7 @@ theorem finiteExtensionFinitePlace_degree_eq_residue_finrank
   rw [ratFuncFinitePlaceDegree_eq_finrank_residueField K P]
   rw [mul_comm, Module.finrank_mul_finrank]
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The absolute degree of an infinity place is the dimension of its residue
 field over the constant field. -/
 theorem finiteExtensionInfinityPlace_degree_eq_residue_finrank
@@ -326,6 +327,7 @@ theorem finiteExtensionFinitePlaceEquivOfAlgEquiv_degree
     _ = finiteExtensionPlaceDegree K L (.inl Q) :=
       (finiteExtensionFinitePlace_degree_eq_residue_finrank K L Q).symm
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) L] [FiniteDimensional (RatFunc K) M] in
 @[simp]
 theorem finiteExtensionInfinityPlaceEquivOfAlgEquiv_asIdeal
     (e : L ≃ₐ[RatFunc K] M) (P : FiniteExtensionInfinityPlace K L) :
@@ -347,6 +349,7 @@ noncomputable def finiteExtensionInfinityPlaceResidueFieldAlgEquivOfAlgEquiv
       change P.1 = (P.1.comap eInf.symm).comap eInf
       exact (Ideal.comap_of_equiv eInf.toRingEquiv).symm)
 
+omit [FiniteDimensional (RatFunc K) L] [FiniteDimensional (RatFunc K) M] in
 /-- Corresponding infinity places have the same absolute degree. -/
 @[simp]
 theorem finiteExtensionInfinityPlaceEquivOfAlgEquiv_degree

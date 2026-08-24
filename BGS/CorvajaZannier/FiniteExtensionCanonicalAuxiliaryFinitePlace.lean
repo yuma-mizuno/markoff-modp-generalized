@@ -43,6 +43,7 @@ local instance finiteCanonicalCasesFiniteIntegralClosureIsTorsionFree :
     Module.IsTorsionFree K[X] (RatFuncFiniteIntegralClosure K L) :=
   IsIntegralClosure.isTorsionFree K[X] L
 
+omit [DecidableEq K] in
 private theorem finiteExtensionFinitePlace_gridOrder_sum_eq
     (q : FiniteExtensionFinitePlace K L)
     (u v : L) (hu : u ≠ 0) (hv : v ≠ 0) (h k : ℕ) :
@@ -76,6 +77,7 @@ private theorem auxiliaryFamilyDerivativeOrder_sum_int (h k : ℕ) :
       ((h * k + h + k).choose 2 : ℤ) := by
   exact_mod_cast auxiliaryFamilyDerivativeOrder_sum h k
 
+omit [DecidableEq K] in
 private theorem finitePlaceOrder_gridMonomial_eq_zero
     (q : FiniteExtensionFinitePlace K L)
     (u v : L) (hu : u ≠ 0) (hv : v ≠ 0)
@@ -180,6 +182,7 @@ theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseI
   simpa only [n, finiteExtensionPrincipalDivisor_inl_eq_finitePlaceOrder]
     using hboundInt
 
+omit [DecidableEq K] in
 /-- Finite-place source case (ii), with every local order converted to the
 coefficient used by the exhaustive principal divisor. -/
 theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseII
@@ -237,6 +240,7 @@ theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseII
     exact_mod_cast hbound
   simpa only [finiteExtensionPrincipalDivisor_inl_eq_finitePlaceOrder] using hboundInt
 
+omit [DecidableEq K] in
 /-- Finite-place source case (iii), expressed directly with the global
 principal divisor and the consecutive-order Wronskian. -/
 theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseIII
@@ -300,6 +304,7 @@ theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseIII
     finiteExtensionFinitePlace_gridOrder_sum_eq K L q u v hu hv h k] at hboundInt
   simpa only [finiteExtensionPrincipalDivisor_inl_eq_finitePlaceOrder] using hboundInt
 
+omit [DecidableEq K] in
 /-- Finite-place source case (iv), in the same global-divisor form. -/
 theorem finiteExtensionFinitePlace_canonicalAuxiliary_caseIV
     (q : FiniteExtensionFinitePlace K L)

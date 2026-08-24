@@ -82,6 +82,7 @@ noncomputable def frobeniusTwistFieldRationalPlaceCount
   frobeniusTwistFieldRationalFinitePlaceCount C S N hExact g +
     frobeniusTwistFieldRationalInfinityPlaceCount C S N hExact g
 
+omit [Finite S] [DecidableEq S] [DecidableEq (RatFunc S)] in
 /-- The split definition is the actual complete degree-one place count of
 the twist field. -/
 theorem frobeniusTwistFieldRationalPlaceCount_eq_finiteExtensionRationalPlaceCount
@@ -149,6 +150,7 @@ theorem frobeniusTwistFieldRationalPlaceCount_eq_finiteExtensionRationalPlaceCou
       FiniteExtensionRationalInfinityPlace C F)
   exact Nat.card_sum.symm
 
+omit [DecidableEq S] [DecidableEq (RatFunc S)] in
 /-- The infinity contribution of each twist is bounded by the degree of the
 original function field, independently of the auxiliary constant extension.
 -/
@@ -193,6 +195,7 @@ theorem frobeniusTwistFieldRationalInfinityPlaceCount_le_original_finrank
       finrank_frobeniusTwistField_over_ratFunc_eq_original
         C N S hExact g hdiv
 
+omit [DecidableEq S] [DecidableEq (RatFunc S)] in
 /-- The total infinity contribution of all twists is uniformly bounded by
 the Galois-group order times the original function-field degree. -/
 theorem sum_frobeniusTwistFieldRationalInfinityPlaceCount_le

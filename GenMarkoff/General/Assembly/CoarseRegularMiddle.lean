@@ -139,7 +139,7 @@ theorem alternatingRegularMiddleGame_reaches_threeQuarter_of_reasonableCutoff
               (current : ℝ) < endgameReal := by
             exact Nat.lt_ceil.mp (by
               simpa [target] using hcurrentTarget)
-          convert hcurrentEndgame using 1 <;> norm_num [endgameReal])
+          convert hcurrentEndgame using 1 ; norm_num [endgameReal])
         (by
           intro current hstartCurrent hcurrentTarget
           have hcurrentEndgame :

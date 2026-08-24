@@ -312,7 +312,7 @@ theorem eventually_regularMiddleGame_sizeBounds
         (2 * C) ^ 3 * (p : ℝ) ^ (3 * epsilon) := by
     rw [mul_pow, mul_pow]
     rw [← Real.rpow_mul_natCast hpRealNonneg epsilon 3]
-    ring
+    ring_nf
   have hDoubleCubeReal :
       ((2 * (corvajaZannierCorollaryTwoSafeCoefficient *
           ((p - 1).divisors.card + (p + 1).divisors.card)) : ℕ) : ℝ) ^ 3 <

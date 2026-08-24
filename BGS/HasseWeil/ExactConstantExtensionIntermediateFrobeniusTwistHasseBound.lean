@@ -203,7 +203,6 @@ theorem abs_intermediateBaseRationalPlaceError_le_squareField_of_genus_exact
         C S N hExact L g : ℝ))
     (base := (finiteExtensionRationalPlaceCount C L : ℝ))
     (center := (Nat.card C : ℝ) + 1) (A := A) (B := B)
-    (by dsimp only [A]; positivity) (by dsimp only [B]; positivity)
     haverage hpointwise
   dsimp only [A, B] at hbound ⊢
   have hcardGal : Nat.card (N ≃ₐ[L] N) =

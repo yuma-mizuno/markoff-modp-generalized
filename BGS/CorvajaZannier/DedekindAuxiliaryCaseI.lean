@@ -42,6 +42,7 @@ def dedekindPoleDepth (v : HeightOneSpectrum R) (x : L) : ℕ :=
 def dedekindPoleWeight {k : ℕ} (v : HeightOneSpectrum R) (f : Fin k → L) : ℕ :=
   ∑ i, dedekindPoleDepth v (f i)
 
+omit [IsDiscreteValuationRing R] in
 @[simp]
 theorem dedekindPoleDepth_zero (v : HeightOneSpectrum R) :
     dedekindPoleDepth (L := L) v 0 = 0 := by
@@ -54,6 +55,7 @@ def NegativeFinitePlaceOrdersPairwiseDistinct {ι : Type*}
     finitePlaceOrderTop v (f j) < 0 →
     finitePlaceOrderTop v (f i) = finitePlaceOrderTop v (f j) → i = j
 
+omit [IsDiscreteValuationRing R] in
 @[simp]
 theorem dedekindPoleDepth_pos_iff (v : HeightOneSpectrum R) (x : L) :
     0 < dedekindPoleDepth v x ↔ finitePlaceOrderTop v x < 0 := by
@@ -63,6 +65,7 @@ theorem dedekindPoleDepth_pos_iff (v : HeightOneSpectrum R) (x : L) :
   · rw [finitePlaceOrderTop_eq_coe v x hx]
     simp [dedekindPoleDepth, hx]
 
+omit [IsDiscreteValuationRing R] in
 @[simp]
 theorem dedekindPoleDepth_eq_zero_iff (v : HeightOneSpectrum R) (x : L) :
     dedekindPoleDepth v x = 0 ↔ 0 ≤ finitePlaceOrderTop v x := by
@@ -389,7 +392,7 @@ theorem finitePlaceOrderTop_indexedDedekindLocalWronskian_det_lower_bound_of_pol
           intro hz
           have hneg := hpole i hi
           rw [hz] at hneg
-          simpa using hneg
+          simp at hneg
         have hbound :=
           finitePlaceOrderTop_derivation_iterate_ge_sub_nat_of_preserves
             v π hπ hπIdeal D hDIntegral (epsilonOrder (σ i)) (g i)
@@ -450,7 +453,7 @@ theorem finitePlaceOrderTop_indexedDedekindLocalWronskian_caseI_epsilon_plus_one
     intro i hi hz
     have hneg := hpole i hi
     rw [hz] at hneg
-    simpa using hneg
+    simp at hneg
   have horderInj :
       Set.InjOn (fun i => finitePlaceOrder v (g i)) (poles : Set ι) := by
     intro i hi j hj hij
@@ -560,6 +563,7 @@ theorem finitePlaceOrderTop_indexedDedekindLocalWronskian_caseI_q_lower_bound
       mul_le_mul_of_nonpos_right hepsilonQ' hrho
     _ = rhoOrder * (epsilon + 1 : ℕ) := by push_cast; ring
 
+omit [IsDiscreteValuationRing R] in
 /-- Pairwise-distinct negative finite-place orders bounded below by a
 nonpositive integer are no more numerous than its pole depth. -/
 theorem card_negativeFinitePlaceOrders_le_neg
@@ -578,7 +582,7 @@ theorem card_negativeFinitePlaceOrders_le_neg
     intro i hi hz
     have hneg := hpole i hi
     rw [hz] at hneg
-    simpa using hneg
+    simp at hneg
   let w : ι → ℤ := fun i => finitePlaceOrder v (g i)
   have hinj : Set.InjOn w (poles : Set ι) := by
     intro i hi j hj hij

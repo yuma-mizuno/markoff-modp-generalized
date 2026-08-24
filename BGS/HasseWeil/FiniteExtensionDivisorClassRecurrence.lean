@@ -64,6 +64,8 @@ def finiteExtensionDivisorClassMap :
     FiniteExtensionDivisor K L →+ FiniteExtensionDivisorClass K L :=
   QuotientAddGroup.mk' (finiteExtensionPrincipalDivisorSubgroup K L)
 
+omit [Fintype K] in
+omit [DecidableEq K] in
 @[simp]
 theorem finiteExtensionDivisorClassMap_principal
     (x : L) (hx : x ≠ 0) :
@@ -74,6 +76,7 @@ theorem finiteExtensionDivisorClassMap_principal
       FiniteExtensionDivisor K L ⧸ finiteExtensionPrincipalDivisorSubgroup K L) = 0
   exact QuotientAddGroup.eq_zero_iff _ |>.2 ⟨x, hx, rfl⟩
 
+omit [Fintype K] in
 private theorem finiteExtensionPrincipalDivisorSubgroup_le_degreeKernel :
     finiteExtensionPrincipalDivisorSubgroup K L ≤
       (finiteExtensionDivisorDegreeHom K L).ker := by
@@ -88,6 +91,7 @@ def finiteExtensionDivisorClassDegree :
     (finiteExtensionDivisorDegreeHom K L)
     (finiteExtensionPrincipalDivisorSubgroup_le_degreeKernel K L)
 
+omit [Fintype K] in
 @[simp]
 theorem finiteExtensionDivisorClassDegree_mk
     (D : FiniteExtensionDivisor K L) :
@@ -107,6 +111,8 @@ def finiteExtensionDivisorClassRepresentative
     (c : FiniteExtensionDivisorClass K L) : FiniteExtensionDivisor K L :=
   Quotient.out c
 
+omit [Fintype K] in
+omit [DecidableEq K] in
 @[simp]
 theorem finiteExtensionDivisorClassMap_representative
     (c : FiniteExtensionDivisorClass K L) :
@@ -114,6 +120,7 @@ theorem finiteExtensionDivisorClassMap_representative
         (finiteExtensionDivisorClassRepresentative K L c) = c :=
   Quotient.out_eq c
 
+omit [Fintype K] in
 theorem finiteExtensionDivisorClassRepresentative_degree
     {n : ℤ} (c : FiniteExtensionDivisorClassOfDegree K L n) :
     finiteExtensionDivisorDegree K L
@@ -165,6 +172,7 @@ abbrev FiniteExtensionEffectiveDivisorClassFiber (n : ℕ)
       finiteExtensionEffectiveDivisorDegree K L D = n} //
     finiteExtensionEffectiveDivisorClassOfDegree K L n D = c}
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 private theorem finiteExtensionEffectiveDivisorToDivisor_of_symm
     (D : {D : FiniteExtensionDivisor K L // ∀ P, 0 ≤ D P}) :
     finiteExtensionEffectiveDivisorToDivisor K L
@@ -377,6 +385,7 @@ def finiteExtensionDivisorIndexRepresentative :
     FiniteExtensionDivisor K L :=
   Classical.choose (exists_finiteExtensionDivisor_degree_eq_index K L)
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem finiteExtensionDivisorIndexRepresentative_degree :
     finiteExtensionDivisorDegree K L
@@ -384,6 +393,7 @@ theorem finiteExtensionDivisorIndexRepresentative_degree :
       (finiteExtensionDivisorDegreeIndex K L : ℤ) :=
   Classical.choose_spec (exists_finiteExtensionDivisor_degree_eq_index K L)
 
+omit [Fintype K] in
 /-- Translation by the signed index representative preserves the number of
 classes when the degree is advanced by the index. -/
 theorem finiteExtensionDivisorClassOfDegree_natCard_add_index (n : ℕ) :
@@ -395,7 +405,7 @@ theorem finiteExtensionDivisorClassOfDegree_natCard_add_index (n : ℕ) :
     (n : ℤ) (finiteExtensionDivisorDegreeIndex K L : ℤ)
     (finiteExtensionDivisorIndexRepresentative_degree K L)
   have h := Nat.card_congr e
-  convert h using 1 <;> norm_num
+  convert h using 1 ; norm_num
 
 private theorem geomSum_add (q a b : ℕ) :
     (∑ i ∈ Finset.range (a + b), q ^ i) =

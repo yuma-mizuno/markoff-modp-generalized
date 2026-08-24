@@ -97,8 +97,8 @@ private def idealMapMulEquiv {R T : Type*} [CommSemiring R] [CommSemiring T]
     (e : R ≃+* T) : Ideal R ≃* Ideal T where
   toFun I := I.map e
   invFun I := I.map e.symm
-  left_inv I := Ideal.map_of_equiv e
-  right_inv I := Ideal.map_of_equiv e.symm
+  left_inv _I := Ideal.map_of_equiv e
+  right_inv _I := Ideal.map_of_equiv e.symm
   map_mul' I J := Ideal.map_mul e I J
 
 private theorem finiteNormalization_multiplicity_map_eq
@@ -788,7 +788,7 @@ theorem exactConstantExtension_presented_totalDifferentMultiplicity_eq
             exact exactConstantExtensionPresentedFinitePlace_ramificationIdx_eq_one
               C S N hExact q
           rw [hRam]
-          simpa only [one_mul]
+          simp only [one_mul]
   | inr q =>
       rw [exactConstantExtensionPresentedUpstairsPlaceEquiv_apply]
       simp only [exactConstantExtensionPresentedUpstairsPlace,
@@ -934,7 +934,7 @@ theorem exactConstantExtension_presented_totalDifferentMultiplicity_eq
             exactConstantExtensionPresentedInfinityPlace_ramificationIdx_eq_one
               C S N hExact q
           rw [hRam]
-          simpa only [one_mul]
+          simp only [one_mul]
 
 /-- Exact finite extension of the full constant field preserves intrinsic
 function-field genus. -/

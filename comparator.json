@@ -2,7 +2,7 @@
   "challenge_module": "Challenge",
   "solution_module": "Solution",
   "theorem_names": [
-    "GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff"
+    "Challenge.generalizedMarkoff_reduction_surjective_of_large_prime"
   ],
   "definition_names": [],
   "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],

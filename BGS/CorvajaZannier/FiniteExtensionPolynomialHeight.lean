@@ -108,6 +108,7 @@ theorem finitePlaceOrder_algebraMap_nonnegative
   rw [finitePlaceOrderTop_eq_coe v _ hmap] at htop
   exact_mod_cast htop
 
+omit [DecidableEq K] in
 private theorem polynomial_lift_finitePlaceOrder_nonnegative
     (P : K[X]) (hP : P ≠ 0)
     (q : FiniteExtensionFinitePlace K L) :
@@ -130,6 +131,7 @@ private theorem polynomial_lift_finitePlaceOrder_nonnegative
   rw [finiteExtensionPrincipalDivisor_inl, hrepr]
   exact finitePlaceOrder_algebraMap_nonnegative q s hs
 
+omit [DecidableEq K] in
 private theorem polynomial_lift_infinityPlaceOrder_nonpositive
     (P : K[X]) (hP : P ≠ 0)
     (q : FiniteExtensionInfinityPlace K L) :

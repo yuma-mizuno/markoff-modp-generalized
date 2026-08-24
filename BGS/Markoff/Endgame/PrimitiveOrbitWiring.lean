@@ -338,7 +338,7 @@ theorem exists_threshold_nonparabolicPoint_with_primitive_secondTrace
     (hNonsplitWeil : SeededNonsplitTraceWeilBoundAssumption nonsplitCoefficient)
     {δ : ℝ} (hδ : 0 < δ) :
     ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] →
-      ∀ (t : ZMod p) (ht : t ^ 2 ≠ 4) (ht0 : t ≠ 0)
+      ∀ (t : ZMod p) (_ht : t ^ 2 ≠ 4) (_ht0 : t ≠ 0)
         (x : ↥(normalizedFiber1 t)),
         (p : ℝ) ^ ((1 : ℝ) / 2 + δ) ≤ rotationOrder t →
         ∃ n : ℕ, ∃ u : (ZMod p)ˣ,
@@ -390,7 +390,7 @@ theorem exists_threshold_nonparabolicPoint_with_maximal_secondRotation
     (hNonsplitWeil : SeededNonsplitTraceWeilBoundAssumption nonsplitCoefficient)
     {δ : ℝ} (hδ : 0 < δ) :
     ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] →
-      ∀ (t : ZMod p) (ht : t ^ 2 ≠ 4) (ht0 : t ≠ 0)
+      ∀ (t : ZMod p) (_ht : t ^ 2 ≠ 4) (_ht0 : t ≠ 0)
         (x : ↥(normalizedFiber1 t)),
         (p : ℝ) ^ ((1 : ℝ) / 2 + δ) ≤ rotationOrder t →
         ∃ n : ℕ,

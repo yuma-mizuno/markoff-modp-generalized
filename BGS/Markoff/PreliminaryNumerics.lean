@@ -432,10 +432,10 @@ theorem preliminary_endgamePrimitiveTrace_explicitInequality_of_card_sub_one
     Nat.zero_lt_one.trans (preliminaryCutoff_gt_one.trans_le hp)
   have horbit := orbitExponent_le_rpow_of_mul_order_eq_card_sub_one
     p orbitExponent orbitOrder (δ := (1 / 3 : ℝ)) hpNat hmul (by
-      convert horder using 1 <;> norm_num)
+      convert horder using 1 ; norm_num)
   calc
     (orbitExponent : ℝ) ≤ (p : ℝ) ^ (1 / 6 : ℝ) := by
-      convert horbit using 1 <;> norm_num
+      convert horbit using 1 ; norm_num
     _ ≤ 2 * (p : ℝ) ^ (1 / 6 : ℝ) := by
       nlinarith [Real.rpow_nonneg (Nat.cast_nonneg p) (1 / 6 : ℝ)]
 
@@ -452,8 +452,8 @@ theorem preliminary_endgamePrimitiveTrace_explicitInequality_of_card_add_one
     Nat.zero_lt_one.trans (preliminaryCutoff_gt_one.trans_le hp)
   have horbit := orbitExponent_le_two_mul_rpow_of_mul_order_eq_card_add_one
     p orbitExponent orbitOrder (δ := (1 / 3 : ℝ)) hpNat hmul (by
-      convert horder using 1 <;> norm_num)
-  convert horbit using 1 <;> norm_num
+      convert horder using 1 ; norm_num)
+  convert horbit using 1 ; norm_num
 
 theorem preliminary_four_lt_rpow_five_div_six
     {p : ℕ} (hp : preliminaryStrongApproximationCutoff ≤ p) :

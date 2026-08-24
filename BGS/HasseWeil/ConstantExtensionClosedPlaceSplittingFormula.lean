@@ -74,6 +74,7 @@ noncomputable def exactConstantExtensionPresentedUpstairsFinitePlaceEquiv :
         C S N hExact))
   exact first.trans second
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The exhaustive finite-place equivalence is definitionally the existing
 upstairs finite-place construction on presented primes. -/
 @[simp]
@@ -469,6 +470,7 @@ noncomputable def exactConstantExtensionPresentedUpstairsPlaceEquiv :
     (exactConstantExtensionPresentedUpstairsInfinityPlaceEquiv
       C S N hExact)
 
+omit [DecidableEq C] in
 /-- The global exhaustive equivalence agrees branchwise with the existing
 presented-upstairs-place construction. -/
 @[simp]

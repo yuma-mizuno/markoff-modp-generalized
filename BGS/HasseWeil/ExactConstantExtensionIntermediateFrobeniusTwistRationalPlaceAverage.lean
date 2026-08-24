@@ -208,6 +208,7 @@ theorem intermediateFrobeniusTwistFieldRationalInfinityPlaceCount_le_original_fi
     _ = Module.finrank (RatFunc C) N :=
       Module.finrank_mul_finrank (RatFunc C) L N
 
+omit [Fintype C] in
 /-- Rational infinity places of the intermediate field itself are bounded by
 the original degree. -/
 theorem intermediateBaseRationalInfinityPlaceCount_le_original_finrank :

@@ -46,6 +46,7 @@ noncomputable def functionFieldNormalClosureOriginalMultiplication :
     ((functionFieldToNormalClosure K F).restrictScalars K)
     (fun _ _ => Commute.all _ _)
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) F] in
 @[simp]
 theorem functionFieldNormalClosureOriginalMultiplication_tmul
     (c : FunctionFieldNormalClosureConstantField K F) (x : F) :
@@ -78,6 +79,7 @@ noncomputable def exactConstantExtensionOriginalCompositumAlgEquiv
   exact AlgEquiv.ofInjectiveField
     (functionFieldNormalClosureOriginalMultiplication K F)
 
+omit [DecidableEq (RatFunc K)] in
 /-- Every algebraic constant of the normal closure belongs to `CF`. -/
 theorem functionFieldNormalClosureConstant_mem_originalCompositum
     (hExact : algebraicClosure K F = (⊥ : IntermediateField K F))
@@ -89,6 +91,7 @@ theorem functionFieldNormalClosureConstant_mem_originalCompositum
       (FunctionFieldNormalClosureConstantField K F) hExact
   exact ⟨c ⊗ₜ[K] (1 : F), by simp⟩
 
+omit [DecidableEq (RatFunc K)] in
 /-- The original rational-function field belongs to `CF`. -/
 theorem functionFieldNormalClosureRatFunc_mem_originalCompositum
     (hExact : algebraicClosure K F = (⊥ : IntermediateField K F))
@@ -191,6 +194,7 @@ noncomputable instance
   ext r
   rfl
 
+omit [DecidableEq (RatFunc K)] in
 /-- The constant base `C(t)` inside `N` is contained in the larger compositum
 `CF`. -/
 theorem functionFieldNormalClosureConstantBase_le_originalCompositum
@@ -296,6 +300,7 @@ noncomputable instance functionFieldNormalClosure_isGalois_over_originalComposit
     (FunctionFieldNormalClosureOriginalCompositum K F hExact)
     (FunctionFieldNormalClosure K F)
 
+omit [DecidableEq (RatFunc K)] in
 /-- Enlarging the original function field to `CF` introduces exactly the
 constants `C` and no others. -/
 theorem functionFieldNormalClosureOriginalCompositumConstantField_isExact

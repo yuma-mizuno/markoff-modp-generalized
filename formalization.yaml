@@ -144,16 +144,17 @@ review:
     Mathlib-only Challenge statement to the proved Solution declaration.
 
 alignment:
-  namespace: "GenMarkoff"
+  namespace: "Challenge"
   statements:
     - source: "Generalized Markov mod-p graphs, proposed generalized connectivity problem"
-      lean: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff"
-      module: "GenMarkoff.General.Assembly.ExplicitStrongApproximation"
+      lean: "Challenge.generalizedMarkoff_reduction_surjective_of_large_prime"
+      module: "Solution"
       status: "adapted"
       note: >-
-        Proves surjectivity for every prime above a displayed explicit cutoff
-        for each fixed nondegenerate integral coefficient triple; it does not
-        assert all generic primes or a coefficient-uniform threshold.
+        The elementary Challenge statement existentially quantifies the
+        cutoff. Solution defines the explicit coefficient-dependent cutoff
+        and supplies it as the witness. The result does not assert all generic
+        primes or a coefficient-uniform threshold.
     - source: "Strong Approximation and Diophantine Properties of Markoff Triples, classical strategy"
       lean: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.vietaStrongApproximationAt_of_explicitCutoff"
       module: "GenMarkoff.General.Assembly.ExplicitStrongApproximation"

@@ -124,7 +124,7 @@ theorem
       calc
         (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) ≤
             alternatingActualOrder middle := by
-          convert hmiddleOrder using 1 <;> norm_num
+          convert hmiddleOrder using 1 ; norm_num
         _ = orderOf (q ^ 2) := by
           exact_mod_cast
             alternatingActualOrder_eq_orderOf_sq_of_splitTrace
@@ -150,7 +150,7 @@ theorem
       calc
         (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) ≤
             alternatingActualOrder middle := by
-          convert hmiddleOrder using 1 <;> norm_num
+          convert hmiddleOrder using 1 ; norm_num
         _ = orderOf (w ^ 2) := by
           exact_mod_cast
             alternatingActualOrder_eq_orderOf_sq_of_quadraticNormOneTrace

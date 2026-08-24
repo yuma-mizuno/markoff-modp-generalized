@@ -81,6 +81,7 @@ local instance compatibilityOldNormalizationConstantAlgebra :
     ((algebraMap C[X] (integralClosure C[X] N)).comp
       (algebraMap C C[X]))
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] in
 /-- The two normalization equivalences used by the residue and polynomial
 models have the same underlying map. -/
 private theorem finiteFieldConstantExtensionIntegralClosureAlgEquiv_apply_eq_polynomial
@@ -110,10 +111,13 @@ variable (hExact : algebraicClosure C N =
 
 include hExact
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [Algebra.IsSeparable (RatFunc C) N] [IsGalois C S] hExact in
 /-- The exact constant extension is finite over the original rational
 function field.  This is the finite-dimensional input needed to compare its
 `C[X]`- and `S[X]`-normalizations. -/
-theorem finiteDimensional_exactConstantExtension_over_baseRatFunc :
+theorem finiteDimensional_exactConstantExtension_over_baseRatFunc
+    [IsGalois C S]
+    (hExact : algebraicClosure C N = (⊥ : IntermediateField C N)) :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
@@ -146,6 +150,7 @@ theorem finiteDimensional_exactConstantExtension_over_baseRatFunc :
     Module.Finite.equiv e
   exact Module.Finite.trans N (ExactConstantExtension C N S)
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- Polynomial coefficient extension is compatible with the two canonical
 rational-function embeddings into the exact constant extension. -/
 theorem exactConstantExtension_ratFunc_polynomialCompatibility
@@ -196,6 +201,9 @@ noncomputable def exactConstantExtensionCompatibleBaseFinitePlace
           C S N hExact))).symm
       (exactConstantExtensionUpstairsFinitePlace C S N hExact q)
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)]
+  [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N]
+  [Algebra.IsSeparable (RatFunc C) N] in
 @[simp]
 theorem exactConstantExtensionCompatibleBaseFinitePlace_baseChange
     (q : IsDedekindDomain.HeightOneSpectrum
@@ -283,6 +291,9 @@ noncomputable def exactConstantExtensionFiniteClosureBaseChangeAlgEquiv :
           (algebraMap S (RatFunc S) s)
       exact (ratFuncToExactConstantExtension C S N hExact).commutes s |>.symm }
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)]
+  [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N]
+  [Algebra.IsSeparable (RatFunc C) N] in
 /-- The actual upstairs finite place is exactly the transport of the
 presented prime along the equality bridge from the compatible polynomial
 normalization to the canonical rational-function normalization. -/
@@ -409,6 +420,9 @@ noncomputable def exactConstantExtensionCompatibleResidueFieldAlgEquiv
     (exactConstantExtensionUpstairsFinitePlace C S N hExact q).asIdeal.comap e
   rfl
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)]
+  [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N]
+  [Algebra.IsSeparable (RatFunc C) N] in
 /-- The two representations of the upstairs place have the same residue
 degree over the enlarged constants. -/
 theorem exactConstantExtensionCompatibleResidueField_finrank_eq
@@ -527,6 +541,8 @@ theorem exactConstantExtensionCompatibleBaseFinitePlace_degree_eq
   rw [exactConstantExtensionCompatibleBaseFinitePlace_baseChange,
     hRational, Nat.mul_one]
 
+omit [DecidableEq C] [DecidableEq (RatFunc C)]
+  [DecidableEq (RatFunc S)] in
 /-- Restricting the compatible `C[X]`-place to the original function field
 recovers the downstairs place obtained by contracting the explicit constant
 extension ideal. -/
@@ -719,6 +735,7 @@ local instance compatibilityConstantIntermediateTopTower :
       (algebraMap (RatFunc C) L (algebraMap C (RatFunc C) c))
   exact IsScalarTower.algebraMap_apply (RatFunc C) L N _
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] hExact [FiniteDimensional (RatFunc C) L] [Algebra.IsSeparable (RatFunc C) L] [FiniteDimensional L N] [IsGalois L N] in
 /-- The rational-function base, an intermediate field, and the exact
 constant extension form the tower used by the relative Galois action. -/
 private theorem exactConstantExtensionCompatibility_ratFuncBaseTower :
@@ -778,7 +795,7 @@ theorem exactConstantExtensionFinitePlace_decompositionGroup_card_of_rational_ba
     letI : Module L (ExactConstantExtension C N S) := Algebra.toModule
     letI : IsScalarTower (RatFunc C) L
         (ExactConstantExtension C N S) :=
-      exactConstantExtensionCompatibility_ratFuncBaseTower C S N hExact L
+      exactConstantExtensionCompatibility_ratFuncBaseTower C S N L
     letI : IsGalois L (ExactConstantExtension C N S) :=
       exactConstantExtension_isGalois C L N S hExact
     let Q := exactConstantExtensionCompatibleBaseFinitePlace
@@ -810,7 +827,7 @@ theorem exactConstantExtensionFinitePlace_decompositionGroup_card_of_rational_ba
   letI : Module N (ExactConstantExtension C N S) := Algebra.toModule
   letI : IsScalarTower (RatFunc C) L
       (ExactConstantExtension C N S) :=
-    exactConstantExtensionCompatibility_ratFuncBaseTower C S N hExact L
+    exactConstantExtensionCompatibility_ratFuncBaseTower C S N L
   letI : IsScalarTower (RatFunc C) N
       (ExactConstantExtension C N S) :=
     exactConstantExtensionBaseTower C (RatFunc C) N S

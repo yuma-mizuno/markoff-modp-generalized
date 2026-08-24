@@ -20,12 +20,13 @@ open scoped Polynomial
 variable {K : Type*} [Field K] [Fintype K] [DecidableEq K]
   [DecidableEq (RatFunc K)]
 
+omit [Fintype K] in
 /-- In the first-coordinate place model, `x^m` has its expected exact
 positive divisor degree. -/
 theorem finiteExtensionPositiveDegree_planeCurveFirstCoordinate_pow
     {f : MvPolynomial (Fin 2) K} (hf : Irreducible f)
     (hpartialSecond : MvPolynomial.pderiv 1 f ≠ 0)
-    (m : ℕ) (hm : 0 < m) :
+    (m : ℕ) :
     letI := planeCurveCoordinateRing_isDomain hf
     let hx := firstCoordinate_transcendental hf
       (degreeOf_second_pos_of_pderiv_ne_zero hpartialSecond)
@@ -181,6 +182,7 @@ theorem finiteExtensionGcdWeightedDegree_one_sub_planeCurvePowers_le
         hf hpartialFirst hpartialSecond n
   omega
 
+omit [Fintype K] in
 /-- The exhaustive gcd degree is symmetric in its two arguments. -/
 theorem finiteExtensionGcdWeightedDegree_comm
     {L : Type*} [Field L] [Algebra (RatFunc K) L]
@@ -196,6 +198,7 @@ theorem finiteExtensionGcdWeightedDegree_comm
   intro w _hw
   rw [min_comm]
 
+omit [Fintype K] in
 /-- Simultaneously changing the signs of the two functions does not change
 their exhaustive gcd divisor degree. -/
 theorem finiteExtensionGcdWeightedDegree_neg_neg
@@ -217,6 +220,8 @@ theorem finiteExtensionGcdWeightedDegree_neg_neg
     finiteExtensionGcdSupport
   rw [hdivx, hdivy]
 
+omit [DecidableEq (RatFunc K)] in
+omit [Fintype K] in
 /-- The torsion gcd used by the endpoint is exactly the `1-u`, `1-v` gcd
 used by the canonical Wronskian estimate. -/
 theorem planeCurveExhaustiveTorsionGcdWeightedDegree_eq_one_sub
@@ -275,6 +280,7 @@ theorem planeCurveExhaustiveTorsionGcdWeightedDegree_eq_one_sub
   exact finiteExtensionGcdWeightedDegree_neg_neg
     (K := K) (L := L) (1 - x ^ m) (1 - y ^ n) hxm hyn
 
+omit [Fintype K] in
 /-- With the coordinates swapped, the one-minus gcd is bounded by the exact
 powered height of the first coordinate. -/
 theorem finiteExtensionGcdWeightedDegree_one_sub_planeCurvePowers_swapped_le
@@ -339,7 +345,7 @@ theorem finiteExtensionGcdWeightedDegree_one_sub_planeCurvePowers_swapped_le
       m * MvPolynomial.degreeOf 1 f := by
     simpa only [L, x] using
       finiteExtensionPositiveDegree_planeCurveFirstCoordinate_pow
-        hf hpartialSecond m hm
+        hf hpartialSecond m
   omega
 
 end

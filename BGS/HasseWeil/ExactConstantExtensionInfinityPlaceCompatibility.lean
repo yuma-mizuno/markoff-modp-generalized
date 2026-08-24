@@ -86,6 +86,7 @@ private theorem
   subst b
   rfl
 
+omit [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The reciprocal affine normalization equivalence sends the old
 normalization embedded in the right tensor factor to the same element of the
 ambient exact constant extension. -/
@@ -158,6 +159,7 @@ private theorem
         hTransport
   exact hExactTransport.trans hFinite
 
+omit [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The affine-to-infinity localization square commutes on elements of the
 old reciprocal normalization. -/
 private theorem exactConstantExtensionInfinityAffineLocalizationSquare_coe
@@ -234,6 +236,7 @@ private theorem exactConstantExtensionInfinityAffineLocalizationSquare_coe
           (eAff (Algebra.TensorProduct.includeRight
             (R := C) (A := S) (B := R0) x)) : B) : E) := rfl
 
+omit [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The extended reciprocal affine prime contracts to the reciprocal affine
 prime obtained from the old normalization. -/
 private theorem exactConstantExtensionInfinityAffinePrime_under
@@ -295,6 +298,7 @@ private theorem exactConstantExtensionInfinityAffinePrime_under
         (R := C) (A := S) (B := R0) x ∈ q.1.asIdeal
   rw [eAff.symm_apply_apply]
 
+omit [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] [Fintype C] [Finite S] in
 private theorem
     exactConstantExtensionDownstairsInfinityMappedIdeal_isMaximal
     (q : ExactConstantExtensionPresentedInfinityPlace C S N) :
@@ -309,10 +313,13 @@ private theorem
     C S N q.1 q.2).1.IsMaximal
   infer_instance
 
+omit [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The explicit upstairs infinity prime of an exact constant extension
 contracts, through the canonical algebra on infinity normalizations, to its
 explicit downstairs infinity prime. -/
 theorem exactConstantExtensionUpstairsInfinityPlace_under
+    [FiniteDimensional (RatFunc C) N]
+    [Algebra.IsSeparable (RatFunc C) N]
     (hExact : algebraicClosure C N =
       (⊥ : IntermediateField C N))
     (q : ExactConstantExtensionPresentedInfinityPlace C S N) :

@@ -230,7 +230,7 @@ theorem
               ((1 : ℝ) / 2 + startupRegularExponent) ≤
             alternatingActualOrder middle :=
           by
-            convert hmiddleOrder using 1 <;>
+            convert hmiddleOrder using 1 ;
               norm_num [startupRegularExponent]
         _ = orderOf (q ^ 2) :=
           by
@@ -260,7 +260,7 @@ theorem
               ((1 : ℝ) / 2 + startupRegularExponent) ≤
             alternatingActualOrder middle :=
           by
-            convert hmiddleOrder using 1 <;>
+            convert hmiddleOrder using 1 ;
               norm_num [startupRegularExponent]
         _ = orderOf (w ^ 2) :=
           by
@@ -362,7 +362,7 @@ theorem
         (p : ℝ) ^
               ((1 : ℝ) / 2 + startupRegularExponent) ≤
             alternatingActualOrder middle := by
-          convert hmiddleOrder using 1 <;>
+          convert hmiddleOrder using 1 ;
             norm_num [startupRegularExponent]
         _ = orderOf (q ^ 2) := by
           exact_mod_cast
@@ -392,7 +392,7 @@ theorem
         (p : ℝ) ^
               ((1 : ℝ) / 2 + startupRegularExponent) ≤
             alternatingActualOrder middle := by
-          convert hmiddleOrder using 1 <;>
+          convert hmiddleOrder using 1 ;
             norm_num [startupRegularExponent]
         _ = orderOf (w ^ 2) := by
           exact_mod_cast

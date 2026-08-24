@@ -52,6 +52,7 @@ noncomputable def exactConstantExtensionTowerAlgHom :
   Algebra.TensorProduct.map (AlgHom.id C S)
     (IsScalarTower.toAlgHom C M N)
 
+omit [FiniteDimensional C S] [IsGalois C S] in
 @[simp]
 theorem exactConstantExtensionTowerAlgHom_tmul (s : S) (m : M) :
     exactConstantExtensionTowerAlgHom C M N S (s ⊗ₜ[C] m) =
@@ -66,6 +67,7 @@ theorem exactConstantExtensionTowerAlgHom_tmul (s : S) (m : M) :
       (ExactConstantExtension C N S) :=
   (exactConstantExtensionTowerAlgHom C M N S).toAlgebra
 
+omit [FiniteDimensional C S] [IsGalois C S] in
 /-- The tensor map preserves the enlarged constants on the left factor. -/
 theorem exactConstantExtensionTower_leftScalarTower :
     letI : Algebra S (ExactConstantExtension C M S) :=
@@ -90,8 +92,10 @@ theorem exactConstantExtensionTower_leftScalarTower :
     exactConstantExtensionTowerAlgHom C M N S (s ⊗ₜ[C] (1 : M))
   rw [exactConstantExtensionTowerAlgHom_tmul, map_one]
 
+omit [FiniteDimensional C S] [IsGalois C S] in
 /-- The tensor map also preserves the original right factor `M`. -/
 theorem exactConstantExtensionTower_rightScalarTower
+    [FiniteDimensional C S] [IsGalois C S]
     (hExactN : algebraicClosure C N = (⊥ : IntermediateField C N)) :
     let hExactM := algebraicClosure_eq_bot_of_tower C M N hExactN
     letI : Field (ExactConstantExtension C M S) :=
@@ -129,6 +133,7 @@ section Galois
 
 variable [FiniteDimensional M N] [IsGalois M N]
 
+omit [IsGalois M N] in
 /-- The extended top is finite-dimensional over the extended intermediate
 field. -/
 theorem exactConstantExtensionTower_finiteDimensional
@@ -213,6 +218,7 @@ theorem exactConstantExtensionTower_isGalois
   exact IsGalois.tower_top_of_isGalois M
     (ExactConstantExtension C M S) (ExactConstantExtension C N S)
 
+omit [IsGalois M N] in
 /-- Finite constant base change preserves the relative extension degree. -/
 theorem exactConstantExtensionTower_finrank
     (hExactN : algebraicClosure C N = (⊥ : IntermediateField C N)) :

@@ -43,11 +43,13 @@ def localPoleSpace (π : R) (n : ℕ) : Submodule K L where
     rw [← hr]
     ring
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] [IsFractionRing R L] in
 theorem mem_localPoleSpace_iff (π : R) (n : ℕ) (x : L) :
     x ∈ localPoleSpace (K := K) (L := L) π n ↔
       ∃ r : R, algebraMap R L (π ^ n) * x = algebraMap R L r :=
   Iff.rfl
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] [IsFractionRing R L] in
 /-- Increasing the allowed pole order enlarges the local pole space. -/
 theorem localPoleSpace_mono (π : R) (n : ℕ) :
     localPoleSpace (K := K) (L := L) π n ≤
@@ -62,6 +64,7 @@ theorem localPoleSpace_mono (π : R) (n : ℕ) :
     _ = algebraMap R L π * algebraMap R L r := congrArg _ hr
     _ = algebraMap R L (π * r) := by rw [map_mul]
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] [IsFractionRing R L] in
 private theorem localPoleSpace_regular
     (π : R) (n : ℕ) :
     ∀ x : localPoleSpace (K := K) (L := L) π n,
@@ -78,6 +81,7 @@ def localPoleLeadingResidueMap (π : R) (n : ℕ) :
     (algebraMap R L (π ^ n))
     (localPoleSpace_regular (K := K) (L := L) π n)
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] in
 private theorem localPoleNormalizedLift_eq
     (π : R) (n : ℕ)
     (x : localPoleSpace (K := K) (L := L) π n) (r : R)

@@ -36,6 +36,7 @@ def ratFuncFiniteBaseRingEquivChart :
   (IsIntegralClosure.equiv K[X] K[X] (RatFunc K)
     (FunctionField.ringOfIntegers K (RatFunc K))).toRingEquiv
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] in
 @[simp]
 theorem ratFuncFiniteBaseRingEquivChart_algebraMap
     (r : K[X]) :
@@ -56,6 +57,7 @@ def ratFuncInfinityBaseRingEquivChart :
       (FunctionField.Chart.inftyValuationSubring K) (RatFunc K)
       (FunctionField.Chart.infiniteIntegers K (RatFunc K))).toRingEquiv
 
+omit [Fintype K] [DecidableEq K] in
 @[simp]
 theorem ratFuncInfinityBaseRingEquivChart_algebraMap
     (r : RatFuncInfinityIntegers K) :
@@ -344,6 +346,7 @@ def finiteExtensionUnderPlace :
   | .inl q => .inl (q.under K[X])
   | .inr _ => .inr (ratFuncInfinityPlace K)
 
+omit [Fintype K] [DecidableEq K] in
 /-- Every rational-function place has an extension place above it. -/
 theorem finiteExtensionUnderPlace_surjective :
     Function.Surjective (finiteExtensionUnderPlace K L) := by
@@ -388,6 +391,7 @@ theorem finiteExtensionUnderPlace_surjective :
     simp only [finiteExtensionUnderPlace]
     exact congrArg Sum.inr hpEq.symm
 
+omit [Fintype K] [DecidableEq K] in
 /-- Every fiber of the exhaustive place map is finite. -/
 theorem finiteExtensionUnderPlace_finite_preimage_singleton
     (p : RatFuncExhaustivePlace K) :
@@ -413,7 +417,7 @@ theorem finiteExtensionUnderPlace_finite_preimage_singleton
       simpa only [Set.mem_preimage, Set.mem_singleton_iff,
         finiteExtensionUnderPlace, Sum.inl.injEq] using hq
     · simp only [Set.mem_preimage, Set.mem_singleton_iff,
-        finiteExtensionUnderPlace, Sum.inr.injEq, reduceCtorEq] at hq
+        finiteExtensionUnderPlace, reduceCtorEq] at hq
   · letI : Finite (FiniteExtensionInfinityPlace K L) :=
       Set.finite_coe_iff.mpr
         (IsDedekindDomain.primesOver_finite
@@ -424,9 +428,10 @@ theorem finiteExtensionUnderPlace_finite_preimage_singleton
     intro q hq
     rcases q with q | q
     · simp only [Set.mem_preimage, Set.mem_singleton_iff,
-        finiteExtensionUnderPlace, Sum.inl.injEq, reduceCtorEq] at hq
+        finiteExtensionUnderPlace, reduceCtorEq] at hq
     · exact Set.mem_range_self q
 
+omit [Fintype K] [DecidableEq K] in
 /-- Pullback along the exhaustive place map preserves cofinite eventual
 properties. -/
 theorem finiteExtensionUnderPlace_tendstoCofinite :
@@ -443,6 +448,7 @@ def finiteExtensionUnderPlaceChart
     (finiteExtensionUnderPlace K L
       ((finiteExtensionPlaceEquivChart K L).symm q))
 
+omit [Fintype K] [DecidableEq K] in
 /-- Every rational-function chart place has an upstairs chart place. -/
 theorem finiteExtensionUnderPlaceChart_surjective :
     Function.Surjective (finiteExtensionUnderPlaceChart K L) := by
@@ -453,6 +459,7 @@ theorem finiteExtensionUnderPlaceChart_surjective :
   simp only [finiteExtensionUnderPlaceChart, Equiv.symm_apply_apply, hq, p']
   exact (ratFuncExhaustivePlaceEquivChart K).apply_symm_apply p
 
+omit [Fintype K] [DecidableEq K] in
 /-- Pullback along the chart place map preserves cofinite eventual
 properties. -/
 theorem finiteExtensionUnderPlaceChart_tendstoCofinite :
@@ -465,6 +472,7 @@ theorem finiteExtensionUnderPlaceChart_tendstoCofinite :
         (finiteExtensionPlaceEquivChart K L).symm)
   infer_instance
 
+omit [Fintype K] [DecidableEq K] in
 /-- A base element integral at a chart place remains integral at every
 upstairs chart place above it. -/
 theorem finiteExtension_placeValuation_algebraMap_le_one
@@ -536,6 +544,7 @@ def finiteExtensionPlaceSectionChart
     FunctionField.Chart.PlaceA K L :=
   Classical.choose (finiteExtensionUnderPlaceChart_surjective K L p)
 
+omit [Fintype K] [DecidableEq K] in
 @[simp]
 theorem finiteExtensionUnderPlaceChart_section
     (p : FunctionField.Chart.PlaceA K (RatFunc K)) :
@@ -557,6 +566,7 @@ def finiteExtensionFiberConstantAdeleSubmodule :
     change c • a.1 q = c • a.1 r
     rw [ha q r hqr]
 
+omit [Fintype K] [DecidableEq K] in
 /-- A fiber-constant adele has the chosen component at the base place of
 every upstairs place. -/
 theorem fiberConstant_component_eq_section
@@ -594,6 +604,7 @@ def finiteExtensionAdeleExceptionalSet
     Set (FunctionField.Chart.PlaceA K L) :=
   {q | a.1 q ∉ FunctionField.Chart.placeValuationSubring K L q}
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] in
 theorem finiteExtensionAdeleExceptionalSet_finite
     (a : FunctionField.Chart.AdeleSpace K L) :
     (finiteExtensionAdeleExceptionalSet K L a).Finite := by
@@ -611,6 +622,7 @@ def finiteExtensionDifferentExceptionalSet :
       multiplicity q.asIdeal
         (differentIdeal K[X] (RatFuncFiniteIntegralClosure K L)) ≠ 0})
 
+omit [Fintype K] [DecidableEq K] in
 theorem finiteExtensionDifferentExceptionalSet_finite :
     (finiteExtensionDifferentExceptionalSet K L).Finite := by
   have hdiff : differentIdeal K[X]
@@ -658,6 +670,7 @@ def finiteExtensionCotraceBadBaseSet
         finiteExtensionDifferentExceptionalSet K L) ∪
     {ratFuncInfinityPlaceChart K}
 
+omit [Fintype K] [DecidableEq K] in
 theorem finiteExtensionCotraceBadBaseSet_finite
     (a : FunctionField.Chart.AdeleSpace K L) :
     (finiteExtensionCotraceBadBaseSet K L a).Finite := by
@@ -667,6 +680,7 @@ theorem finiteExtensionCotraceBadBaseSet_finite
         (finiteExtensionUnderPlaceChart K L)
   · exact Set.finite_singleton _
 
+omit [Fintype K] [DecidableEq K] in
 /-- The infinity component of the rational-function chart contains only the
 place transported from the BGS infinity valuation ring. -/
 theorem ratFunc_infinite_chart_place_eq
@@ -772,7 +786,7 @@ theorem finiteExtensionFiberTraceRaw_mem_placeValuationSubring_of_not_bad
       valuation_trace_le_one_of_different_count_bounds_over
         (A := K[X]) (K₀ := RatFunc K)
         (B := RatFuncFiniteIntegralClosure K L) (L := L)
-        p₀ hy hlocal
+        inferInstance p₀ hy hlocal
     have htraceChart : (e p₀).valuation (RatFunc K)
         (Algebra.trace (RatFunc K) L y) ≤ 1 := by
       apply heightOneValuation_le_one_of_ringEquiv
@@ -938,7 +952,7 @@ theorem finiteExtensionFiberTrace_finite_valuation_le_one
     valuation_trace_le_one_of_different_count_bounds_over
       (A := K[X]) (K₀ := RatFunc K)
       (B := RatFuncFiniteIntegralClosure K L) (L := L)
-      p₀ hy hlocal
+      inferInstance p₀ hy hlocal
   have htraceChart : (e p₀).valuation (RatFunc K)
       (Algebra.trace (RatFunc K) L y) ≤ 1 := by
     apply heightOneValuation_le_one_of_ringEquiv
@@ -1097,7 +1111,7 @@ theorem finiteExtensionFiberTrace_infinite_valuation_le_exp_neg_two
     valuation_trace_le_one_of_different_count_bounds_over
       (A := RatFuncInfinityIntegers K) (K₀ := RatFunc K)
       (B := RatFuncInfinityIntegralClosure K L) (L := L)
-      pInf hz hlocal
+      inferInstance pInf hz hlocal
   have htTower : tL = algebraMap (RatFunc K) L t := by
     exact (IsScalarTower.algebraMap_apply
       (RatFuncInfinityIntegers K) (RatFunc K) L s).symm
@@ -1146,6 +1160,7 @@ theorem finiteExtensionFiberTrace_infinite_valuation_le_exp_neg_two
   rw [hpChart]
   exact hchart
 
+omit [Fintype K] [DecidableEq K] in
 /-- The infinity place selected for the identity extension is the unique
 infinity place in the base chart. -/
 theorem ratFuncInfinityChartPlace_eq_baseChart :
@@ -1189,6 +1204,7 @@ theorem finiteExtensionFiberTrace_mem_ratFuncCanonicalInfinityAdeleFilt
     rw [hcoeff]
     exact h
 
+omit [Fintype K] [DecidableEq K] in
 /-- Principal adeles are fiber-constant. -/
 theorem finiteExtension_diagonal_mem_fiberConstant (x : L) :
     FunctionField.Chart.diagonal K L x ∈

@@ -35,11 +35,13 @@ a Dedekind domain. -/
 def effectiveDivisorIdeal (D : HeightOneSpectrum R →₀ ℕ) : Ideal R :=
   D.prod fun v e => v.asIdeal ^ e
 
+omit [IsDedekindDomain R] in
 @[simp]
 theorem effectiveDivisorIdeal_zero :
     effectiveDivisorIdeal (0 : HeightOneSpectrum R →₀ ℕ) = ⊤ := by
   simp [effectiveDivisorIdeal]
 
+omit [IsDedekindDomain R] in
 @[simp]
 theorem effectiveDivisorIdeal_single
     (v : HeightOneSpectrum R) (e : ℕ) :
@@ -47,6 +49,7 @@ theorem effectiveDivisorIdeal_single
   classical
   simp [effectiveDivisorIdeal, Finsupp.prod_single_index]
 
+omit [IsDedekindDomain R] in
 theorem effectiveDivisorIdeal_add
     (D E : HeightOneSpectrum R →₀ ℕ) :
     effectiveDivisorIdeal (D + E) =
@@ -359,6 +362,7 @@ def finiteExtensionAffineIdealEffectiveDivisorEquiv :
       (FiniteExtensionFinitePlace K L →₀ ℕ) :=
   nonzeroIdealEffectiveDivisorEquiv
 
+omit [Fintype K] in
 @[simp]
 theorem finiteExtensionAffineIdealEffectiveDivisorEquiv_apply
     (I : FiniteExtensionAffineIdeal K L)
@@ -366,9 +370,9 @@ theorem finiteExtensionAffineIdealEffectiveDivisorEquiv_apply
     finiteExtensionAffineIdealEffectiveDivisorEquiv K L I v =
       multiplicity v.asIdeal
         (I : Ideal (RatFuncFiniteIntegralClosure K L)) := by
-  simpa [finiteExtensionAffineIdealEffectiveDivisorEquiv] using
-    (nonzeroIdealEffectiveDivisorEquiv_apply I v)
+  simp [finiteExtensionAffineIdealEffectiveDivisorEquiv]
 
+omit [Fintype K] in
 @[simp]
 theorem finiteExtensionAffineIdealEffectiveDivisorEquiv_symm_coe
     (D : FiniteExtensionFinitePlace K L →₀ ℕ) :
@@ -376,8 +380,7 @@ theorem finiteExtensionAffineIdealEffectiveDivisorEquiv_symm_coe
         FiniteExtensionAffineIdeal K L) :
           Ideal (RatFuncFiniteIntegralClosure K L)) =
       effectiveDivisorIdeal D := by
-  simpa [finiteExtensionAffineIdealEffectiveDivisorEquiv] using
-    (nonzeroIdealEffectiveDivisorEquiv_symm_coe D)
+  simp [finiteExtensionAffineIdealEffectiveDivisorEquiv]
 
 /-- The affine ideal degree of the ideal represented by an effective finite
 divisor is its residue-degree-weighted divisor degree. -/

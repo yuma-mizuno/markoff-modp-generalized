@@ -60,6 +60,7 @@ def onePointStepanovSecondRestrictionMap
   Finsupp.linearCombination K
     (fun ij : α × β => (f ij.1) ^ s * g ij.2)
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem onePointStepanovFirstRestrictionMap_single
     {α β : Type*} (f : α → L) (g : β → L) (s : ℕ)
@@ -69,6 +70,7 @@ theorem onePointStepanovFirstRestrictionMap_single
       c • (f ij.1 * (g ij.2) ^ s) := by
   simp [onePointStepanovFirstRestrictionMap]
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem onePointStepanovSecondRestrictionMap_single
     {α β : Type*} (f : α → L) (g : β → L) (s : ℕ)
@@ -207,6 +209,7 @@ theorem onePointStepanovSecondCodRestrictionMap_coe
         onePointStepanovSecondRestrictionMap K L f g s c := by
   rfl
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Linear independence of the first product grid is exactly injectivity of
 the first restriction map. -/
 theorem onePointStepanovFirstRestrictionMap_injective_of_linearIndependent
@@ -253,6 +256,7 @@ theorem onePointStepanovFirstCodRestrictionMap_injective_of_linearIndependent
     K L f g s hLI
   exact congrArg Subtype.val hcd
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- The coefficient space has dimension equal to the cardinality of its
 finite product index. -/
 @[simp]

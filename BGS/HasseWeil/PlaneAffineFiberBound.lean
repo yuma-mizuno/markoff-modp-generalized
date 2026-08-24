@@ -100,6 +100,7 @@ def affinePlaneCurvePointEquivSwap (f : MvPolynomial (Fin 2) K) :
     apply Subtype.ext
     rfl
 
+omit [Fintype K] [DecidableEq K] in
 /-- Coordinate swapping preserves irreducibility. -/
 theorem irreducible_swapPlaneCurveCoordinates
     {f : MvPolynomial (Fin 2) K} (hf : Irreducible f) :
@@ -108,6 +109,7 @@ theorem irreducible_swapPlaneCurveCoordinates
     (MvPolynomial.renameEquiv K (Equiv.swap (0 : Fin 2) 1) f)
   exact hf.map (MvPolynomial.renameEquiv K (Equiv.swap (0 : Fin 2) 1))
 
+omit [Fintype K] [DecidableEq K] in
 /-- After swapping, the second-coordinate degree is the original
 first-coordinate degree. -/
 theorem degreeOf_second_swapPlaneCurveCoordinates

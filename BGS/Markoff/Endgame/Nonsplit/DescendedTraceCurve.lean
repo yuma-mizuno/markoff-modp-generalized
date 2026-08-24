@@ -213,15 +213,27 @@ theorem seededCayleyTraceNumeratorPolynomial_natDegree_le
       (quadraticNonbaseElement p ^ p)
     have hpow : ((Polynomial.X - Polynomial.C (quadraticNonbaseElement p ^ p)) ^
         (2 * d)).natDegree ≤ 2 * d :=
-      Polynomial.natDegree_pow_le.trans (by
-        simpa using Nat.mul_le_mul_left (2 * d) hlinear)
-    exact Polynomial.natDegree_mul_le.trans (by simpa using hpow)
+      Polynomial.natDegree_pow_le.trans
+        ((Nat.mul_le_mul_left (2 * d) hlinear).trans_eq (Nat.mul_one (2 * d)))
+    calc
+      _ ≤ (Polynomial.C (s : E p)).natDegree +
+          ((Polynomial.X - Polynomial.C (quadraticNonbaseElement p ^ p)) ^
+            (2 * d)).natDegree := Polynomial.natDegree_mul_le
+      _ = ((Polynomial.X - Polynomial.C (quadraticNonbaseElement p ^ p)) ^
+            (2 * d)).natDegree := by rw [Polynomial.natDegree_C, zero_add]
+      _ ≤ 2 * d := hpow
   · have hlinear := natDegree_linearFactor_le_one (quadraticNonbaseElement p)
     have hpow : ((Polynomial.X - Polynomial.C (quadraticNonbaseElement p)) ^
         (2 * d)).natDegree ≤ 2 * d :=
-      Polynomial.natDegree_pow_le.trans (by
-        simpa using Nat.mul_le_mul_left (2 * d) hlinear)
-    exact Polynomial.natDegree_mul_le.trans (by simpa using hpow)
+      Polynomial.natDegree_pow_le.trans
+        ((Nat.mul_le_mul_left (2 * d) hlinear).trans_eq (Nat.mul_one (2 * d)))
+    calc
+      _ ≤ (Polynomial.C ((s : E p) ^ p)).natDegree +
+          ((Polynomial.X - Polynomial.C (quadraticNonbaseElement p)) ^
+            (2 * d)).natDegree := Polynomial.natDegree_mul_le
+      _ = ((Polynomial.X - Polynomial.C (quadraticNonbaseElement p)) ^
+            (2 * d)).natDegree := by rw [Polynomial.natDegree_C, zero_add]
+      _ ≤ 2 * d := hpow
 
 theorem quadraticCayleyNormPolynomial_natDegree_le :
     (quadraticCayleyNormPolynomial p).natDegree ≤ 2 := by
@@ -483,18 +495,18 @@ theorem quadraticCayleyNormPolynomial_eval_ne_zero (z : F p) :
 /-- For positive exponents the descended plane curve has no affine zero with second coordinate
 zero.  Thus the affine Hasse--Weil count introduces no hidden `u = 0` boundary. -/
 theorem eval_seededNonsplitDescendedPolynomial_zero_second_ne_zero
-    (s : (E p)ˣ) (d e : ℕ) (hd : 0 < d) (he : 0 < e) (z : F p) :
+    (s : (E p)ˣ) (d e : ℕ) (he : 0 < e) (z : F p) :
     MvPolynomial.eval ![z, (0 : F p)]
       (seededNonsplitDescendedPolynomial p s d e) ≠ 0 := by
   rw [eval_seededNonsplitDescendedPolynomial]
   have he0 : e ≠ 0 := Nat.ne_of_gt he
   have htwoe0 : 2 * e ≠ 0 := by omega
   rw [zero_pow he0, zero_pow htwoe0]
-  simp only [mul_zero, zero_add, add_zero, mul_one, zero_sub, neg_ne_zero]
+  simp only [mul_zero, zero_add, mul_one, zero_sub, neg_ne_zero]
   exact pow_ne_zero d (quadraticCayleyNormPolynomial_eval_ne_zero p z)
 
 private theorem affineDescendedZero_second_ne_zero
-    (s : (E p)ˣ) (d e : ℕ) (hd : 0 < d) (he : 0 < e)
+    (s : (E p)ˣ) (d e : ℕ) (he : 0 < e)
     (z : F p × F p)
     (hz : z ∈ BGS.External.affinePlaneCurveZeros (F p)
       (seededNonsplitDescendedPolynomial p s d e)) : z.2 ≠ 0 := by
@@ -502,19 +514,19 @@ private theorem affineDescendedZero_second_ne_zero
   have hzEval := (BGS.External.mem_affinePlaneCurveZeros_iff).mp hz
   rw [hzero] at hzEval
   exact eval_seededNonsplitDescendedPolynomial_zero_second_ne_zero
-    p s d e hd he z.1 hzEval
+    p s d e he z.1 hzEval
 
-/-- The general affine-plane zero set and the unit-restricted descended set have exactly the
-same cardinality for positive exponents. -/
+/-- The general affine-plane zero set and the unit-restricted descended set
+have exactly the same cardinality when the second exponent is positive. -/
 theorem affinePlaneCurveZeros_seededNonsplitDescendedPolynomial_card_eq
-    (s : (E p)ˣ) (d e : ℕ) (hd : 0 < d) (he : 0 < e) :
+    (s : (E p)ˣ) (d e : ℕ) (he : 0 < e) :
     (BGS.External.affinePlaneCurveZeros (F p)
       (seededNonsplitDescendedPolynomial p s d e)).card =
       (seededNonsplitDescendedSolutions p s d e).card := by
   classical
   apply Finset.card_bij'
       (fun z hz => (z.1, Units.mk0 z.2
-        (affineDescendedZero_second_ne_zero p s d e hd he z hz)))
+        (affineDescendedZero_second_ne_zero p s d e he z hz)))
       (fun z _ => (z.1, (z.2 : F p)))
   · intro z hz
     rw [mem_seededNonsplitDescendedSolutions_iff]
@@ -654,11 +666,9 @@ theorem seededNonsplitIdentityBoundaryPolynomial_ne_zero
     seededNonsplitIdentityBoundaryPolynomial p s e ≠ 0 := by
   intro hzero
   have hcoeff := congrArg (fun P : Polynomial (F p) => P.coeff 0) hzero
-  have he0 : e ≠ 0 := Nat.ne_of_gt he
-  have h0e : 0 ≠ e := he0.symm
-  have htwoe0 : 2 * e ≠ 0 := by omega
-  have h0twoe : 0 ≠ 2 * e := htwoe0.symm
-  simp [seededNonsplitIdentityBoundaryPolynomial, he0, h0e, htwoe0, h0twoe] at hcoeff
+  have h0e : 0 ≠ e := (Nat.ne_of_gt he).symm
+  have h0twoe : 0 ≠ 2 * e := by omega
+  simp [seededNonsplitIdentityBoundaryPolynomial, h0e, h0twoe] at hcoeff
 
 theorem seededNonsplitIdentityBoundaryPolynomial_natDegree_le
     (s : E p) (e : ℕ) :
@@ -704,12 +714,13 @@ theorem existingConicSeedNonsplitTraceCurveSolutions_eq_seeded
   simp [existingConicSeedNonsplitTraceCurveSolutions,
     seededNonsplitTraceCurveSolutions, ExistingConicSeedNonsplitTraceCoverEquation]
 
-/-- Exact existing-conic count comparison with both affine boundaries exposed: `u = 0`
-contributes nothing for positive exponents, while `w = 1` is the displayed boundary term. -/
+/-- Exact existing-conic count comparison with both affine boundaries exposed:
+`u = 0` contributes nothing when the second exponent is positive, while
+`w = 1` is the displayed boundary term. -/
 theorem existingConicSeedNonsplitTraceCurveSolutions_card_eq_affine_add_identityBoundary
     (t : F p) (ht : t ^ 2 ≠ 4) (ht0 : t ≠ 0)
     (s : ↑(quadraticConicNormFiber p t ht ht0)) (d e : ℕ)
-    (hd : 0 < d) (he : 0 < e) :
+    (he : 0 < e) :
     (existingConicSeedNonsplitTraceCurveSolutions p t ht ht0 s d e).card =
       (BGS.External.affinePlaneCurveZeros (F p)
         (seededNonsplitDescendedPolynomial p s.1 d e)).card +
@@ -717,7 +728,7 @@ theorem existingConicSeedNonsplitTraceCurveSolutions_card_eq_affine_add_identity
         (quadraticFiberProductUnit p t ht ht0) s d e).card := by
   rw [existingConicSeedNonsplitTraceCurveSolutions_eq_seeded]
   rw [seededNonsplitTraceCurveSolutions_card_eq_descended_add_identityBoundary]
-  rw [← affinePlaneCurveZeros_seededNonsplitDescendedPolynomial_card_eq p s.1 d e hd he]
+  rw [← affinePlaneCurveZeros_seededNonsplitDescendedPolynomial_card_eq p s.1 d e he]
 
 end
 

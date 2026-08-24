@@ -47,6 +47,7 @@ private noncomputable def maximalIdealInFractionEmbeddingRange
     (m : MaximalSpectrum A) : Ideal (algebraMap A L).range :=
   m.asIdeal.map (fractionEmbeddingRangeEquiv (A := A) (L := L)).toRingHom
 
+omit [IsDomain A] in
 private theorem maximalIdealInFractionEmbeddingRange_ne_top
     (m : MaximalSpectrum A) :
     maximalIdealInFractionEmbeddingRange (A := A) (L := L) m ≠ ⊤ := by
@@ -78,6 +79,7 @@ noncomputable def dominatingValuationSubring (m : MaximalSpectrum A) :
     (maximalIdealInFractionEmbeddingRange (A := A) (L := L) m)
     (maximalIdealInFractionEmbeddingRange_ne_top m))
 
+omit [IsDomain A] in
 theorem range_le_dominatingValuationSubring (m : MaximalSpectrum A) :
     (algebraMap A L).range ≤
       (dominatingValuationSubring (A := A) (L := L) m).toSubring :=
@@ -85,6 +87,7 @@ theorem range_le_dominatingValuationSubring (m : MaximalSpectrum A) :
     (maximalIdealInFractionEmbeddingRange (A := A) (L := L) m)
     (maximalIdealInFractionEmbeddingRange_ne_top m))).1
 
+omit [IsDomain A] in
 theorem algebraMap_mem_dominatingValuationSubring_nonunits_of_mem
     (m : MaximalSpectrum A) (r : A) (hr : r ∈ m.asIdeal) :
     algebraMap A L r ∈
@@ -108,6 +111,7 @@ noncomputable def coordinateRingToDominatingValuationSubring
   (Subring.inclusion (range_le_dominatingValuationSubring m)).comp
     (algebraMap A L).rangeRestrict
 
+omit [IsDomain A] in
 theorem pointIdeal_eq_comap_dominatingValuationSubring_maximalIdeal
     (m : MaximalSpectrum A) :
     m.asIdeal = Ideal.comap (coordinateRingToDominatingValuationSubring m)
@@ -126,6 +130,7 @@ theorem pointIdeal_eq_comap_dominatingValuationSubring_maximalIdeal
         (A := A) (L := L) m r hr
     exact ValuationSubring.coe_mem_nonunits_iff.mp hnonunits
 
+omit [IsDomain A] in
 /-- Equality of the chosen dominating valuation subrings forces equality of
 the affine centers. -/
 theorem pointIdeal_eq_of_dominatingValuationSubring_eq
@@ -155,6 +160,7 @@ section IntegralClosure
 
 variable {P : Type*} [CommRing P] [Algebra P L]
 
+omit [IsDomain A] in
 theorem integralClosure_le_dominatingValuationSubring
     (m : MaximalSpectrum A)
     (hbase : ∀ p : P, algebraMap P L p ∈ (algebraMap A L).range) :
@@ -185,6 +191,7 @@ noncomputable def dominatingIntegralClosurePrime
     (IsLocalRing.maximalIdeal
       (dominatingValuationSubring (A := A) (L := L) m))
 
+omit [IsDomain A] in
 theorem dominatingIntegralClosurePrime_isPrime
     (m : MaximalSpectrum A)
     (hbase : ∀ p : P, algebraMap P L p ∈ (algebraMap A L).range) :
@@ -204,6 +211,7 @@ noncomputable def dominatingIntegralClosurePlace
   ⟨dominatingIntegralClosurePrime m hbase,
     dominatingIntegralClosurePrime_isPrime m hbase, hne⟩
 
+omit [IsDomain A] in
 theorem valuationSubringAt_dominatingIntegralClosurePlace_le
     (m : MaximalSpectrum A)
     (hbase : ∀ p : P, algebraMap P L p ∈ (algebraMap A L).range)
@@ -237,6 +245,7 @@ theorem valuationSubringAt_dominatingIntegralClosurePlace_le
   rw [ht]
   exact t.property
 
+omit [IsDomain A] in
 theorem valuationSubringAt_dominatingIntegralClosurePlace_eq
     (m : MaximalSpectrum A)
     (hbase : ∀ p : P, algebraMap P L p ∈ (algebraMap A L).range)
@@ -248,6 +257,7 @@ theorem valuationSubringAt_dominatingIntegralClosurePlace_eq
   exact ValuationSubring.eq_of_le_of_ne_top _
     (valuationSubringAt_dominatingIntegralClosurePlace_le m hbase hne) hV
 
+omit [IsDomain A] in
 theorem dominatingIntegralClosurePlace_valuation_isEquiv
     (m : MaximalSpectrum A)
     (hbase : ∀ p : P, algebraMap P L p ∈ (algebraMap A L).range)
@@ -338,6 +348,7 @@ def finiteExtensionGcdWeightedDegree (x y : L) : ℕ :=
     finiteExtensionGcdMultiplicity K L x y v *
       finiteExtensionPlaceDegree K L v
 
+omit [DecidableEq K] in
 /-- On a finite place, the exhaustive principal-divisor coefficient is the
 normalized order computed directly in `L`. -/
 theorem finiteExtensionPrincipalDivisor_inl_eq_finitePlaceOrder
@@ -358,6 +369,7 @@ theorem finiteExtensionPlaceDegree_inl_pos
   · exact (finitePlaceNormalizedPrime
       (HeightOneSpectrum.under (Polynomial K) q)).property.1.irreducible.natDegree_pos
 
+omit [DecidableEq K] in
 theorem inl_mem_finiteExtensionGcdSupport_of_orders_positive
     (x y : L) (q : FiniteExtensionFinitePlace K L)
     (hxpos : 0 < finitePlaceOrder q x) :

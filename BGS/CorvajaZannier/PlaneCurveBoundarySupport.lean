@@ -100,6 +100,7 @@ private noncomputable def probeFiniteExtensionPlaceValuation
   | .inl q => q.valuation L
   | .inr P => (primeOverHeightOne (ratFuncInfinityPlace K) P).valuation L
 
+omit [DecidableEq K] in
 private theorem probeFiniteExtensionPlaceValuation_surjective
     (w : FiniteExtensionPlace K L) :
     Function.Surjective (probeFiniteExtensionPlaceValuation K L w) := by
@@ -111,6 +112,7 @@ private theorem probeFiniteExtensionPlaceValuation_surjective
       exact (primeOverHeightOne
         (ratFuncInfinityPlace K) P).valuation_surjective L z
 
+omit [DecidableEq K] in
 private theorem probeFiniteExtensionPlaceValuation_eq_exp_neg_order
     (w : FiniteExtensionPlace K L) (x : L) (hx : x ≠ 0) :
     probeFiniteExtensionPlaceValuation K L w x =
@@ -138,6 +140,7 @@ private theorem probeFiniteExtensionPlaceValuation_eq_exp_neg_order
       exact valuation_eq_exp_neg_finitePlaceOrder
         (primeOverHeightOne (ratFuncInfinityPlace K) P) x hx
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 private theorem probe_finiteExtensionFinitePlace_X_le_one
     (q : FiniteExtensionFinitePlace K L) :
     q.valuation L (algebraMap (RatFunc K) L RatFunc.X) ≤ 1 := by
@@ -146,6 +149,7 @@ private theorem probe_finiteExtensionFinitePlace_X_le_one
     (RatFuncFiniteIntegralClosure K L) L]
   exact q.valuation_le_one _
 
+omit [DecidableEq K] in
 private theorem probe_finiteExtensionInfinityPlace_X_gt_one
     (P : FiniteExtensionInfinityPlace K L) :
     1 < (primeOverHeightOne (ratFuncInfinityPlace K) P).valuation L
@@ -185,6 +189,7 @@ private theorem probe_finiteExtensionInfinityPlace_X_gt_one
       simpa using
         (algebraMap (RatFunc K) L).injective.ne RatFunc.X_ne_zero)).mpr hxinverse
 
+omit [DecidableEq K] in
 private theorem probeFiniteExtensionPlaceValuation_injective :
     Function.Injective (probeFiniteExtensionPlaceValuation K L) := by
   intro w₁ w₂ h
@@ -276,7 +281,7 @@ private noncomputable def valuationSubringRingEquivOfComapEq
   invFun y := ⟨e.symm y, by
     rw [← h]
     change e (e.symm (y : E)) ∈ W
-    simpa using y.2⟩
+    simp⟩
   left_inv x := Subtype.ext (e.symm_apply_apply x)
   right_inv y := Subtype.ext (e.apply_symm_apply y)
   map_mul' x y := Subtype.ext (map_mul e (x : F) (y : F))
@@ -346,12 +351,14 @@ private def valuationCenterIdeal
   Ideal.comap (integralClosureToValuationSubring (S := S) V hbase)
     (IsLocalRing.maximalIdeal V)
 
+omit [IsDomain R] [IsDedekindDomain S] [IsFractionRing S F] in
 private theorem valuationCenterIdeal_isPrime
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V) :
     (valuationCenterIdeal (S := S) V hbase).IsPrime := by
   exact Ideal.comap_isPrime _ _
 
+omit [IsDomain R] [IsDedekindDomain S] in
 private theorem valuationCenterIdeal_ne_bot_of_mem_nonunits
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V)
@@ -391,6 +398,7 @@ private noncomputable def valuationCenterPlace
   ⟨valuationCenterIdeal (S := S) V hbase,
     valuationCenterIdeal_isPrime (S := S) V hbase, hne⟩
 
+omit [IsDomain R] in
 private theorem valuationSubringAt_valuationCenterPlace_le
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V)
@@ -423,6 +431,7 @@ private theorem valuationSubringAt_valuationCenterPlace_le
   rw [ht]
   exact t.property
 
+omit [IsDomain R] in
 private theorem valuationSubringAt_valuationCenterPlace_eq
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V)
@@ -436,6 +445,8 @@ private theorem valuationSubringAt_valuationCenterPlace_eq
 end ValuationCenter
 
 include L in
+omit [DecidableEq (RatFunc K)] [Field L] [Algebra (RatFunc K) L] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
+omit L in
 private theorem probe_ratFuncFinitePlaceDegree_eq_finrank_residue
     (p : HeightOneSpectrum K[X]) :
     Module.finrank K p.asIdeal.ResidueField = ratFuncFinitePlaceDegree p := by
@@ -480,9 +491,10 @@ private theorem probe_finiteExtensionPlaceDegree_inl_eq_finrank_residue
     Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
   letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := ⟨rfl⟩
   rw [finiteExtensionPlaceDegree, Ideal.inertiaDeg_eq p.asIdeal q.asIdeal]
-  rw [← probe_ratFuncFinitePlaceDegree_eq_finrank_residue K L p]
+  rw [← probe_ratFuncFinitePlaceDegree_eq_finrank_residue K p]
   rw [mul_comm, Module.finrank_mul_finrank]
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 private theorem probe_finiteExtensionPlaceDegree_inr_eq_finrank_residue
     (P : FiniteExtensionInfinityPlace K L) :
     finiteExtensionPlaceDegree K L (.inr P) =

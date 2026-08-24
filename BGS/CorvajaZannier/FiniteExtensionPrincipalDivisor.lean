@@ -122,6 +122,7 @@ def finiteExtensionFinitePrincipalDivisor (x : L) :
   finitePrincipalDivisor
     ((ratFuncFiniteIntegralClosureFractionRingEquiv K L).symm x)
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 @[simp] theorem finiteExtensionFinitePrincipalDivisor_apply
     (x : L) (q : FiniteExtensionFinitePlace K L) :
     finiteExtensionFinitePrincipalDivisor K L x q =
@@ -135,6 +136,7 @@ def finiteExtensionInfinityPrincipalDivisor (x : L) :
     finitePlaceOrder (primeOverHeightOne (ratFuncInfinityPlace K) P)
       ((ratFuncInfinityIntegralClosureFractionRingEquiv K L).symm x))
 
+omit [DecidableEq K] in
 @[simp] theorem finiteExtensionInfinityPrincipalDivisor_apply
     (x : L) (P : FiniteExtensionInfinityPlace K L) :
     finiteExtensionInfinityPrincipalDivisor K L x P =
@@ -147,6 +149,7 @@ def finiteExtensionPrincipalDivisor (x : L) :
   (finiteExtensionFinitePrincipalDivisor K L x).sumElim
     (finiteExtensionInfinityPrincipalDivisor K L x)
 
+omit [DecidableEq K] in
 @[simp] theorem finiteExtensionPrincipalDivisor_inl
     (x : L) (q : FiniteExtensionFinitePlace K L) :
     finiteExtensionPrincipalDivisor K L x (.inl q) =
@@ -154,6 +157,7 @@ def finiteExtensionPrincipalDivisor (x : L) :
         ((ratFuncFiniteIntegralClosureFractionRingEquiv K L).symm x) := by
   simp [finiteExtensionPrincipalDivisor]
 
+omit [DecidableEq K] in
 @[simp] theorem finiteExtensionPrincipalDivisor_inr
     (x : L) (P : FiniteExtensionInfinityPlace K L) :
     finiteExtensionPrincipalDivisor K L x (.inr P) =
@@ -166,6 +170,7 @@ def finiteExtensionFiniteResidueWeightedDivisor (x : L) :
   (finiteExtensionFinitePrincipalDivisor K L x).sum (fun q n =>
     Finsupp.single q ((q.asIdeal.inertiaDeg K[X] : ℤ) * n))
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 @[simp] theorem finiteExtensionFiniteResidueWeightedDivisor_apply
     (x : L) (q : FiniteExtensionFinitePlace K L) :
     finiteExtensionFiniteResidueWeightedDivisor K L x q =
@@ -198,6 +203,7 @@ def finiteExtensionFiniteDivisorBelow (x : L) :
   (finiteExtensionFiniteResidueWeightedDivisor K L x).mapDomain
     (HeightOneSpectrum.under K[X])
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 theorem finiteExtensionFiniteDivisorBelow_apply
     (x : L) (p : HeightOneSpectrum K[X]) :
     finiteExtensionFiniteDivisorBelow K L x p =
@@ -255,6 +261,7 @@ theorem finiteExtensionFiniteDivisorBelow_apply
   rw [hplace]
   rfl
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 theorem finiteExtensionFiniteDivisorBelow_eq_normDivisor
     (x : L) (hx : x ≠ 0) :
     finiteExtensionFiniteDivisorBelow K L x =
@@ -271,6 +278,7 @@ def finiteExtensionFiniteDirectDegreeSum (x : L) : ℤ :=
     n * (q.asIdeal.inertiaDeg K[X] : ℤ) *
       (ratFuncFinitePlaceDegree (HeightOneSpectrum.under K[X] q) : ℤ))
 
+omit [DecidableEq (RatFunc K)] in
 theorem finiteExtensionFiniteDirectDegreeSum_eq_grouped
     (x : L) (hx : x ≠ 0) :
     finiteExtensionFiniteDirectDegreeSum K L x =
@@ -318,6 +326,7 @@ def finiteExtensionInfinityDirectDegreeSum (x : L) : ℤ :=
   (finiteExtensionInfinityPrincipalDivisor K L x).sum (fun P n =>
     n * (P.1.inertiaDeg (RatFuncInfinityIntegers K) : ℤ))
 
+omit [DecidableEq K] in
 theorem finiteExtensionInfinityDirectDegreeSum_eq_grouped (x : L) :
     finiteExtensionInfinityDirectDegreeSum K L x =
       finiteExtensionInfinityOrderSum K L x := by
@@ -485,6 +494,7 @@ def finiteExtensionFamilyWeightedOrder (f : A → L) (a : A)
   finiteExtensionFamilyOrder K L f a v *
     (finiteExtensionPlaceDegree K L v.1 : ℤ)
 
+omit [DecidableEq K] in
 theorem finiteExtensionPrincipalDivisor_support_subset_familySupport
     (f : A → L) (a : A) :
     (finiteExtensionPrincipalDivisor K L (f a)).support ⊆
@@ -494,6 +504,7 @@ theorem finiteExtensionPrincipalDivisor_support_subset_familySupport
     Finset.mem_univ, true_and]
   exact ⟨a, hv⟩
 
+omit [DecidableEq K] in
 theorem finiteExtensionFamilyOrder_eq_zero_of_not_mem_support
     (f : A → L) (a : A) (v : FiniteExtensionFamilyPlace K L f)
     (hv : v.1 ∉ (finiteExtensionPrincipalDivisor K L (f a)).support) :
@@ -829,6 +840,7 @@ noncomputable def ratFuncFinitePlaceResidueEquiv (p : HeightOneSpectrum K[X]) :
       p.asIdeal.bijective_algebraMap_quotient_residueField
   exact eResidue.symm.trans eQuot
 
+omit [DecidableEq (RatFunc K)] in
 theorem ratFuncFinitePlaceDegree_eq_one (p : HeightOneSpectrum K[X]) :
     ratFuncFinitePlaceDegree p = 1 := by
   let r := finitePlaceNormalizedPrime p
@@ -837,6 +849,7 @@ theorem ratFuncFinitePlaceDegree_eq_one (p : HeightOneSpectrum K[X]) :
   rw [ratFuncFinitePlaceDegree]
   exact Polynomial.natDegree_eq_of_degree_eq_some hrdegree
 
+omit [DecidableEq (RatFunc K)] in
 theorem finiteExtensionFinitePlace_inertiaDeg_eq_one
     (q : FiniteExtensionFinitePlace K L) :
     q.asIdeal.inertiaDeg K[X] = 1 := by

@@ -99,6 +99,7 @@ variable (L : Type*) [Field L] [Algebra (RatFunc K) L]
   [Algebra M L] [IsScalarTower (RatFunc K) M L]
   [IsGalois M L]
 
+omit [Algebra.IsSeparable (RatFunc K) M] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Relative Galois conjugation preserves the absolute degree of a finite
 place. -/
 theorem finiteExtensionFinitePlace_degree_finitePlaceGalSmul
@@ -115,6 +116,7 @@ theorem finiteExtensionFinitePlace_degree_finitePlaceGalSmul
       (finitePlaceUnder_finitePlaceGalSmul K M L g P)
   rw [hlocal.2]
 
+omit [Algebra.IsSeparable (RatFunc K) L] in
 /-- Relative Galois conjugation preserves the absolute degree of a place
 above infinity. -/
 theorem finiteExtensionInfinityPlace_degree_infinityPlaceGalSmul
@@ -175,6 +177,7 @@ noncomputable def infinityPlaceOfDegreeGalAction (d : ℕ) :
         apply Subtype.ext
         exact mul_smul g h P.1 }
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- On a finite-place restriction fiber, the point stabilizer is the usual
 decomposition group of the underlying place. -/
 theorem finitePlaceUnderFiber_stabilizer_eq_decompositionGroup
@@ -197,6 +200,7 @@ theorem finitePlaceUnderFiber_stabilizer_eq_decompositionGroup
     apply HeightOneSpectrum.ext
     exact hg
 
+omit [DecidableEq K] [Algebra.IsSeparable (RatFunc K) M] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- On an infinity-place restriction fiber, the point stabilizer is the
 usual decomposition group of the underlying place. -/
 theorem infinityPlaceUnderFiber_stabilizer_eq_decompositionGroup

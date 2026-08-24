@@ -223,8 +223,8 @@ theorem monicQuadraticPowerPulledRadicand_separable
   have ht : t ≠ 0 := by
     intro ht
     subst t
-    simpa [eval_monicQuadraticPowerPulledRadicand,
-      Nat.ne_of_gt hd] using hrootMapped
+    simp [eval_monicQuadraticPowerPulledRadicand,
+      Nat.ne_of_gt hd] at hrootMapped
   have hu : t ^ d ≠ 0 := pow_ne_zero d ht
   have hdegreeMapped : phi (d : K) ≠ 0 :=
     (map_ne_zero_iff phi phi.injective).mpr hdegree
@@ -374,8 +374,8 @@ theorem centeredNormPulledRadicand_separable_of_ne_eq_ne_neg
   have ht : t ≠ 0 := by
     intro ht
     subst t
-    simpa only [eval_centeredNormPulledRadicand_zero (phi B) (phi C0) hd,
-      one_ne_zero] using hrootMapped
+    simp only [eval_centeredNormPulledRadicand_zero (phi B) (phi C0) hd,
+      one_ne_zero] at hrootMapped
   have hu : t ^ d ≠ 0 := pow_ne_zero d ht
   have hdegreeMapped : phi (d : K) ≠ 0 :=
     (map_ne_zero_iff phi phi.injective).mpr hdegree

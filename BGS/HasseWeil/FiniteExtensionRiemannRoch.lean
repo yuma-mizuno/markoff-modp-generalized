@@ -128,6 +128,7 @@ def finiteExtensionInfinityBaseRingEquiv :
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
 
+omit [Fintype K] [DecidableEq K] in
 @[simp]
 theorem finiteExtensionInfinityBaseRingEquiv_apply_coe
     (x : RatFuncInfinityIntegers K) :
@@ -135,6 +136,7 @@ theorem finiteExtensionInfinityBaseRingEquiv_apply_coe
       FunctionField.Chart.inftyValuationSubring K) : RatFunc K) = x :=
   rfl
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 private theorem isIntegral_infinityBase_iff (x : L) :
     IsIntegral (RatFuncInfinityIntegers K) x ↔
       IsIntegral (FunctionField.Chart.inftyValuationSubring K) x := by
@@ -178,6 +180,7 @@ def finiteExtensionInfinityIntegralClosureRingEquiv :
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem finiteExtensionInfinityIntegralClosureRingEquiv_apply_coe
     (x : RatFuncInfinityIntegralClosure K L) :
@@ -265,6 +268,7 @@ noncomputable def finiteExtensionInfinityResidueAlgEquiv
   change P.1 = (P.1.comap e.symm).comap e
   exact (Ideal.comap_of_equiv e.toRingEquiv).symm
 
+omit [Fintype K] in
 /-- The exhaustive place degree agrees with the Riemann--Roch chart degree. -/
 theorem finiteExtensionPlaceDegree_eq_chart
     (v : FiniteExtensionPlace K L) :
@@ -396,6 +400,7 @@ private theorem valuation_eq_of_isEquiv_of_surjective
   · rw [hformula x hx, hm1, one_mul,
       WithZero.exp_log ((Valuation.ne_zero_iff v).2 hx)]
 
+omit [Fintype K] [DecidableEq K] in
 /-- The normalized infinity valuation is unchanged by the identity-on-`L`
 integral-closure transport. -/
 theorem finiteExtensionInfinityPlaceValuation_eq_chart
@@ -428,6 +433,7 @@ def finiteExtensionPlaceValuation :
   | .inr P =>
       (primeOverHeightOne (ratFuncInfinityPlace K) P).valuation L
 
+omit [Fintype K] [DecidableEq K] in
 /-- Every exhaustive BGS place carries exactly the normalized valuation of
 its corresponding Riemann--Roch chart place. -/
 theorem finiteExtensionPlaceValuation_eq_chart
@@ -445,6 +451,7 @@ def finiteExtensionDivisorEquivChart :
       FunctionField.Chart.DivisorA K L :=
   Finsupp.domCongr (finiteExtensionPlaceEquivChart K L)
 
+omit [Fintype K] in
 /-- Divisor degree is preserved by the exhaustive-place/chart equivalence. -/
 theorem finiteExtensionDivisorDegree_eq_chart
     (D : FiniteExtensionDivisor K L) :
@@ -465,6 +472,8 @@ theorem finiteExtensionDivisorDegree_eq_chart
         Finsupp.equivMapDomain_single,
         finiteExtensionPlaceDegree_eq_chart]
 
+omit [Fintype K] in
+omit [DecidableEq K] in
 /-- The valuation of a nonzero function is the exponential of the negative
 coefficient of its exhaustive principal divisor. -/
 theorem finiteExtensionPlaceValuation_eq_exp_neg_principalDivisor

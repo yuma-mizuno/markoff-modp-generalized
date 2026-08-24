@@ -206,7 +206,7 @@ theorem eventually_alternatingRegularMiddleGame_sizeBound
         (4 * C) ^ 3 * (p : ℝ) ^ (3 * epsilon) := by
     rw [mul_pow, mul_pow]
     rw [← Real.rpow_mul_natCast hpRealNonneg epsilon 3]
-    ring
+    ring_nf
   have hQuadrupleCubeReal :
       ((4 * (corvajaZannierCorollaryTwoSafeCoefficient *
           ((p - 1).divisors.card +
@@ -325,7 +325,7 @@ theorem alternatingRegularMiddleGame_sizeBound_of_analyticCutoff
     have h :=
       small_fixed_lt_rpow_one_div_twoHundredFiftySix
         (p := p) (fixed := 192 ^ 3) hp (by norm_num)
-    convert h using 1 <;> norm_num
+    convert h using 1 ; norm_num
   have hcubeReal :
       ((4 * (corvajaZannierCorollaryTwoSafeCoefficient * T) : ℕ) : ℝ) ^ 3 <
         (currentOrder : ℝ) := by
@@ -470,7 +470,7 @@ theorem alternatingRegularMiddleGame_reaches_endgame_of_analyticCutoff
               (current : ℝ) < endgameReal := by
             exact Nat.lt_ceil.mp (by
               simpa [target] using hcurrentTarget)
-          convert hcurrentEndgame using 1 <;>
+          convert hcurrentEndgame using 1 ;
             norm_num [endgameReal])
         (by
           intro current hstartCurrent hcurrentTarget

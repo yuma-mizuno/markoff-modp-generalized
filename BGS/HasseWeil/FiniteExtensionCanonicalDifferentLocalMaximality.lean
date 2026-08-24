@@ -23,6 +23,7 @@ noncomputable section
 variable (K : Type*) [Field K] [Fintype K] [DecidableEq K]
   [DecidableEq (RatFunc K)]
 
+omit [Fintype K] [DecidableEq K] in
 /-- At every base chart place, maximality of the canonical `-2∞`
 differential supplies a one-component adele at the first filtration step on
 which the differential is nonzero. -/
@@ -226,6 +227,7 @@ local instance detectionInfinityClosureIsFractionRing :
     (RatFuncInfinityIntegers K) (RatFunc K) L
       (RatFuncInfinityIntegralClosure K L)
 
+omit [Fintype K] [DecidableEq K] in
 /-- A fiber lift supported over one base place lies in an arbitrary divisor
 filtration once its common nonzero fiber value satisfies the local bounds. -/
 theorem finiteExtensionFiberLift_mem_adeleFilt_of_supported

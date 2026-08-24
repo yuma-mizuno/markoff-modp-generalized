@@ -150,12 +150,14 @@ def finiteExtensionRationalPlaceEquivSubtype :
 def finiteExtensionRationalPlaceCount : ℕ :=
   Nat.card (FiniteExtensionRationalPlace K L)
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 theorem finiteExtensionRationalPlaceCount_eq_natCard_subtype :
     finiteExtensionRationalPlaceCount K L =
       Nat.card {P : FiniteExtensionPlace K L //
         finiteExtensionPlaceDegree K L P = 1} :=
   Nat.card_congr (finiteExtensionRationalPlaceEquivSubtype K L)
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 private theorem rationalFinitePlace_baseDegree_eq_one
     (Q : FiniteExtensionRationalFinitePlace K L) :
     ratFuncFinitePlaceDegree (HeightOneSpectrum.under K[X] Q.1) = 1 := by
@@ -176,6 +178,7 @@ def rationalFinitePlaceToBaseFiber
       rationalFinitePlace_baseDegree_eq_one K L Q⟩,
     ⟨Q.1.asIdeal, Q.1.isPrime, ⟨rfl⟩⟩⟩
 
+omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 theorem rationalFinitePlaceToBaseFiber_injective :
     Function.Injective (rationalFinitePlaceToBaseFiber K L) := by
   intro Q R hQR

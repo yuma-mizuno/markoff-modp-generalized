@@ -64,8 +64,8 @@ theorem linearStep_torusPair
     linearStep t (torusPair q P h) = torusPair q P (q * h) := by
   subst t
   ext <;>
-    simp [linearStep, torusPair] <;>
-    field_simp [hq, hh] <;>
+    simp [linearStep, torusPair] ;
+    field_simp [hq, hh] ;
     ring
 
 /-- The centered torus pair satisfies the conic with constant

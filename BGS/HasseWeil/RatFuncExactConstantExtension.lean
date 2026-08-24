@@ -332,6 +332,7 @@ variable [Algebra.IsSeparable (RatFunc C) N]
 
 include hExact
 
+omit [FiniteDimensional (RatFunc C) N] in
 /-- For a finite separable `N / C(X)`, the exact constant extension remains
 separable over the original rational function field `C(X)`. -/
 theorem isSeparable_exactConstantExtension_over_baseRatFunc :
@@ -362,6 +363,7 @@ theorem isSeparable_exactConstantExtension_over_baseRatFunc :
   exact Algebra.IsSeparable.trans
     (RatFunc C) N (ExactConstantExtension C N S)
 
+omit [FiniteDimensional (RatFunc C) N] in
 /-- For a finite separable `N / C(X)`, the exact constant extension is separable
 over the enlarged rational function field `S(X)`. -/
 theorem isSeparable_over_extendedRatFunc :

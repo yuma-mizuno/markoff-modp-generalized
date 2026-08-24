@@ -90,6 +90,7 @@ private theorem finitePlaceOrder_one
   rw [finitePlaceOrderTop_eq_coe w (1 : F) one_ne_zero] at h
   exact_mod_cast h
 
+omit [DecidableEq K] in
 /-- The exhaustive principal divisor of one is zero. -/
 theorem finiteExtensionPrincipalDivisor_one :
     finiteExtensionPrincipalDivisor K L (1 : L) = 0 := by
@@ -105,6 +106,7 @@ theorem finiteExtensionPrincipalDivisor_one :
         (w := primeOverHeightOne (ratFuncInfinityPlace K) P)
         (F := FractionRing (RatFuncInfinityIntegralClosure K L))
 
+omit [DecidableEq K] in
 /-- Exhaustive principal divisors turn a nonzero product into a sum. -/
 theorem finiteExtensionPrincipalDivisor_mul
     (x y : L) (hx : x ≠ 0) (hy : y ≠ 0) :
@@ -149,6 +151,7 @@ theorem finiteExtensionPrincipalDivisor_mul
       simpa only [finiteExtensionPrincipalDivisor_inr, map_mul,
         finitePrincipalDivisor_apply, Finsupp.add_apply] using h
 
+omit [DecidableEq K] in
 /-- Exhaustive principal divisors turn a nonzero power into a multiple. -/
 theorem finiteExtensionPrincipalDivisor_pow
     (x : L) (hx : x ≠ 0) (m : ℕ) :
@@ -160,6 +163,7 @@ theorem finiteExtensionPrincipalDivisor_pow
       rw [pow_succ, finiteExtensionPrincipalDivisor_mul K L
         (x ^ m) x (pow_ne_zero _ hx) hx, ih, succ_nsmul]
 
+omit [DecidableEq K] in
 /-- Exhaustive principal divisors turn a nonzero inverse into a negative. -/
 theorem finiteExtensionPrincipalDivisor_inv
     (x : L) (hx : x ≠ 0) :
@@ -170,6 +174,7 @@ theorem finiteExtensionPrincipalDivisor_inv
   rw [inv_mul_cancel₀ hx, finiteExtensionPrincipalDivisor_one K L] at hmul
   exact eq_neg_of_add_eq_zero_left hmul.symm
 
+omit [DecidableEq K] in
 /-- Exhaustive principal divisors turn a quotient into a difference. -/
 theorem finiteExtensionPrincipalDivisor_div
     (x y : L) (hx : x ≠ 0) (hy : y ≠ 0) :
@@ -184,6 +189,7 @@ the `ordGrid` term in the global Wronskian summation. -/
 def finiteExtensionAuxiliaryGridProduct (u v : L) (h k : ℕ) : L :=
   ∏ rs : Fin (k + 1) × Fin h, u ^ (rs.1 : ℕ) * v ^ (rs.2 : ℕ)
 
+omit [DecidableEq K] in
 private theorem finiteExtensionPrincipalDivisor_finset_prod
     {ι : Type*} [DecidableEq ι] (s : Finset ι) (g : ι → L)
     (hg : ∀ i ∈ s, g i ≠ 0) :
@@ -200,6 +206,7 @@ private theorem finiteExtensionPrincipalDivisor_finset_prod
         finiteExtensionPrincipalDivisor_mul K L _ _ hga
           (Finset.prod_ne_zero_iff.mpr hgs), ih hgs]
 
+omit [DecidableEq K] in
 /-- Exact principal-divisor formula for the auxiliary grid product. -/
 theorem finiteExtensionPrincipalDivisor_auxiliaryGridProduct
     (u v : L) (hu : u ≠ 0) (hv : v ≠ 0) (h k : ℕ) :
@@ -572,6 +579,7 @@ def finiteExtensionFamilyMemberSupport (f : A → L) (a : A) :
   exact (finiteExtensionPrincipalDivisor K L (f a)).support.attach.map
     (finiteExtensionFamilyMemberSupportEmbedding K L f a)
 
+omit [DecidableEq K] in
 @[simp]
 theorem mem_finiteExtensionFamilyMemberSupport_iff
     (f : A → L) (a : A) (w : FiniteExtensionFamilyPlace K L f) :
@@ -613,6 +621,7 @@ def finiteExtensionExceptionalSet (f : A → L) (iU iV : A) :
   exact finiteExtensionFamilyMemberSupport K L f iU ∪
     finiteExtensionFamilyMemberSupport K L f iV
 
+omit [DecidableEq K] in
 @[simp]
 theorem mem_finiteExtensionExceptionalSet_iff
     (f : A → L) (iU iV : A) (w : FiniteExtensionFamilyPlace K L f) :
@@ -792,6 +801,7 @@ theorem finiteExtensionExceptionalSet_oneSubU_div_oneSubV_weightedOrder_lower_bo
     finiteExtensionExceptionalSet_oneSubV_div_oneSubU_weightedOrder_lower_bound
       K L f iV iU iRho hv hu hvone huone hRho
 
+omit [DecidableEq K] in
 /-- Away from the exceptional set, `u` has order zero. -/
 theorem finiteExtensionFamilyOrder_u_eq_zero_outsideExceptionalSet
     (f : A → L) (iU iV : A) (w : FiniteExtensionFamilyPlace K L f)
@@ -800,6 +810,7 @@ theorem finiteExtensionFamilyOrder_u_eq_zero_outsideExceptionalSet
   apply finiteExtensionFamilyOrder_eq_zero_of_not_mem_support K L f iU w
   exact (not_or.mp ((mem_finiteExtensionExceptionalSet_iff K L f iU iV w).not.mp hw)).1
 
+omit [DecidableEq K] in
 /-- Away from the exceptional set, `v` has order zero. -/
 theorem finiteExtensionFamilyOrder_v_eq_zero_outsideExceptionalSet
     (f : A → L) (iU iV : A) (w : FiniteExtensionFamilyPlace K L f)
@@ -808,6 +819,7 @@ theorem finiteExtensionFamilyOrder_v_eq_zero_outsideExceptionalSet
   apply finiteExtensionFamilyOrder_eq_zero_of_not_mem_support K L f iV w
   exact (not_or.mp ((mem_finiteExtensionExceptionalSet_iff K L f iU iV w).not.mp hw)).2
 
+omit [DecidableEq K] in
 /-- Every positive-order place of `v` lies in the exceptional set. -/
 theorem finiteExtensionFamilyOrder_v_positive_mem_exceptionalSet
     (f : A → L) (iU iV : A) (w : FiniteExtensionFamilyPlace K L f)
@@ -818,6 +830,7 @@ theorem finiteExtensionFamilyOrder_v_positive_mem_exceptionalSet
   rw [Finsupp.mem_support_iff]
   exact ne_of_gt hw
 
+omit [DecidableEq K] in
 /-- Every individual grid monomial has order zero away from the exceptional
 set. -/
 theorem finiteExtensionPrincipalDivisor_gridMonomial_eq_zero_outside
@@ -838,6 +851,7 @@ theorem finiteExtensionPrincipalDivisor_gridMonomial_eq_zero_outside
   change finiteExtensionPrincipalDivisor K L (f iV) w.1 = 0 at hv0
   simp [hu0, hv0]
 
+omit [DecidableEq K] in
 /-- The auxiliary grid product has order zero away from the zero and pole
 places of `u` and `v`. -/
 theorem finiteExtensionPrincipalDivisor_auxiliaryGridProduct_eq_zero_outside
@@ -856,6 +870,7 @@ theorem finiteExtensionPrincipalDivisor_auxiliaryGridProduct_eq_zero_outside
   change finiteExtensionPrincipalDivisor K L (f iV) w.1 = 0 at hv0
   simp [hu0, hv0]
 
+omit [DecidableEq K] in
 /-- A family entry equal to the grid product has family order zero away from
 the exceptional set. -/
 theorem finiteExtensionFamilyOrder_gridProduct_eq_zero_outsideExceptionalSet

@@ -17,6 +17,7 @@ variable (L : Type*) [Field L] [Algebra (RatFunc K) L]
 
 attribute [local instance] Classical.decEq
 
+omit [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The local integer identity behind the Corvaja--Zannier comparison between
 the gcd divisor and the pole height of `(1-u)/(1-v)`. -/
 theorem gcdMultiplicity_add_outsidePole_le_secondPositivePart

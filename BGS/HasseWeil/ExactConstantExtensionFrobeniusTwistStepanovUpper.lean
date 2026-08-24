@@ -51,6 +51,7 @@ local instance (priority := 10000) twistStepanovFieldDecidableEq
 local instance (priority := 10001) twistStepanovRatFuncDecidableEq
     (F : Type*) [Field F] : DecidableEq (RatFunc F) := Classical.decEq _
 
+omit [IsGalois (RatFunc C) N] in
 /-- A single Stepanov budget gives the square-field rational-place upper
 bound for every Frobenius-twist fixed field.  The final degree term is uniform:
 it is the degree of the original function field `N / C(X)`.

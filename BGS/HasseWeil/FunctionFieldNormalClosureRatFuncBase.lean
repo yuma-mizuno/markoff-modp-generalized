@@ -32,6 +32,7 @@ def functionFieldNormalClosureConstantCompositum :
   IntermediateField.adjoin (RatFunc K)
     (Set.range (fun c : FunctionFieldNormalClosureConstantField K L => c.1))
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) L] in
 /-- The subgroup fixing the constant compositum is precisely the kernel of
 restriction to the algebraic constant field. -/
 theorem functionFieldNormalClosureConstantCompositum_fixingSubgroup :
@@ -54,6 +55,7 @@ theorem functionFieldNormalClosureConstantCompositum_fixingSubgroup :
     rintro _ ⟨c, rfl⟩
     exact (functionFieldNormalClosureConstantToBase K L c).property
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- The kernel fixed field is the compositum `K(t)C` inside the normal
 closure. -/
 theorem functionFieldNormalClosureConstantBase_eq_compositum :
@@ -85,6 +87,7 @@ noncomputable instance functionFieldNormalClosureConstantBase_constantTower :
   ext k
   rfl
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] [FiniteDimensional (RatFunc K) L] in
 /-- The original parameter remains transcendental after adjoining all
 algebraic constants of the normal closure. -/
 theorem functionFieldNormalClosureConstantBaseX_transcendental :
@@ -103,6 +106,7 @@ theorem functionFieldNormalClosureConstantBaseX_transcendental :
     simpa [functionFieldNormalClosureConstantBaseX] using hxIntegralK
   exact RatFunc.transcendental_X hxRatFunc.isAlgebraic
 
+omit [Fintype K] [DecidableEq K] [DecidableEq (RatFunc K)] in
 /-- The kernel fixed field is generated over the full constant field by the
 original rational parameter. -/
 theorem functionFieldNormalClosureConstantBase_adjoin_X :

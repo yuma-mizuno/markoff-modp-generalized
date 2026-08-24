@@ -217,7 +217,7 @@ theorem finiteExtensionRiemannSpace_infinityPlace_increment
     constructor
     · intro hrMem
       by_cases hx0 : x.1 = 0
-      · simpa [hx0] using S.zero_mem
+      · simp [hx0]
       · have hrNe : localNormalizedLift (R := R) T a hregular x ≠ 0 := by
           intro hr0
           have hax0 : a * x.1 = 0 := by

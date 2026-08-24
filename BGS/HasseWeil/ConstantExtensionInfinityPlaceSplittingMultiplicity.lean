@@ -176,6 +176,7 @@ local instance infinitySplittingPresentedSPolynomialSMul :
 local instance infinitySplittingPresentedCPolynomialSMul :
     SMul C[X] (TensorProduct C S (integralClosure C[X] N)) := Algebra.toSMul
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] in
 /-- The reciprocal polynomial actions on the exact constant extension form
 the expected scalar tower. -/
 theorem exactConstantExtensionReciprocalPolynomialTower :
@@ -207,6 +208,7 @@ noncomputable def exactConstantExtensionPresentedToCReciprocalNormalizationRingE
   let eC := exactConstantExtensionReciprocalIntegralClosureTowerEquiv C S N
   exact eS.toRingEquiv.trans eC.symm
 
+omit [Fintype C] [Finite S] [FiniteDimensional C S] [IsGalois C S] in
 /-- Coefficient extension commutes with evaluation in the reciprocal
 coordinate. -/
 private theorem ratFuncCoefficientAlgHom_reciprocalPolynomialRingHom
@@ -264,6 +266,7 @@ private theorem ratFuncExtensionReciprocalPolynomialAlgebra_map
   exact IsScalarTower.algebraMap_apply
     (RatFuncInfinityIntegers K) (RatFunc K) L _
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq (RatFunc C)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- Version of reciprocal polynomial compatibility elaborated with the
 instances used in this file. -/
 private theorem exactConstantExtensionSReciprocalPolynomialAlgebra_eq :
@@ -302,6 +305,7 @@ private theorem exactConstantExtensionSReciprocalPolynomialAlgebra_eq :
           (1 / RatFunc.X)) p
   rw [ratFuncToExactConstantExtension_reciprocal_X C S N hExact]
 
+omit [Fintype C] [Finite S] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The transported reciprocal `C[X]`-action is the actual action induced by
 the canonical embedding of `C(X)` into the exact constant extension. -/
 private theorem exactConstantExtensionCReciprocalPolynomialAlgebra_eq :
@@ -495,6 +499,7 @@ noncomputable def exactConstantExtensionCReciprocalPrimesEquivInfinityPlace :
     (IsLocalRing.maximalIdeal V).primesOver B
   exact (IsDedekindDomain.primesOverEquivPrimesOver o V B ho).toEquiv
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] in
 private theorem exactConstantExtensionPresentedReciprocalPolynomialTower :
     IsScalarTower C[X] S[X]
       (S ⊗[C] integralClosure C[X] N) := by
@@ -517,6 +522,7 @@ private noncomputable def exactConstantExtensionOldToCReciprocalNormalizationMap
   exact (IsScalarTower.toAlgHom C[X] N
     (ExactConstantExtension C N S)).mapIntegralClosure
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] in
 /-- The normalization equivalence carries the old normalization embedded in
 the right tensor factor to its canonical map into the exact extension. -/
 private theorem
@@ -550,6 +556,7 @@ private theorem
   rw [polynomialTensorCancel_tmul]
   simp
 
+omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional C S] [IsGalois C S] in
 /-- The reciprocal origin is the unique prime of `S[X]` above the reciprocal
 origin of `C[X]`. -/
 private theorem primeUnderReciprocalOrigin_eq_origin
@@ -576,6 +583,7 @@ private theorem primeUnderReciprocalOrigin_eq_origin
   exact ((hoPrime.isMaximal hoNeBot).eq_of_le
     (inferInstance : p.IsPrime).ne_top hle).symm
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] in
 private theorem
     exactConstantExtensionPresentedToCReciprocalNormalizationRingEquiv_commutes
     (p : C[X]) :
@@ -611,6 +619,7 @@ private noncomputable def
   HeightOneSpectrum.equivOfRingEquiv
     (exactConstantExtensionPresentedToCReciprocalNormalizationRingEquiv C S N)
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] in
 private theorem
     exactConstantExtensionPresentedToCReciprocalNormalizationHeightOneEquiv_under
     (q : HeightOneSpectrum (S ⊗[C] integralClosure C[X] N)) :
@@ -765,6 +774,7 @@ private noncomputable def
     (exactConstantExtensionCReciprocalHeightOneEquivPrimesOver
       C S N)
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- Contracting the transported reciprocal affine prime to the old
 normalization recovers the contraction used in the presented downstairs
 place. -/
@@ -863,6 +873,7 @@ noncomputable def exactConstantExtensionPresentedInfinityPlaceEquiv :
       (exactConstantExtensionCReciprocalPrimesEquivInfinityPlace
         C S N hExact))
 
+omit [DecidableEq C] [DecidableEq (RatFunc C)] in
 /-- The reciprocal presentation equivalence respects restriction to the
 original function field. -/
 @[simp]
@@ -1150,6 +1161,7 @@ local instance infinitySplittingInfinityBaseNTower :
     IsScalarTower (RatFuncInfinityIntegers C) (RatFunc C) N :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [Fintype C] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc S)] [Algebra.IsSeparable (RatFunc C) N] in
 /-- Galois action on the infinity normalization restricts to the expected
 constant-field quotient action. -/
 theorem exactConstantExtensionConstantQuotient_action_on_infinityNormalization :
@@ -1272,6 +1284,7 @@ theorem exactConstantExtensionConstantQuotient_action_on_infinityNormalization :
           (ExactConstantExtension C N S)) :
         ExactConstantExtension C N S) := rfl
 
+omit [DecidableEq S] [DecidableEq (RatFunc S)] in
 /-- Every infinity place is unramified in an exact extension of constants. -/
 theorem exactConstantExtensionInfinityPlace_ramificationIdx_eq_one
     (Q : letI : Field (ExactConstantExtension C N S) :=

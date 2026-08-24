@@ -29,6 +29,7 @@ local instance rationalCountBaseConstantTower :
     IsScalarTower C (RatFunc C) N :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [Fintype C] [DecidableEq C] [DecidableEq (RatFunc C)] in
 /-- The packaged level-one exact-extension count is the complete rational
 place count of the extended function field. -/
 theorem exactConstantExtensionClosedPlaceExtensionCount_one_eq_rationalPlaceCount

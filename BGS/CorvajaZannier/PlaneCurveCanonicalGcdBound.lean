@@ -142,7 +142,7 @@ theorem finiteExtensionGcdBound_planeCurvePowers_of_auxiliaryFamily_linearIndepe
       m * MvPolynomial.degreeOf 1 f := by
     simpa only [L, x] using
       finiteExtensionPositiveDegree_planeCurveFirstCoordinate_pow
-        hf hpartialSecond m hm
+        hf hpartialSecond m
   have hyDegree : finiteExtensionPositiveDegree K L (y ^ n) ≤
       n * MvPolynomial.degreeOf 0 f := by
     simpa only [L, y] using
@@ -291,7 +291,7 @@ theorem finiteExtensionGcdBound_planeCurvePowers_swapped_of_auxiliaryFamily_line
       m * MvPolynomial.degreeOf 1 f := by
     simpa only [L, x] using
       finiteExtensionPositiveDegree_planeCurveFirstCoordinate_pow
-        hf hpartialSecond m hm
+        hf hpartialSecond m
   have hyDegree : finiteExtensionPositiveDegree K L (y ^ n) ≤
       n * MvPolynomial.degreeOf 0 f := by
     simpa only [L, y] using

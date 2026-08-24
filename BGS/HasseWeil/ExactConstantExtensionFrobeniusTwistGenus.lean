@@ -34,6 +34,7 @@ local instance twistGenusBaseConstantTower :
     IsScalarTower C (RatFunc C) N :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] in
 /-- Every canonical Frobenius-twist fixed field has the genus of the
 original exact-constant Galois function field.  The equality is independent
 of the auxiliary constant extension. -/

@@ -177,7 +177,7 @@ def badDiagonalTaggedPointEmbedding
       intro x y hxy
       by_cases hx : x.1.1.1.2 = 0
       · by_cases hy : y.1.1.1.2 = 0
-        · simp only [hx, hy, if_pos] at hxy
+        · simp only [hx, hy] at hxy
           have hpayload := Sum.inl.inj hxy
           apply Subtype.ext
           apply Prod.ext
@@ -191,7 +191,7 @@ def badDiagonalTaggedPointEmbedding
         · simp [hx, hy] at hxy
       · by_cases hy : y.1.1.1.2 = 0
         · simp [hx, hy] at hxy
-        · simp only [hx, hy, if_neg] at hxy
+        · simp only [hx, hy] at hxy
           have hpayload := Sum.inr.inj hxy
           have hparameter : x.1.1.1.2 = y.1.1.1.2 :=
             congrArg Subtype.val hpayload
@@ -488,8 +488,8 @@ private lemma powerRootCount_le
     simpa [f] using (natDegree_X_pow_sub_C (R := K) (n := n) (r := 1)))
 
 def badOffDiagonalPulledEmbedding
-    (p : Nat) [Fact p.Prime] (hpTwo : p ≠ 2)
-    (xi eta : ZMod p) {d : Nat} (hd : 0 < d)
+    (p : Nat) [Fact p.Prime]
+    (xi eta : ZMod p) {d : Nat}
     (hoffDiagonal : xi ^ 2 ≠ eta ^ 2) :
     {z : CagePulledRootPair p xi eta d //
       ¬ IsGoodOffDiagonalPulledPair z} ↪
@@ -536,7 +536,7 @@ def badOffDiagonalPulledEmbedding
       linear_combination hxsum - hysum - hfirst }
 
 lemma badOffDiagonalPulled_card_le
-    (p : Nat) [Fact p.Prime] (hpTwo : p ≠ 2)
+    (p : Nat) [Fact p.Prime]
     (xi eta : ZMod p) {d : Nat} (hd : 0 < d)
     (hoffDiagonal : xi ^ 2 ≠ eta ^ 2) :
     Nat.card {z : CagePulledRootPair p xi eta d //
@@ -545,8 +545,8 @@ lemma badOffDiagonalPulled_card_le
   let fiber : base → Type := fun t =>
     {root : ZMod p // root ^ 2 = (cagePulledRadicand xi d).eval t.1}
   have hinj := Nat.card_le_card_of_injective
-    (badOffDiagonalPulledEmbedding p hpTwo xi eta hd hoffDiagonal).toFun
-    (badOffDiagonalPulledEmbedding p hpTwo xi eta hd hoffDiagonal).injective
+    (badOffDiagonalPulledEmbedding p xi eta (d := d) hoffDiagonal).toFun
+    (badOffDiagonalPulledEmbedding p xi eta (d := d) hoffDiagonal).injective
   change Nat.card _ ≤ Nat.card (Σ t : base, fiber t) at hinj
   rw [Nat.card_sigma] at hinj
   have hfiber : ∀ t : base, Nat.card (fiber t) ≤ 2 :=
@@ -644,7 +644,7 @@ def badOffDiagonalPlaneEmbedding
       intro x y hxy
       by_cases hx : x.1.1.2 = 0
       · by_cases hy : y.1.1.2 = 0
-        · simp only [hx, hy, if_pos] at hxy
+        · simp only [hx, hy] at hxy
           have hpayload := Sum.inl.inj hxy
           apply Subtype.ext
           apply Subtype.ext
@@ -652,7 +652,7 @@ def badOffDiagonalPlaneEmbedding
         · simp [hx, hy] at hxy
       · by_cases hy : y.1.1.2 = 0
         · simp [hx, hy] at hxy
-        · simp only [hx, hy, if_neg] at hxy
+        · simp only [hx, hy] at hxy
           have hpayload := Sum.inr.inj hxy
           have hparameter : x.1.1.2 = y.1.1.2 := congrArg Subtype.val hpayload
           have hxsum : x.1.1.1 = 0 := by
@@ -736,7 +736,7 @@ theorem cagePulledRootPair_offDiagonal_card_comparison
   have hgood : Nat.card goodPulled = Nat.card goodPlane :=
     Nat.card_congr (goodOffDiagonalPulledEquivPlane p hpTwo xi eta d)
   have hbadPulled : Nat.card badPulled ≤ 4 * d := by
-    exact badOffDiagonalPulled_card_le p hpTwo xi eta hd hoffDiagonal
+    exact badOffDiagonalPulled_card_le p xi eta hd hoffDiagonal
   have hbadPlane : Nat.card badPlane ≤ 2 * d + 4 := by
     exact badOffDiagonalPlane_card_le p xi eta hd hoffDiagonal
   have herror :

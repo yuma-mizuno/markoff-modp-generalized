@@ -139,7 +139,7 @@ private theorem pow_ten_le_base_sixtySeven (a : ℕ) :
   · simpa using pow_ten_le_band_of_threshold 67 4 1
       (by norm_num) (by norm_num) a ha
   · have ha' : a ≤ 0 := by omega
-    interval_cases a <;> norm_num
+    interval_cases a ; norm_num
 
 private theorem pow_ten_le_base_oneHundredThirtyOne (a : ℕ) :
     (a + 1) ^ 10 ≤ 2 ^ 3 * 131 ^ a := by
@@ -147,7 +147,7 @@ private theorem pow_ten_le_base_oneHundredThirtyOne (a : ℕ) :
   · simpa using pow_ten_le_band_of_threshold 131 3 1
       (by norm_num) (by norm_num) a ha
   · have ha' : a ≤ 0 := by omega
-    interval_cases a <;> norm_num
+    interval_cases a ; norm_num
 
 private theorem pow_ten_le_base_twoHundredFiftySeven (a : ℕ) :
     (a + 1) ^ 10 ≤ 2 ^ 2 * 257 ^ a := by
@@ -155,7 +155,7 @@ private theorem pow_ten_le_base_twoHundredFiftySeven (a : ℕ) :
   · simpa using pow_ten_le_band_of_threshold 257 2 1
       (by norm_num) (by norm_num) a ha
   · have ha' : a ≤ 0 := by omega
-    interval_cases a <;> norm_num
+    interval_cases a ; norm_num
 
 private theorem pow_ten_le_base_fiveHundredTwentyOne (a : ℕ) :
     (a + 1) ^ 10 ≤ 2 * 521 ^ a := by
@@ -163,7 +163,7 @@ private theorem pow_ten_le_base_fiveHundredTwentyOne (a : ℕ) :
   · simpa using pow_ten_le_band_of_threshold 521 1 1
       (by norm_num) (by norm_num) a ha
   · have ha' : a ≤ 0 := by omega
-    interval_cases a <;> norm_num
+    interval_cases a ; norm_num
 
 private theorem pow_ten_le_base_oneThousandTwentyFour (a : ℕ) :
     (a + 1) ^ 10 ≤ 1024 ^ a := by

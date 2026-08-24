@@ -28,6 +28,7 @@ variable (L : Type*) [Field L] [Algebra (RatFunc K) L]
   [FiniteDimensional (RatFunc K) L]
   [Algebra.IsSeparable (RatFunc K) L]
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- An effective divisor supported above infinity is dominated by a natural
 multiple of any effective divisor that is positive at every infinity
 place. -/

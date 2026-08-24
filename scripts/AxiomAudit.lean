@@ -9,9 +9,9 @@ comparison. Its proof may use exactly the three axioms permitted by
 -/
 
 /--
-info: 'GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff' depends on axioms: [propext,
+info: 'Challenge.generalizedMarkoff_reduction_surjective_of_large_prime' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
 -/
 #guard_msgs in
-#print axioms GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff
+#print axioms Challenge.generalizedMarkoff_reduction_surjective_of_large_prime

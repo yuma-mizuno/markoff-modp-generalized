@@ -109,7 +109,6 @@ when the family cardinality is fixed. -/
 theorem abs_base_sub_center_le_of_average_and_pointwise
     {ι : Type*} [Fintype ι] [DecidableEq ι] [Nonempty ι]
     (x : ι → ℝ) (base center A B : ℝ)
-    (hA : 0 ≤ A) (hB : 0 ≤ B)
     (haverage : |∑ i, x i - (Fintype.card ι : ℝ) * base| ≤ A)
     (hpointwise : ∀ i, |x i - center| ≤ B) :
     |base - center| ≤ A + (Fintype.card ι : ℝ) * B := by

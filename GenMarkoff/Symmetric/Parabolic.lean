@@ -80,7 +80,6 @@ theorem iterate_rotation1_of_trace_eq_neg_two
       rw [rotation1_of_trace_eq_neg_two c _ (by simpa using htrace)]
       apply Point.ext <;>
         simp [negTwoIncrement] <;>
-        push_cast <;>
         ring
 
 /-- Explicit iterates on the trace `2` fiber. -/
@@ -99,7 +98,6 @@ theorem iterate_rotation1_of_trace_eq_two
       rw [rotation1_of_trace_eq_two c _ (by simpa using htrace)]
       apply Point.ext <;>
         simp [movingDifference] <;>
-        push_cast <;>
         ring
 
 end Ring

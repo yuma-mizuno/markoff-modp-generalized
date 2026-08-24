@@ -56,6 +56,7 @@ local instance finiteExtensionRiemannSpaceConstantTower :
 `L / K(X)`. -/
 abbrev FiniteExtensionDivisor := FiniteExtensionPlace K L →₀ ℤ
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Divisor degree is additive. -/
 theorem finiteExtensionDivisorDegree_add
     (D E : FiniteExtensionDivisor K L) :
@@ -68,6 +69,7 @@ theorem finiteExtensionDivisorDegree_add
       (h := fun v e ↦ e * (finiteExtensionPlaceDegree K L v : ℤ))
       (by simp) (by intros; ring))
 
+omit [Fintype K] in
 /-- The product formula says that every nonzero principal divisor has degree
 zero. -/
 theorem finiteExtensionDivisorDegree_principal
@@ -76,6 +78,7 @@ theorem finiteExtensionDivisorDegree_principal
       (finiteExtensionPrincipalDivisor K L x) = 0 := by
   exact finiteExtensionPrincipalDivisorDegreeSum_eq_zero K L x hx
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- An effective divisor has nonnegative degree. -/
 theorem finiteExtensionDivisorDegree_nonnegative_of_effective
     (D : FiniteExtensionDivisor K L) (hD : ∀ v, 0 ≤ D v) :
@@ -84,6 +87,7 @@ theorem finiteExtensionDivisorDegree_nonnegative_of_effective
   intro v
   exact mul_nonneg (hD v) (by positivity)
 
+omit [DecidableEq K] in
 /-- Nonzero elements of the finite constant field have trivial exhaustive
 principal divisor. -/
 theorem finiteExtensionPrincipalDivisor_algebraMap_constant
@@ -191,7 +195,7 @@ theorem algebraMap_mem_finiteExtensionRiemannSpace_of_effective
     algebraMap K L c ∈ finiteExtensionRiemannSpace K L D := by
   by_cases hc : c = 0
   · subst c
-    simpa using (finiteExtensionRiemannSpace K L D).zero_mem
+    simp
   · rw [mem_finiteExtensionRiemannSpace]
     refine Or.inr ⟨?_, ?_⟩
     · simpa only [map_zero] using (algebraMap K L).injective.ne hc

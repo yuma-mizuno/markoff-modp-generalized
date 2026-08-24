@@ -34,7 +34,7 @@ theorem seededNonsplitTraceWeilBoundAssumption_of_bivariateAffineHasseWeilBound
     hDescendedIrreducible
   have hCardNat :=
     existingConicSeedNonsplitTraceCurveSolutions_card_eq_affine_add_identityBoundary
-      p t ht ht0 s d e hd he
+      p t ht ht0 s d e he
   have hBoundaryNat := seededNonsplitIdentityBoundarySolutions_card_le p
     (quadraticFiberProductUnit p t ht ht0) s d e he
   let affineCard :=
@@ -73,7 +73,7 @@ theorem seededNonsplitTraceWeilBoundAssumption_of_bivariateAffineHasseWeilBound
     dsimp only [affineCard]
     rw [ZMod.card] at hAffine
     norm_num only [Nat.cast_mul, Nat.cast_ofNat] at hAffine
-    convert hAffine using 1 <;> dsimp [x] <;> ring
+    convert hAffine using 1 ; dsimp [x] ; ring
   rw [hCardReal]
   calc
     |((affineCard : ℝ) + boundaryCard) - (p : ℝ)| =

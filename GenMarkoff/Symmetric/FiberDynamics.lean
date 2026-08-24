@@ -76,7 +76,7 @@ theorem movingCoordinates3_rotation3 (c : R) (x : Point R) :
 theorem linearStep_sq (t : R) (v : R × R) :
     linearStep t (linearStep t v) =
       (t * v.2 - v.1, (t ^ 2 - 1) * v.2 - t * v.1) := by
-  ext <;> simp [linearStep] <;> ring
+  ext <;> simp [linearStep] ; ring
 
 /-- The matrix of the affine half-step's linear part. -/
 def fiberMatrix (t : R) : Matrix (Fin 2) (Fin 2) R :=
@@ -134,8 +134,8 @@ theorem centerCoordinates_affineStep
     centerCoordinates (fiberCenter c u t) (affineStep c u t v) =
       linearStep t (centerCoordinates (fiberCenter c u t) v) := by
   ext <;>
-    simp [centerCoordinates, fiberCenter, affineStep, linearStep] <;>
-    field_simp [sub_ne_zero.mpr ht] <;>
+    simp [centerCoordinates, fiberCenter, affineStep, linearStep] ;
+    field_simp [sub_ne_zero.mpr ht] ;
     ring
 
 /-- The same conjugacy for the square, which is the actual rotation. -/

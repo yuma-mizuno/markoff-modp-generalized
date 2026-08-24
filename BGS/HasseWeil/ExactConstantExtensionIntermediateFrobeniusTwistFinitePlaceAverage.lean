@@ -364,9 +364,11 @@ omit [FiniteDimensional (RatFunc C) L]
   [FiniteDimensional (RatFunc C) N]
   [Algebra.IsSeparable (RatFunc C) N]
   [FiniteDimensional L N] [IsGalois L N] in
+omit [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional C S] in
 /-- A power of the generic intermediate-base twist acts on the enlarged
 constants by the same power of finite-field Frobenius. -/
 private theorem intermediateFrobeniusTwist_zpow_includeLeft
+    [FiniteDimensional C S]
     (g : N ≃ₐ[L] N) (k : ℤ) (s : S) :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact
@@ -952,6 +954,7 @@ theorem exactConstantExtensionFinitePlace_frobeniusFiber_fixedPoint_sum_of_under
   exact exactConstantExtensionFinitePlace_frobeniusFiber_fixedPoint_sum
     C S N hExact L q hBaseQ hDegreeDiv
 
+omit [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional (RatFunc C) L] [Algebra.IsSeparable (RatFunc C) L] in
 /-- The Frobenius-fiber parametrization sends `g` to the ambient twist
 `(Frob, g)` over the intermediate field. -/
 @[simp]
@@ -1609,9 +1612,11 @@ theorem sum_intermediateFrobeniusTwistFieldRationalFinitePlaceCount_eq_card_galo
     _ = Nat.card (N ≃ₐ[L] N) *
           Nat.card (FiniteExtensionRationalFinitePlace C L) := Nat.mul_comm _ _
 
+omit [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [FiniteDimensional (RatFunc C) L] [Algebra.IsSeparable (RatFunc C) L] [FiniteDimensional L N] [IsGalois L N] in
 /-- Viewing an intermediate-base Frobenius twist over `C(X)` does not change
 its underlying automorphism of the exact constant extension. -/
 theorem exactConstantExtensionFrobeniusTwist_restrictScalars_apply
+    [FiniteDimensional C S]
     (g : N ≃ₐ[L] N) (x : ExactConstantExtension C N S) :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact

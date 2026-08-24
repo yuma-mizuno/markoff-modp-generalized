@@ -513,6 +513,7 @@ section InfinityGlobalOrderHelpers
 
 variable {K L}
 
+omit [DecidableEq K] in
 @[simp] theorem finiteExtensionPrincipalDivisor_inr_eq_infinityPlaceOrder
     (x : L) (P : FiniteExtensionInfinityPlace K L) :
     finiteExtensionPrincipalDivisor K L x (.inr P) =
@@ -525,6 +526,7 @@ variable {K L}
     (primeOverHeightOne (ratFuncInfinityPlace K) P)
     ((ratFuncInfinityIntegralClosureFractionRingEquiv K L).symm x)
 
+omit [DecidableEq K] in
 private theorem finiteExtensionInfinityPlace_gridOrder_sum_eq
     (P : FiniteExtensionInfinityPlace K L)
     (u v : L) (hu : u ≠ 0) (hv : v ≠ 0) (h k : ℕ) :
@@ -570,6 +572,7 @@ section InfinityCanonicalAuxiliaryCases
 variable {K L}
 variable {C : Type*} [Field C] [Algebra C L]
 
+omit [DecidableEq K] in
 /-- Infinity source case (iii), expressed with the actual canonical different
 coefficient and exhaustive principal divisors. -/
 theorem finiteExtensionInfinityPlace_canonicalAuxiliary_caseIII_of_scaling
@@ -646,6 +649,7 @@ theorem finiteExtensionInfinityPlace_canonicalAuxiliary_caseIII_of_scaling
     finiteExtensionPrincipalDivisor_inr_eq_infinityPlaceOrder] using
     hboundInt
 
+omit [DecidableEq K] in
 /-- Infinity source case (iv), in the same canonical global-divisor form. -/
 theorem finiteExtensionInfinityPlace_canonicalAuxiliary_caseIV_of_scaling
     (P : FiniteExtensionInfinityPlace K L)
@@ -821,6 +825,7 @@ theorem finiteExtensionInfinityPlace_auxiliaryFamily_caseII_of_scaled_preserves
   rw [hchange, finitePlaceOrderTop_mul, finitePlaceOrderTop_pow] at hbound
   exact hbound
 
+omit [DecidableEq K] in
 theorem finiteExtensionInfinityPlace_canonicalAuxiliary_caseII_of_scaling
     (P : FiniteExtensionInfinityPlace K L)
     (D : Derivation C L L) (c : L) (hc : c ≠ 0)
@@ -965,6 +970,7 @@ section InfinityCaseI
 variable {K L}
 variable {p : ℕ} [Fact p.Prime] [CharP L p]
 
+omit [DecidableEq K] in
 private theorem infinityPlaceOrder_gridMonomial_eq_zero
     (P : FiniteExtensionInfinityPlace K L)
     (u v : L) (hu : u ≠ 0) (hv : v ≠ 0)

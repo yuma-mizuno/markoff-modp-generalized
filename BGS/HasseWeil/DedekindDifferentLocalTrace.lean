@@ -29,7 +29,7 @@ theorem le_iff_count_ge {I J : FractionalIdeal R⁰ K} (hI : I ≠ 0) (hJ : J �
         simpa only [Filter.eventually_cofinite] using finite_factors (K := K) A
       exact hcount.subset fun v hv hzero ↦ by
         apply hv
-        simpa [hzero]
+        simp [hzero]
     apply finprod_le_finprod
     · exact hfinite I
     · exact fun _ ↦ zero_le _
@@ -71,6 +71,7 @@ variable [Algebra.IsIntegral A B]
 
 namespace HeightOneSpectrum
 
+omit [IsIntegrallyClosed A] [Module.IsTorsionFree A B] in
 theorem algebraMap_mem_pow_of_mem_under_pow
     (q : HeightOneSpectrum B) (c : A) (n : ℕ)
     (hc : c ∈ (q.under A).asIdeal ^ n) :
@@ -84,6 +85,7 @@ theorem algebraMap_mem_pow_of_mem_under_pow
     (Ideal.map_le_iff_le_comap.mpr (show
       (q.under A).asIdeal ≤ q.asIdeal.comap (algebraMap A B) from le_rfl)) n) hmap
 
+omit [IsIntegralClosure B A L] [IsIntegrallyClosed A] in
 theorem natCast_le_count_spanSingleton_algebraMap_of_mem_under_pow
     (q : HeightOneSpectrum B) (c : A) (n : ℕ) (hc0 : c ≠ 0)
     (hc : c ∈ (q.under A).asIdeal ^ n) :
@@ -113,6 +115,7 @@ end HeightOneSpectrum
 
 namespace BGS.HasseWeil
 
+omit [Algebra.IsIntegral A B] in
 theorem count_dual_one_eq_neg_different_multiplicity
     (q : HeightOneSpectrum B) :
     FractionalIdeal.count L q
@@ -131,6 +134,7 @@ theorem count_dual_one_eq_neg_different_multiplicity
   rw [hdual, FractionalIdeal.count_inv,
     FractionalIdeal.count_coeIdeal_eq_multiplicity (K := L) _ hdiff]
 
+omit [Algebra.IsIntegral A B] in
 theorem mem_dual_one_iff_different_multiplicity_le_count
     {x : L} (hx : x ≠ 0) :
     x ∈ FractionalIdeal.dual A K₀ (1 : FractionalIdeal B⁰ L) ↔
@@ -143,6 +147,7 @@ theorem mem_dual_one_iff_different_multiplicity_le_count
   exact forall_congr' fun q ↦ by
     rw [count_dual_one_eq_neg_different_multiplicity A K₀ q]
 
+omit [Algebra.IsIntegral A B] in
 theorem trace_mem_algebraMap_range_of_different_multiplicity_le_count
     {z : L} (hz : z ≠ 0)
     (hcount : ∀ q : HeightOneSpectrum B,
@@ -157,6 +162,7 @@ theorem trace_mem_algebraMap_range_of_different_multiplicity_le_count
     (by exact one_ne_zero)).mp hzdual (1 : L) (by simp)
   simpa [Algebra.traceForm_apply] using htrace
 
+omit [Algebra A L] [IsScalarTower A B L] [IsIntegralClosure B A L] [IsIntegrallyClosed A] [Algebra.IsIntegral A B] in
 theorem finite_badDifferentCount_set (hdiff : differentIdeal A B ≠ ⊥) (y : L) :
     Set.Finite {q : HeightOneSpectrum B |
       ¬ (-(multiplicity q.asIdeal (differentIdeal A B) : ℤ) ≤
@@ -192,8 +198,9 @@ theorem finite_badDifferentCount_set (hdiff : differentIdeal A B ≠ ⊥) (y : L
     (K := L) (differentIdeal A B) hdiff, hqdiff, hqy]
   simp
 
+omit [IsIntegralClosure B A L] [IsIntegrallyClosed A] in
 theorem exists_base_multiplier_clearing_different_counts
-    [IsDedekindDomain A]
+    (hA : IsDedekindDomain A)
     (hdiff : differentIdeal A B ≠ ⊥)
     (p : HeightOneSpectrum A) {y : L} (hy : y ≠ 0)
     (hlocal : ∀ q : HeightOneSpectrum B,
@@ -205,6 +212,7 @@ theorem exists_base_multiplier_clearing_different_counts
         -(multiplicity q.asIdeal (differentIdeal A B) : ℤ) ≤
           FractionalIdeal.count L q
             (FractionalIdeal.spanSingleton B⁰ (algebraMap A L c * y)) := by
+  letI : IsDedekindDomain A := hA
   classical
   let bad : Finset (HeightOneSpectrum B) :=
     (finite_badDifferentCount_set (A := A) (B := B) (L := L) hdiff y).toFinset
@@ -248,7 +256,7 @@ theorem exists_base_multiplier_clearing_different_counts
     intro hcP
     have hone : (1 : A) ∈ p.asIdeal := by
       have hsub := p.asIdeal.sub_mem hcP hcp
-      convert hsub using 1 <;> ring
+      convert hsub using 1 ; ring
     exact p.isPrime.ne_top ((Ideal.eq_top_iff_one p.asIdeal).mpr hone)
   have hc0 : c ≠ 0 := fun hcZero => hcnot (hcZero.symm ▸ p.asIdeal.zero_mem)
   refine ⟨c, hcnot, ?_⟩
@@ -311,13 +319,14 @@ theorem exists_base_multiplier_clearing_different_counts
     omega
 
 theorem valuation_trace_le_one_of_different_count_bounds_over
-    [IsDedekindDomain A]
+    (hA : IsDedekindDomain A)
     (p : HeightOneSpectrum A) {y : L} (hy : y ≠ 0)
     (hlocal : ∀ q : HeightOneSpectrum B,
       q.under A = p →
         -(multiplicity q.asIdeal (differentIdeal A B) : ℤ) ≤
           FractionalIdeal.count L q (FractionalIdeal.spanSingleton B⁰ y)) :
     p.valuation K₀ (Algebra.trace K₀ L y) ≤ 1 := by
+  letI : IsDedekindDomain A := hA
   have hdiff : differentIdeal A B ≠ ⊥ := by
     apply (FractionalIdeal.coeIdeal_ne_zero (K := L)).mp
     rw [coeIdeal_differentIdeal A K₀ L B]
@@ -325,7 +334,7 @@ theorem valuation_trace_le_one_of_different_count_bounds_over
       (by exact one_ne_zero : (1 : FractionalIdeal B⁰ L) ≠ 0))
   obtain ⟨c, hcnot, hcount⟩ :=
     exists_base_multiplier_clearing_different_counts
-      (A := A) (B := B) (L := L) hdiff p hy hlocal
+      (A := A) (B := B) (L := L) hA hdiff p hy hlocal
   have hc0 : c ≠ 0 := fun hcZero => hcnot (hcZero.symm ▸ p.asIdeal.zero_mem)
   have hcL0 : algebraMap A L c ≠ 0 := by
     rw [IsScalarTower.algebraMap_apply A B L]

@@ -39,6 +39,7 @@ def finiteExtensionPoleDivisor (x : L) : FiniteExtensionDivisor K L :=
     let D := finiteExtensionPrincipalDivisor K L x
     exact -(D.filter (fun v => D v < 0))
 
+omit [Fintype K] [DecidableEq K] in
 @[simp]
 theorem finiteExtensionPoleDivisor_apply (x : L)
     (v : FiniteExtensionPlace K L) :
@@ -49,6 +50,7 @@ theorem finiteExtensionPoleDivisor_apply (x : L)
     Finsupp.filter_apply]
   split <;> simp_all
 
+omit [Fintype K] [DecidableEq K] in
 /-- A pole divisor is effective. -/
 theorem finiteExtensionPoleDivisor_effective (x : L) :
     ∀ v, 0 ≤ finiteExtensionPoleDivisor K L x v := by
@@ -56,6 +58,7 @@ theorem finiteExtensionPoleDivisor_effective (x : L) :
   rw [finiteExtensionPoleDivisor_apply]
   split <;> omega
 
+omit [Fintype K] [DecidableEq K] in
 /-- Adding the pole divisor to the principal divisor is effective. -/
 theorem finiteExtensionPrincipal_add_poleDivisor_effective (x : L) :
     ∀ v, 0 ≤ finiteExtensionPrincipalDivisor K L x v +
@@ -73,6 +76,7 @@ theorem mem_finiteExtensionRiemannSpace_poleDivisor
   exact Or.inr ⟨hx,
     finiteExtensionPrincipal_add_poleDivisor_effective K L x⟩
 
+omit [Fintype K] in
 /-- The degree of the pole divisor is the previously defined pole height. -/
 theorem finiteExtensionDivisorDegree_poleDivisor
     (x : L) :
@@ -102,6 +106,7 @@ theorem finiteExtensionDivisorDegree_poleDivisor
             ring
     _ = (finiteExtensionHeight K L x : ℤ) := by omega
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Divisor degree commutes with natural scaling. -/
 theorem finiteExtensionDivisorDegree_nsmul
     (n : ℕ) (D : FiniteExtensionDivisor K L) :
@@ -127,6 +132,7 @@ theorem pow_mul_pow_mem_poleDivisor_budget
     (finiteExtensionRiemannSpace_pow_mem K L
       (mem_finiteExtensionRiemannSpace_poleDivisor K L y hy) j)
 
+omit [Fintype K] in
 /-- The degree of the monomial pole budget is the corresponding linear
 combination of the two coordinate heights. -/
 theorem finiteExtensionDivisorDegree_pow_mul_pow_budget

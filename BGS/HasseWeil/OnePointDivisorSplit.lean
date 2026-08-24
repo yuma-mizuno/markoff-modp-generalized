@@ -28,12 +28,14 @@ def finiteExtensionDivisorAway
     FiniteExtensionDivisor K L :=
   D - Finsupp.single P (D P)
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem finiteExtensionDivisorAway_apply_self
     (D : FiniteExtensionDivisor K L) (P : FiniteExtensionPlace K L) :
     finiteExtensionDivisorAway K L D P P = 0 := by
   simp [finiteExtensionDivisorAway]
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 @[simp]
 theorem finiteExtensionDivisorAway_apply_of_ne
     (D : FiniteExtensionDivisor K L) (P v : FiniteExtensionPlace K L)
@@ -41,6 +43,7 @@ theorem finiteExtensionDivisorAway_apply_of_ne
     finiteExtensionDivisorAway K L D P v = D v := by
   simp [finiteExtensionDivisorAway, hv]
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Splitting off the `P` coefficient recovers the original divisor. -/
 theorem single_add_finiteExtensionDivisorAway
     (D : FiniteExtensionDivisor K L) (P : FiniteExtensionPlace K L) :
@@ -49,8 +52,9 @@ theorem single_add_finiteExtensionDivisorAway
   by_cases hv : v = P
   · subst v
     simp
-  · simp [finiteExtensionDivisorAway, hv]
+  · simp [finiteExtensionDivisorAway]
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Removing one coefficient preserves effectiveness. -/
 theorem finiteExtensionDivisorAway_effective
     (D : FiniteExtensionDivisor K L) (P : FiniteExtensionPlace K L)
@@ -62,6 +66,7 @@ theorem finiteExtensionDivisorAway_effective
     simp
   · simpa [finiteExtensionDivisorAway, hv] using hD v
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- The degree of a divisor supported at one place. -/
 @[simp]
 theorem finiteExtensionDivisorDegree_single
@@ -71,6 +76,7 @@ theorem finiteExtensionDivisorDegree_single
   classical
   simp [finiteExtensionDivisorDegree]
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Divisor degree changes sign under negation. -/
 theorem finiteExtensionDivisorDegree_neg
     (D : FiniteExtensionDivisor K L) :
@@ -83,6 +89,7 @@ theorem finiteExtensionDivisorDegree_neg
   rw [hzero] at h
   omega
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Divisor degree respects subtraction. -/
 theorem finiteExtensionDivisorDegree_sub
     (D E : FiniteExtensionDivisor K L) :
@@ -93,6 +100,7 @@ theorem finiteExtensionDivisorDegree_sub
     finiteExtensionDivisorDegree_neg]
   rfl
 
+omit [Fintype K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- Degree bookkeeping for the divisor away from the selected place. -/
 theorem finiteExtensionDivisorDegree_away
     (D : FiniteExtensionDivisor K L) (P : FiniteExtensionPlace K L) :
@@ -102,6 +110,7 @@ theorem finiteExtensionDivisorDegree_away
   rw [finiteExtensionDivisorAway, finiteExtensionDivisorDegree_sub,
     finiteExtensionDivisorDegree_single]
 
+omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 /-- For an effective divisor, its one-place part is coefficientwise below it. -/
 theorem single_coeff_le_of_effective
     (D : FiniteExtensionDivisor K L) (P : FiniteExtensionPlace K L)

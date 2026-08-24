@@ -109,7 +109,7 @@ theorem shiftedSeededNonsplitTraceWeilBoundAssumption_of_bivariateAffineHasseWei
     hDescendedIrreducible
   have hCardNat :=
     shiftedSeededNonsplitTraceCurveSolutions_card_eq_affine_add_boundary
-      p k s gamma d e hd he
+      p k s gamma d e he
   have hBoundaryNat :=
     shiftedSeededNonsplitIdentityBoundarySolutions_card_le
       p k s gamma d e he
@@ -152,7 +152,7 @@ theorem shiftedSeededNonsplitTraceWeilBoundAssumption_of_bivariateAffineHasseWei
     dsimp only [affineCard]
     rw [ZMod.card] at hAffine
     norm_num only [Nat.cast_mul, Nat.cast_ofNat] at hAffine
-    convert hAffine using 1 <;> dsimp [x] <;> ring
+    convert hAffine using 1 ; dsimp [x] ; ring
   rw [hCardReal]
   calc
     |((affineCard : ℝ) + boundaryCard) - (p : ℝ)| =

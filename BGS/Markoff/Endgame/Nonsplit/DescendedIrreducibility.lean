@@ -206,8 +206,7 @@ theorem finTwoSecondToIteratedPolynomial_map_seededNonsplitDescendedPolynomial
           C (-(extendedCayleyNormFactor p ^ d)) := by
   rw [seededNonsplitDescendedPolynomial]
   simp only [map_sub, map_mul, map_pow, map_add, map_one,
-    finTwoSecondToIteratedPolynomial_map_univariateInFirstCoordinate,
-    map_X, finTwoSecondToIteratedPolynomial_X_one]
+    finTwoSecondToIteratedPolynomial_map_univariateInFirstCoordinate]
   rw [seededCayleyTraceNumeratorPolynomial_map, quadraticCayleyNormPolynomial_map]
   simp [← C_mul_X_pow_eq_monomial, extendedSeededCayleyNumerator, extendedCayleyNormFactor,
     extendedCayleyNumeratorFactor, extendedCayleyDenominatorFactor,
@@ -215,11 +214,10 @@ theorem finTwoSecondToIteratedPolynomial_map_seededNonsplitDescendedPolynomial
   ring
 
 theorem cayleyTransport_splitIteratedPolynomial
-    {K : Type*} [Field K] (alpha beta r t : K) (e d : ℕ) (hrt : r ≠ t)
+    {K : Type*} [Field K] (alpha beta r t : K) (e d : ℕ)
     (hdet : (1 : K) * (-t) - (-r) * 1 ≠ 0) :
     let phi := BGS.Algebra.ratFuncLinearFractionalEquiv
       (1 : K) (-r) 1 (-t) hdet
-    let A : RatFunc K := RatFunc.X - RatFunc.C r
     let B : RatFunc K := RatFunc.X - RatFunc.C t
     let Q : Polynomial K := (X - C r) * (X - C t)
     let N : Polynomial K := C alpha * (X - C r) ^ (2 * d) +
@@ -251,11 +249,10 @@ theorem cayleyTransport_splitIteratedPolynomial
   dsimp only
   rw [finTwoToIteratedPolynomial_splitTraceCoverPolynomial_general]
   simp only [← C_mul_X_pow_eq_monomial, Polynomial.map_add, Polynomial.map_mul,
-    Polynomial.map_neg, Polynomial.map_pow, Polynomial.map_C, Polynomial.map_X]
+    Polynomial.map_pow, Polynomial.map_C, Polynomial.map_X]
   rw [hphi]
   simp [BGS.Algebra.ratFuncLinearFractionalValue, aeval_def,
-    eval₂_add, eval₂_sub, eval₂_mul, eval₂_pow, eval₂_C, eval₂_X,
-    ← C_mul_X_pow_eq_monomial]
+    eval₂_pow, eval₂_X]
   rw [hconst, hconst]
   let A : RatFunc K := RatFunc.X - RatFunc.C r
   let B : RatFunc K := RatFunc.X - RatFunc.C t
@@ -367,7 +364,7 @@ theorem map_seededNonsplitDescendedPolynomial_irreducible_of_map_splitCover
     rw [Polynomial.isUnit_C]
     exact isUnit_iff_ne_zero.mpr (pow_ne_zero _ hB)
   have hRFraction : Irreducible (R.map (algebraMap L[X] (RatFunc L))) := by
-    rw [← cayleyTransport_splitIteratedPolynomial alpha beta r t e d hrt hdet]
+    rw [← cayleyTransport_splitIteratedPolynomial alpha beta r t e d hdet]
     exact (irreducible_isUnit_mul hscale).2 hqTransported
   have hcoprime : IsCoprime Q N := by
     have h := (extendedCayleyNormFactor_isCoprime_extendedSeededCayleyNumerator

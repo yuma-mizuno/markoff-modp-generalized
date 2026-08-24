@@ -243,7 +243,7 @@ private theorem bgs_swap12_conjugates_vieta3 :
     BGS.Markoff.swap12
         (BGS.Markoff.vieta3 (BGS.Markoff.swap12 x.1)) =
       BGS.Markoff.vieta3 x.1
-  ext <;> simp [BGS.Markoff.swap12, BGS.Markoff.vieta3] <;> ring
+  ext <;> simp [BGS.Markoff.swap12, BGS.Markoff.vieta3] ; ring
 
 private theorem bgs_swap23_conjugates_vieta1 :
     BGS.Markoff.swap23SurfacePerm R *
@@ -257,7 +257,7 @@ private theorem bgs_swap23_conjugates_vieta1 :
     BGS.Markoff.swap23
         (BGS.Markoff.vieta1 (BGS.Markoff.swap23 x.1)) =
       BGS.Markoff.vieta1 x.1
-  ext <;> simp [BGS.Markoff.swap23, BGS.Markoff.vieta1] <;> ring
+  ext <;> simp [BGS.Markoff.swap23, BGS.Markoff.vieta1] ; ring
 
 private theorem bgs_swap23_conjugates_vieta2 :
     BGS.Markoff.swap23SurfacePerm R *
@@ -546,8 +546,7 @@ theorem classicalSurfaceEquiv_vieta1
     BGS.Markoff.vieta1 (classicalPointEquiv R x.1)
   ext <;>
     simp [classicalPointEquiv, vieta1, classicalZeroCoefficients,
-      Coefficients.multiplier, BGS.Markoff.vieta1] <;>
-    ring
+      Coefficients.multiplier, BGS.Markoff.vieta1]
 
 /-- The second generalized Vieta move corresponds exactly to the second BGS
 Vieta move. -/
@@ -563,7 +562,7 @@ theorem classicalSurfaceEquiv_vieta2
     BGS.Markoff.vieta2 (classicalPointEquiv R x.1)
   ext <;>
     simp [classicalPointEquiv, vieta2, classicalZeroCoefficients,
-      Coefficients.multiplier, BGS.Markoff.vieta2] <;>
+      Coefficients.multiplier, BGS.Markoff.vieta2] ;
     ring
 
 /-- The third generalized Vieta move corresponds exactly to the third BGS
@@ -580,8 +579,7 @@ theorem classicalSurfaceEquiv_vieta3
     BGS.Markoff.vieta3 (classicalPointEquiv R x.1)
   ext <;>
     simp [classicalPointEquiv, vieta3, classicalZeroCoefficients,
-      Coefficients.multiplier, BGS.Markoff.vieta3] <;>
-    ring
+      Coefficients.multiplier, BGS.Markoff.vieta3]
 
 /-- Every BGS Vieta-only word has a generalized Vieta word with the same
 action under the explicit surface equivalence. -/

@@ -269,6 +269,7 @@ variable (p : ℕ) [Fact p.Prime] [CharP K p]
 def planeFirstFrobeniusPointEquiv : K × K ≃ K × K :=
   (frobeniusEquiv K p).toEquiv.prodCongr (Equiv.refl K)
 
+omit [DecidableEq K] in
 @[simp] theorem planeFirstFrobeniusPointEquiv_apply (z : K × K) :
     planeFirstFrobeniusPointEquiv K p z = (z.1 ^ p, z.2) := by
   rcases z with ⟨x, y⟩

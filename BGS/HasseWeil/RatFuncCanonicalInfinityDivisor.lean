@@ -90,6 +90,7 @@ noncomputable def ratFuncCanonicalInfinityDivisor :
     FunctionField.Chart.DivisorA K (RatFunc K) :=
   Finsupp.single (ratFuncInfinityChartPlace K) (-2)
 
+omit [Fintype K] in
 /-- The explicit divisor `-2∞` has degree `-2`. -/
 theorem ratFuncCanonicalInfinityDivisor_degree :
     FunctionField.Chart.deg K (RatFunc K)
@@ -103,6 +104,7 @@ theorem ratFuncCanonicalInfinityDivisor_degree :
   rw [← hdegree]
   norm_num
 
+omit [Fintype K] in
 /-- The explicit divisor `-2∞` is canonical on `K(X)`. -/
 theorem ratFuncCanonicalInfinityDivisor_isCanonical :
     FunctionField.Chart.IsCanonical K (RatFunc K)

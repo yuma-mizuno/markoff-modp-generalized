@@ -29,10 +29,12 @@ variable (hregular : ∀ x : T, ∃ r : R, a * x.1 = algebraMap R L r)
 noncomputable def localNormalizedLift (x : T) : R :=
   Classical.choose (hregular x)
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] [Algebra K R] [IsScalarTower K R L] [IsFractionRing R L] in
 theorem localNormalizedLift_spec (x : T) :
     a * x.1 = algebraMap R L (localNormalizedLift T a hregular x) :=
   Classical.choose_spec (hregular x)
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] [Algebra K R] [IsScalarTower K R L] in
 theorem localNormalizedLift_add (x y : T) :
     localNormalizedLift T a hregular (x + y) =
       localNormalizedLift T a hregular x + localNormalizedLift T a hregular y := by
@@ -44,6 +46,7 @@ theorem localNormalizedLift_add (x y : T) :
   simp only [Submodule.coe_add]
   ring
 
+omit [IsDedekindDomain R] [IsDiscreteValuationRing R] in
 theorem localNormalizedLift_smul (c : K) (x : T) :
     localNormalizedLift T a hregular (c • x) =
       c • localNormalizedLift T a hregular x := by
@@ -77,7 +80,7 @@ theorem mem_heightOneSpectrum_of_one_le_finitePlaceOrder_algebraMap
     (horder : (1 : ℤ) ≤ finitePlaceOrder v (algebraMap R L r)) :
     r ∈ v.asIdeal := by
   by_cases hr : r = 0
-  · simpa [hr]
+  · simp [hr]
   · have hrMap : algebraMap R L r ≠ 0 :=
       by simpa using (IsFractionRing.injective R L).ne hr
     have hvaluation :=
@@ -263,7 +266,7 @@ theorem finiteExtensionRiemannSpace_finitePlace_increment
     constructor
     · intro hrMem
       by_cases hx0 : x.1 = 0
-      · simpa [hx0] using S.zero_mem
+      · simp [hx0]
       · have hrNe : localNormalizedLift (R := R) T a hregular x ≠ 0 := by
           intro hr0
           have hax0 : a * x.1 = 0 := by
@@ -326,7 +329,7 @@ theorem finiteExtensionRiemannSpace_finitePlace_increment
           rw [map_zero,
             ← localNormalizedLift_spec (R := R) T a hregular x]
           simp [hx0]
-        simpa [hlift0]
+        simp [hlift0]
       · have hxmem :=
           (mem_finiteExtensionRiemannSpace (K := K) (L := L)).mp hxS
         rcases hxmem with hxmem | ⟨_, hxorders⟩
@@ -350,7 +353,7 @@ theorem finiteExtensionRiemannSpace_finitePlace_increment
                 omega)
           rw [localNormalizedLift_spec (R := R) T a hregular x] at haxOrder
           by_cases hr0 : localNormalizedLift (R := R) T a hregular x = 0
-          · simpa [hr0]
+          · simp [hr0]
           · apply mem_heightOneSpectrum_of_one_le_finitePlaceOrder_algebraMap
               (R := R) (L := L)
               (IsDiscreteValuationRing.maximalIdeal R)

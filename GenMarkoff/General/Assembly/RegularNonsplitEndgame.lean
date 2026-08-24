@@ -100,9 +100,7 @@ private theorem
     alternatingRegularNonsplitState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
     (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)
     (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
     (state : AlternatingRegularState a)
-    (w : quadraticNormOneTorus p)
     (hstart :
       alternatingPrimitiveSplitEndgameResultFromNonsplitSource
         p a state.direction state.point.1)
@@ -302,7 +300,7 @@ theorem
         (max squareThreshold 3)).trans hp)
   exact
     alternatingRegularNonsplitState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p (by omega) a hA1 hA2 state w
+      p (by omega) a state
       (hstart p hpStart a hA1 hA2 state w heigen hlarge)
       (fun next v hnext hnextLarge =>
         hprimitive p hpPrimitive a hA1 hA2 next v hnext hnextLarge)
@@ -336,7 +334,7 @@ theorem alternatingRegularNonsplitState_reaches_canonicalFirstAxisPrimitiveSplit
     omega
   exact
     alternatingRegularNonsplitState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p hpTwo a hA1 hA2 state w
+      p hpTwo a state
       (alternatingRegularState_actualNonsplitSourcePrimitiveSplitEndgame_of_analyticCutoff
         coefficient hNonsplit hdelta hcoefficient p hp
           a hA1 hA2 state w heigen hlarge)
@@ -376,7 +374,7 @@ theorem alternatingRegularNonsplitState_reaches_canonicalFirstAxisPrimitiveSplit
     omega
   exact
     alternatingRegularNonsplitState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p hpTwo a hA1 hA2 state w
+      p hpTwo a state
       (alternatingRegularState_actualNonsplitSourcePrimitiveSplitEndgame_of_reasonableCutoff
         coefficient hNonsplit hdelta hcoefficient p hp
           a hA1 hA2 state w heigen hlarge)

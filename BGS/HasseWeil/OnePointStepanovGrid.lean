@@ -33,6 +33,7 @@ local instance onePointStepanovGridConstantTower :
     IsScalarTower K (RatFunc K) L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [DecidableEq K] in
 /-- Multiplication by a nonzero constant does not change the order at an
 exhaustive place. -/
 theorem finiteExtensionPrincipalDivisor_smul_apply
@@ -47,6 +48,7 @@ theorem finiteExtensionPrincipalDivisor_smul_apply
     finiteExtensionPrincipalDivisor_algebraMap_constant K L c hc]
   simp
 
+omit [Fintype K] [DecidableEq K] in
 /-- If one summand has strictly smaller order than the other, then the sum is
 nonzero and has the smaller order. -/
 theorem finiteExtensionPrincipalDivisor_add_eq_left_of_lt
@@ -83,6 +85,7 @@ theorem finiteExtensionPrincipalDivisor_add_eq_left_of_lt
   rw [min_eq_left hsumLeY] at hreverse
   exact ⟨hxy, le_antisymm hreverse hlower⟩
 
+omit [Fintype K] [DecidableEq K] in
 /-- If every summand has order strictly above `a`, then their finite sum is
 either zero or also has order strictly above `a`. -/
 theorem finiteExtensionPrincipalDivisor_sum_eq_zero_or_gt
@@ -114,6 +117,7 @@ theorem finiteExtensionPrincipalDivisor_sum_eq_zero_or_gt
             K L (f i) (∑ j ∈ S, f j) hi0 hrest0 hsum P
           exact (lt_min hiOrder hrestOrder).trans_le hlower
 
+omit [Fintype K] [DecidableEq K] in
 /-- A unique least-order term controls a finite sum. -/
 theorem finiteExtensionPrincipalDivisor_sum_eq_of_unique_min
     {ι : Type*} (P : FiniteExtensionPlace K L)
@@ -230,6 +234,8 @@ theorem onePointStepanovMixedOrder_injective
     exact Nat.eq_of_mul_eq_mul_left hs hmul
   exact Prod.ext rfl (he heEq)
 
+omit [Fintype K] in
+omit [DecidableEq K] in
 /-- Exact order of a product in the one-point Stepanov grid. -/
 theorem onePointStepanovGrid_order
     {ι κ : Type*} (P : FiniteExtensionPlace K L)

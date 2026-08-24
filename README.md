@@ -24,12 +24,15 @@ The compared theorem assumes
 a₁² ≠ 4,  a₂² ≠ 4,  a₃² ≠ 4.
 ```
 
-For every prime `p` above the explicit maximum displayed in
-[Challenge.lean](Challenge.lean), it proves that coordinatewise reduction is
-surjective from the integral solutions to all solutions over `ZMod p`.
-The cutoff contains one coefficient-independent analytic constant and the
-bad-reduction and coefficient-survival bounds for all three simultaneous
-cyclic orientations of the ordered coefficient triple.
+The statement in [Challenge.lean](Challenge.lean) asserts the existence of a
+cutoff `p₀` such that, for every prime `p ≥ p₀`, coordinatewise reduction is
+surjective from the integral solutions to all solutions over `ZMod p`. It uses
+only explicit triples and the coordinatewise reduction map, with no functorial
+language. [Solution.lean](Solution.lean) defines `explicitCutoff` and supplies
+it as the witness for `p₀`. That definition is the single update point for
+future quantitative improvements; it combines one coefficient-independent
+analytic constant with the bad-reduction and coefficient-survival bounds for
+all three simultaneous cyclic orientations of the ordered coefficient triple.
 
 The retained production dependency proves the full-Vieta transitivity needed
 for the advertised reduction-surjectivity theorem and also derives rotation
@@ -52,8 +55,10 @@ theorem itself targets the full finite-field surface, including the origin.
 
 ## Repository map
 
-- [Challenge.lean](Challenge.lean) is the Mathlib-only statement surface.
-- [Solution.lean](Solution.lean) imports the proved production endpoint.
+- [Challenge.lean](Challenge.lean) is the elementary Mathlib-only statement
+  surface and hides the numerical cutoff behind an existential quantifier.
+- [Solution.lean](Solution.lean) defines the explicit cutoff, supplies it as
+  the existential witness, and imports the proved production endpoint.
 - [comparator.json](comparator.json) selects the theorem and permitted axioms.
 - [GenMarkoff/](GenMarkoff/) contains the production proof development.
 - [GenMarkoff.lean](GenMarkoff.lean) is the production library root.

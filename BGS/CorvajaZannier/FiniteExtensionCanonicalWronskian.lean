@@ -79,6 +79,7 @@ local instance canonicalWronskianFiniteIntegralClosureIsTorsionFree :
 
 /-! ## The finite different and the discriminant degree -/
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 private theorem finiteExtensionFinitePrincipalDivisor_algebraMap_apply
     (d : RatFuncFiniteIntegralClosure K L) (hd : d ≠ 0)
     (q : FiniteExtensionFinitePlace K L) :
@@ -95,6 +96,7 @@ private theorem finiteExtensionFinitePrincipalDivisor_algebraMap_apply
   rw [finiteExtensionFinitePrincipalDivisor_apply, hrepr,
     finitePlaceOrder_algebraMap_eq_multiplicity q d hd]
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 private theorem finiteExtensionFinitePrincipalDivisor_algebraMap_eq_mapRange
     (d : RatFuncFiniteIntegralClosure K L) (hd : d ≠ 0) :
     finiteExtensionFinitePrincipalDivisor K L
@@ -106,6 +108,7 @@ private theorem finiteExtensionFinitePrincipalDivisor_algebraMap_eq_mapRange
   rw [finiteExtensionFinitePrincipalDivisor_algebraMap_apply K L d hd,
     Finsupp.mapRange_apply, idealMultiplicityDivisor_apply]
 
+omit [DecidableEq (RatFunc K)] in
 /-- The weighted degree of the principal ideal of an integral element is the
 finite-place degree sum of that element in the exhaustive `K(X)` model. -/
 theorem idealMultiplicityWeightedDegree_eq_finiteExtensionFiniteDirectDegreeSum
@@ -120,6 +123,7 @@ theorem idealMultiplicityWeightedDegree_eq_finiteExtensionFiniteDirectDegreeSum
     finiteExtensionFinitePrincipalDivisor_algebraMap_eq_mapRange K L d hd,
     Finsupp.sum_mapRange_index (fun q => by simp)]
 
+omit [DecidableEq (RatFunc K)] in
 /-- The finite different degree is bounded by the finite degree of the
 minimal-polynomial derivative of an integral primitive element. -/
 theorem finiteDifferentDegree_le_minpolyDerivativeDegree
@@ -196,6 +200,7 @@ theorem finiteDifferentDegree_le_minpolyDerivativeDegree
     K L d hd] at hcast'
   simpa only [d] using hcast'
 
+omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 private theorem ratFunc_intDegree_neg_one_pow (m : ℕ) :
     ((-1 : RatFunc K) ^ m).intDegree = 0 := by
   induction m with
@@ -204,6 +209,7 @@ private theorem ratFunc_intDegree_neg_one_pow (m : ℕ) :
       rw [pow_succ, RatFunc.intDegree_mul (pow_ne_zero m (by simp)) (by simp), ih]
       simp
 
+omit [DecidableEq (RatFunc K)] in
 /-- The finite degree of the integral minimal-polynomial derivative is exactly
 the rational-function degree of the associated power-basis discriminant. -/
 theorem finiteExtensionMinpolyDerivativeDegree_eq_powerBasisDiscriminantDegree
@@ -246,6 +252,7 @@ theorem finiteExtensionMinpolyDerivativeDegree_eq_powerBasisDiscriminantDegree
     ratFunc_intDegree_neg_one_pow K] at hdegree
   omega
 
+omit [DecidableEq (RatFunc K)] in
 /-- The finite different degree is bounded by the power-basis discriminant
 degree of any integral primitive element. -/
 theorem finiteDifferentDegree_le_powerBasisDiscriminantDegree
@@ -343,6 +350,7 @@ def finiteExtensionLocalWronskianDivisor {n : ℕ}
     finiteExtensionPrincipalDivisor K L
       (finiteExtensionGlobalWronskian L D g)
 
+omit [DecidableEq K] in
 @[simp] theorem finiteExtensionLocalWronskianDivisor_apply {n : ℕ}
     (D : Derivation C L L) (g : Fin n → L)
     (canonicalDivisor : FiniteExtensionPlace K L →₀ ℤ)

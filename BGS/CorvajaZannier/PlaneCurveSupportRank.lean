@@ -434,11 +434,11 @@ private theorem exists_directionalPolynomial_representation
   have index_cast : ∀ s ∈ F.support, (index s : ℤ) = parameter s - lo := by
     intro s hs
     rw [show (index s : ℤ) = max (parameter s - lo) 0 by
-      simpa [index] using Int.ofNat_toNat (parameter s - lo)]
+      simp [index]]
     simp [parameter_bounds s hs |>.1]
   have N_cast : (N : ℤ) = hi - lo := by
     rw [show (N : ℤ) = max (hi - lo) 0 by
-      simpa [N] using Int.ofNat_toNat (hi - lo)]
+      simp [N]]
     have hlohi : lo ≤ hi := Finset.min'_le P hi hhi_mem
     simp [hlohi]
   have index_le : ∀ s ∈ F.support, index s ≤ N := by
@@ -483,8 +483,7 @@ private theorem exists_directionalPolynomial_representation
     rw [show q.coeff (index s) =
         ∑ t ∈ F.support,
           (Polynomial.monomial (index t) (MvPolynomial.coeff t F)).coeff (index s) by
-      simpa [q] using coeff_finset_sum (index s) F.support
-        (fun t => Polynomial.monomial (index t) (MvPolynomial.coeff t F))]
+      simp [q]]
     rw [Finset.sum_eq_single s]
     · rw [Polynomial.coeff_monomial, if_pos rfl]
     · intro t ht hts
@@ -510,8 +509,7 @@ private theorem exists_directionalPolynomial_representation
     rw [show q.coeff n =
         ∑ s ∈ F.support,
           (Polynomial.monomial (index s) (MvPolynomial.coeff s F)).coeff n by
-      simpa [q] using coeff_finset_sum n F.support
-        (fun s => Polynomial.monomial (index s) (MvPolynomial.coeff s F))]
+      simp [q]]
     simp only [Polynomial.coeff_monomial]
     apply Finset.sum_eq_zero
     intro s hs

@@ -43,6 +43,7 @@ local instance squareFieldResidueFiniteConstantTower :
     IsScalarTower S S[X] (RatFuncFiniteIntegralClosure S L) :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+omit [Field K] in
 /-- A degree-one finite place over a square constant field has the quadratic
 half-Frobenius identity in its residue field. -/
 theorem finiteExtensionFinitePlace_residue_squareFrobenius_of_degree_one

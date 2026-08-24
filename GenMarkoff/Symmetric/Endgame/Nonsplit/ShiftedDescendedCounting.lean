@@ -105,7 +105,7 @@ theorem shiftedSeededNonsplitDescendedSolutions_card_eq_nonidentity_card
 
 theorem eval_shiftedSeededNonsplitDescendedPolynomial_zero_second_ne_zero
     (s : (E p)ˣ) (gamma : F p) (d e : ℕ)
-    (hd : 0 < d) (he : 0 < e) (z : F p) :
+    (he : 0 < e) (z : F p) :
     MvPolynomial.eval ![z, (0 : F p)]
       (shiftedSeededNonsplitDescendedPolynomial p s gamma d e) ≠ 0 := by
   rw [eval_shiftedSeededNonsplitDescendedPolynomial]
@@ -118,7 +118,7 @@ theorem eval_shiftedSeededNonsplitDescendedPolynomial_zero_second_ne_zero
 
 private theorem affineShiftedDescendedZero_second_ne_zero
     (s : (E p)ˣ) (gamma : F p) (d e : ℕ)
-    (hd : 0 < d) (he : 0 < e) (z : F p × F p)
+    (he : 0 < e) (z : F p × F p)
     (hz : z ∈ BGS.External.affinePlaneCurveZeros (F p)
       (shiftedSeededNonsplitDescendedPolynomial p s gamma d e)) :
     z.2 ≠ 0 := by
@@ -127,11 +127,11 @@ private theorem affineShiftedDescendedZero_second_ne_zero
   rw [hzero] at hzEval
   exact
     eval_shiftedSeededNonsplitDescendedPolynomial_zero_second_ne_zero
-      p s gamma d e hd he z.1 hzEval
+      p s gamma d e he z.1 hzEval
 
 theorem affinePlaneCurveZeros_shiftedSeededNonsplitDescendedPolynomial_card_eq
     (s : (E p)ˣ) (gamma : F p) (d e : ℕ)
-    (hd : 0 < d) (he : 0 < e) :
+    (he : 0 < e) :
     (BGS.External.affinePlaneCurveZeros (F p)
       (shiftedSeededNonsplitDescendedPolynomial p s gamma d e)).card =
       (shiftedSeededNonsplitDescendedSolutions p s gamma d e).card := by
@@ -139,7 +139,7 @@ theorem affinePlaneCurveZeros_shiftedSeededNonsplitDescendedPolynomial_card_eq
   apply Finset.card_bij'
       (fun z hz => (z.1, Units.mk0 z.2
         (affineShiftedDescendedZero_second_ne_zero
-          p s gamma d e hd he z hz)))
+          p s gamma d e he z hz)))
       (fun z _ => (z.1, (z.2 : F p)))
   · intro z hz
     rw [mem_shiftedSeededNonsplitDescendedSolutions_iff]
@@ -314,12 +314,10 @@ theorem shiftedSeededNonsplitIdentityBoundaryPolynomial_ne_zero
   intro hzero
   have hcoeff :=
     congrArg (fun P : Polynomial (F p) => P.coeff 0) hzero
-  have he0 : e ≠ 0 := Nat.ne_of_gt he
-  have h0e : 0 ≠ e := he0.symm
-  have htwoe0 : 2 * e ≠ 0 := by omega
-  have h0twoe : 0 ≠ 2 * e := htwoe0.symm
+  have h0e : 0 ≠ e := (Nat.ne_of_gt he).symm
+  have h0twoe : 0 ≠ 2 * e := by omega
   simp [shiftedSeededNonsplitIdentityBoundaryPolynomial,
-    he0, h0e, htwoe0, h0twoe] at hcoeff
+    h0e, h0twoe] at hcoeff
 
 theorem shiftedSeededNonsplitIdentityBoundaryPolynomial_natDegree_le
     (s : E p) (gamma : F p) (e : ℕ) :
@@ -373,7 +371,7 @@ theorem shiftedSeededNonsplitIdentityBoundarySolutions_card_le
 descended count, with the omitted identity fiber displayed separately. -/
 theorem shiftedSeededNonsplitTraceCurveSolutions_card_eq_affine_add_boundary
     (k : (F p)ˣ) (s : ↥(quadraticNormFiber p k))
-    (gamma : F p) (d e : ℕ) (hd : 0 < d) (he : 0 < e) :
+    (gamma : F p) (d e : ℕ) (he : 0 < e) :
     (shiftedSeededNonsplitTraceCurveSolutions
       p k s gamma d e).card =
       (BGS.External.affinePlaneCurveZeros (F p)
@@ -385,7 +383,7 @@ theorem shiftedSeededNonsplitTraceCurveSolutions_card_eq_affine_add_boundary
     shiftedSeededNonsplitTraceCurveSolutions_card_eq_descended_add_boundary]
   rw [←
     affinePlaneCurveZeros_shiftedSeededNonsplitDescendedPolynomial_card_eq
-      p s.1 gamma d e hd he]
+      p s.1 gamma d e he]
 
 end
 
