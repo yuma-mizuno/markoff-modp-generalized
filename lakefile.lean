@@ -16,6 +16,7 @@ lean_lib RiemannRoch where
   globs := #[`RiemannRoch.+]
 
 lean_lib BGS where
+  globs := #[`BGS.+]
 
 @[default_target]
 lean_lib GenMarkoff where
