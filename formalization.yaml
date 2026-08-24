@@ -9,8 +9,6 @@ project:
     rotation strong approximation for every sufficiently large prime, with
     an explicit coefficient-dependent cutoff, and derives surjectivity of
     reduction from integral solutions onto the full finite-field surface.
-    It also formalizes generalized orbit divisibility and an independent
-    equal-coefficient one-step-group argument.
   authors:
     - "Yuma Mizuno"
   license: "Apache-2.0"
@@ -36,21 +34,6 @@ sources:
       The formalization proves a corrected fixed-integral eventual theorem:
       it punctures only the fixed origin, separates the Vieta and rotation
       groups, and uses an explicit coefficient-dependent cutoff.
-    author_endorsement: "participated"
-
-  - title: "Divisibility by p for Markoff-like Surfaces"
-    authors:
-      - "Matthew de Courcy-Ireland"
-      - "Matthew Litman"
-      - "Yuma Mizuno"
-    id: "arXiv:2509.02187v3"
-    type: "paper"
-    location: "https://arxiv.org/abs/2509.02187v3"
-    relationship: "formalizes"
-    note: >-
-      Supplies the generalized Vieta-orbit divisibility result. The Lean
-      development repairs the zero-coordinate and exceptional-fibre boundary
-      before using it in the strong-approximation argument.
     author_endorsement: "participated"
 
   - title: "Strong Approximation for the Relative Character Variety of the Four-Times Punctured Sphere"
@@ -81,10 +64,11 @@ related_formalizations:
   - id: "https://github.com/yuma-mizuno/markoff-modp/tree/ac8e9ec37a3d56dddb55870d379f53e5526dc0c7"
     relationship: "builds-on"
     note: >-
-      The production BGS and Riemann-Roch sources from this exact revision are
-      vendored in the submission, without its Blueprint or Comparator layers,
-      and supply the reusable classical Markoff, Hasse-Weil, Kummer, and
-      growth results.
+      The transitive BGS and Riemann-Roch proof dependencies from this exact
+      revision are vendored in the submission. Unrelated production modules
+      and the Blueprint and Comparator layers are omitted; retained modules
+      supply the reusable classical Markoff, Hasse-Weil, Kummer, and growth
+      results.
   - id: "https://github.com/yuma-mizuno/BGS/tree/43467694971e7f80d85244c1711c457ff1ac7999"
     relationship: "adapts"
     note: >-
@@ -100,11 +84,9 @@ status:
     large prime. It gives an explicit maximum of one uniform analytic
     constant and coefficient-dependent bad-reduction bounds, then proves
     surjectivity of coordinatewise reduction from all integral solutions onto
-    the full finite-field surface. The production library also includes
-    generalized Vieta-orbit divisibility and the separate equal-coefficient
-    one-step-group theorem. It does not prove the proposed all-generic-primes
-    statement, a coefficient-uniform cutoff, or a direct pre-transitivity
-    parity-cage construction.
+    the full finite-field surface. It does not prove the proposed
+    all-generic-primes statement, a coefficient-uniform cutoff, or a direct
+    pre-transitivity parity-cage construction.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms:
@@ -172,13 +154,6 @@ alignment:
         Proves surjectivity for every prime above a displayed explicit cutoff
         for each fixed nondegenerate integral coefficient triple; it does not
         assert all generic primes or a coefficient-uniform threshold.
-    - source: "Divisibility by p for Markoff-like Surfaces, generalized orbit divisibility"
-      lean: "GenMarkoff.generalizedMartinDivisibility"
-      module: "GenMarkoff.Divisibility.ExceptionalMartin"
-      status: "proved"
-      note: >-
-        Formalizes the punctured Vieta-orbit divisibility theorem with corrected
-        generic and exceptional zero-coordinate branches.
     - source: "Strong Approximation and Diophantine Properties of Markoff Triples, classical strategy"
       lean: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.vietaStrongApproximationAt_of_explicitCutoff"
       module: "GenMarkoff.General.Assembly.ExplicitStrongApproximation"

@@ -355,6 +355,7 @@ private theorem sum_preliminaryPrimePenalty_le (n : ℕ) :
   rw [← hsumEq]
   exact hle.trans htotal
 
+#guard_msgs (drop warning) in
 /-- The divisor function satisfies the uniform elementary estimate
 `τ(n)^10 ≤ 2^447 n`. -/
 theorem card_divisors_pow_ten_le_preliminary_constant_mul

@@ -67,6 +67,7 @@ def orientedArithmeticCutoff (b : Coefficients ℤ) : ℕ :=
             (b.a3 ^ 2 - 4).natAbs)) + 1))
     (b.a1.natAbs + 1)
 
+#guard_msgs (drop warning) in
 /-- For every fixed nondegenerate integral coefficient triple and every prime
 above the displayed explicit cutoff, coordinatewise reduction from integral
 solutions is surjective onto the full generalized Markoff surface modulo

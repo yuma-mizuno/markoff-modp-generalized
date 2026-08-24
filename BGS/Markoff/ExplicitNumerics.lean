@@ -188,6 +188,7 @@ theorem explicitCutoff_constant_lt
   rw [explicitStrongApproximationCutoff_eq] at hp
   omega
 
+#guard_msgs (drop warning) in
 /-- The elementary factorization estimate, specialized to the simultaneous
 ninth moment needed below. -/
 theorem explicit_divisor_sum_pow_nine_le

@@ -113,14 +113,13 @@ theorem explicitStrongApproximationCutoff_oneThreeThree_eq_reasonable :
   rw [GenMarkoff.General.Explicit.reasonableAnalyticCutoff_eq,
     GenMarkoff.General.Explicit.reasonableAnalyticOpenCutoff,
     GenMarkoff.General.Explicit.reasonableFrontierCoefficient]
-  have hpow : 1 ≤ 2 ^ 1828 :=
-    Nat.one_le_pow 1828 2 (by norm_num)
   have hcoefficient : 11 ≤ (32 * 193 ^ 6) ^ 5 := by
     norm_num
-  have hmul :=
-    Nat.mul_le_mul_left ((32 * 193 ^ 6) ^ 5) hpow
-  norm_num only [mul_one] at hmul
-  omega
+  calc
+    11 ≤ (32 * 193 ^ 6) ^ 5 := hcoefficient
+    _ ≤ (32 * 193 ^ 6) ^ 5 * 2 ^ 1828 :=
+      Nat.le_mul_of_pos_right _ (by positivity)
+    _ ≤ (32 * 193 ^ 6) ^ 5 * 2 ^ 1828 + 1 := Nat.le_add_right _ _
 
 theorem explicitStrongApproximationCutoff_oneThreeThree_lt_ten_pow_oneThousand :
     explicitStrongApproximationCutoff oneThreeThreeCoefficients <

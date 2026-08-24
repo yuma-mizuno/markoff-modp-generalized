@@ -92,6 +92,7 @@ theorem analyticCutoff_gt_one : 1 < analyticCutoff := by
   have hpositive := analyticDivisorMomentConstant_pos
   omega
 
+#guard_msgs (drop warning) in
 theorem five_le_analyticCutoff : 5 ≤ analyticCutoff := by
   rw [analyticCutoff_eq, analyticDivisorMomentConstant_eq]
   have hcoreOne : 1 ≤ analyticDivisorMomentCore :=
@@ -109,6 +110,7 @@ theorem five_le_analyticCutoff : 5 ≤ analyticCutoff := by
         Nat.mul_le_mul hfour hcoreOne
   omega
 
+#guard_msgs (drop warning) in
 theorem seven_le_analyticCutoff : 7 ≤ analyticCutoff := by
   rw [analyticCutoff_eq, analyticDivisorMomentConstant_eq]
   have hcoreOne : 1 ≤ analyticDivisorMomentCore :=
@@ -132,6 +134,7 @@ theorem analyticDivisorMomentConstant_lt_of_cutoff_le
   rw [analyticCutoff_eq] at hp
   omega
 
+#guard_msgs (drop warning) in
 theorem card_divisors_pow_fiveHundredTwelve_le
     (n : ℕ) (hn : n ≠ 0) :
     n.divisors.card ^ 512 ≤ analyticDivisorMomentCore * n := by
@@ -197,6 +200,7 @@ theorem card_divisors_pow_fiveHundredTwelve_le
     _ = analyticDivisorMomentCore * n := by
       rw [analyticDivisorMomentCore_eq]
 
+#guard_msgs (drop warning) in
 theorem divisor_sum_pow_fiveHundredTwelve_le
     {p : ℕ} (hp : 2 ≤ p) :
     ((p - 1).divisors.card + (p + 1).divisors.card) ^ 512 ≤
@@ -235,6 +239,7 @@ theorem divisor_sum_pow_fiveHundredTwelve_le
           rw [hpow]
           ring
 
+#guard_msgs (drop warning) in
 theorem divisor_sum_lt_rpow_one_div_twoHundredFiftySix
     {p : ℕ} (hp : analyticCutoff ≤ p) :
     (((p - 1).divisors.card + (p + 1).divisors.card : ℕ) : ℝ) <
@@ -267,6 +272,7 @@ theorem divisor_sum_lt_rpow_one_div_twoHundredFiftySix
   rw [hrootPow]
   exact hpowReal
 
+#guard_msgs (drop warning) in
 theorem small_fixed_lt_rpow_one_div_twoHundredFiftySix
     {p fixed : ℕ} (hp : analyticCutoff ≤ p)
     (hfixed : fixed ≤ 200000000) :

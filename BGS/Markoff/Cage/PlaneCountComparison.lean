@@ -336,7 +336,7 @@ theorem cagePulledRootPair_diagonal_card_comparison
           2 * (BGS.External.affinePlaneCurveZeros (ZMod p)
             (cageDiagonalPlanePolynomial xi d)).card =
         -(Nat.card bad : Int))
-  rw [hid, abs_neg, abs_of_nonneg (Int.ofNat_nonneg _)]
+  rw [hid, abs_neg, abs_of_nonneg (Int.natCast_nonneg _)]
   exact_mod_cast hbad
 
 abbrev CageOffDiagonalPlanePoint (p : Nat) [Fact p.Prime]

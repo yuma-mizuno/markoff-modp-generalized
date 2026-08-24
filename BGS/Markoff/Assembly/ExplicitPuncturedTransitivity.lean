@@ -228,7 +228,7 @@ theorem puncturedMarkoffTransitiveAt_of_explicitCutoff
         (p : ℝ) ^ (5 / 6 : ℝ) ≤ rotationOrder z.1.u2 ∨
         (p : ℝ) ^ (5 / 6 : ℝ) ≤ rotationOrder z.1.u3 := by
       by_contra hsmall
-      push_neg at hsmall
+      push Not at hsmall
       have hmaxSmall : (maximalCoordinateRotationOrder z.1 : ℝ) <
           (p : ℝ) ^ (5 / 6 : ℝ) := by
         rw [maximalCoordinateRotationOrder, Nat.cast_max, Nat.cast_max]
@@ -299,7 +299,7 @@ theorem puncturedMarkoffTransitiveAt_of_preliminaryCutoff
         (p : ℝ) ^ (5 / 6 : ℝ) ≤ rotationOrder z.1.u2 ∨
         (p : ℝ) ^ (5 / 6 : ℝ) ≤ rotationOrder z.1.u3 := by
       by_contra hsmall
-      push_neg at hsmall
+      push Not at hsmall
       have hmaxSmall : (maximalCoordinateRotationOrder z.1 : ℝ) <
           (p : ℝ) ^ (5 / 6 : ℝ) := by
         rw [maximalCoordinateRotationOrder, Nat.cast_max, Nat.cast_max]

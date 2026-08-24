@@ -94,7 +94,7 @@ theorem finTwoToIteratedPolynomial_splitTraceCoverPolynomial_general_natDegree
           monomial e (C alpha * X ^ (2 * d) + C beta) + C (-(X ^ d))).coeff
           (2 * e) = -(X ^ d) := by
     rw [coeff_add, coeff_add, coeff_monomial, if_pos rfl,
-      coeff_monomial, if_neg heTwoNe, coeff_C_ne_zero htwoZero]
+      coeff_monomial, if_neg heTwoNe, coeff_C_of_ne_zero htwoZero]
     simp
   have hnonzero : -(X ^ d : Polynomial K) ≠ 0 := neg_ne_zero.mpr (pow_ne_zero d X_ne_zero)
   apply le_antisymm
@@ -120,7 +120,7 @@ theorem descendedIteratedPolynomial_isPrimitive_of_isCoprime
   have hcoeffE :
       (monomial (2 * e) (-Q) + monomial e N + C (-Q)).coeff e = N := by
     rw [coeff_add, coeff_add, coeff_monomial, if_neg htwoNe,
-      coeff_monomial, if_pos rfl, coeff_C_ne_zero heNe]
+      coeff_monomial, if_pos rfl, coeff_C_of_ne_zero heNe]
     simp
   have hgQ : g ∣ Q := by
     have : g ∣ -Q := hcoeffZero ▸ hall 0

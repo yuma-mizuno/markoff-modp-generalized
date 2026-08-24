@@ -31,10 +31,9 @@ The cutoff contains one coefficient-independent analytic constant and the
 bad-reduction and coefficient-survival bounds for all three simultaneous
 cyclic orientations of the ordered coefficient triple.
 
-The production development also proves eventual transitivity of the full
-Vieta group and of the rotation group on the surface with only
-`(0, 0, 0)` removed, the generalized Vieta-orbit divisibility theorem, and
-an independent equal-coefficient argument for the larger one-step group.
+The retained production dependency proves the full-Vieta transitivity needed
+for the advertised reduction-surjectivity theorem and also derives rotation
+transitivity on the surface with only `(0, 0, 0)` removed.
 
 ## Scope boundaries
 
@@ -58,8 +57,8 @@ theorem itself targets the full finite-field surface, including the origin.
 - [comparator.json](comparator.json) selects the theorem and permitted axioms.
 - [GenMarkoff/](GenMarkoff/) contains the production proof development.
 - [GenMarkoff.lean](GenMarkoff.lean) is the production library root.
-- [BGS/](BGS/) and [RiemannRoch/](RiemannRoch/) are the vendored production
-  proof dependency from the pinned markoff-modp revision.
+- [BGS/](BGS/) and [RiemannRoch/](RiemannRoch/) contain the transitive proof
+  dependencies vendored from the pinned markoff-modp revision.
 - [scripts/AxiomAudit.lean](scripts/AxiomAudit.lean) records declaration-level
   axiom expectations.
 - [formalization.yaml](formalization.yaml) records scope, provenance,
@@ -79,8 +78,10 @@ submission build.
   `ac8e9ec37a3d56dddb55870d379f53e5526dc0c7`
 
 No local path dependency is used. The vendored BGS and Riemann--Roch source
-trees omit their Blueprint and Comparator layers and retain their production
-module paths, so the GenMarkoff proof imports remain source-identical.
+trees retain exactly the production modules in the submitted theorem's
+transitive import closure. Their Blueprint, Comparator, and unrelated
+production modules are absent, while retained module paths and contents stay
+source-identical.
 
 ## Verification
 
@@ -117,8 +118,6 @@ The principal sources and the exact relationship of each to the formalization
 are recorded in [formalization.yaml](formalization.yaml). They include:
 
 - Yuma Mizuno, *Generalized Markov mod-p graphs*;
-- Matthew de Courcy-Ireland, Matthew Litman, and Yuma Mizuno,
-  [*Divisibility by p for Markoff-like Surfaces*](https://arxiv.org/abs/2509.02187v3);
 - Nathaniel Kingsbury-Neuschotz,
   [*Strong Approximation for the Relative Character Variety of the Four-Times Punctured Sphere*](https://arxiv.org/abs/2603.04096v2);
 - Bourgain, Gamburd, and Sarnak,

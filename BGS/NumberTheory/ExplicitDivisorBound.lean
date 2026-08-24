@@ -96,6 +96,7 @@ theorem explicitDivisorConstant_eq :
     explicitDivisorConstant = (32 ^ 32) ^ (2 ^ 32) :=
   explicitDivisorConstantData.2
 
+#guard_msgs (drop warning) in
 theorem explicitDivisorConstant_pos : 0 < explicitDivisorConstant := by
   rw [explicitDivisorConstant_eq]
   exact pow_pos (pow_pos (by norm_num) _) _

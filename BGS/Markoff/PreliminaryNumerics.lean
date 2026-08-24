@@ -53,6 +53,7 @@ theorem preliminaryCutoff_constant_lt
   rw [preliminaryStrongApproximationCutoff_eq] at hp
   omega
 
+#guard_msgs (drop warning) in
 /-- The two divisor counts needed by the preliminary route satisfy one
 simultaneous tenth-moment estimate. -/
 theorem preliminary_divisor_sum_pow_ten_le
@@ -94,6 +95,7 @@ theorem preliminary_divisor_sum_pow_ten_le
         _ = (2 ^ 9 * 2 ^ 447 * 2) * p := by ring
         _ = 2 ^ 457 * p := by rw [hpow]
 
+#guard_msgs (drop warning) in
 private theorem preliminary_moment_pow_eight_le_cutoff_sq :
     preliminaryDivisorMomentConstant ^ 8 ≤
       (2 ^ 1833 * (48 ^ 3 + 1) ^ 10) ^ 2 := by
@@ -108,6 +110,7 @@ private theorem preliminary_moment_pow_eight_le_cutoff_sq :
       gcongr
       exact Nat.le_mul_of_pos_right _ (by positivity)
 
+#guard_msgs (drop warning) in
 private theorem preliminary_middle_coefficient_le_cutoff_pow_four :
     48 ^ 60 * preliminaryDivisorMomentConstant ^ 6 ≤
       (2 ^ 1833 * (48 ^ 3 + 1) ^ 10) ^ 4 := by
@@ -130,6 +133,7 @@ private theorem preliminary_middle_coefficient_le_cutoff_pow_four :
     _ = (2 ^ 1833 * (48 ^ 3 + 1) ^ 10) ^ 4 := by
       norm_num [mul_pow, ← pow_mul]
 
+#guard_msgs (drop warning) in
 private theorem preliminary_endgame_coefficient_le_cutoff_pow_four :
     68 ^ 30 * preliminaryDivisorMomentConstant ^ 6 ≤
       (2 ^ 1833 * (48 ^ 3 + 1) ^ 10) ^ 4 := by
@@ -152,6 +156,7 @@ private theorem preliminary_endgame_coefficient_le_cutoff_pow_four :
       norm_num [mul_pow, ← pow_mul]
 
 set_option maxRecDepth 100000 in
+#guard_msgs (drop warning) in
 private theorem preliminary_fixed_pow_eight_le_cutoff :
     100522 ^ 8 ≤ 2 ^ 1833 * (48 ^ 3 + 1) ^ 10 := by
   calc
@@ -161,6 +166,7 @@ private theorem preliminary_fixed_pow_eight_le_cutoff :
     _ ≤ 2 ^ 1833 := Nat.pow_le_pow_right (by norm_num) (by norm_num)
     _ ≤ 2 ^ 1833 * (48 ^ 3 + 1) ^ 10 :=
       Nat.le_mul_of_pos_right _ (pow_pos (by norm_num) _)
+#guard_msgs (drop warning) in
 private theorem preliminary_lowOrder_coefficient_eq_cutoff_sq :
     2 ^ 10 * (48 ^ 3 + 1) ^ 20 * preliminaryDivisorMomentConstant ^ 8 =
       (2 ^ 1833 * (48 ^ 3 + 1) ^ 10) ^ 2 := by
@@ -182,6 +188,7 @@ private theorem preliminary_lowOrder_coefficient_eq_cutoff_sq :
     _ = (2 ^ 1833) ^ 2 * ((48 ^ 3 + 1) ^ 10) ^ 2 := by
       rw [htwo', hbase]
     _ = (2 ^ 1833 * (48 ^ 3 + 1) ^ 10) ^ 2 := by rw [mul_pow]
+#guard_msgs (drop warning) in
 /-- The simultaneous divisor count is smaller than the eighth root of `p`. -/
 theorem preliminary_divisor_sum_lt_rpow_one_div_eight
     {p : ℕ} (hp : preliminaryStrongApproximationCutoff ≤ p) :
@@ -222,6 +229,7 @@ theorem preliminary_divisor_sum_lt_rpow_one_div_eight
   rw [hrootPow]
   exact hpowReal
 
+#guard_msgs (drop warning) in
 /-- The coefficient-48 all-divisors term is smaller than the sixth root of
 `p`, as required by the preliminary middle game. -/
 theorem preliminary_corvajaZannier_divisor_term_lt_rpow_one_div_six
@@ -266,6 +274,7 @@ theorem preliminary_corvajaZannier_divisor_term_lt_rpow_one_div_six
   rw [hrootPow]
   exact hpowReal
 
+#guard_msgs (drop warning) in
 /-- The weighted divisor square is smaller than the one-third power needed
 by the primitive-trace endgame. -/
 theorem preliminary_weighted_divisor_sum_sq_lt_rpow_one_div_three
@@ -500,6 +509,7 @@ theorem preliminary_cageWitness_explicitInequality
       preliminary_rpow_lt_self_of_exponent_lt_one hp (by norm_num)
 
 set_option maxRecDepth 100000 in
+#guard_msgs (drop warning) in
 /-- The low-order Corvaja--Zannier cube contradiction, now driven by the
 elementary tenth moment. -/
 theorem preliminary_lowOrder_divisorSensitive_cube

@@ -63,6 +63,7 @@ theorem reasonableAnalyticCutoff_gt_one :
       (pow_pos (by norm_num) 1828)
   omega
 
+#guard_msgs (drop warning) in
 theorem five_le_reasonableAnalyticCutoff :
     5 ≤ reasonableAnalyticCutoff := by
   rw [reasonableAnalyticCutoff_eq, reasonableAnalyticOpenCutoff]
@@ -82,6 +83,7 @@ theorem five_le_reasonableAnalyticCutoff :
         Nat.mul_le_mul hcoefficient htwo
   omega
 
+#guard_msgs (drop warning) in
 theorem seven_le_reasonableAnalyticCutoff :
     7 ≤ reasonableAnalyticCutoff := by
   rw [reasonableAnalyticCutoff_eq, reasonableAnalyticOpenCutoff]
@@ -108,6 +110,7 @@ theorem reasonableAnalyticOpenCutoff_lt_of_cutoff_le
   omega
 
 set_option maxRecDepth 100000 in
+#guard_msgs (drop warning) in
 theorem preliminaryStrongApproximationCutoff_le_reasonableAnalyticCutoff :
     preliminaryStrongApproximationCutoff ≤ reasonableAnalyticCutoff := by
   have hbase :
@@ -145,6 +148,7 @@ theorem reasonableAnalyticCutoff_lt_ten_pow_oneThousand :
   norm_num
 
 set_option maxRecDepth 100000 in
+#guard_msgs (drop warning) in
 /-- Above the reasonable cutoff, the elementary tenth moment excludes the
 general order-preserving `T^8` obstruction. -/
 theorem reasonableFrontierCoefficient_mul_divisorSum_pow_eight_lt
@@ -181,6 +185,7 @@ theorem reasonableFrontierCoefficient_mul_divisorSum_pow_eight_lt
   exact (not_lt_of_ge hpPowLe) hstrict
 
 set_option maxRecDepth 100000 in
+#guard_msgs (drop warning) in
 private theorem coefficient_192_pow_twenty_mul_moment_sq_le_openCutoff :
     192 ^ 20 * (2 ^ 457) ^ 2 ≤ reasonableAnalyticOpenCutoff := by
   have hbase : 192 ^ 4 ≤ reasonableFrontierCoefficient := by
@@ -216,6 +221,7 @@ private theorem coefficient_2064_pow_twenty_mul_moment_four_le_openCutoff :
       exact Nat.mul_le_mul hcoefficient (le_refl _)
     _ = reasonableAnalyticOpenCutoff := rfl
 
+#guard_msgs (drop warning) in
 /-- The coefficient used by the degree-one middle game, together with the
 simultaneous divisor count, is smaller than the fourth root of the prime. -/
 theorem reasonable_middleGame_divisor_term_lt_rpow_one_div_four
@@ -260,6 +266,7 @@ theorem reasonable_middleGame_divisor_term_lt_rpow_one_div_four
   rw [hrootPow]
   exact hpowReal
 
+#guard_msgs (drop warning) in
 /-- The complete primitive-trace coefficient `2064 = 2 * 1032`, together
 with two divisor factors, is smaller than the fourth root of the prime. -/
 theorem reasonable_primitive_divisor_term_lt_rpow_one_div_four
