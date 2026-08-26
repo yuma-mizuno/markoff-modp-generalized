@@ -114,9 +114,7 @@ jobs:
           use-mathlib-cache: true
 
       - name: Build Lean project once
-        # Keep local builds fully parallel.  On the two-core hosted runner,
-        # constrain the CI build process tree to one CPU.
-        run: taskset --cpu-list 0 lake build
+        run: lake build
 
       # Save immediately after a successful build so a later documentation or
       # Comparator failure does not discard the completed compilation.
