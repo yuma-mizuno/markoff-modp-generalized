@@ -3,10 +3,9 @@ import Mathlib
 /-!
 # The generalized Markoff surface
 
-This file formalizes the equation and Vieta involutions from
-`Paper/Modp/markov_modp.tex`.  The coefficient triple is kept explicit because
-coordinate permutations do not preserve a fixed generalized surface in
-general.
+This file defines the generalized Markoff equation and its Vieta involutions.
+The coefficient triple is kept explicit because coordinate permutations do
+not preserve a fixed generalized surface in general.
 -/
 
 namespace GenMarkoff
@@ -87,15 +86,15 @@ def vieta3 {R : Type u} [CommRing R] (a : Coefficients R) (x : Point R) : Point 
   ⟨x.x1, x.x2,
     a.multiplier * x.x1 * x.x2 - x.x3 - a.a2 * x.x1 - a.a1 * x.x2⟩
 
-/-- The rotation `R₁ = μ₃ ∘ μ₂` from the source note. -/
+/-- The first two-Vieta rotation `R₁ = μ₃ ∘ μ₂`. -/
 def rotation1 {R : Type u} [CommRing R] (a : Coefficients R) (x : Point R) : Point R :=
   vieta3 a (vieta2 a x)
 
-/-- The rotation `R₂ = μ₁ ∘ μ₃` from the source note. -/
+/-- The second two-Vieta rotation `R₂ = μ₁ ∘ μ₃`. -/
 def rotation2 {R : Type u} [CommRing R] (a : Coefficients R) (x : Point R) : Point R :=
   vieta1 a (vieta3 a x)
 
-/-- The rotation `R₃ = μ₂ ∘ μ₁` from the source note. -/
+/-- The third two-Vieta rotation `R₃ = μ₂ ∘ μ₁`. -/
 def rotation3 {R : Type u} [CommRing R] (a : Coefficients R) (x : Point R) : Point R :=
   vieta2 a (vieta1 a x)
 
@@ -214,15 +213,15 @@ def vieta3Equiv (R : Type u) [CommRing R] (a : Coefficients R) : Equiv.Perm (Poi
   left_inv := vieta3_involutive a
   right_inv := vieta3_involutive a
 
-/-- The source rotation `R₁` as a permutation. -/
+/-- The two-Vieta rotation `R₁` as a permutation. -/
 def rotation1Equiv (R : Type u) [CommRing R] (a : Coefficients R) : Equiv.Perm (Point R) :=
   (vieta2Equiv R a).trans (vieta3Equiv R a)
 
-/-- The source rotation `R₂` as a permutation. -/
+/-- The two-Vieta rotation `R₂` as a permutation. -/
 def rotation2Equiv (R : Type u) [CommRing R] (a : Coefficients R) : Equiv.Perm (Point R) :=
   (vieta3Equiv R a).trans (vieta1Equiv R a)
 
-/-- The source rotation `R₃` as a permutation. -/
+/-- The two-Vieta rotation `R₃` as a permutation. -/
 def rotation3Equiv (R : Type u) [CommRing R] (a : Coefficients R) : Equiv.Perm (Point R) :=
   (vieta1Equiv R a).trans (vieta2Equiv R a)
 

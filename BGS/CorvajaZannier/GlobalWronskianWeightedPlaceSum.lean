@@ -10,7 +10,7 @@ replacing a place of weight `e` by `e` identical copies and applying
 `globalWronskianInequality_of_placewiseBounds`.
 
 This is the finite combinatorial form of the weighted divisor summation in
-Corvaja--Zannier, Proposition 2 (published reconstruction, pp. 15--16).
+Corvaja--Zannier, Proposition 2, published pages 1935--1936.
 -/
 
 namespace BGS.CorvajaZannier

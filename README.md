@@ -38,6 +38,16 @@ The retained production dependency proves the full-Vieta transitivity needed
 for the advertised reduction-surjectivity theorem and also derives rotation
 transitivity on the surface with only `(0, 0, 0)` removed.
 
+The qualitative eventual theorem is not claimed as original here. It is the
+fixed-integral reduction-surjectivity form of the generic branch of Theorem 4.3
+in Kingsbury--Neuschotz. That theorem gives finite-field Vieta transitivity
+uniformly in the coefficient parameters under its modular nondegeneracy
+hypotheses. Lifting the same Vieta word from the integral solution `(1, 1, 1)`,
+with the origin lifting itself, gives the advertised surjectivity statement.
+The additional formalized refinements are the displayed coefficient-dependent
+cutoff and the corresponding transitivity theorem for the two-Vieta rotation
+subgroup.
+
 ## Scope boundaries
 
 The theorem is eventual for each fixed integral triple. It does not claim a
@@ -85,8 +95,9 @@ submission build.
 No local path dependency is used. The vendored BGS and Riemann--Roch source
 trees retain exactly the production modules in the submitted theorem's
 transitive import closure. Their Blueprint, Comparator, and unrelated
-production modules are absent, while retained module paths and contents stay
-source-identical.
+production modules are absent. Lean declarations and proofs are retained from
+the pinned revision; submission-facing provenance comments have been revised
+to cite public sources, so byte-for-byte source identity is not claimed.
 
 ## Verification
 
@@ -120,13 +131,18 @@ no proof placeholders.
 ## Mathematical sources
 
 The principal sources and the exact relationship of each to the formalization
-are recorded in [formalization.yaml](formalization.yaml). They include:
+are recorded in [formalization.yaml](formalization.yaml). The direct literature
+list is deliberately limited to these two items:
 
-- Yuma Mizuno, *Generalized Markov mod-p graphs*;
 - Nathaniel Kingsbury-Neuschotz,
-  [*Strong Approximation for the Relative Character Variety of the Four-Times Punctured Sphere*](https://arxiv.org/abs/2603.04096v2);
-- Bourgain, Gamburd, and Sarnak,
-  [*Strong Approximation and Diophantine Properties of Markoff Triples*](https://doi.org/10.1090/jams/1061).
+  [*Strong Approximation for the Relative Character Variety of the Four-Times Punctured Sphere*](https://arxiv.org/abs/2603.04096v3),
+  especially Theorem 4.3;
+- Matthew de Courcy-Ireland, Matthew Litman, and Yuma Mizuno,
+  [*Divisibility by p for Markoff-like Surfaces*](https://arxiv.org/abs/2509.02187v3),
+  especially the generic branch of Theorem 1.1.
+
+The vendored dependencies and their further mathematical sources are recorded
+by the related [markoff-modp project](https://github.com/yuma-mizuno/markoff-modp).
 
 ## Licence and submission
 

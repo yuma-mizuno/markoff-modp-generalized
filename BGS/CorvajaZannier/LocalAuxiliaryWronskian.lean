@@ -21,9 +21,8 @@ The main new ingredients are:
 * the geometric-series identity which improves the first `k` columns from
   `u ^ j * ρ` to `u ^ j * v ^ h * ρ`.
 
-Source provenance: published pages 1935--1936; checked semantic reconstruction
-`Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines 636--732.  Case (ii)
-is lines 689--691, and the case-(iii) column operation is lines 694--719.
+Source: Corvaja--Zannier, Proposition 2, published pages 1935--1936, including
+local cases (ii) and (iii).
 -/
 
 namespace BGS.CorvajaZannier

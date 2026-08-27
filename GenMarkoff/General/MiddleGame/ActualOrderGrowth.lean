@@ -13,7 +13,7 @@ shifted Corvaja--Zannier escape theorem.  Reachability uses `rotation1`, so
 the left parameter subgroup is `Subgroup.zpowers (q ^ 2)`.
 
 The BGS candidate orders are orders of the unsquared trace eigenvalue.  The
-actual source rotation has the squared eigenvalue.  Consequently the result
+actual two-Vieta rotation has the squared eigenvalue.  Consequently the result
 below records the exact parity boundary: the selected adjacent trace either
 has larger actual rotation-linear order, or its BGS half-step order lies
 outside the candidate orders bounded by the current actual order.
@@ -66,7 +66,7 @@ theorem mapCoefficients_multiplier
     (mapCoefficients f a).multiplier = f a.multiplier := by
   simp [mapCoefficients, Coefficients.multiplier, map_ofNat]
 
-/-- Scalar extension commutes with the first source rotation for an arbitrary
+/-- Scalar extension commutes with the first two-Vieta rotation for an arbitrary
 fixed coefficient triple. -/
 theorem mapPoint_rotation1
     {R S : Type*} [CommRing R] [CommRing S]

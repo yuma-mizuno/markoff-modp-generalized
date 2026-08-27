@@ -405,7 +405,7 @@ theorem rotationStrongApproximationAt_of_vietaStrongApproximationAt
     (sameVietaComponent_iff_sameRotationComponent_of_vieta1_fixed
       hsurfaceFixed).mp hvietaComponent
 
-/-- For generic `p ≥ 7`, strong approximation for the source rotation group
+/-- For generic `p ≥ 7`, strong approximation for the two-Vieta rotation group
 is equivalent to strong approximation for the full Vieta group. -/
 theorem rotationStrongApproximationAt_iff_vietaStrongApproximationAt
     (a : Coefficients ℤ) (p : ℕ) (hp : p.Prime)

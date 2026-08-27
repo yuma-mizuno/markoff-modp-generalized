@@ -42,8 +42,8 @@ def SplitTraceCurveEquation (alpha beta : K) (d e : ℕ) (x y : Kˣ) : Prop :=
 
 /-- The affine polynomial obtained by multiplying the Laurent equation by `x^d * y^e`.
 
-Variable `0` is `x` and variable `1` is `y`.  In particular, the third term contains the factor
-`y^e`; this is the factor missing from the displayed polynomial on source line 749.
+Variable `0` is `x` and variable `1` is `y`.  In particular, clearing the Laurent denominators
+requires the third term to contain the factor `y^e`.
 -/
 noncomputable def splitTraceCoverPolynomial (alpha beta : K) (d e : ℕ) :
     MvPolynomial (Fin 2) K :=

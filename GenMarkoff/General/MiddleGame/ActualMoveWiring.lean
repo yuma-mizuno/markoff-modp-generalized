@@ -4,7 +4,7 @@ import BGS.Markoff.TraceCurve.Geometry
 /-!
 # Wiring a general first-coordinate fiber to the actual rotation
 
-On a first-coordinate fiber, the source rotation `rotation1` multiplies the
+On a first-coordinate fiber, the two-Vieta rotation `rotation1` multiplies the
 torus parameter by `q ^ 2`.  Consequently the parameters reachable from a
 starting unit `r` form the translated coset
 

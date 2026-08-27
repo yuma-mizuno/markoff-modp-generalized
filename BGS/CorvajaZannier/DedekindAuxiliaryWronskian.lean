@@ -15,8 +15,7 @@ source terms: the triangular `u` contribution, the `h * k` contribution of
 `v`, the `k` copies of the ratio `rho`, the full grid sum, and the loss given
 by the sum of the selected derivative orders.
 
-Source provenance: published pages 1935--1936; checked semantic reconstruction
-`Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines 636--732.
+Source: Corvaja--Zannier, Proposition 2, published pages 1935--1936.
 -/
 
 namespace BGS.CorvajaZannier

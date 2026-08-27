@@ -17,8 +17,7 @@ In particular, a column of nonnegative order and every one of its iterated
 derivatives remain regular.  Combining this with determinant-one elimination
 gives the source bound `q * ord(rho)` for the full auxiliary family.
 
-Source provenance: published pages 1935--1936; checked semantic reconstruction
-`Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines 640--685.
+Source: Corvaja--Zannier, Proposition 2, published pages 1935--1936.
 -/
 
 namespace BGS.CorvajaZannier

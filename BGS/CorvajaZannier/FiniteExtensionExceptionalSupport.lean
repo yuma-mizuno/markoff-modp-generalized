@@ -20,10 +20,7 @@ The same estimate is also supplied in the paper's orientation
 statements; over an algebraically closed constant field they specialize to
 ordinary cardinality and unweighted orders.
 
-Source provenance: published pages 1936--1937; checked semantic
-reconstruction `Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines
-731--779.  The earlier Proposition 2 source gives the same bookkeeping in
-`Papers/arXiv-math-0512074v3/jag_rivisto2.tex`, lines 618--653.
+Source: Corvaja--Zannier, Proposition 2, published pages 1936--1937.
 -/
 
 open scoped nonZeroDivisors Polynomial BigOperators

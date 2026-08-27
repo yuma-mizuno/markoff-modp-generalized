@@ -1,170 +1,225 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml (v0.4): repo-root metadata for the GenMarkoff formalization.
 version: "v0.4"
 
 project:
   name: "Generalized Markoff strong approximation"
   description: >-
-    A Lean 4 formalization of generalized Markoff surfaces with a fixed
-    ordered integral coefficient triple. It proves punctured full-Vieta and
-    rotation strong approximation for every sufficiently large prime, with
-    an explicit coefficient-dependent cutoff, and derives surjectivity of
-    reduction from integral solutions onto the full finite-field surface.
+    A Lean 4 formalization of the generic branch of eventual strong
+    approximation for generalized Markoff surfaces, specialized to a fixed
+    ordered integral coefficient triple. It proves punctured transitivity for
+    both the full Vieta group and the two-Vieta rotation group, supplies an
+    explicit coefficient-dependent cutoff, and derives surjectivity of
+    coordinatewise reduction onto the full finite-field surface.
   authors:
     - "Yuma Mizuno"
-  license: "Apache-2.0"
   responsible_maintainers:
     - "Yuma Mizuno"
+  license: "Apache-2.0"
+
+repository:
+  role: "substantive-development"
 
 classification:
   arxiv:
     - "math.NT"
+    - "math.DS"
   msc2020:
     - "11D25"
     - "11T06"
+    - "37P25"
 
 sources:
-  - title: "Generalized Markov mod-p graphs"
-    authors:
-      - "Yuma Mizuno"
-    id: "https://github.com/yuma-mizuno/GenMarkoff/blob/df95fae89016f56a5f160a7423ce47ba450005a4/Paper/Modp/markov_modp.pdf"
-    type: "paper"
-    location: "https://github.com/yuma-mizuno/GenMarkoff/blob/df95fae89016f56a5f160a7423ce47ba450005a4/Paper/Modp/markov_modp.pdf"
-    relationship: "adapts"
-    note: >-
-      The formalization proves a corrected fixed-integral eventual theorem:
-      it punctures only the fixed origin, separates the Vieta and rotation
-      groups, and uses an explicit coefficient-dependent cutoff.
-    author_endorsement: "participated"
-
   - title: "Strong Approximation for the Relative Character Variety of the Four-Times Punctured Sphere"
     authors:
       - "Nathaniel Kingsbury-Neuschotz"
-    id: "arXiv:2603.04096v2"
-    type: "paper"
-    location: "https://arxiv.org/abs/2603.04096v2"
+    id: "arXiv:2603.04096v3"
+    type: "preprint"
+    location: "Theorem 4.3, generic branch, with Sections 5--9"
     relationship: "adapts"
+    author_endorsement: "not-contacted"
     note: >-
-      The general connecting-fibre and cage route is adapted to the fixed
-      ordered generalized Markoff family.
+      Primary source for the qualitative eventual Vieta-transitivity result.
+      Theorem 4.3 is uniform in the coefficient parameters once its modular
+      nondegeneracy hypotheses hold. The submitted Challenge fixes an
+      integrally nondegenerate coefficient triple and packages that result as
+      eventual surjectivity of coordinatewise reduction: a Vieta word applied
+      to the integral solution (1,1,1) lifts every nonzero residue-class
+      solution, and the origin lifts itself. The Lean development additionally
+      gives a fully explicit coefficient-dependent cutoff and proves
+      transitivity for the two-Vieta rotation subgroup. Those are refinements;
+      the qualitative eventual reduction-surjectivity theorem is not claimed
+      as original.
 
-  - title: "Strong Approximation and Diophantine Properties of Markoff Triples"
+  - title: "Divisibility by p for Markoff-like Surfaces"
     authors:
-      - "Jean Bourgain"
-      - "Alexander Gamburd"
-      - "Peter Sarnak"
-    id: "https://doi.org/10.1090/jams/1061"
-    type: "paper"
-    location: "https://doi.org/10.1090/jams/1061"
-    relationship: "background"
+      - "Matthew de Courcy-Ireland"
+      - "Matthew Litman"
+      - "Yuma Mizuno"
+    id: "arXiv:2509.02187v3"
+    type: "article"
+    location: "Theorem 1.1, generic branch, and Section 2"
+    relationship: "adapts"
+    license: "CC BY 4.0"
+    author_endorsement: "participated"
     note: >-
-      Provides the classical strong-approximation strategy generalized by the
-      formal development.
+      Direct source for divisibility of punctured Vieta-orbit cardinalities by
+      p when the multiplier and all three coefficient discriminants are
+      nonzero. The submission proves this generic branch. At zero-coordinate
+      points it replaces the paper's pointwise propagation construction with
+      a totalized raw-angle defect identity and an invariant finite-cycle sum.
+      The paper's additional exceptional-compatible branch is recorded as a
+      specification but is not proved in this submission.
 
 related_formalizations:
-  - id: "https://github.com/yuma-mizuno/markoff-modp/tree/ac8e9ec37a3d56dddb55870d379f53e5526dc0c7"
+  - id: "https://github.com/yuma-mizuno/markoff-modp"
     relationship: "builds-on"
     note: >-
-      The transitive BGS and Riemann-Roch proof dependencies from this exact
-      revision are vendored in the submission. Unrelated production modules
-      and the Blueprint and Comparator layers are omitted; retained modules
-      supply the reusable classical Markoff, Hasse-Weil, Kummer, and growth
-      results.
-  - id: "https://github.com/yuma-mizuno/BGS/tree/43467694971e7f80d85244c1711c457ff1ac7999"
-    relationship: "adapts"
-    note: >-
-      Reference formalization used to identify the classical theorem
-      boundaries before adapting them to fixed generalized coefficients.
+      Related formalization from which the submission vendors the transitive
+      proof dependencies at revision
+      ac8e9ec37a3d56dddb55870d379f53e5526dc0c7. It records the additional
+      mathematical literature and upstream formalization dependencies used by
+      those modules. Submission-facing provenance comments cite public sources
+      with stable bibliographic locators.
 
 status:
   scope: >-
     For every ordered integral coefficient triple a with
     3 + a_1 + a_2 + a_3 nonzero and a_i^2 different from 4 for all i, the
-    development proves full-Vieta and rotation transitivity on the
+    development proves full-Vieta and two-Vieta-rotation transitivity on the
     finite-field surface with only the origin removed at every sufficiently
     large prime. It gives an explicit maximum of one uniform analytic
     constant and coefficient-dependent bad-reduction bounds, then proves
     surjectivity of coordinatewise reduction from all integral solutions onto
-    the full finite-field surface. It does not prove the proposed
-    all-generic-primes statement, a coefficient-uniform cutoff, or a direct
-    pre-transitivity parity-cage construction.
+    the full finite-field surface. The result is eventual for each fixed
+    triple; it is not a coefficient-uniform or all-generic-primes theorem.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms:
     - "propext"
     - "Quot.sound"
     - "Classical.choice"
+  main_results:
+    - declaration: "Challenge.generalizedMarkoff_reduction_surjective_of_large_prime"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Quot.sound"
+        - "Classical.choice"
+      literature_dependencies: []
+    - declaration: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Quot.sound"
+        - "Classical.choice"
+      literature_dependencies: []
 
 automation:
   methods:
+    - method: "manual"
+      models: []
+      framework: "Lean 4 and mathlib"
+      tool_setup: >-
+        Mathematical design, source alignment, theorem review, Comparator
+        specification, and declaration-level axiom checks.
+      cost:
+        wall_time: "Not tracked"
+        spend_usd: "Not tracked"
+        hardware: "Local Windows workstation"
+      prompting_notes: >-
+        Human-directed mathematical design, source audit, proof review, and
+        acceptance decisions.
+
     - method: "agent"
       models:
         - "OpenAI Codex models"
-      framework: "OpenAI Codex"
+      framework: "Codex"
       tool_setup: >-
-        AI-assisted Lean theorem proving, proof repair, repository refactoring,
-        source comparison, builds, and axiom audits, with mathematical
-        direction and acceptance decisions by Yuma Mizuno.
+        Lean diagnostics, theorem proving, proof repair, repository
+        refactoring, source comparison, and CI verification.
       cost:
-        wall_time: "not reconstructed"
-        spend_usd: "not tracked"
-        hardware: "local Windows workstation and GitHub Actions"
+        wall_time: "Not reconstructed"
+        spend_usd: "Subscription-based; exact spend not tracked"
+        hardware: "Local Windows workstation and GitHub-hosted Ubuntu runners"
       prompting_notes: >-
-        Iterative prompts requested complete in-repository proofs, exact
-        source-to-Lean boundaries, full builds, and explicit axiom audits.
-  spend_usd: "not tracked"
+        Iterative human-directed formalization with explicit source,
+        soundness, completion, and metadata requirements.
+  spend_usd: "Not tracked"
   notes: >-
-    Development combined manual mathematical design with agent-assisted Lean
-    implementation and repeated kernel, build, source-fidelity, and metadata
-    checks.
+    Automation assisted implementation; the checked Lean declarations,
+    Comparator specification, source-aligned metadata, and commit history are
+    the auditable artifacts.
 
 fidelity:
   divergences: >-
-    The source's all-solution graph is replaced by the mathematically necessary
-    punctured graph, where punctured means removing only (0,0,0). The
-    individual Vieta group and the two-factor rotation group remain distinct.
-    Rotations are defined by their two Vieta factors rather than by the
-    incorrect square of one affine map when adjacent coefficients differ.
-    Coordinate permutations are used only together with coefficient
-    permutations. The printed parabolic fibre count is not used without its
-    missing sign condition. The divisibility source's zero-coordinate formula
-    is replaced by a proved corrected identity. The advertised theorem is a
-    fixed-integral eventual statement with an explicit coefficient-dependent
-    cutoff, not the stronger proposed all-generic-primes or coefficient-uniform
-    statement.
+    The advertised endpoint is a fixed-integral, explicit-cutoff reformulation
+    of the generic branch of Kingsbury-Neuschotz, Theorem 4.3, rather than an
+    original qualitative eventual theorem. The source proves a coefficient-
+    uniform finite-field transitivity statement under modular nondegeneracy;
+    the submission fixes an integrally nondegenerate triple, makes a sufficient
+    cutoff fully explicit, and derives full-surface reduction surjectivity from
+    punctured Vieta transitivity using the integral base point (1,1,1) and the
+    fixed origin. It additionally proves transitivity for the two-Vieta
+    rotation subgroup. The individual Vieta and rotation groups remain
+    distinct, and coordinate permutations are used only together with the
+    corresponding coefficient permutations. From arXiv:2509.02187v3, the
+    submission proves only the generic branch of Theorem 1.1 needed by the
+    endpoint; the exceptional-compatible branch is not proved. Its
+    zero-coordinate argument is replaced by a direct totalized raw-angle
+    defect and finite-cycle summation. Further literature and upstream
+    formalization provenance for the vendored dependency is recorded in the
+    related markoff-modp project.
 
 review:
   status: "self-assessed"
   reviewers:
     - "Yuma Mizuno"
   notes: >-
-    The author reviewed the statement against the source corrections and the
-    production endpoint. Production sources were checked for proof
-    placeholders and custom axioms; public endpoints are covered by
-    declaration-level axiom guards. Comparator independently matches the
-    Mathlib-only Challenge statement to the proved Solution declaration.
+    The main result has no production sorry declarations. Its axiom
+    dependencies are audited, and Comparator checks the public statement and
+    permitted axioms in CI. Source relationships and proof-status boundaries
+    were reviewed against the cited public versions. No independent peer
+    review is claimed.
 
 alignment:
   namespace: "Challenge"
   statements:
-    - source: "Generalized Markov mod-p graphs, proposed generalized connectivity problem"
+    - source: "Kingsbury-Neuschotz, arXiv:2603.04096v3, Theorem 4.3, generic branch"
       lean: "Challenge.generalizedMarkoff_reduction_surjective_of_large_prime"
       module: "Solution"
       status: "adapted"
       note: >-
-        The elementary Challenge statement existentially quantifies the
-        cutoff. Solution defines the explicit coefficient-dependent cutoff
-        and supplies it as the witness. The result does not assert all generic
-        primes or a coefficient-uniform threshold.
-    - source: "Strong Approximation and Diophantine Properties of Markoff Triples, classical strategy"
+        The source gives punctured Vieta transitivity uniformly in the
+        parameters under modular nondegeneracy. The Challenge fixes an
+        integrally nondegenerate ordered triple, existentially quantifies the
+        cutoff, and states the short consequence that coordinatewise reduction
+        from integral solutions is surjective. Solution supplies the explicit
+        coefficient-dependent cutoff proved by the production development.
+
+    - source: "de Courcy-Ireland--Litman--Mizuno, arXiv:2509.02187v3, Theorem 1.1, generic branch"
+      lean: "GenMarkoff.generalizedMartinGenericDivisibility"
+      module: "GenMarkoff.Divisibility.GenericMartin"
+      status: "proved"
+      note: >-
+        Proves p-divisibility for every punctured Vieta orbit when the
+        multiplier and all coefficient discriminants are nonzero. The
+        exceptional-compatible branch of the source theorem is not claimed by
+        this declaration.
+
+    - source: "Kingsbury-Neuschotz, arXiv:2603.04096v3, Theorem 4.3 and Sections 5--9"
       lean: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.vietaStrongApproximationAt_of_explicitCutoff"
       module: "GenMarkoff.General.Assembly.ExplicitStrongApproximation"
       status: "adapted"
       note: >-
-        Extends the classical strategy to fixed ordered generalized
-        coefficients; the all-zero case is connected to the pinned classical
-        formalization at an explicit theorem boundary.
+        Formalizes the generic Vieta-transitivity conclusion for fixed ordered
+        coefficients, follows the source's opening, middle-game, endgame, and
+        cage architecture, combines it with the formalized generic divisibility
+        input, and replaces the implicit sufficiently-large condition by a
+        displayed sufficient cutoff.
 
 acknowledgements: >-
-  Built on Lean, Mathlib, the pinned markoff-modp/BGS formalization, and the
-  PalomarTemplate verification infrastructure. The mathematical sources and
-  their authors are credited above.
+  Built on Lean 4, mathlib, leanprover/comparator, and the related markoff-modp
+  formalization. The two direct mathematical sources and their authors are
+  credited above; further dependency provenance is recorded by that related
+  project.

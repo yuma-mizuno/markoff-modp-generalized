@@ -19,7 +19,7 @@ noncomputable section
 
 section ScalarExtension
 
-/-- Scalar extension commutes with the second source rotation for the same
+/-- Scalar extension commutes with the second two-Vieta rotation for the same
 fixed coefficient order. -/
 theorem mapPoint_rotation2
     {R S : Type*} [CommRing R] [CommRing S]
@@ -30,7 +30,7 @@ theorem mapPoint_rotation2
     simp [mapPoint, rotation2, vieta1, vieta3, mapCoefficients,
       Coefficients.multiplier, map_ofNat]
 
-/-- Scalar extension commutes with the third source rotation for the same
+/-- Scalar extension commutes with the third two-Vieta rotation for the same
 fixed coefficient order. -/
 theorem mapPoint_rotation3
     {R S : Type*} [CommRing R] [CommRing S]

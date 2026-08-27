@@ -12,7 +12,7 @@ Fixing those two traces leaves a monic quadratic in the third coordinate,
 so there are at most two surface points.
 
 The trace classification is stated for the half-step matrix `A`, whereas
-the linear part of an actual source rotation is `A ^ 2`.  Thus a bound on
+the linear part of an actual two-Vieta rotation is `A ^ 2`.  Thus a bound on
 `orderOf (A ^ 2)` gives a bound twice as large on `orderOf A`.  This
 factor-of-two passage is the new counting consideration required for the
 general coefficient case.
@@ -147,7 +147,7 @@ theorem pointsWithSmallFirstTwoRotationLinearOrders_subset_traceSet
     exact Opening.bgsRotationOrder_lt_two_mul_of_rotationLinearOrder_lt
       (coordinateTrace2 a x) bound hx'.2.2
 
-/-- The set on which both of the first two actual source rotations have
+/-- The set on which both of the first two actual two-Vieta rotations have
 small linear order has the indicated quartic bound. -/
 theorem pointsWithSmallFirstTwoRotationLinearOrders_card_le
     (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)

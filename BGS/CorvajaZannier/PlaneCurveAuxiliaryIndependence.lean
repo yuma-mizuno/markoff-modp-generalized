@@ -19,8 +19,7 @@ literal base change of the defining equation from the constant field to
 Corvaja--Zannier's Proposition 1; it is not replaced by an unrelated
 typeclass or by an axiom.
 
-Source provenance: published pages 1933--1934; checked semantic reconstruction
-`Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines 486--571.  The
+Source: Corvaja--Zannier, Proposition 2, published pages 1933--1934.  The
 specialization with Frobenius exponent `p` and no auxiliary twists is the
 linear-independence input cited on published page 1940.
 -/

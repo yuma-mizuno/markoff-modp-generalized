@@ -18,8 +18,7 @@ this sharpens the ordinary Wronskian order to
 `rhoOrder * (epsilon + 1)`, and hence to `rhoOrder * q` when
 `epsilon + 1 ≤ q`.
 
-Source provenance: published pages 1935--1936; checked semantic reconstruction
-`Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines 640--685.
+Source: Corvaja--Zannier, Proposition 2, published pages 1935--1936.
 -/
 
 namespace BGS.CorvajaZannier

@@ -23,9 +23,9 @@ polynomials in `V` whose coefficients are polynomials in `U`.  Excluding the
 resulting relation by a resultant and degree argument is deliberately left as
 the next boundary; it is not assumed here through a typeclass or an axiom.
 
-Source provenance: published pages 1933--1934; checked semantic reconstruction
-`Papers/CorvajaZannier2013/CorvajaZannier2013.tex`, lines 518--570.  The
-dependence-to-relation step formalized here is lines 518--545.
+Source: Corvaja--Zannier, Proposition 2, published pages 1933--1934.  This file
+formalizes the dependence-to-relation step in the first half of the
+linear-independence argument.
 -/
 
 namespace BGS.CorvajaZannier
