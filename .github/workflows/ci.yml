@@ -98,7 +98,7 @@ jobs:
       # binary cache below supplies their compiled artifacts.
       - name: Restore Lean build cache
         id: lean-build-cache
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .lake/build
           key: ${{ runner.os }}-${{ runner.arch }}-lean-build-v1-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.lean') }}-${{ github.sha }}
