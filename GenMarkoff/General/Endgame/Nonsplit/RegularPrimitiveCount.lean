@@ -1,33 +1,27 @@
-import GenMarkoff.Symmetric.Endgame.Nonsplit.ShiftedPrimitiveCount
+import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedPrimitiveCount
 import GenMarkoff.TraceCurve.ExceptionalRouting
 
 /-!
 # Candidate-regular primitive traces on descended nonsplit covers
 
-The descended nonsplit primitive count and its four-lift trace-fiber bound
-do not use equality of the Markoff coefficients.  This file reuses those
-two explicit counting boundaries and filters their common ordinary trace
-with `orderedTraceSafePolynomial A B C`.
+This is the nonsplit analogue of `GenMarkoff.General.Endgame.RegularPrimitiveCount`.
+The descended nonsplit primitive pairs `shiftedSeededNonsplitPrimitiveTraceSolutions`
+have a common trace that is primitive on the split torus `(ZMod p)ˣ`, and each
+trace value has at most four of them.  Filtering by
+`orderedTraceSafePolynomial A B C`, which has at most ten roots and is nonzero
+when `2 ≠ 0`, `A ^ 2 ≠ 4` and `B ^ 2 ≠ 4`, removes at most `4 * 10 = 40` pairs.  Hence the
+descended count with an extra margin of forty produces a primitive trace that
+is candidate regular in the ordered frame `(A, B, C)`.  No hypothesis on `C`
+and no coordinate permutation is used.
 
-## New consideration in the unequal-coefficient case
-
-The symmetric safe polynomial has degree seven, hence removes at most
-`4 * 7 = 28` primitive pairs.  For a fixed ordered frame `(A, B, C)`, the
-general safe polynomial retains all six ordered obstruction factors and has
-degree at most ten.  The descended nonsplit filter therefore needs the
-strictly larger correction `4 * 10 = 40`.
-
-Nonvanishing of this ordered polynomial uses exactly `A ^ 2 ≠ 4` and
-`B ^ 2 ≠ 4` in their displayed roles.  No hypothesis on `C` is introduced
-by this counting step, and no coordinate permutation is used.  The endpoint
-below produces a primitive candidate-regular trace only; it makes no claim
-that an actual rotation reaches the corresponding pair.
+The results here only produce such a trace; reaching it by an actual rotation
+is done in `GenMarkoff.General.Endgame.Nonsplit.ActualRotation`.
 -/
 
 namespace GenMarkoff.General.Endgame.Nonsplit
 
 open BGS.Markoff Polynomial
-open GenMarkoff.Symmetric.Endgame.Nonsplit
+open GenMarkoff.ShiftedTrace.Endgame.Nonsplit
 
 noncomputable section
 
@@ -38,7 +32,7 @@ noncomputable abbrev shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions
     (A B C : ZMod p) (k : (ZMod p)ˣ)
     (s : ↥(quadraticNormFiber p k)) (gamma : ZMod p)
     (orbitExponent : ℕ) :=
-  (GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions
+  (GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions
     p k s gamma orbitExponent).filter fun z ↦
       eval (splitTorusTrace z.2) (orderedTraceSafePolynomial A B C) = 0
 
@@ -55,7 +49,7 @@ theorem shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions_card_le_forty
       p A B C k s gamma orbitExponent).card ≤ 40 := by
   classical
   let primitive :=
-    GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions
+    GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions
       p k s gamma orbitExponent
   let traceValue :
       (powMonoidHom orbitExponent :
@@ -64,6 +58,7 @@ theorem shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions_card_le_forty
     fun z ↦ splitTorusTrace z.2
   let bad := primitive.filter fun z ↦
     eval (traceValue z) (orderedTraceSafePolynomial A B C) = 0
+  -- Each bad trace value has at most four lifts and is one of at most ten roots.
   have hbadFiber : ∀ t ∈ bad.image traceValue,
       (bad.filter fun z ↦ traceValue z = t).card ≤ 4 := by
     intro t _
@@ -76,7 +71,7 @@ theorem shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions_card_le_forty
         exact ⟨hz.1.1, hz.2⟩
       _ ≤ 4 := by
         simpa [primitive, traceValue] using
-          GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions_traceFiber_card_le_four
+          GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions_traceFiber_card_le_four
             p k s gamma orbitExponent t
   have hp : orderedTraceSafePolynomial A B C ≠ 0 :=
     orderedTraceSafePolynomial_ne_zero A B C h2 hA hB
@@ -97,6 +92,7 @@ theorem shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions_card_le_forty
   have hrootCard :
       (orderedTraceSafePolynomial A B C).roots.toFinset.card ≤ 10 :=
     orderedTraceSafePolynomial_roots_card_le A B C
+  -- `shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions` unfolds to the local `bad`, for `calc`.
   change bad.card ≤ 40
   calc
     bad.card ≤ 4 * (bad.image traceValue).card :=
@@ -108,15 +104,13 @@ theorem shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions_card_le_forty
 
 /-- A descended nonsplit primitive-count estimate with a forty-point margin
 produces a primitive common trace that is candidate-regular for the ordered
-frame `(A, B, C)`.
-
-This is a counting endpoint: the norm-one parameter is constrained only by
-membership in the specified power-map range. -/
+frame `(A, B, C)`.  The norm-one parameter is constrained only by membership
+in the specified power-map range. -/
 theorem exists_shiftedSeededNonsplitPrimitiveTracePair_candidateRegular_of_error_add_forty_lt_main
     (p : ℕ) [Fact p.Prime]
     (coefficient : ℕ)
     (hWeil :
-      GenMarkoff.Symmetric.Endgame.Nonsplit.ShiftedSeededNonsplitTraceWeilBoundAssumption
+      GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedSeededNonsplitTraceWeilBoundAssumption
         coefficient)
     (hpTwo : p ≠ 2)
     (A B C : ZMod p)
@@ -137,14 +131,14 @@ theorem exists_shiftedSeededNonsplitPrimitiveTracePair_candidateRegular_of_error
     ∃ z : (powMonoidHom orbitExponent :
         quadraticNormOneTorus p →* quadraticNormOneTorus p).range ×
           (ZMod p)ˣ,
-      GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitTorusTrace
+      GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitTorusTrace
           p k s gamma z.1 =
           splitTorusTrace z.2 ∧
         orderOf z.2 = Nat.card (ZMod p)ˣ ∧
           OrderedTraceCandidateRegular A B C
             (splitTorusTrace z.2) := by
   let primitive :=
-    GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions
+    GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions
       p k s gamma orbitExponent
   let mainTerm :=
     primitiveTraceMoebiusMainTerm
@@ -155,7 +149,7 @@ theorem exists_shiftedSeededNonsplitPrimitiveTracePair_candidateRegular_of_error
   have henvelope :
       |(primitive.card : ℝ) - mainTerm| ≤ error := by
     simpa [primitive, mainTerm, error] using
-      GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions_card_error_le
+      GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitPrimitiveTraceSolutions_card_error_le
         p coefficient hWeil hpTwo k hk s gamma hD2
         orbitExponent horbitPositive horbitChar horbitDvd
   have hlower :
@@ -169,12 +163,8 @@ theorem exists_shiftedSeededNonsplitPrimitiveTracePair_candidateRegular_of_error
     linarith
   have hcard : 40 < primitive.card := by
     exact_mod_cast hcardReal
-  have h2 : (2 : ZMod p) ≠ 0 := by
-    intro hzero
-    have hpDvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp hzero
-    have hpLe : p ≤ 2 := Nat.le_of_dvd (by norm_num) hpDvd
-    exact hpTwo
-      (Nat.le_antisymm hpLe (Fact.out : p.Prime).two_le)
+  have h2 : (2 : ZMod p) ≠ 0 :=
+    Ring.two_ne_zero (by rwa [ZMod.ringChar_zmod_n])
   have hbad :=
     shiftedSeededNonsplitPrimitiveUnsafeTraceSolutions_card_le_forty
       p A B C k s gamma orbitExponent h2 hA hB
@@ -201,7 +191,7 @@ theorem exists_shiftedSeededNonsplitPrimitiveTracePair_candidateRegular_of_error
   obtain ⟨z, hz, hregular⟩ := hexists
   have hz' :=
     (mem_traceExactOrderSolutions_iff
-      (GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitTorusTrace
+      (GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitTorusTrace
         p k s gamma)
       (splitTorusTrace : (ZMod p)ˣ → ZMod p)
       orbitExponent (Nat.card (ZMod p)ˣ) z).mp hz

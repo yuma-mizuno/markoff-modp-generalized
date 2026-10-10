@@ -2,7 +2,7 @@ import Lake
 
 open Lake DSL
 
--- The reusable BGS and Riemann--Roch production sources are vendored from
+-- The BGS and Riemann--Roch proof sources are vendored from
 -- markoff-modp commit ac8e9ec37a3d56dddb55870d379f53e5526dc0c7.
 -- Its Blueprint modules and Verso dependency are intentionally absent.
 require mathlib from git
@@ -22,7 +22,7 @@ lean_lib BGS where
 lean_lib GenMarkoff where
 
 -- Comparator and lean4export consume legacy `.olean` declarations. The
--- deliberate Challenge placeholder is isolated from the production library.
+-- deliberate Challenge placeholder is isolated from the proof library.
 @[default_target]
 lean_lib Challenge where
   roots := #[`Challenge]

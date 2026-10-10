@@ -1,25 +1,29 @@
 import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
-import GenMarkoff.General.Cage.ConnectingTwoRootEndpoint
-import GenMarkoff.General.Cage.ConnectingTwoRootPrimitiveWitness
-import GenMarkoff.General.Arithmetic.ExplicitCutoff
+import GenMarkoff.General.Cage.Connecting.TwoRoot.Endpoint
+import GenMarkoff.General.Cage.Connecting.TwoRoot.PrimitiveWitness
+import BGS.NumberTheory.ExplicitDivisorBound
+import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
 import GenMarkoff.General.Arithmetic.ReasonableCutoff
 
 /-!
 # Canonical nonsquare two-root connecting step
 
 When the centered norm of a cage-ready canonical first-axis endpoint is
-nonsquare, a two-root cover is enough to produce an actual point on the
-fixed generalized Markoff surface:
+nonsquare, a point of a two-root cover (`ConnectingGoodTwoRootWitness`)
+produces a point of the fixed generalized Markoff surface:
 
 * the incidence root reconstructs a point with the prescribed middle trace;
 * primitive connecting transitivity on the original first-axis fiber joins
   that point to the canonical endpoint; and
-* the second root forces the centered norm of the new second-axis trace to
-  remain nonsquare.
+* the second root makes the centered norm of the new second-axis trace
+  nonsquare.
 
-The finite primitive sieves additionally make the new trace obstruction-ready,
-or make it a full connecting incidence pair with a prescribed reference
-trace.  No coordinate permutation is used.
+The finite primitive sieves additionally make the new trace have nonzero
+incidence obstruction, or make it a connecting incidence pair with a
+prescribed reference trace.  Each version is stated under an explicit divisor
+inequality and above `reasonableAnalyticCutoff`.  No coordinate permutation
+is used.  Below, "Vieta-connected" means `SameVietaComponent`: the two points
+lie in one Vieta-group orbit.
 -/
 
 namespace GenMarkoff.General.Cage
@@ -30,9 +34,11 @@ open GenMarkoff.General.Endgame
 
 noncomputable section
 
-/-- Common reconstruction layer for the nonsquare two-root route.  The
-selector supplies a primitive two-root witness with any desired property
-`P` of its middle trace. -/
+/-- Common step for the nonsquare case.  Given a selector that produces a
+primitive, candidate-regular two-root witness whose middle trace satisfies
+`P`, a cage-ready canonical first-axis endpoint with nonsquare centered norm
+is Vieta-connected to a point whose second-axis trace is primitive split,
+candidate-regular, satisfies `P`, and has nonsquare centered norm. -/
 private theorem exists_axisTwo_of_connectingTwoRootWitnessSelector
     (p : ℕ) [Fact p.Prime] (hpFive : 5 ≤ p)
     (a : Coefficients (ZMod p))
@@ -114,8 +120,12 @@ private theorem exists_axisTwo_of_connectingTwoRootWitnessSelector
   exact
     ⟨y, hxy, qm, hyTrace, hyOrder, hyRegular, hyP, hyConnecting⟩
 
-/-- Pointwise nonsquare first-to-second normalization with the target-frame
-centered-norm obstruction required by a later incidence relay. -/
+/-- Under the explicit divisor inequality with coefficient `364`, a cage-ready
+canonical first-axis endpoint with nonsquare centered norm is Vieta-connected
+to a point whose second-axis trace is primitive split, candidate-regular in
+the frame `(a₂, a₃, a₁)`, has nonzero `incidenceCenteredNormObstruction` for
+`directedCycleLeftCoefficients a`, and has nonsquare centered norm
+`centeredNorm a₃ a₁`. -/
 theorem
     exists_sameVietaComponent_obstructionReadyPrimitiveConnectingAxisTwo_of_nonsquare_of_explicitInequality
     (p : ℕ) [Fact p.Prime] (hpFive : 5 ≤ p)
@@ -169,9 +179,12 @@ theorem
                 simpa [directedCycleLeftCoefficients] using hwRegular,
               hwObstruction⟩)
 
-/-- Pointwise nonsquare first-to-second normalization whose primitive target
-trace forms a full connecting incidence pair with the prescribed trace
-`eta`. -/
+/-- Under the explicit divisor inequality with coefficient `388`, a cage-ready
+canonical first-axis endpoint with nonsquare centered norm is Vieta-connected
+to a point whose second-axis trace is primitive split, candidate-regular in
+the frame `(a₂, a₃, a₁)`, forms a connecting incidence pair with the
+prescribed trace `eta` for `directedCycleLeftCoefficients a`, and has
+nonsquare centered norm `centeredNorm a₃ a₁`. -/
 theorem
     exists_sameVietaComponent_primitiveConnectingPairAxisTwo_of_nonsquare_of_explicitInequality
     (p : ℕ) [Fact p.Prime] (hpFive : 5 ≤ p)
@@ -234,184 +247,10 @@ theorem
                 simpa [directedCycleLeftCoefficients] using hwRegular,
               hwPair⟩)
 
-/-- Uniform large-prime nonsquare normalization whose second-axis endpoint
-is primitive, regular, connecting, and target-frame obstruction-ready. -/
-theorem
-    exists_threshold_cageReadyCanonicalFirstAxis_nonsquare_reaches_obstructionReadyPrimitiveConnectingAxisTwo :
-    ∃threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)),
-        a.a1 ^ 2 ≠ 4 →
-        a.a2 ^ 2 ≠ 4 →
-        a.a3 ^ 2 ≠ 4 →
-        (a.a3, a.a1) ≠ (0, 0) →
-        ∀ x : SolutionSurface a,
-          IsCageReadyCanonicalFirstAxisPrimitiveSplit p a x →
-          ¬ IsSquare
-            (centeredNorm a.a2 a.a3
-              (traceAt a .first x.1)) →
-          ∃y : SolutionSurface a,
-            SameVietaComponent x y ∧
-              ∃q : (ZMod p)ˣ,
-                traceAt a .second y.1 = splitTorusTrace q ∧
-                  orderOf q = Nat.card (ZMod p)ˣ ∧
-                    OrderedTraceCandidateRegular
-                      a.a2 a.a3 a.a1
-                        (traceAt a .second y.1) ∧
-                      incidenceCenteredNormObstruction
-                        (directedCycleLeftCoefficients a)
-                          (traceAt a .second y.1) ≠ 0 ∧
-                        ¬ IsSquare
-                          (centeredNorm a.a3 a.a1
-                            (traceAt a .second y.1)) := by
-  refine ⟨GenMarkoff.General.Explicit.analyticCutoff, ?_⟩
-  intro p hp _ a hA1 hA2 hA3 hmoving x hx hnonsquare
-  have hpFive : 5 ≤ p :=
-    GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_one
-      hp (coefficient := 364) (by norm_num)
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  apply
-    exists_sameVietaComponent_obstructionReadyPrimitiveConnectingAxisTwo_of_nonsquare_of_explicitInequality
-      p hpFive a hA1 hA2 hA3 hmoving x hx hnonsquare
-  rw [hcard]
-  simpa using hexplicit
-
-/-- Uniform large-prime nonsquare normalization whose primitive second-axis
-trace forms a full connecting incidence pair with the prescribed trace. -/
-theorem
-    exists_threshold_cageReadyCanonicalFirstAxis_nonsquare_reaches_primitiveConnectingPairAxisTwo :
-    ∃threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)),
-        a.a1 ^ 2 ≠ 4 →
-        a.a2 ^ 2 ≠ 4 →
-        a.a3 ^ 2 ≠ 4 →
-        (a.a3, a.a1) ≠ (0, 0) →
-        ∀ eta : ZMod p,
-          OrderedTraceCandidateRegular a.a2 a.a3 a.a1 eta →
-          incidenceCenteredNormObstruction
-            (directedCycleLeftCoefficients a) eta ≠ 0 →
-          ∀ x : SolutionSurface a,
-            IsCageReadyCanonicalFirstAxisPrimitiveSplit p a x →
-            ¬ IsSquare
-              (centeredNorm a.a2 a.a3
-                (traceAt a .first x.1)) →
-            ∃y : SolutionSurface a,
-              SameVietaComponent x y ∧
-                ∃q : (ZMod p)ˣ,
-                  traceAt a .second y.1 = splitTorusTrace q ∧
-                    orderOf q = Nat.card (ZMod p)ˣ ∧
-                      OrderedTraceCandidateRegular
-                        a.a2 a.a3 a.a1
-                          (traceAt a .second y.1) ∧
-                        IsConnectingIncidencePair
-                          (directedCycleLeftCoefficients a)
-                            (traceAt a .second y.1) eta ∧
-                          ¬ IsSquare
-                            (centeredNorm a.a3 a.a1
-                              (traceAt a .second y.1)) := by
-  refine ⟨GenMarkoff.General.Explicit.analyticCutoff, ?_⟩
-  intro p hp _ a hA1 hA2 hA3 hmoving
-    eta hetaRegular hetaObstruction x hx hnonsquare
-  have hpFive : 5 ≤ p :=
-    GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_one
-      hp (coefficient := 388) (by norm_num)
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  apply
-    exists_sameVietaComponent_primitiveConnectingPairAxisTwo_of_nonsquare_of_explicitInequality
-      p hpFive a hA1 hA2 hA3 hmoving
-        eta hetaRegular hetaObstruction x hx hnonsquare
-  rw [hcard]
-  simpa using hexplicit
-
-/-- Pointwise nonsquare obstruction-ready normalization at the analytic
-cutoff. -/
-theorem cageReadyCanonicalFirstAxis_nonsquare_reaches_obstructionReadyPrimitiveConnectingAxisTwo_of_analyticCutoff
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
-    (hA3 : a.a3 ^ 2 ≠ 4) (hmoving : (a.a3, a.a1) ≠ (0, 0))
-    (x : SolutionSurface a)
-    (hx : IsCageReadyCanonicalFirstAxisPrimitiveSplit p a x)
-    (hnonsquare :
-      ¬ IsSquare (centeredNorm a.a2 a.a3 (traceAt a .first x.1))) :
-    ∃ y : SolutionSurface a,
-      SameVietaComponent x y ∧
-        ∃ q : (ZMod p)ˣ,
-          traceAt a .second y.1 = splitTorusTrace q ∧
-            orderOf q = Nat.card (ZMod p)ˣ ∧
-              OrderedTraceCandidateRegular a.a2 a.a3 a.a1
-                  (traceAt a .second y.1) ∧
-                incidenceCenteredNormObstruction
-                    (directedCycleLeftCoefficients a)
-                    (traceAt a .second y.1) ≠ 0 ∧
-                  ¬ IsSquare
-                    (centeredNorm a.a3 a.a1
-                      (traceAt a .second y.1)) := by
-  have hpFive : 5 ≤ p :=
-    GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_one
-      hp (coefficient := 364) (by norm_num)
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  apply
-    exists_sameVietaComponent_obstructionReadyPrimitiveConnectingAxisTwo_of_nonsquare_of_explicitInequality
-      p hpFive a hA1 hA2 hA3 hmoving x hx hnonsquare
-  rw [hcard]
-  simpa using hexplicit
-
-/-- Pointwise nonsquare prescribed-pair normalization at the same cutoff. -/
-theorem cageReadyCanonicalFirstAxis_nonsquare_reaches_primitiveConnectingPairAxisTwo_of_analyticCutoff
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
-    (hA3 : a.a3 ^ 2 ≠ 4) (hmoving : (a.a3, a.a1) ≠ (0, 0))
-    (eta : ZMod p)
-    (hetaRegular : OrderedTraceCandidateRegular a.a2 a.a3 a.a1 eta)
-    (hetaObstruction :
-      incidenceCenteredNormObstruction
-        (directedCycleLeftCoefficients a) eta ≠ 0)
-    (x : SolutionSurface a)
-    (hx : IsCageReadyCanonicalFirstAxisPrimitiveSplit p a x)
-    (hnonsquare :
-      ¬ IsSquare (centeredNorm a.a2 a.a3 (traceAt a .first x.1))) :
-    ∃ y : SolutionSurface a,
-      SameVietaComponent x y ∧
-        ∃ q : (ZMod p)ˣ,
-          traceAt a .second y.1 = splitTorusTrace q ∧
-            orderOf q = Nat.card (ZMod p)ˣ ∧
-              OrderedTraceCandidateRegular a.a2 a.a3 a.a1
-                  (traceAt a .second y.1) ∧
-                IsConnectingIncidencePair
-                    (directedCycleLeftCoefficients a)
-                    (traceAt a .second y.1) eta ∧
-                  ¬ IsSquare
-                    (centeredNorm a.a3 a.a1
-                      (traceAt a .second y.1)) := by
-  have hpFive : 5 ≤ p :=
-    GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_one
-      hp (coefficient := 388) (by norm_num)
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  apply
-    exists_sameVietaComponent_primitiveConnectingPairAxisTwo_of_nonsquare_of_explicitInequality
-      p hpFive a hA1 hA2 hA3 hmoving
-        eta hetaRegular hetaObstruction x hx hnonsquare
-  rw [hcard]
-  simpa using hexplicit
-
-/-- Reasonable-cutoff nonsquare obstruction normalization. -/
+/-- The conclusion of
+`exists_sameVietaComponent_obstructionReadyPrimitiveConnectingAxisTwo_of_nonsquare_of_explicitInequality`
+holds for every prime `p ≥ reasonableAnalyticCutoff`, where the divisor
+inequality is automatic. -/
 theorem cageReadyCanonicalFirstAxis_nonsquare_reaches_obstructionReadyPrimitiveConnectingAxisTwo_of_reasonableCutoff
     (p : ℕ)
     (hp : GenMarkoff.General.Explicit.reasonableAnalyticCutoff ≤ p)
@@ -449,7 +288,10 @@ theorem cageReadyCanonicalFirstAxis_nonsquare_reaches_obstructionReadyPrimitiveC
   rw [hcard]
   simpa using hexplicit
 
-/-- Reasonable-cutoff nonsquare prescribed-pair normalization. -/
+/-- The conclusion of
+`exists_sameVietaComponent_primitiveConnectingPairAxisTwo_of_nonsquare_of_explicitInequality`
+holds for every prime `p ≥ reasonableAnalyticCutoff`, where the divisor
+inequality is automatic. -/
 theorem cageReadyCanonicalFirstAxis_nonsquare_reaches_primitiveConnectingPairAxisTwo_of_reasonableCutoff
     (p : ℕ)
     (hp : GenMarkoff.General.Explicit.reasonableAnalyticCutoff ≤ p)

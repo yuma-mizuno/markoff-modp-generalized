@@ -1,5 +1,5 @@
 import GenMarkoff.General.Cage.ThreeSquareRootCount
-import GenMarkoff.General.Cage.ConnectingPulledRadicands
+import GenMarkoff.General.Cage.Connecting.PulledRadicands
 import BGS.NumberTheory.OneSidedPrimitiveWitness
 
 /-!
@@ -8,13 +8,17 @@ import BGS.NumberTheory.OneSidedPrimitiveWitness
 The seven-plane estimate counts three simultaneous square roots over every
 affine parameter.  Primitive extraction instead uses a nonzero parameter in
 the multiplicative group and then quotients by the fibers of a power map.
-This file supplies the exact bridge.
+This file relates the two counts exactly.
 
-The generic counting layer removes the zero parameter and, in the good
-variant, removes precisely the locus where the third root vanishes.  The
-specialized layer identifies the remaining unit cover for the unequal
-connecting radicands with the witness-bearing one-sided power cover of
-`BGS.NumberTheory.OneSidedPrimitiveWitness`.
+The generic part (`ThreeRootPowerCover`, `UnitThreeRootPowerCover`,
+`GoodUnitThreeRootPowerCover`) removes the zero parameter and, in the good
+variant, precisely the locus where the third root vanishes, with exact
+cardinal identities over a finite field.  The connecting part identifies the
+unit cover for the two incidence radicands and the scaled centered-norm
+radicand with the witness-bearing one-sided power cover
+`BGS.rightPowerTraceCoverSolutions` of
+`BGS.NumberTheory.OneSidedPrimitiveWitness`
+(`connectingThreeRootPowerCoverEquivPulled`).
 -/
 
 namespace GenMarkoff.General.Cage
@@ -82,19 +86,6 @@ theorem ThreeRootPowerCover.ext
   cases x
   cases y
   simp_all
-
-instance threeRootPowerCoverFinite
-    [Finite K] (f g h : K[X]) :
-    Finite (ThreeRootPowerCover f g h) :=
-  Finite.of_injective
-    (fun z => (z.parameter, z.firstRoot, z.secondRoot, z.thirdRoot))
-    (by
-      intro x y h
-      exact ThreeRootPowerCover.ext
-        (congrArg (fun z => z.1) h)
-        (congrArg (fun z => z.2.1) h)
-        (congrArg (fun z => z.2.2.1) h)
-        (congrArg (fun z => z.2.2.2) h))
 
 /-- The same cover with its parameter restricted to the unit group. -/
 structure UnitThreeRootPowerCover (f g h : K[X]) where
@@ -283,6 +274,9 @@ variable [Fintype K] [DecidableEq K]
 theorem natCard_squareRootFiber_eq_squareRootCount
     (a : K) :
     (Nat.card {r : K // r ^ 2 = a} : ℤ) = squareRootCount a := by
+  -- `squareRootCount a` unfolds to the cast of the `Finset.card` of
+  -- `{r | r ^ 2 = a}.toFinset`; restate it so that the final
+  -- `exact_mod_cast hcard` matches the natural-number identity `hcard`.
   change (Nat.card {r : K // r ^ 2 = a} : ℤ) =
     ((({r : K | r ^ 2 = a} : Set K).toFinset.card : ℕ) : ℤ)
   have hset :=
@@ -505,13 +499,6 @@ abbrev connectingThreeRootPowerCoverSolutions
     (fun w : ConnectingThreeRootWitness a xi eta omegaInv => w.middle)
     (BGS.Markoff.splitTorusTrace : Kˣ → K) d
 
-/-- The corresponding power-range quotient. -/
-abbrev connectingThreeRootPowerRangeSolutions
-    (a : Coefficients K) (xi eta omegaInv : K) (d : ℕ) :=
-  BGS.rightPowerTraceRangeSolutions
-    (fun w : ConnectingThreeRootWitness a xi eta omegaInv => w.middle)
-    (BGS.Markoff.splitTorusTrace : Kˣ → K) d
-
 /-- Scale all three witness roots by the common reciprocal-trace
 denominator. -/
 def connectingThreeRootPowerCoverToPulled
@@ -630,36 +617,6 @@ def connectingThreeRootPowerCoverEquivPulled
         connectingPulledToThreeRootPowerCover]
     · simp [connectingThreeRootPowerCoverToPulled,
         connectingPulledToThreeRootPowerCover]
-
-/-- Exact `d`-fold multiplicity of the connecting pulled cover over the
-power-map range. -/
-theorem natCard_connectingUnitThreeRootPowerCover_eq_mul_powerRange
-    [Finite K] [IsCyclic Kˣ]
-    (a : Coefficients K) (xi eta omegaInv : K) (d : ℕ)
-    (hd : d ∣ Nat.card Kˣ) :
-    Nat.card (ConnectingUnitThreeRootPowerCover
-        a xi eta omegaInv d) =
-      d * Nat.card
-        (connectingThreeRootPowerRangeSolutions
-          a xi eta omegaInv d) := by
-  calc
-    Nat.card (ConnectingUnitThreeRootPowerCover
-        a xi eta omegaInv d) =
-        Nat.card
-          (connectingThreeRootPowerCoverSolutions
-            a xi eta omegaInv d) :=
-      Nat.card_congr
-        (connectingThreeRootPowerCoverEquivPulled
-          a xi eta omegaInv d).symm
-    _ = d * Nat.card
-        (connectingThreeRootPowerRangeSolutions
-          a xi eta omegaInv d) := by
-      simpa [connectingThreeRootPowerCoverSolutions,
-        connectingThreeRootPowerRangeSolutions] using
-          (BGS.natCard_rightPowerTraceCoverSolutions_of_dvd
-            (fun w : ConnectingThreeRootWitness
-              a xi eta omegaInv => w.middle)
-            (BGS.Markoff.splitTorusTrace : Kˣ → K) d hd)
 
 end ConnectingPowerCover
 

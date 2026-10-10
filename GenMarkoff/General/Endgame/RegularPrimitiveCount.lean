@@ -1,29 +1,20 @@
-import GenMarkoff.Symmetric.Endgame.RegularPrimitiveCount
+import GenMarkoff.ShiftedTrace.Endgame.RegularPrimitiveCount
 import GenMarkoff.TraceCurve.ExceptionalRouting
 
 /-!
 # Candidate-regular primitive traces for an ordered coefficient frame
 
-The weighted shifted primitive count produces pairs whose common trace is
-primitive on the ordinary split torus.  For an arbitrary ordered frame
-`(A, B, C)`, candidate regularity is controlled by
-`orderedTraceSafePolynomial A B C`.  Its ten-root bound, together with the
-generic four-lift bound above each trace, leaves at most `4 * 10 = 40`
-candidate-irregular primitive pairs.
-
-## New consideration in the unequal-coefficient case
-
-The symmetric degree-seven safe polynomial uses cancellations that depend on
-coefficient equality.  They are unavailable for an ordered frame, so all six
-ordered obstruction factors must be retained and the root budget rises from
-seven to ten.  Moreover, nonvanishing of the ordered safe polynomial requires
-`A ^ 2 ≠ 4` and `B ^ 2 ≠ 4` in these precise ordered roles; no coefficient
-permutation is used, and no corresponding hypothesis on `C` is needed for
-this polynomial-count step.
-
-The four-lift trace-fiber theorem is coefficient-independent.  We reuse it at
-its existing explicit theorem boundary rather than duplicating its
-twisted-trace argument.
+The weighted shifted primitive pairs `weightedShiftedSplitPrimitiveTraceSolutions`
+have a common trace that is primitive on the split torus `(ZMod p)ˣ`.  For an
+ordered frame `(A, B, C)`, candidate regularity of that trace fails exactly at
+the roots of `orderedTraceSafePolynomial A B C`, which keeps all six ordered
+obstruction factors, has at most ten roots, and is nonzero when `2 ≠ 0`,
+`A ^ 2 ≠ 4` and `B ^ 2 ≠ 4`.  Since each trace value has at most four primitive
+lifts (`weightedShiftedSplitPrimitiveTraceSolutions_traceFiber_card_le_four`),
+at most `4 * 10 = 40` primitive pairs are candidate-irregular.  Consequently
+the primitive count with an extra margin of forty produces a primitive trace
+that is candidate regular in the frame `(A, B, C)`.  No hypothesis on `C` and
+no coefficient permutation is used.
 -/
 
 namespace GenMarkoff.General.Endgame
@@ -61,6 +52,7 @@ theorem weightedShiftedSplitPrimitiveUnsafeTraceSolutions_card_le_forty
     fun z ↦ splitTorusTrace z.2
   let bad := primitive.filter fun z ↦
     eval (traceValue z) (orderedTraceSafePolynomial A B C) = 0
+  -- Each bad trace value has at most four lifts and is one of at most ten roots.
   have hbadFiber : ∀ t ∈ bad.image traceValue,
       (bad.filter fun z ↦ traceValue z = t).card ≤ 4 := by
     intro t _
@@ -73,7 +65,7 @@ theorem weightedShiftedSplitPrimitiveUnsafeTraceSolutions_card_le_forty
         exact ⟨hz.1.1, hz.2⟩
       _ ≤ 4 := by
         simpa [primitive, traceValue] using
-          GenMarkoff.Symmetric.Endgame.weightedShiftedSplitPrimitiveTraceSolutions_traceFiber_card_le_four
+          GenMarkoff.ShiftedTrace.Endgame.weightedShiftedSplitPrimitiveTraceSolutions_traceFiber_card_le_four
             p alpha beta gamma orbitExponent halpha t
   have hp : orderedTraceSafePolynomial A B C ≠ 0 :=
     orderedTraceSafePolynomial_ne_zero A B C h2 hA hB
@@ -94,6 +86,7 @@ theorem weightedShiftedSplitPrimitiveUnsafeTraceSolutions_card_le_forty
   have hrootCard :
       (orderedTraceSafePolynomial A B C).roots.toFinset.card ≤ 10 :=
     orderedTraceSafePolynomial_roots_card_le A B C
+  -- `weightedShiftedSplitPrimitiveUnsafeTraceSolutions` unfolds to the local `bad`, used by `calc`.
   change bad.card ≤ 40
   calc
     bad.card ≤ 4 * (bad.image traceValue).card :=

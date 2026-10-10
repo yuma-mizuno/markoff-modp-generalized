@@ -4,14 +4,15 @@ import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
 # Counting three simultaneous square roots
 
 The connecting-cage argument asks for a parameter at which three radicands
-simultaneously have square roots.  Instead of introducing an auxiliary
-degree-eight primitive-element equation, one can expand the three root
-counts using the quadratic character.  The result involves only the seven
-nonempty products of the three radicands.
+simultaneously have square roots.  Writing each square-root count as one plus
+the quadratic character, the number of simultaneous roots expands into the
+root counts of the seven nonempty products of the three radicands
+(`threeSquareRootFiberProductPointCount_eq_seven_covers`); the analogous
+two-radicand identity is also recorded.
 
-The identities in this file include vanishing radicands.  This is important:
-the number of square roots of zero is one, and the quadratic character is
-zero there.
+Over a finite field of odd characteristic, the identities hold for all
+values, including vanishing radicands: the number of square roots of zero is
+one, and the quadratic character is zero there.
 -/
 
 namespace GenMarkoff.General.Cage

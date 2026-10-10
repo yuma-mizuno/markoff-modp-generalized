@@ -2,27 +2,33 @@ import GenMarkoff.General.Assembly.CoarseRegularMiddle
 import GenMarkoff.General.Assembly.UnifiedRegularEndgame
 
 /-!
-# Unified orbit route at the reasonable cutoff
+# Every rotation component reaches a canonical split point
 
-This module replaces the legacy `p^(1/256)` startup by the
-source-order-preserving count.  Divisibility supplies a candidate-regular
-source above `(192 T)^3`; the existing strict middle iterator then reaches
-actual order `p^(3/4)`, and the split/nonsplit classification feeds the
-primitive endgame at exponent `1/4`.
+For an integrally nondegenerate coefficient triple `a` and a prime `p` beyond
+`reasonableAnalyticCutoff` and `genericAdmissibilityCutoff a`, every punctured
+rotation component modulo `p` contains a canonical first-axis primitive split
+point (`IsCanonicalFirstAxisPrimitiveSplit`).  Writing
+`T = #divisors (p - 1) + #divisors (p + 1)`, the route is:
 
-The essential new bookkeeping is that the startup count preserves the actual
-order of the selected source trace.  This removes one divisor summation and
-changes the excluded frontier from the legacy scale to `C T^8`.
+1. generic Martin divisibility makes every punctured rotation orbit
+   `p`-divisible, so the coarse startup
+   (`exists_sameRotationComponent_coarseRegularState_of_dvd`) gives an
+   alternating candidate-regular state of actual order above `(192 T)^3`;
+2. the regular middle game raises the actual order to at least `p ^ (3/4)`;
+3. the trace of the resulting state is split or comes from the quadratic
+   norm-one torus, and the split or nonsplit endgame finishes, using the
+   Hasse–Weil point-count estimates with coefficient `34`.
 -/
 
 namespace GenMarkoff.General.Assembly
 
 open BGS.Markoff
 open GenMarkoff.General.Endgame
-open GenMarkoff.Symmetric.Endgame.Nonsplit
+open GenMarkoff.ShiftedTrace.Endgame.Nonsplit
 
 noncomputable section
 
+/-- The split Hasse–Weil assumption is monotone in its coefficient. -/
 private theorem weightedShiftedTraceWeilBoundAssumption_mono_reasonable
     {coefficient largerCoefficient : ℕ}
     (hle : coefficient ≤ largerCoefficient)
@@ -34,11 +40,11 @@ private theorem weightedShiftedTraceWeilBoundAssumption_mono_reasonable
     (hWeil.2 K alpha beta gamma d e halpha hbeta hd he
       hirreducible).trans (by gcongr)
 
-/-- At the reasonable analytic cutoff, every punctured rotation component
-for a fixed integrally nondegenerate coefficient triple reaches a canonical
-first-axis primitive split point. -/
+/-- Beyond `reasonableAnalyticCutoff` and `genericAdmissibilityCutoff a`,
+every punctured rotation component for an integrally nondegenerate
+coefficient triple contains a canonical first-axis primitive split point. -/
 theorem
-    IntegrallyNondegenerate.every_puncturedRotationComponent_reaches_canonicalFirstAxisPrimitiveSplit_of_reasonableCutoff
+    _root_.GenMarkoff.IntegrallyNondegenerate.every_puncturedRotationComponent_reaches_canonicalFirstAxisPrimitiveSplit_of_reasonableCutoff
     {a : Coefficients ℤ} (ha : IntegrallyNondegenerate a)
     (p : ℕ) (hp : p.Prime)
     (hpReasonable :
@@ -69,7 +75,9 @@ theorem
         GenMarkoff.weightedShiftedTraceWeilBoundAssumption_thirtyThree
   have hNonsplit34 :
       ShiftedSeededNonsplitTraceWeilBoundAssumption 34 :=
-    GenMarkoff.Symmetric.Endgame.Nonsplit.shiftedSeededNonsplitTraceWeilBoundAssumption_thirtyFour
+    GenMarkoff.ShiftedTrace.Endgame.Nonsplit.shiftedSeededNonsplitTraceWeilBoundAssumption_thirtyFour
+  -- Startup: `p`-divisibility of the rotation orbit gives a coarse regular
+  -- state; the middle game then reaches actual order `p ^ (3/4)`.
   have hVieta : VietaOrbitDivisibilityAt a p hp := by
     apply generalizedMartinGenericDivisibility
     · exact hpFive
@@ -84,6 +92,7 @@ theorem
   obtain ⟨middle, hstartMiddle, hmiddleOrder⟩ :=
     alternatingRegularMiddleGame_reaches_threeQuarter_of_reasonableCutoff
       hpReasonable (modCoefficients a p) hA1 hA2 start hstartOrder
+  -- Endgame: the fixed trace is nonparabolic, hence split or nonsplit.
   let t :=
     traceAt (modCoefficients a p)
       middle.direction.fixed middle.point.1
@@ -113,6 +122,7 @@ theorem
     sub_ne_zero.mp (by simpa [discriminant] using hD)
   rcases exists_split_or_quadraticNormOneTrace p hpTwo t ht with
       ⟨q, htraceQ, hq⟩ | ⟨w, htraceW, hw⟩
+  -- Split trace `q + q⁻¹`.
   · have hmiddleTrace :
         traceAt (modCoefficients a p)
             middle.direction.fixed middle.point.1 =
@@ -139,6 +149,7 @@ theorem
         sameRotationComponent_trans hxStart
           (sameRotationComponent_trans hstartMiddle hmiddleFinish),
         hcanonical⟩
+  -- Nonsplit trace from the quadratic norm-one torus.
   · have hmiddleTrace :
         traceAt (modCoefficients a p)
             middle.direction.fixed middle.point.1 =

@@ -1,21 +1,23 @@
 import GenMarkoff.Core.Basic
-import GenMarkoff.TraceCurve.ShiftedCover
+import GenMarkoff.TraceCurve.ShiftedCover.Basic
 
 /-!
-# Routing away from exceptional shifted trace fibers
+# Exceptional traces for the shifted trace curve
 
-The shifted endgame needs more than an irreducible degree-one trace curve.
-This file packages a deliberately strong ordered trace condition whose bad
-values are the roots of one explicit polynomial of degree at most ten.  The
-condition excludes every trace-dependent parabolic, one-weight,
-`sigma = 1`, and common-even factor.  The coefficient factor `B² - 4`
-is a separate hypothesis when the common-even obstruction is used.
+For an ordered coefficient frame `(A, B, C)` and a fiber trace `t`, the
+adjacent shifted trace curve has parameters `orderedTraceSigma A B C t` and
+`orderedTraceGamma A B C t`.  This file defines the polynomial
+`orderedTraceSafePolynomial A B C`, of degree at most ten, whose nonvanishing
+at `t` (`OrderedTraceCandidateRegular A B C t`) excludes the parabolic traces
+`t ^ 2 = 4`, the traces with `sigma = 0` or `sigma = 1`, and the two
+trace-dependent factors of the even obstruction.  The remaining coefficient
+factor `B ^ 2 - 4` of the even obstruction is a separate hypothesis
+(`OrderedTraceCandidateRegular.evenObstruction_ne_zero`).
 
-The second half of the file uses this polynomial to route any sufficiently
-large subset of one conic fiber to a strict candidate-regular frame on the
-next cyclic axis.  No coordinate permutation is used: all three cyclic cases
-are stated with their coefficients in the corresponding order.  Identifying
-the candidate parameters with an affine diagonalization is a later boundary.
+The second half of the file bounds the points of a first-coordinate surface
+fiber with a given second-coordinate trace by two, and bounds by twenty the
+members of a finite family with two-element trace fibers whose trace is a
+root of the safe polynomial.
 -/
 
 namespace GenMarkoff
@@ -60,9 +62,10 @@ def orderedTraceShiftPolynomial (A B C : K) : K[X] :=
   Polynomial.C (2 * C + A * B) * X +
     Polynomial.C (2 * A * C + 4 * B)
 
-/-- A single polynomial encoding the trace-dependent hypotheses of the first,
-deliberately narrow shifted-cover theorem.  Ambient characteristic and
-coefficient hypotheses remain separate. -/
+/-- The product of the six trace-dependent exceptional factors: `t ^ 2 - 4`,
+`t + A`, the centered norm, the numerator of `sigma - 1`, and the two linear
+factors of the even obstruction.  Characteristic and coefficient hypotheses
+are not encoded here. -/
 def orderedTraceSafePolynomial (A B C : K) : K[X] :=
   orderedTraceDiscriminantPolynomial *
     (X + Polynomial.C A) *
@@ -71,7 +74,8 @@ def orderedTraceSafePolynomial (A B C : K) : K[X] :=
     orderedTraceEvenMinusPolynomial A B C *
     orderedTraceEvenPlusPolynomial A B C
 
-/-- The strong candidate-regular regime for an ordered trace. -/
+/-- The trace `t` is not a root of any of the six factors of
+`orderedTraceSafePolynomial A B C`. -/
 def OrderedTraceCandidateRegular (A B C t : K) : Prop :=
   eval t orderedTraceDiscriminantPolynomial ≠ 0 ∧
     t + A ≠ 0 ∧
@@ -137,6 +141,7 @@ theorem eval_orderedTraceShiftPolynomial (A B C t : K) :
   simp [orderedTraceShiftPolynomial]
   ring
 
+/-- Nonvanishing of the safe polynomial at `t` is candidate regularity. -/
 theorem orderedTraceSafePolynomial_eval_ne_zero_iff
     (A B C t : K) :
     eval t (orderedTraceSafePolynomial A B C) ≠ 0 ↔
@@ -173,6 +178,7 @@ theorem shiftedTraceEvenObstruction_orderedTrace
   field_simp [hD]
   ring
 
+/-- At a candidate-regular trace, `orderedTraceSigma A B C t ≠ 0`. -/
 theorem OrderedTraceCandidateRegular.sigma_ne_zero
     {A B C t : K} (h : OrderedTraceCandidateRegular A B C t) :
     orderedTraceSigma A B C t ≠ 0 := by
@@ -182,6 +188,7 @@ theorem OrderedTraceCandidateRegular.sigma_ne_zero
   exact div_ne_zero (mul_ne_zero (pow_ne_zero 2 htA) hN)
     (pow_ne_zero 2 hD)
 
+/-- At a candidate-regular trace, `orderedTraceSigma A B C t ≠ 1`. -/
 theorem OrderedTraceCandidateRegular.sigma_ne_one
     {A B C t : K} (h : OrderedTraceCandidateRegular A B C t) :
     orderedTraceSigma A B C t ≠ 1 := by
@@ -194,6 +201,8 @@ theorem OrderedTraceCandidateRegular.sigma_ne_one
   field_simp [hD] at hsigma
   linear_combination hsigma
 
+/-- At a candidate-regular trace and for `B ^ 2 ≠ 4`, the even obstruction of
+the candidate parameters is nonzero. -/
 theorem OrderedTraceCandidateRegular.evenObstruction_ne_zero
     {A B C t : K} (hB : B ^ 2 ≠ 4)
     (h : OrderedTraceCandidateRegular A B C t) :
@@ -246,6 +255,7 @@ lemma orderedTraceEvenMinusPolynomial_ne_zero
     coeff_C_mul, coeff_X, coeff_C] at h0 h1
   norm_num at h0 h1
   have hfour : (4 : K) ≠ 0 := by
+    -- `show` states `4 = 2 ^ 2` so that `pow_ne_zero` applies.
     rw [show (4 : K) = 2 ^ 2 by norm_num]
     exact pow_ne_zero 2 htwo
   have hCA : C = A := by
@@ -272,6 +282,7 @@ lemma orderedTraceEvenPlusPolynomial_ne_zero
     coeff_C_mul, coeff_X, coeff_C] at h0 h1
   norm_num at h0 h1
   have hfour : (4 : K) ≠ 0 := by
+    -- `show` states `4 = 2 ^ 2` so that `pow_ne_zero` applies.
     rw [show (4 : K) = 2 ^ 2 by norm_num]
     exact pow_ne_zero 2 htwo
   have hCA : C = -A := by
@@ -287,6 +298,7 @@ lemma orderedTraceEvenPlusPolynomial_ne_zero
     rw [this]
     norm_num
 
+/-- For `2 ≠ 0`, `A ^ 2 ≠ 4` and `B ^ 2 ≠ 4`, the safe polynomial is nonzero. -/
 theorem orderedTraceSafePolynomial_ne_zero
     (A B C : K) (htwo : (2 : K) ≠ 0)
     (hA : A ^ 2 ≠ 4) (hB : B ^ 2 ≠ 4) :
@@ -302,6 +314,7 @@ theorem orderedTraceSafePolynomial_ne_zero
       (orderedTraceEvenMinusPolynomial_ne_zero A B C htwo hA hB))
     (orderedTraceEvenPlusPolynomial_ne_zero A B C htwo hA hB)
 
+/-- The safe polynomial has degree at most ten. -/
 theorem orderedTraceSafePolynomial_natDegree_le (A B C : K) :
     (orderedTraceSafePolynomial A B C).natDegree ≤ 10 := by
   rw [orderedTraceSafePolynomial,
@@ -312,6 +325,7 @@ theorem orderedTraceSafePolynomial_natDegree_le (A B C : K) :
     orderedTraceEvenPlusPolynomial]
   compute_degree
 
+/-- The safe polynomial has at most ten distinct roots. -/
 theorem orderedTraceSafePolynomial_roots_card_le (A B C : K) [DecidableEq K] :
     (orderedTraceSafePolynomial A B C).roots.toFinset.card ≤ 10 := by
   calc
@@ -328,8 +342,8 @@ section FiberRouting
 
 variable {K : Type*} [Field K]
 
-/-- A monic quadratic used to count the two remaining coordinates above a
-fixed pair of coordinates on the surface. -/
+/-- The monic quadratic `X ^ 2 + linear * X + constant`.  Above fixed values of
+two coordinates, the third coordinate of a surface point is one of its roots. -/
 def monicQuadraticPolynomial (linear constant : K) : K[X] :=
   X ^ 2 + Polynomial.C linear * X + Polynomial.C constant
 
@@ -382,10 +396,6 @@ def coordinateTrace1 (a : Coefficients K) (x : Point K) : K :=
 def coordinateTrace2 (a : Coefficients K) (x : Point K) : K :=
   a.multiplier * x.x2 - a.a2
 
-/-- The affine trace attached to the third coordinate. -/
-def coordinateTrace3 (a : Coefficients K) (x : Point K) : K :=
-  a.multiplier * x.x3 - a.a3
-
 /-- On a fixed first-coordinate surface fiber, one value of the second
 coordinate trace occurs at no more than two points. -/
 theorem card_le_two_of_solution_fixed_x1_trace2
@@ -417,68 +427,6 @@ theorem card_le_two_of_solution_fixed_x1_trace2
     rw [IsSolution, polynomial, hfixed x hx, hsecond x hx] at hsurface
     linear_combination hsurface
 
-/-- On a fixed second-coordinate surface fiber, one value of the third
-coordinate trace occurs at no more than two points. -/
-theorem card_le_two_of_solution_fixed_x2_trace3
-    (a : Coefficients K) (S : Finset (Point K)) (u t : K)
-    (hmultiplier : a.multiplier ≠ 0)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x2 = u)
-    (htrace : ∀ x ∈ S, coordinateTrace3 a x = t) :
-    S.card ≤ 2 := by
-  classical
-  let y := (t + a.a3) / a.multiplier
-  have hthird : ∀ x ∈ S, x.x3 = y := by
-    intro x hx
-    apply (eq_div_iff hmultiplier).2
-    have ht := htrace x hx
-    rw [coordinateTrace3] at ht
-    linear_combination ht
-  apply card_le_two_of_injOn_isRoot S Point.x1
-    (a.a2 * y + a.a3 * u - a.multiplier * u * y)
-    (u ^ 2 + y ^ 2 + a.a1 * u * y)
-  · intro x hx z hz heq
-    apply Point.ext
-    · exact heq
-    · exact (hfixed x hx).trans (hfixed z hz).symm
-    · exact (hthird x hx).trans (hthird z hz).symm
-  · intro x hx
-    rw [IsRoot, eval_monicQuadraticPolynomial]
-    have hsurface := hsolution x hx
-    rw [IsSolution, polynomial, hfixed x hx, hthird x hx] at hsurface
-    linear_combination hsurface
-
-/-- On a fixed third-coordinate surface fiber, one value of the first
-coordinate trace occurs at no more than two points. -/
-theorem card_le_two_of_solution_fixed_x3_trace1
-    (a : Coefficients K) (S : Finset (Point K)) (u t : K)
-    (hmultiplier : a.multiplier ≠ 0)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x3 = u)
-    (htrace : ∀ x ∈ S, coordinateTrace1 a x = t) :
-    S.card ≤ 2 := by
-  classical
-  let y := (t + a.a1) / a.multiplier
-  have hfirst : ∀ x ∈ S, x.x1 = y := by
-    intro x hx
-    apply (eq_div_iff hmultiplier).2
-    have ht := htrace x hx
-    rw [coordinateTrace1] at ht
-    linear_combination ht
-  apply card_le_two_of_injOn_isRoot S Point.x2
-    (a.a1 * u + a.a3 * y - a.multiplier * y * u)
-    (u ^ 2 + y ^ 2 + a.a2 * u * y)
-  · intro x hx z hz heq
-    apply Point.ext
-    · exact (hfirst x hx).trans (hfirst z hz).symm
-    · exact heq
-    · exact (hfixed x hx).trans (hfixed z hz).symm
-  · intro x hx
-    rw [IsRoot, eval_monicQuadraticPolynomial]
-    have hsurface := hsolution x hx
-    rw [IsSolution, polynomial, hfixed x hx, hfirst x hx] at hsurface
-    linear_combination hsurface
-
 /-- If every trace fiber in `S` has at most two elements, no more than twenty
 elements of `S` can annihilate the ordered safe polynomial. -/
 theorem card_orderedTraceSafePolynomial_zero_le_twenty
@@ -506,6 +454,7 @@ theorem card_orderedTraceSafePolynomial_zero_le_twenty
     intro t ht
     rcases Finset.mem_image.mp ht with ⟨x, hx, rfl⟩
     have hzero : eval (trace x) p = 0 := by
+      -- Unfold the local `bad` so that `Finset.mem_filter` applies to `hx`.
       change x ∈ S.filter (fun y ↦ eval (trace y) p = 0) at hx
       exact (Finset.mem_filter.mp hx).2
     rw [Multiset.mem_toFinset, Polynomial.mem_roots hp]
@@ -514,6 +463,7 @@ theorem card_orderedTraceSafePolynomial_zero_le_twenty
     Finset.card_le_card himage
   have hrootCard : p.roots.toFinset.card ≤ 10 := by
     simpa [p] using orderedTraceSafePolynomial_roots_card_le A B C
+  -- Fold the goal into the local abbreviations `p` and `bad` used by the bounds above.
   change bad.card ≤ 20
   calc
     bad.card ≤ 2 * (bad.image trace).card :=
@@ -521,197 +471,6 @@ theorem card_orderedTraceSafePolynomial_zero_le_twenty
     _ ≤ 2 * p.roots.toFinset.card := Nat.mul_le_mul_left 2 himageCard
     _ ≤ 2 * 10 := Nat.mul_le_mul_left 2 hrootCard
     _ = 20 := by norm_num
-
-/-- Abstract finite-fiber escape: more than twenty inputs contain a trace at
-which all six ordered candidate factors are nonzero. -/
-theorem exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    {T : Type*} [DecidableEq T] [DecidableEq K]
-    (A B C : K) (S : Finset T) (trace : T → K)
-    (htwo : (2 : K) ≠ 0) (hA : A ^ 2 ≠ 4) (hB : B ^ 2 ≠ 4)
-    (hfiber : ∀ t, (S.filter fun x ↦ trace x = t).card ≤ 2)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S, OrderedTraceCandidateRegular A B C (trace x) := by
-  by_contra hnone
-  push Not at hnone
-  have hsubset : S ⊆ S.filter (fun x ↦
-      eval (trace x) (orderedTraceSafePolynomial A B C) = 0) := by
-    intro x hx
-    rw [Finset.mem_filter]
-    refine ⟨hx, ?_⟩
-    by_contra hne
-    exact hnone x hx
-      ((orderedTraceSafePolynomial_eval_ne_zero_iff A B C (trace x)).mp hne)
-  have hbad := card_orderedTraceSafePolynomial_zero_le_twenty
-    A B C S trace htwo hA hB hfiber
-  have hle := Finset.card_le_card hsubset
-  omega
-
-/-- First cyclic escape theorem.  A finite surface subset with fixed `x₁`
-and more than twenty points contains a point whose division-free candidate
-parameters for the ordered frame `(a₂,a₃,a₁)` are candidate-regular.
-
-This theorem supplies the deterministic regularity part of exceptional
-routing.  It does not assert that the new `R₂`-cycle is large. -/
-theorem exists_axisOneFiber_axisTwoCandidateRegular_of_twenty_lt_card
-    (a : Coefficients K) (S : Finset (Point K)) (u : K)
-    (hmultiplier : a.multiplier ≠ 0) (htwo : (2 : K) ≠ 0)
-    (ha2 : a.a2 ^ 2 ≠ 4) (ha3 : a.a3 ^ 2 ≠ 4)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x1 = u)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S,
-      OrderedTraceCandidateRegular a.a2 a.a3 a.a1 (coordinateTrace2 a x) := by
-  classical
-  refine exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    a.a2 a.a3 a.a1 S (coordinateTrace2 a) htwo ha2 ha3 ?_ hcard
-  intro t
-  apply card_le_two_of_solution_fixed_x1_trace2 a
-    (S.filter fun x ↦ coordinateTrace2 a x = t) u t hmultiplier
-  · intro x hx
-    exact hsolution x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    exact hfixed x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    exact (Finset.mem_filter.mp hx).2
-
-/-- Second cyclic candidate-escape theorem, with the fixed coefficient order kept
-explicit.  The conclusion concerns candidate parameters for
-`(a₃,a₁,a₂)` and does not permute the generalized surface. -/
-theorem exists_axisTwoFiber_axisThreeCandidateRegular_of_twenty_lt_card
-    (a : Coefficients K) (S : Finset (Point K)) (u : K)
-    (hmultiplier : a.multiplier ≠ 0) (htwo : (2 : K) ≠ 0)
-    (ha3 : a.a3 ^ 2 ≠ 4) (ha1 : a.a1 ^ 2 ≠ 4)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x2 = u)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S,
-      OrderedTraceCandidateRegular a.a3 a.a1 a.a2 (coordinateTrace3 a x) := by
-  classical
-  refine exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    a.a3 a.a1 a.a2 S (coordinateTrace3 a) htwo ha3 ha1 ?_ hcard
-  intro t
-  apply card_le_two_of_solution_fixed_x2_trace3 a
-    (S.filter fun x ↦ coordinateTrace3 a x = t) u t hmultiplier
-  · intro x hx
-    exact hsolution x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    exact hfixed x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    exact (Finset.mem_filter.mp hx).2
-
-/-- Third cyclic candidate-escape theorem, producing candidate-regular parameters for
-the ordered frame `(a₁,a₂,a₃)` from a large fixed-`x₃` subset. -/
-theorem exists_axisThreeFiber_axisOneCandidateRegular_of_twenty_lt_card
-    (a : Coefficients K) (S : Finset (Point K)) (u : K)
-    (hmultiplier : a.multiplier ≠ 0) (htwo : (2 : K) ≠ 0)
-    (ha1 : a.a1 ^ 2 ≠ 4) (ha2 : a.a2 ^ 2 ≠ 4)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x3 = u)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S,
-      OrderedTraceCandidateRegular a.a1 a.a2 a.a3 (coordinateTrace1 a x) := by
-  classical
-  refine exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    a.a1 a.a2 a.a3 S (coordinateTrace1 a) htwo ha1 ha2 ?_ hcard
-  intro t
-  apply card_le_two_of_solution_fixed_x3_trace1 a
-    (S.filter fun x ↦ coordinateTrace1 a x = t) u t hmultiplier
-  · intro x hx
-    exact hsolution x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    exact hfixed x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    exact (Finset.mem_filter.mp hx).2
-
-/-- Reverse candidate escape from a fixed first-coordinate fiber.  The ordered
-frame is `(a₃, a₂, a₁)`, so its square hypotheses concern `a₃` and `a₂`.
-No coordinate permutation is used: a fixed third-coordinate trace recovers
-the third coordinate because the multiplier is nonzero. -/
-theorem exists_axisOneFiber_axisThreeCandidateRegular_of_twenty_lt_card
-    (a : Coefficients K) (S : Finset (Point K)) (u : K)
-    (hmultiplier : a.multiplier ≠ 0) (htwo : (2 : K) ≠ 0)
-    (ha3 : a.a3 ^ 2 ≠ 4) (ha2 : a.a2 ^ 2 ≠ 4)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x1 = u)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S,
-      OrderedTraceCandidateRegular a.a3 a.a2 a.a1 (coordinateTrace3 a x) := by
-  classical
-  refine exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    a.a3 a.a2 a.a1 S (coordinateTrace3 a) htwo ha3 ha2 ?_ hcard
-  intro t
-  apply card_le_two_of_solution_fixed_x3_trace1 a
-    (S.filter fun x ↦ coordinateTrace3 a x = t)
-    ((t + a.a3) / a.multiplier) (a.multiplier * u - a.a1) hmultiplier
-  · intro x hx
-    exact hsolution x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    apply (eq_div_iff hmultiplier).2
-    have ht := (Finset.mem_filter.mp hx).2
-    rw [coordinateTrace3] at ht
-    linear_combination ht
-  · intro x hx
-    rw [coordinateTrace1, hfixed x (Finset.mem_filter.mp hx).1]
-
-/-- Reverse candidate escape from a fixed second-coordinate fiber.  The
-ordered frame is `(a₁, a₃, a₂)`, so its square hypotheses concern `a₁` and
-`a₃`.  The trace equation is inverted using the nonzero multiplier, without
-permuting the generalized surface. -/
-theorem exists_axisTwoFiber_axisOneCandidateRegular_of_twenty_lt_card
-    (a : Coefficients K) (S : Finset (Point K)) (u : K)
-    (hmultiplier : a.multiplier ≠ 0) (htwo : (2 : K) ≠ 0)
-    (ha1 : a.a1 ^ 2 ≠ 4) (ha3 : a.a3 ^ 2 ≠ 4)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x2 = u)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S,
-      OrderedTraceCandidateRegular a.a1 a.a3 a.a2 (coordinateTrace1 a x) := by
-  classical
-  refine exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    a.a1 a.a3 a.a2 S (coordinateTrace1 a) htwo ha1 ha3 ?_ hcard
-  intro t
-  apply card_le_two_of_solution_fixed_x1_trace2 a
-    (S.filter fun x ↦ coordinateTrace1 a x = t)
-    ((t + a.a1) / a.multiplier) (a.multiplier * u - a.a2) hmultiplier
-  · intro x hx
-    exact hsolution x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    apply (eq_div_iff hmultiplier).2
-    have ht := (Finset.mem_filter.mp hx).2
-    rw [coordinateTrace1] at ht
-    linear_combination ht
-  · intro x hx
-    rw [coordinateTrace2, hfixed x (Finset.mem_filter.mp hx).1]
-
-/-- Reverse candidate escape from a fixed third-coordinate fiber.  The ordered
-frame is `(a₂, a₁, a₃)`, so its square hypotheses concern `a₂` and `a₁`.
-Again the trace equality is converted to a coordinate equality rather than
-permuting coefficients or coordinates. -/
-theorem exists_axisThreeFiber_axisTwoCandidateRegular_of_twenty_lt_card
-    (a : Coefficients K) (S : Finset (Point K)) (u : K)
-    (hmultiplier : a.multiplier ≠ 0) (htwo : (2 : K) ≠ 0)
-    (ha2 : a.a2 ^ 2 ≠ 4) (ha1 : a.a1 ^ 2 ≠ 4)
-    (hsolution : ∀ x ∈ S, IsSolution a x)
-    (hfixed : ∀ x ∈ S, x.x3 = u)
-    (hcard : 20 < S.card) :
-    ∃ x ∈ S,
-      OrderedTraceCandidateRegular a.a2 a.a1 a.a3 (coordinateTrace2 a x) := by
-  classical
-  refine exists_orderedTraceCandidateRegular_of_twenty_lt_card
-    a.a2 a.a1 a.a3 S (coordinateTrace2 a) htwo ha2 ha1 ?_ hcard
-  intro t
-  apply card_le_two_of_solution_fixed_x2_trace3 a
-    (S.filter fun x ↦ coordinateTrace2 a x = t)
-    ((t + a.a2) / a.multiplier) (a.multiplier * u - a.a3) hmultiplier
-  · intro x hx
-    exact hsolution x (Finset.mem_filter.mp hx).1
-  · intro x hx
-    apply (eq_div_iff hmultiplier).2
-    have ht := (Finset.mem_filter.mp hx).2
-    rw [coordinateTrace2] at ht
-    linear_combination ht
-  · intro x hx
-    rw [coordinateTrace3, hfixed x (Finset.mem_filter.mp hx).1]
 
 end FiberRouting
 

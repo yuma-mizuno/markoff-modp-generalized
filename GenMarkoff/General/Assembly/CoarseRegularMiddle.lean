@@ -2,13 +2,15 @@ import GenMarkoff.General.Assembly.CoarseRegularStartup
 import GenMarkoff.General.Assembly.RegularMiddleThreshold
 
 /-!
-# Reasonable-cutoff middle game
+# Middle game from the coarse threshold to `p ^ (3/4)`
 
-The source-order-preserving startup enters the middle game above
-`(192 T)^3`.  The tenth-moment cutoff also gives `192 T < p^(1/4)`.
-Consequently the existing strict regular iterator can run up to actual order
-`p^(3/4)`, which is the uniform exponent used by the explicit split and
-nonsplit endgames.
+Write `T = #divisors (p - 1) + #divisors (p + 1)`.  The coarse startup
+produces an alternating regular state of actual order above `(192 T)^3`
+(`coarseRegularBound`), and beyond `reasonableAnalyticCutoff` one has
+`192 T < p ^ (1/4)`.  This module checks the regular-escape margin of the
+middle game on the whole range from `(192 T)^3` to `p ^ (3/4)` and concludes
+that the strict regular iteration reaches actual order at least `p ^ (3/4)`,
+the scale used by the split and nonsplit endgames.
 -/
 
 namespace GenMarkoff.General.Assembly
@@ -18,8 +20,10 @@ open GenMarkoff.General.Explicit
 
 noncomputable section
 
-/-- The simultaneous regular-escape margin from the coarse threshold up to
-the three-quarter endgame scale. -/
+/-- Beyond `reasonableAnalyticCutoff`, every actual order between
+`coarseRegularBound p` and `p ^ (3/4)` satisfies the regular-escape margin
+`2 T E + 20 < currentOrder` of the middle game, where `E` is
+`corvajaZannierCurrentOrderEnvelope p currentOrder`. -/
 theorem alternatingRegularMiddleGame_sizeBound_of_reasonableCutoff
     {p currentOrder : ℕ} (hp : reasonableAnalyticCutoff ≤ p)
     (hLower : coarseRegularBound p ≤ currentOrder)
@@ -34,6 +38,7 @@ theorem alternatingRegularMiddleGame_sizeBound_of_reasonableCutoff
   have hpOne : (1 : ℝ) < p := by
     exact_mod_cast reasonableAnalyticCutoff_gt_one.trans_le hp
   have hpPos : (0 : ℝ) < p := zero_lt_one.trans hpOne
+  -- Cube estimate `(192 T)^3 < currentOrder` from the lower bound.
   have hcube :
       (4 * (corvajaZannierCorollaryTwoSafeCoefficient * T)) ^ 3 <
         currentOrder := by
@@ -44,6 +49,8 @@ theorem alternatingRegularMiddleGame_sizeBound_of_reasonableCutoff
       ring
     rw [hbase]
     exact (corvajaZannierCube_lt_coarseRegularBound p).trans_le hLower
+  -- Linear estimate `192 T * currentOrder < p`, from `192 T < p ^ (1/4)`
+  -- and `currentOrder < p ^ (3/4)`.
   have hcoefficient :
       ((192 * T : ℕ) : ℝ) < (p : ℝ) ^ (1 / 4 : ℝ) := by
     simpa [T] using
@@ -75,6 +82,8 @@ theorem alternatingRegularMiddleGame_sizeBound_of_reasonableCutoff
         norm_num
   have hcurrentPositiveNat : 0 < currentOrder := by
     exact_mod_cast hcurrentPositive
+  -- The scale-four envelope bound `4 T E < currentOrder`, together with
+  -- `40 < currentOrder`, gives the margin `2 T E + 20 < currentOrder`.
   have henvelope :=
     scaled_divisorCount_mul_corvajaZannierEnvelope_lt_currentOrder
       4 p currentOrder hcurrentPositiveNat hcube
@@ -112,8 +121,10 @@ theorem alternatingRegularMiddleGame_sizeBound_of_reasonableCutoff
         (add_lt_add henvelope' hforty) (by norm_num)
     _ = currentOrder := by ring
 
-/-- Starting at the coarse regular threshold, the existing strict iterator
-reaches actual order at least `p^(3/4)` in the same rotation component. -/
+/-- Beyond `reasonableAnalyticCutoff`, an alternating regular state of
+actual order at least `coarseRegularBound p` reaches, in its rotation
+component, an alternating regular state of actual order at least
+`p ^ (3/4)`. -/
 theorem alternatingRegularMiddleGame_reaches_threeQuarter_of_reasonableCutoff
     {p : ℕ} (hp : reasonableAnalyticCutoff ≤ p) [Fact p.Prime]
     (a : Coefficients (ZMod p))

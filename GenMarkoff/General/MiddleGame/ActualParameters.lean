@@ -1,14 +1,21 @@
-import GenMarkoff.General.TraceParameters
-import GenMarkoff.Symmetric.MiddleGame.ShiftedTraceEquation
+import GenMarkoff.General.Trace.Parameters
+import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
 
 /-!
 # Regular actual parameters for a directed general fiber
 
-For a directed ordered frame `(A,B,C)`, candidate regularity supplies the
-nonvanishing hypotheses required by the already-proved shifted trace-curve
-kernels.  This file treats the first moving coordinate, whose affine shift is
-`orderedTraceGamma A B C t`.  Reversing `B` and `C` gives the other directed
-choice.
+Fix an ordered frame `(A,B,C)` and a fiber trace `t = orderedTrace s A u`.  On
+the parametrized fiber, the trace of the first moving coordinate is a weighted
+shifted torus trace with weights `actualAlpha s`, `actualBeta s B C u t`, weight
+product `actualSigma s B C u t` and shift `actualGammaFirst s B C u t`; for
+`t ^ 2 ≠ 4` these are the ordered candidates `orderedTraceSigma A B C t` and
+`orderedTraceGamma A B C t`.  This file shows that
+`OrderedTraceCandidateRegular A B C t` supplies the nonvanishing hypotheses of
+the weighted shifted trace-curve count for these parameters: nonzero weights,
+`actualSigma ≠ 1`, and a nonzero common-even obstruction.
+
+The second moving coordinate (the frame `(A,C,B)`) is treated in
+`GenMarkoff.General.MiddleGame.DirectedOrderGrowth`.
 -/
 
 namespace GenMarkoff.General.MiddleGame
@@ -19,6 +26,7 @@ noncomputable section
 
 variable {K : Type*} [Field K]
 
+/-- The first-directed leading weight `actualAlpha s` is nonzero when `s` is. -/
 theorem actualAlpha_ne_zero
     (s : K) (hs : s ≠ 0) :
     actualAlpha s ≠ 0 := by
@@ -54,8 +62,9 @@ theorem actualBeta_ne_zero_of_candidateRegular
     s A B C u t htrace hregular
   simp [actualSigma, hbeta]
 
-/-- The first-directed actual parameters satisfy the common-even Kummer
-condition. -/
+/-- Candidate regularity and `B ^ 2 ≠ 4` make the common-even obstruction
+`shiftedTraceEvenObstruction` of the first-directed actual parameters
+nonzero. -/
 theorem actualEvenObstruction_ne_zero_of_candidateRegular
     (s A B C u t : K)
     (htrace : t = orderedTrace s A u) (hB : B ^ 2 ≠ 4)
@@ -68,62 +77,6 @@ theorem actualEvenObstruction_ne_zero_of_candidateRegular
     actualGammaFirst_eq_orderedTraceGamma
       s A B C u t hD htrace]
   exact hregular.evenObstruction_ne_zero hB
-
-/-- Candidate regularity supplies all strong regular shifted-cover
-hypotheses for the first directed trace. -/
-theorem actual_shiftedCover_parameters_regular
-    (s A B C u t : K)
-    (htrace : t = orderedTrace s A u)
-    (hs : s ≠ 0) (hB : B ^ 2 ≠ 4)
-    (hregular : OrderedTraceCandidateRegular A B C t) :
-    actualAlpha s ≠ 0 ∧ actualBeta s B C u t ≠ 0 ∧
-      actualSigma s B C u t ≠ 0 ∧
-      actualSigma s B C u t ≠ 1 ∧
-      shiftedTraceEvenObstruction (actualSigma s B C u t)
-        (actualGammaFirst s B C u t) ≠ 0 := by
-  exact ⟨actualAlpha_ne_zero s hs,
-    actualBeta_ne_zero_of_candidateRegular
-      s A B C u t htrace hregular,
-    actualSigma_ne_zero_of_candidateRegular
-      s A B C u t htrace hregular,
-    actualSigma_ne_one_of_candidateRegular
-      s A B C u t htrace hregular,
-    actualEvenObstruction_ne_zero_of_candidateRegular
-      s A B C u t htrace hB hregular⟩
-
-/-- Exact normalization of the first directed trace formula. -/
-theorem firstTrace_fiberPair_normalized
-    (s B C u t q h : K) (hs : s ≠ 0) (hh : h ≠ 0) :
-    s * (fiberPair B C u t q h).1 - B =
-      actualAlpha s * h +
-        actualSigma s B C u t / (actualAlpha s * h) +
-          actualGammaFirst s B C u t := by
-  rw [firstTrace_fiberPair s B C u t q h hh]
-  simp only [actualSigma]
-  field_simp [actualAlpha_ne_zero s hs, hh]
-
-/-- Unit used to normalize the leading first-directed weight to one. -/
-def actualAlphaUnit (s : K) (hs : s ≠ 0) : Kˣ :=
-  Units.mk0 (actualAlpha s) (actualAlpha_ne_zero s hs)
-
-@[simp]
-theorem actualAlphaUnit_val (s : K) (hs : s ≠ 0) :
-    (actualAlphaUnit s hs : K) = actualAlpha s :=
-  rfl
-
-/-- The normalized shifted weighted trace is the actual first adjacent
-coordinate trace. -/
-theorem shiftedWeightedTrace_normalizedParameter_eq_firstTrace_fiberPair
-    (s B C u t q : K) (h : Kˣ) (hs : s ≠ 0) :
-    weightedSplitTorusTrace 1 (actualSigma s B C u t)
-          (actualAlphaUnit s hs * h) +
-        actualGammaFirst s B C u t =
-      s * (fiberPair B C u t q h).1 - B := by
-  rw [firstTrace_fiberPair_normalized
-    s B C u t q h hs (Units.ne_zero h)]
-  simp only [weightedSplitTorusTrace, actualAlphaUnit_val,
-    Units.val_mul, Units.val_inv_eq_inv_val, one_mul]
-  field_simp [actualAlpha_ne_zero s hs, Units.ne_zero h]
 
 end
 

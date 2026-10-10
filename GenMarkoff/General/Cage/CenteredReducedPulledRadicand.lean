@@ -1,17 +1,21 @@
-import GenMarkoff.General.Cage.ConnectingPulledRadicands
-import GenMarkoff.General.Cage.ConnectingQuartic
+import GenMarkoff.General.Cage.Connecting.PulledRadicands
+import GenMarkoff.General.Cage.Connecting.Quartic
 
 /-!
 # Removing the forced squares from the centered connecting radicand
 
-The power pullback of the centered-norm cover acquires a forced square
-factor at a parabolic split trace precisely when the moving coefficient
-pair satisfies `B = C` or `B = -C`.  This file removes that factor and
-records that the resulting polynomial has the same square class in the
-rational function field.
+The power pullback `centeredNormPulledRadicand B C d` of the centered-norm
+cover acquires a square factor at the parabolic split traces when the moving
+coefficient pair satisfies `B = C` (factor `(X ^ d + 1) ^ 2`) or `B = -C`
+(factor `(X ^ d - 1) ^ 2`).  This file defines that forced factor and the
+reduced pullback `centeredNormReducedPulledRadicand`, proves
 
-The remaining polynomial is squarefree under the usual nonparabolic
-coefficient hypotheses and the tame power-pullback hypothesis.
+`centeredNormPulledRadicand = centeredNormForcedFactor ^ 2 * centeredNormReducedPulledRadicand`,
+
+so for `0 < d` the two differ by a nonzero square factor.  For `0 < d` the
+reduced pullback is also not a unit, and it is separable, hence squarefree,
+when moreover
+`B ^ 2 ≠ 4`, `C ^ 2 ≠ 4`, `(B, C) ≠ (0, 0)` and `(d : K) ≠ 0`.
 -/
 
 namespace GenMarkoff.General.Cage
@@ -39,7 +43,9 @@ theorem eval_monicQuadraticPowerPulledRadicand
     eval_X, eval_mul, eval_C, eval_one, ← pow_mul]
   simp only [Nat.mul_comm]
 
-/-- The square factor forced by a collision with a parabolic split trace. -/
+/-- The factor whose square divides the centered-norm pullback because of a
+collision with a parabolic split trace: `X ^ d + 1` if `B = C0`,
+`X ^ d - 1` if `B = -C0` (and `B ≠ C0`), and `1` otherwise. -/
 def centeredNormForcedFactor (B C0 : K) (d : ℕ) : K[X] :=
   by
     classical
@@ -53,8 +59,8 @@ def centeredNormForcedFactor (B C0 : K) (d : ℕ) : K[X] :=
 
 /-- The centered-norm pullback after deleting its forced parabolic square.
 
-When both equalities can hold (in characteristic two), the first branch is
-used; the two displayed factors and reduced polynomials then coincide. -/
+When both `B = C0` and `B = -C0` hold (that is, `2 * C0 = 0`), the first
+branch is used. -/
 def centeredNormReducedPulledRadicand
     (B C0 : K) (d : ℕ) : K[X] :=
   by
@@ -139,25 +145,6 @@ theorem centeredNormForcedFactor_ne_zero
         (X_pow_sub_C_ne_zero (R := K) hd (1 : K))
     · simp only [centeredNormForcedFactor, if_neg hEq, if_neg hNeg]
       exact one_ne_zero
-
-/-- Removing the forced polynomial square does not change the square class
-in the rational function field. -/
-theorem centeredNormPulledRadicand_isSquare_ratFunc_iff_reduced
-    (B C0 : K) {d : ℕ} (hd : 0 < d) :
-    IsSquare
-        (algebraMap K[X] (RatFunc K)
-          (centeredNormPulledRadicand B C0 d)) ↔
-      IsSquare
-        (algebraMap K[X] (RatFunc K)
-          (centeredNormReducedPulledRadicand B C0 d)) := by
-  rw [centeredNormPulledRadicand_eq_forcedFactor_sq_mul_reduced]
-  simp only [map_mul, map_pow]
-  exact isSquare_sq_mul_iff
-    (algebraMap K[X] (RatFunc K) (centeredNormForcedFactor B C0 d))
-    (algebraMap K[X] (RatFunc K)
-      (centeredNormReducedPulledRadicand B C0 d))
-    ((map_ne_zero_iff _ (RatFunc.algebraMap_injective K)).mpr
-      (centeredNormForcedFactor_ne_zero B C0 hd))
 
 /-- Scalar extension commutes with the monic quadratic power pullback. -/
 theorem map_monicQuadraticPowerPulledRadicand
@@ -343,6 +330,16 @@ theorem eval_centeredNormPulledRadicand_zero
     eval 0 (centeredNormPulledRadicand B C0 d) = 1 := by
   simp [centeredNormPulledRadicand, Nat.ne_of_gt hd]
 
+/-- A nonzero scalar multiple of the centered-norm pullback is nonzero. -/
+theorem scaledCenteredNormPulledRadicand_ne_zero
+    {omegaInv B C0 : K} (homegaInv : omegaInv ≠ 0)
+    {d : ℕ} (hd : 0 < d) :
+    C omegaInv * centeredNormPulledRadicand B C0 d ≠ 0 := by
+  intro hzero
+  have heval := congrArg (Polynomial.eval 0) hzero
+  apply homegaInv
+  simpa [eval_centeredNormPulledRadicand_zero B C0 hd] using heval
+
 /-- Away from both parabolic collisions, the full centered-norm pullback is
 separable. -/
 theorem centeredNormPulledRadicand_separable_of_ne_eq_ne_neg
@@ -351,6 +348,8 @@ theorem centeredNormPulledRadicand_separable_of_ne_eq_ne_neg
     (hEq : B ≠ C0) (hNeg : B ≠ -C0)
     {d : ℕ} (hd : 0 < d) (hdegree : (d : K) ≠ 0) :
     (centeredNormPulledRadicand B C0 d).Separable := by
+  -- Suppose `t` in the algebraic closure is a common root of the pullback
+  -- and its derivative.
   rw [separable_def]
   apply (Polynomial.isCoprime_iff_aeval_ne_zero_of_isAlgClosed
     (k := K) (AlgebraicClosure K)
@@ -379,6 +378,9 @@ theorem centeredNormPulledRadicand_separable_of_ne_eq_ne_neg
   have hu : t ^ d ≠ 0 := pow_ne_zero d ht
   have hdegreeMapped : phi (d : K) ≠ 0 :=
     (map_ne_zero_iff phi phi.injective).mpr hdegree
+  -- Then `u = t ^ d` is a common root of the reciprocal quartic and its
+  -- derivative, so by the derivative identity either `u ^ 2 = 1` or `u` is
+  -- a stationary point of the centered-norm quadratic.
   have hquartic :
       centeredNormReciprocalQuartic (phi B) (phi C0) (t ^ d) = 0 := by
     simpa only [eval_centeredNormPulledRadicand] using hrootMapped
@@ -404,6 +406,8 @@ theorem centeredNormPulledRadicand_separable_of_ne_eq_ne_neg
       simpa using hidentity.symm
     exact mul_eq_zero.mp hproduct
   rcases hcritical with hparabolic | hstationary
+  -- Parabolic case `u = ±1`: the quartic takes the value `(B ± C0) ^ 2`,
+  -- which is nonzero because `B ≠ -C0` and `B ≠ C0`.
   · have hfactor :
         (t ^ d - 1) * (t ^ d + 1) = 0 := by
       calc
@@ -442,6 +446,8 @@ theorem centeredNormPulledRadicand_separable_of_ne_eq_ne_neg
         ring
       rw [huNegOne] at hquartic
       exact (pow_ne_zero 2 hdiff) (hvalue.symm.trans hquartic)
+  -- Stationary case: `u + u⁻¹` is a double root of the centered norm, so
+  -- completing the square gives `(B ^ 2 - 4) * (C0 ^ 2 - 4) = 0`.
   · have hlinear :
         2 * (t ^ d + (t ^ d)⁻¹) + phi B * phi C0 = 0 := by
       field_simp [hu]
@@ -574,21 +580,6 @@ theorem centeredNormReducedPulledRadicand_squarefree
     Squarefree (centeredNormReducedPulledRadicand B C0 d) :=
   (centeredNormReducedPulledRadicand_separable
     hB hC hpair hd hdegree).squarefree
-
-/-- The reduced centered pullback represents a nonsquare in the rational
-function field. -/
-theorem centeredNormReducedPulledRadicand_not_isSquare_ratFunc
-    {B C0 : K}
-    (hB : B ^ 2 ≠ 4) (hC : C0 ^ 2 ≠ 4)
-    (hpair : (B, C0) ≠ (0, 0))
-    {d : ℕ} (hd : 0 < d) (hdegree : (d : K) ≠ 0) :
-    ¬ IsSquare
-      (algebraMap K[X] (RatFunc K)
-        (centeredNormReducedPulledRadicand B C0 d)) :=
-  BGS.Markoff.not_isSquare_algebraMap_of_squarefree_not_isUnit
-    (centeredNormReducedPulledRadicand_squarefree
-      hB hC hpair hd hdegree)
-    (centeredNormReducedPulledRadicand_not_isUnit B C0 hd)
 
 end
 

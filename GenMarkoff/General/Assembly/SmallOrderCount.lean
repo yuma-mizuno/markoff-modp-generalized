@@ -4,18 +4,23 @@ import BGS.Markoff.Assembly.NormalizedSmallOrderCount
 import BGS.Markoff.Core.TraceClassification
 
 /-!
-# Small actual-rotation-order count for a general coefficient triple
+# Counting points with small or irregular first and second traces
 
 For a fixed coefficient triple with nonzero multiplier, each of the first
 two affine coordinate traces determines the corresponding coordinate.
 Fixing those two traces leaves a monic quadratic in the third coordinate,
-so there are at most two surface points.
+so there are at most two surface points (`pointsWithFirstTwoTraces_card_le_two`).
 
-The trace classification is stated for the half-step matrix `A`, whereas
-the linear part of an actual two-Vieta rotation is `A ^ 2`.  Thus a bound on
-`orderOf (A ^ 2)` gives a bound twice as large on `orderOf A`.  This
-factor-of-two passage is the new counting consideration required for the
-general coefficient case.
+`firstTwoRegularOrSmallTraceSet` collects the trace labels of small order
+together with the roots of the two ordered safe polynomials.  The low-order
+trace classification is stated for the half-step matrix `A`, whereas the
+linear part of an actual two-Vieta rotation is `A ^ 2`, so an actual order
+below `bound` is detected through a half-step order below `2 * bound`.  The
+main result, `exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_dvd`,
+says that a `p`-divisible punctured rotation orbit contains a point whose
+first or second trace is candidate regular of actual order at least `bound`,
+as soon as `2 * (22 + (2 * bound - 1) * T) ^ 2 < p` with
+`T = #divisors (p - 1) + #divisors (p + 1)`.
 -/
 
 namespace GenMarkoff.General.Assembly
@@ -89,7 +94,8 @@ theorem mem_pointsWithFirstTwoTracesIn_iff
       Finset.mem_product.mpr ⟨hx1, hx2⟩, ?_⟩
     exact mem_pointsWithFirstTwoTraces_iff.mpr ⟨hx, rfl, rfl⟩
 
-/-- Sum the two-point fibers over a set of possible trace pairs. -/
+/-- At most `2 * S.card ^ 2` surface points have both of their first two
+affine coordinate traces in `S`. -/
 theorem pointsWithFirstTwoTracesIn_card_le
     (a : Coefficients K) (S : Finset K) (hmultiplier : a.multiplier ≠ 0) :
     (pointsWithFirstTwoTracesIn a S).card ≤ 2 * S.card ^ 2 := by
@@ -106,104 +112,10 @@ theorem pointsWithFirstTwoTracesIn_card_le
 
 section PrimeField
 
-/-- General surface points for which both of the first two actual rotation
-linear orders are below `bound`. -/
-def pointsWithSmallFirstTwoRotationLinearOrders
-    (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) (bound : ℕ) :
-    Finset (Point (ZMod p)) := by
-  classical
-  exact Finset.univ.filter fun x =>
-    IsSolution a x ∧
-      rotationLinearOrder (coordinateTrace1 a x) < bound ∧
-      rotationLinearOrder (coordinateTrace2 a x) < bound
-
-@[simp]
-theorem mem_pointsWithSmallFirstTwoRotationLinearOrders_iff
-    {p : ℕ} [Fact p.Prime] {a : Coefficients (ZMod p)} {bound : ℕ}
-    {x : Point (ZMod p)} :
-    x ∈ pointsWithSmallFirstTwoRotationLinearOrders p a bound ↔
-      IsSolution a x ∧
-        rotationLinearOrder (coordinateTrace1 a x) < bound ∧
-        rotationLinearOrder (coordinateTrace2 a x) < bound := by
-  classical
-  simp [pointsWithSmallFirstTwoRotationLinearOrders]
-
-/-- Small actual rotation order forces both traces into the BGS trace set
-with twice the order bound. -/
-theorem pointsWithSmallFirstTwoRotationLinearOrders_subset_traceSet
-    (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)
-    (a : Coefficients (ZMod p)) (bound : ℕ) :
-    pointsWithSmallFirstTwoRotationLinearOrders p a bound ⊆
-      pointsWithFirstTwoTracesIn a
-        (concreteLowOrderTraceSet p (2 * bound)) := by
-  intro x hx
-  have hx' := mem_pointsWithSmallFirstTwoRotationLinearOrders_iff.mp hx
-  apply mem_pointsWithFirstTwoTracesIn_iff.mpr
-  refine ⟨hx'.1, ?_, ?_⟩
-  · apply mem_concreteLowOrderTraceSet_of_rotationOrder_lt p hpTwo
-    exact Opening.bgsRotationOrder_lt_two_mul_of_rotationLinearOrder_lt
-      (coordinateTrace1 a x) bound hx'.2.1
-  · apply mem_concreteLowOrderTraceSet_of_rotationOrder_lt p hpTwo
-    exact Opening.bgsRotationOrder_lt_two_mul_of_rotationLinearOrder_lt
-      (coordinateTrace2 a x) bound hx'.2.2
-
-/-- The set on which both of the first two actual two-Vieta rotations have
-small linear order has the indicated quartic bound. -/
-theorem pointsWithSmallFirstTwoRotationLinearOrders_card_le
-    (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)
-    (a : Coefficients (ZMod p)) (hmultiplier : a.multiplier ≠ 0)
-    (bound : ℕ) :
-    (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card ≤
-      2 * (2 + 2 * (2 * bound) ^ 2) ^ 2 := by
-  calc
-    (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card ≤
-        (pointsWithFirstTwoTracesIn a
-          (concreteLowOrderTraceSet p (2 * bound))).card :=
-      Finset.card_mono
-        (pointsWithSmallFirstTwoRotationLinearOrders_subset_traceSet
-          p hpTwo a bound)
-    _ ≤ 2 * (concreteLowOrderTraceSet p (2 * bound)).card ^ 2 :=
-      pointsWithFirstTwoTracesIn_card_le a _ hmultiplier
-    _ ≤ 2 * (2 + 2 * (2 * bound) ^ 2) ^ 2 := by
-      gcongr
-      exact concreteLowOrderTraceSet_card_le p (2 * bound)
-
-/-- Divisor-sensitive refinement of the small actual-order point count.
-
-The half-step trace classification still costs the factor `2 * bound`, but
-the number of traces is now linear in that bound and in the simultaneous
-divisor count
-`τ(p - 1) + τ(p + 1)`.  This is the count needed by the coarse `T^8`
-frontier; retaining the older quartic bound above keeps the eventual
-asymptotic route available independently. -/
-theorem pointsWithSmallFirstTwoRotationLinearOrders_card_le_divisor_sensitive
-    (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)
-    (a : Coefficients (ZMod p)) (hmultiplier : a.multiplier ≠ 0)
-    (bound : ℕ) :
-    (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card ≤
-      2 * (2 + (2 * bound - 1) *
-        ((p - 1).divisors.card + (p + 1).divisors.card)) ^ 2 := by
-  calc
-    (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card ≤
-        (pointsWithFirstTwoTracesIn a
-          (concreteLowOrderTraceSet p (2 * bound))).card :=
-      Finset.card_mono
-        (pointsWithSmallFirstTwoRotationLinearOrders_subset_traceSet
-          p hpTwo a bound)
-    _ ≤ 2 * (concreteLowOrderTraceSet p (2 * bound)).card ^ 2 :=
-      pointsWithFirstTwoTracesIn_card_le a _ hmultiplier
-    _ ≤ 2 * (2 + (2 * bound - 1) *
-          ((p - 1).divisors.card + (p + 1).divisors.card)) ^ 2 := by
-      gcongr
-      exact concreteLowOrderTraceSet_card_le_divisor_sensitive (2 * bound)
-
-/-- The trace labels which are either below the actual-order threshold or
-exceptional for one of the two alternating ordered frames.
-
-The same low-order trace set is shared by both axes.  The two ordered safe
-polynomials contribute at most ten roots each.  Keeping these roots at the
-trace-label level, instead of routing along another conic first, is what
-avoids an additional divisor-count factor in the coarse argument. -/
+/-- The low-order trace labels `concreteLowOrderTraceSet p (2 * bound)`,
+which contain every trace of half-step order below `2 * bound`, together with
+the roots of the ordered safe polynomials of the two alternating frames
+`(a₁, a₂, a₃)` and `(a₂, a₁, a₃)`.  The same set serves both axes. -/
 def firstTwoRegularOrSmallTraceSet
     (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) (bound : ℕ) :
     Finset (ZMod p) :=
@@ -211,6 +123,9 @@ def firstTwoRegularOrSmallTraceSet
       (orderedTraceSafePolynomial a.a1 a.a2 a.a3).roots.toFinset) ∪
     (orderedTraceSafePolynomial a.a2 a.a1 a.a3).roots.toFinset
 
+/-- The coarse trace set has at most `22 + (2 * bound - 1) * T` elements:
+the low-order traces contribute `2 + (2 * bound - 1) * T` and each ordered
+safe polynomial at most ten roots. -/
 theorem firstTwoRegularOrSmallTraceSet_card_le_divisor_sensitive
     (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) (bound : ℕ) :
     (firstTwoRegularOrSmallTraceSet p a bound).card ≤
@@ -323,10 +238,10 @@ theorem coordinateTrace2_mem_firstTwoRegularOrSmallTraceSet
       ((orderedTraceSafePolynomial_eval_ne_zero_iff
         a.a2 a.a1 a.a3 (coordinateTrace2 a x)).mp hne)
 
-/-- A `p`-divisible punctured rotation component escapes the simultaneous
-small-or-irregular first/second trace set.  The resulting point already is a
-candidate-regular alternating source of order at least `bound`; no
-order-losing change of active axis is made. -/
+/-- If `2 * (22 + (2 * bound - 1) * T) ^ 2 < p`, then a `p`-divisible
+punctured rotation orbit contains a point whose first trace is candidate
+regular in `(a₁, a₂, a₃)` or whose second trace is candidate regular in
+`(a₂, a₁, a₃)`, with actual order at least `bound` in either case. -/
 theorem exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_dvd
     (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)
     (a : Coefficients (ZMod p)) (hmultiplier : a.multiplier ≠ 0)
@@ -345,6 +260,7 @@ theorem exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_
               (coordinateTrace2 a y.1.1) ∧
             bound ≤ rotationLinearOrder (coordinateTrace2 a y.1.1))) := by
   classical
+  -- The points with both traces in the coarse set number fewer than `p`.
   let traces := firstTwoRegularOrSmallTraceSet p a bound
   let bad := pointsWithFirstTwoTracesIn a traces
   have hbadCard : bad.card < p := by
@@ -357,6 +273,7 @@ theorem exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_
         exact firstTwoRegularOrSmallTraceSet_card_le_divisor_sensitive
           p a bound
       _ < p := hsmall
+  -- The orbit has at least `p` points, so one of them is not bad.
   have horbitPos : 0 < (puncturedRotationOrbit x).ncard := by
     apply (Set.ncard_pos (Set.toFinite (puncturedRotationOrbit x))).mpr
     exact ⟨x, MulAction.mem_orbit_self x⟩
@@ -386,6 +303,7 @@ theorem exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_
           (Set.toFinite (puncturedRotationOrbit x))).symm
     rw [horbitCard] at hle
     omega
+  -- A point outside the bad set has a good first or second trace.
   obtain ⟨y, hyOrbitFinset, hyBad⟩ := hexists
   have hyOrbit : y ∈ puncturedRotationOrbit x := by
     simpa [orbitFinset] using hyOrbitFinset
@@ -401,72 +319,6 @@ theorem exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_
   · exact coordinateTrace2_mem_firstTwoRegularOrSmallTraceSet
       p hpTwo a hA1 hA2 bound y.1.1
         (fun h => (not_lt_of_ge h.2) (hnone.2 h.1))
-
-/-- If a rotation orbit is larger than the small-order point set, it
-contains a point at which at least one of the first two actual rotations
-has linear order at least `bound`. -/
-theorem exists_mem_rotationOrbit_with_large_first_or_second_rotationLinearOrder
-    (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) (bound : ℕ)
-    (x : PuncturedSolutionSurface a)
-    (hlarge :
-      (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card <
-        (puncturedRotationOrbit x).ncard) :
-    ∃ y : PuncturedSolutionSurface a,
-      y ∈ puncturedRotationOrbit x ∧
-        (bound ≤ rotationLinearOrder (coordinateTrace1 a y.1.1) ∨
-          bound ≤ rotationLinearOrder (coordinateTrace2 a y.1.1)) := by
-  classical
-  by_contra hnone
-  push Not at hnone
-  let orbitFinset : Finset (PuncturedSolutionSurface a) :=
-    (Set.toFinite (puncturedRotationOrbit x)).toFinset
-  let pointEmbedding : PuncturedSolutionSurface a ↪ Point (ZMod p) :=
-    ⟨(fun y : PuncturedSolutionSurface a => y.1.1), by
-      intro y z hyz
-      exact Subtype.ext (Subtype.ext hyz)⟩
-  have hsubset :
-      orbitFinset.map pointEmbedding ⊆
-        pointsWithSmallFirstTwoRotationLinearOrders p a bound := by
-    intro z hz
-    rw [Finset.mem_map] at hz
-    obtain ⟨y, hyOrbit, rfl⟩ := hz
-    have hySet : y ∈ puncturedRotationOrbit x := by
-      simpa [orbitFinset] using hyOrbit
-    apply mem_pointsWithSmallFirstTwoRotationLinearOrders_iff.mpr
-    exact ⟨y.1.2, hnone y hySet⟩
-  have hcardLe :
-      orbitFinset.card ≤
-        (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card := by
-    rw [← Finset.card_map (f := pointEmbedding)]
-    exact Finset.card_le_card hsubset
-  have horbitCard :
-      orbitFinset.card = (puncturedRotationOrbit x).ncard := by
-    simpa [orbitFinset] using
-      (Set.ncard_eq_toFinset_card (puncturedRotationOrbit x)
-        (Set.toFinite (puncturedRotationOrbit x))).symm
-  omega
-
-/-- A nonempty rotation orbit whose cardinality is divisible by `p`
-escapes the small-order point set whenever that set has fewer than `p`
-points. -/
-theorem exists_mem_rotationOrbit_with_large_first_or_second_rotationLinearOrder_of_dvd
-    (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) (bound : ℕ)
-    (x : PuncturedSolutionSurface a)
-    (hdiv : p ∣ (puncturedRotationOrbit x).ncard)
-    (hsmall :
-      (pointsWithSmallFirstTwoRotationLinearOrders p a bound).card < p) :
-    ∃ y : PuncturedSolutionSurface a,
-      y ∈ puncturedRotationOrbit x ∧
-        (bound ≤ rotationLinearOrder (coordinateTrace1 a y.1.1) ∨
-          bound ≤ rotationLinearOrder (coordinateTrace2 a y.1.1)) := by
-  apply exists_mem_rotationOrbit_with_large_first_or_second_rotationLinearOrder
-    p a bound x
-  have horbitPos : 0 < (puncturedRotationOrbit x).ncard := by
-    apply (Set.ncard_pos (Set.toFinite (puncturedRotationOrbit x))).mpr
-    exact ⟨x, MulAction.mem_orbit_self x⟩
-  have hpLe : p ≤ (puncturedRotationOrbit x).ncard :=
-    Nat.le_of_dvd horbitPos hdiv
-  omega
 
 end PrimeField
 

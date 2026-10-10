@@ -1,4 +1,5 @@
 import GenMarkoff.Divisibility.RegularAngles
+import Mathlib.Algebra.BigOperators.Ring.Finset
 
 /-!
 # Sums of raw angles on zero-coordinate fibers
@@ -9,10 +10,13 @@ preserved by the corresponding two-Vieta rotation, the central raw angle has
 zero sum.  The proof reindexes twice and uses the quadratic equation satisfied
 by the squared coordinate ratio.
 
-The first theorem below isolates the finite-permutation argument.  The three
-subsequent theorems apply it to arbitrary finite models of the three
-zero-coordinate fibers.  This form lets a caller use a filtered Vieta-orbit
-subtype without introducing a global choice of cycle representatives.
+`sum_eq_zero_of_invariant_scale_quadratic` isolates the finite-permutation
+argument.  The lemmas `ratio_rotation*_eq_of_x*_eq_zero` show that the
+rotation fixing a vanishing coordinate preserves the ratio of the other two,
+and `sum_rawAngle*_eq_zero_of_zero_rotation_model` apply the argument to
+arbitrary finite models of the three zero-coordinate fibers.  This form lets a
+caller use a filtered Vieta-orbit subtype without introducing a global choice
+of cycle representatives.
 -/
 
 namespace GenMarkoff
@@ -21,10 +25,7 @@ universe u v
 
 /-- Let `d` scale by `q` under a permutation and let `q` be invariant.  If
 `q` satisfies a monic reciprocal quadratic `q^2 + c*q + 1 = 0`, then the sum
-of `d` is zero whenever `c + 2` is nonzero.
-
-Indeed, reindexing once identifies `sum d` with `sum q*d`, and reindexing a
-second time identifies that sum with `sum q^2*d`. -/
+of `d` is zero whenever `c + 2` is nonzero. -/
 theorem sum_eq_zero_of_invariant_scale_quadratic
     {X : Type u} {F : Type v} [Fintype X] [Field F]
     (rho : Equiv.Perm X) (d q : X → F) (c : F)
@@ -33,6 +34,9 @@ theorem sum_eq_zero_of_invariant_scale_quadratic
     (hq_quadratic : ∀ x, q x ^ 2 + c * q x + 1 = 0)
     (hc : c + 2 ≠ 0) :
     (∑ x, d x) = 0 := by
+  -- Reindexing once identifies `∑ d` with `∑ q * d`, and reindexing a second
+  -- time identifies that sum with `∑ q ^ 2 * d`; the quadratic then gives
+  -- `(c + 2) * ∑ d = 0`.
   have hreindex_d : (∑ x, d (rho x)) = ∑ x, d x :=
     Equiv.sum_comp rho d
   have hreindex_qd : (∑ x, q (rho x) * d (rho x)) = ∑ x, q x * d x :=

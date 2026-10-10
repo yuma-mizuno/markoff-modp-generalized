@@ -3,9 +3,10 @@ import GenMarkoff.General.Axis
 /-!
 # Rotation components and punctured orbits
 
-This file records the mechanical interface between the component relation on
-the fixed-coefficient solution surface and the orbit relation on the punctured
-surface.  No coordinate permutation is used: both sides use the same explicit
+This file relates `SameRotationComponent` on the fixed-coefficient solution
+surface to `puncturedRotationOrbit` on the punctured surface, and shows that
+rotation strong approximation at `p` follows once every punctured point is in
+the rotation component of one base point.  Both sides use the same
 coefficient triple and the same `RotationGroup`.
 -/
 
@@ -40,8 +41,8 @@ theorem mem_puncturedRotationOrbit_iff_sameRotationComponent
     apply Subtype.ext
     exact hg
 
-/-- Direct component connectivity from one punctured base point implies
-rotation strong approximation at the given prime. -/
+/-- If every punctured point modulo `p` lies in the rotation component of one
+punctured base point, then rotation strong approximation holds at `p`. -/
 theorem rotationStrongApproximationAt_of_sameRotationComponent_base
     (a : Coefficients ℤ) (p : ℕ) (hp : p.Prime)
     (base : PuncturedSolutionSurface (modCoefficients a p))

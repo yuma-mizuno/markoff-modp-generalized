@@ -1,21 +1,27 @@
 import BGS.Markoff.PreliminaryNumerics
 
 /-!
-# A first reasonable universal cutoff
+# The uniform analytic cutoff
 
-The legacy analytic route forces the simultaneous divisor count
+This file defines the cutoff
+`reasonableAnalyticCutoff = (32 * 193^6)^5 * 2^1828 + 1`, which does not
+depend on the coefficient triple, and proves the numerical inequalities that
+hold beyond it.  Write
 
 `T = τ(p - 1) + τ(p + 1)`
 
-below an extremely small power of `p`.  The order-preserving coarse route
-needs only the structural frontier `p ≤ C * T^8`.  The elementary BGS
-tenth-moment estimate `T^10 ≤ 2^457 * p` then rules out that frontier above
-the explicit cutoff in this file.
+for the simultaneous divisor count.  The elementary BGS tenth-moment estimate
+`T^10 ≤ 2^457 * p` (`BGS.Markoff.preliminary_divisor_sum_pow_ten_le`) rules
+out the frontier `p ≤ C * T^8` with `C = 32 * 193^6` beyond the cutoff
+(`reasonableFrontierCoefficient_mul_divisorSum_pow_eight_lt`).  The same
+moment bound gives `192 * T < p^(1/4)` and `2064 * T^2 < p^(1/4)`, which feed
+the middle game and the primitive-trace counts, and the cutoff dominates the
+classical BGS cutoff `BGS.Markoff.preliminaryStrongApproximationCutoff`.
 
-The coefficient `32 * 193^6` deliberately has slack.  It accommodates:
+The coefficient `32 * 193^6` has slack.  It accommodates:
 
 * the two-to-one trace fibers;
-* the half-step-to-actual-order factor two;
+* the factor two between the order of the trace matrix and the rotation order;
 * the additive exceptional-trace margin; and
 * the coefficient-`192` Corvaja--Zannier cube.
 
@@ -26,30 +32,32 @@ namespace GenMarkoff.General.Explicit
 
 open BGS.Markoff
 
-/-- Slack coefficient for the general order-preserving `T^8` frontier. -/
+/-- The coefficient `C = 32 * 193^6` of the frontier `p ≤ C * T^8` that is
+excluded beyond the analytic cutoff. -/
 def reasonableFrontierCoefficient : ℕ :=
   32 * 193 ^ 6
-
-theorem reasonableFrontierCoefficient_eq :
-    reasonableFrontierCoefficient = 32 * 193 ^ 6 := rfl
 
 theorem reasonableFrontierCoefficient_pos :
     0 < reasonableFrontierCoefficient := by
   norm_num [reasonableFrontierCoefficient]
 
-/-- Open numerical boundary obtained by combining the general `T^8`
-frontier with `T^10 ≤ 2^457 p`. -/
+/-- Open numerical boundary obtained by combining the `T^8` frontier with
+`T^10 ≤ 2^457 p`. -/
 def reasonableAnalyticOpenCutoff : ℕ :=
   reasonableFrontierCoefficient ^ 5 * 2 ^ 1828
 
-/-- Closed form of the first reasonable universal analytic cutoff. -/
+/-- The value `reasonableAnalyticOpenCutoff + 1` of the analytic cutoff,
+stored behind an `opaque` constant so that it is accessed only through
+`reasonableAnalyticCutoff_eq`. -/
 opaque reasonableAnalyticCutoffData :
     {n : ℕ // n = reasonableAnalyticOpenCutoff + 1} :=
   ⟨reasonableAnalyticOpenCutoff + 1, rfl⟩
 
+/-- The uniform analytic cutoff `(32 * 193^6)^5 * 2^1828 + 1`. -/
 def reasonableAnalyticCutoff : ℕ :=
   reasonableAnalyticCutoffData.1
 
+/-- The value of the analytic cutoff. -/
 theorem reasonableAnalyticCutoff_eq :
     reasonableAnalyticCutoff = reasonableAnalyticOpenCutoff + 1 :=
   reasonableAnalyticCutoffData.2
@@ -111,6 +119,8 @@ theorem reasonableAnalyticOpenCutoff_lt_of_cutoff_le
 
 set_option maxRecDepth 100000 in
 #guard_msgs (drop warning) in
+/-- The analytic cutoff dominates the classical BGS cutoff
+`preliminaryStrongApproximationCutoff`. -/
 theorem preliminaryStrongApproximationCutoff_le_reasonableAnalyticCutoff :
     preliminaryStrongApproximationCutoff ≤ reasonableAnalyticCutoff := by
   have hbase :
@@ -126,6 +136,7 @@ theorem preliminaryStrongApproximationCutoff_le_reasonableAnalyticCutoff :
   calc
     2 ^ 1833 * (48 ^ 3 + 1) ^ 10 =
         (2 * (48 ^ 3 + 1) ^ 2) ^ 5 * 2 ^ 1828 := by
+      -- Split the exponents so that `pow_add` and `pow_mul` apply.
       rw [show (1833 : ℕ) = 5 + 1828 by norm_num, pow_add,
         show (10 : ℕ) = 2 * 5 by norm_num, pow_mul]
       ring
@@ -139,18 +150,9 @@ theorem preliminaryStrongApproximationCutoff_le_of_reasonableCutoff_le
   preliminaryStrongApproximationCutoff_le_reasonableAnalyticCutoff.trans hp
 
 set_option maxRecDepth 100000 in
-set_option exponentiation.threshold 2000 in
-/-- The displayed cutoff has fewer than one thousand decimal digits. -/
-theorem reasonableAnalyticCutoff_lt_ten_pow_oneThousand :
-    reasonableAnalyticCutoff < 10 ^ 1000 := by
-  rw [reasonableAnalyticCutoff_eq, reasonableAnalyticOpenCutoff,
-    reasonableFrontierCoefficient]
-  norm_num
-
-set_option maxRecDepth 100000 in
 #guard_msgs (drop warning) in
-/-- Above the reasonable cutoff, the elementary tenth moment excludes the
-general order-preserving `T^8` obstruction. -/
+/-- Beyond the analytic cutoff, `C * T^8 < p`, where `C = 32 * 193^6` and
+`T = τ(p - 1) + τ(p + 1)`. -/
 theorem reasonableFrontierCoefficient_mul_divisorSum_pow_eight_lt
     {p : ℕ} (hpTwo : 2 ≤ p)
     (hpCutoff : reasonableAnalyticCutoff ≤ p) :
@@ -192,11 +194,13 @@ private theorem coefficient_192_pow_twenty_mul_moment_sq_le_openCutoff :
     norm_num [reasonableFrontierCoefficient]
   have hcoefficient :
       192 ^ 20 ≤ reasonableFrontierCoefficient ^ 5 := by
+    -- Split the exponent so that `pow_mul` applies.
     rw [show (20 : ℕ) = 4 * 5 by norm_num, pow_mul]
     exact Nat.pow_le_pow_left hbase 5
   calc
     192 ^ 20 * (2 ^ 457) ^ 2 ≤
         reasonableFrontierCoefficient ^ 5 * 2 ^ 914 := by
+      -- Split the exponent so that `pow_mul` applies.
       rw [show (914 : ℕ) = 457 * 2 by norm_num, pow_mul]
       exact Nat.mul_le_mul hcoefficient (le_refl _)
     _ ≤ reasonableFrontierCoefficient ^ 5 * 2 ^ 1828 := by
@@ -212,18 +216,21 @@ private theorem coefficient_2064_pow_twenty_mul_moment_four_le_openCutoff :
     norm_num [reasonableFrontierCoefficient]
   have hcoefficient :
       2064 ^ 20 ≤ reasonableFrontierCoefficient ^ 5 := by
+    -- Split the exponent so that `pow_mul` applies.
     rw [show (20 : ℕ) = 4 * 5 by norm_num, pow_mul]
     exact Nat.pow_le_pow_left hbase 5
   calc
     2064 ^ 20 * (2 ^ 457) ^ 4 ≤
         reasonableFrontierCoefficient ^ 5 * 2 ^ 1828 := by
+      -- Split the exponent so that `pow_mul` applies.
       rw [show (1828 : ℕ) = 457 * 4 by norm_num, pow_mul]
       exact Nat.mul_le_mul hcoefficient (le_refl _)
     _ = reasonableAnalyticOpenCutoff := rfl
 
 #guard_msgs (drop warning) in
-/-- The coefficient used by the degree-one middle game, together with the
-simultaneous divisor count, is smaller than the fourth root of the prime. -/
+/-- Beyond the analytic cutoff, `192 * T < p^(1/4)`, where
+`T = τ(p - 1) + τ(p + 1)` and `192` is the coefficient of the middle-game
+estimate. -/
 theorem reasonable_middleGame_divisor_term_lt_rpow_one_div_four
     {p : ℕ} (hp : reasonableAnalyticCutoff ≤ p) :
     ((192 * ((p - 1).divisors.card +
@@ -261,14 +268,17 @@ theorem reasonable_middleGame_divisor_term_lt_rpow_one_div_four
           (p : ℝ) ^ ((1 / 4 : ℝ) * 20) :=
         (Real.rpow_mul_natCast hpNonnegative (1 / 4 : ℝ) 20).symm
       _ = (p : ℝ) ^ 5 := by norm_num
+  -- The cast in the goal is `192 * T` for the local `T`; restate so that the
+  -- power comparison with `hpowReal` applies.
   change (192 * T : ℕ) < (p : ℝ) ^ (1 / 4 : ℝ)
   apply lt_of_pow_lt_pow_left₀ 20 (Real.rpow_nonneg hpNonnegative _)
   rw [hrootPow]
   exact hpowReal
 
 #guard_msgs (drop warning) in
-/-- The complete primitive-trace coefficient `2064 = 2 * 1032`, together
-with two divisor factors, is smaller than the fourth root of the prime. -/
+/-- Beyond the analytic cutoff, `2064 * T^2 < p^(1/4)`, where
+`T = τ(p - 1) + τ(p + 1)` and `2064 = 2 * 1032` is twice the primitive-trace
+coefficient bound. -/
 theorem reasonable_primitive_divisor_term_lt_rpow_one_div_four
     {p : ℕ} (hp : reasonableAnalyticCutoff ≤ p) :
     ((2064 * ((p - 1).divisors.card +
@@ -305,13 +315,16 @@ theorem reasonable_primitive_divisor_term_lt_rpow_one_div_four
           (p : ℝ) ^ ((1 / 4 : ℝ) * 20) :=
         (Real.rpow_mul_natCast hpNonnegative (1 / 4 : ℝ) 20).symm
       _ = (p : ℝ) ^ 5 := by norm_num
+  -- The cast in the goal is `2064 * T ^ 2` for the local `T`; restate so that
+  -- the power comparison with `hpowReal` applies.
   change (2064 * T ^ 2 : ℕ) < (p : ℝ) ^ (1 / 4 : ℝ)
   apply lt_of_pow_lt_pow_left₀ 20 (Real.rpow_nonneg hpNonnegative _)
   rw [hrootPow]
   exact hpowReal
 
-/-- Assembly-facing primitive-trace certificate at the three-quarter
-endgame scale. -/
+/-- Primitive-trace inequality beyond the analytic cutoff: if the orbit
+exponent is at most `2 * p^(1/4)` and the coefficient is at most `1032`, then
+`exponent * τ(p - 1)^2 * (coefficient * √p) < p`. -/
 theorem reasonable_primitiveTrace_explicitInequality
     {p orbitExponent coefficient : ℕ}
     (hp : reasonableAnalyticCutoff ≤ p)
@@ -327,6 +340,7 @@ theorem reasonable_primitiveTrace_explicitInequality
   have hpRealPos : (0 : ℝ) < p := zero_lt_one.trans hpRealOne
   have hdivisor :
       ((p - 1).divisors.card : ℝ) ≤ (T : ℝ) := by
+    -- `τ(p - 1) ≤ T` holds because `T` is `τ(p - 1) + τ(p + 1)`.
     exact_mod_cast (show (p - 1).divisors.card ≤ T by
       dsimp [T]
       omega)
@@ -354,7 +368,9 @@ theorem reasonable_primitiveTrace_explicitInequality
         ← Real.rpow_add hpRealPos]
       norm_num
 
-/-- Split-torus form of the reasonable primitive-trace certificate. -/
+/-- Split-torus form of `reasonable_primitiveTrace_explicitInequality`: the
+orbit exponent bound follows from `exponent * order = p - 1` and
+`p^(1/2 + δ) ≤ order` with `1/4 ≤ δ`. -/
 theorem reasonable_primitiveTrace_explicitInequality_of_card_sub_one
     {p orbitExponent orbitOrder coefficient : ℕ}
     {delta : ℝ}
@@ -383,7 +399,9 @@ theorem reasonable_primitiveTrace_explicitInequality_of_card_sub_one
     _ ≤ 2 * (p : ℝ) ^ (1 / 4 : ℝ) := by
       nlinarith [Real.rpow_nonneg (Nat.cast_nonneg p) (1 / 4 : ℝ)]
 
-/-- Nonsplit-torus form of the reasonable primitive-trace certificate. -/
+/-- Nonsplit-torus form of `reasonable_primitiveTrace_explicitInequality`:
+the orbit exponent bound follows from `exponent * order = p + 1` and
+`p^(1/2 + δ) ≤ order` with `1/4 ≤ δ`. -/
 theorem reasonable_primitiveTrace_explicitInequality_of_card_add_one
     {p orbitExponent orbitOrder coefficient : ℕ}
     {delta : ℝ}
@@ -410,7 +428,8 @@ theorem reasonable_primitiveTrace_explicitInequality_of_card_add_one
       gcongr
       linarith
 
-/-- Fixed-exponent form used by the connecting cage. -/
+/-- The case of orbit exponent `1` of
+`reasonable_primitiveTrace_explicitInequality`, used by the connecting cage. -/
 theorem reasonable_primitiveTrace_explicitInequality_one
     {p coefficient : ℕ}
     (hp : reasonableAnalyticCutoff ≤ p)
@@ -432,8 +451,9 @@ theorem reasonable_primitiveTrace_explicitInequality_one
       (p := p) (orbitExponent := 1) (coefficient := coefficient)
       hp horbit hcoefficient)
 
-/-- The BGS preliminary fixed-coefficient estimate is available at the
-reasonable cutoff. -/
+/-- Beyond the analytic cutoff, every natural number at most `100522` is
+below `p^(1/8)`, by the BGS estimate
+`preliminary_small_fixed_lt_rpow_one_div_eight`. -/
 theorem reasonable_small_fixed_lt_rpow_one_div_eight
     {p fixed : ℕ} (hp : reasonableAnalyticCutoff ≤ p)
     (hfixed : fixed ≤ 100522) :
@@ -442,8 +462,9 @@ theorem reasonable_small_fixed_lt_rpow_one_div_eight
     (preliminaryStrongApproximationCutoff_le_of_reasonableCutoff_le hp)
     hfixed
 
-/-- The exact first/second trace-pair count for the source-order-preserving
-coarse startup is absorbed by the displayed `T^8` frontier coefficient. -/
+/-- Beyond the analytic cutoff, the first/second trace-pair count
+`2 * (22 + (2 * bound - 1) * T)^2` of the coarse startup, with
+`bound = (192 T)^3 + 1`, is less than `p`: it is at most `C * T^8`. -/
 theorem reasonable_coarseRegularTracePairCount_lt
     {p : ℕ} (hp : reasonableAnalyticCutoff ≤ p) :
     let T := (p - 1).divisors.card + (p + 1).divisors.card
@@ -462,6 +483,7 @@ theorem reasonable_coarseRegularTracePairCount_lt
       Finset.one_le_card.mpr ⟨1, hone⟩
     dsimp [T]
     omega
+  -- Bound the inner count by `4 * 193^3 * T^4`; squaring gives `C * T^8`.
   have hTLeFourth : T ≤ T ^ 4 := by
     calc
       T = T * 1 := by omega
@@ -480,6 +502,7 @@ theorem reasonable_coarseRegularTracePairCount_lt
     calc
       22 + (2 * ((192 * T) ^ 3 + 1) - 1) * T =
           22 + (2 * (192 * T) ^ 3 + 1) * T := by
+        -- Remove the truncated subtraction.
         rw [show 2 * ((192 * T) ^ 3 + 1) - 1 =
           2 * (192 * T) ^ 3 + 1 by omega]
       _ = 2 * 192 ^ 3 * T ^ 4 + (22 + T) := by ring

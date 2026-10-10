@@ -1,5 +1,6 @@
 import GenMarkoff.General.Endgame.RegularPrimitiveCount
-import GenMarkoff.General.Arithmetic.ExplicitCutoff
+import BGS.NumberTheory.ExplicitDivisorBound
+import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
 import GenMarkoff.General.Arithmetic.ReasonableCutoff
 import GenMarkoff.General.Assembly.RegularMiddleIteration
 import GenMarkoff.General.MiddleGame.ActualDiagonalization
@@ -10,36 +11,35 @@ import BGS.Markoff.Endgame.PrimitiveOrbitWiring
 /-!
 # Fixed-coefficient alternating split actual-rotation endgame
 
-This file treats the explicit alternating directed frames from the first
-rotation axis to the second trace and back from the second rotation axis to
-the first trace.  The fixed coefficient triple is never permuted.
+Suppose the trace `t` on a fixed coordinate axis is split, `t = q + q⁻¹` with
+`q ∈ (ZMod p)ˣ`, and candidate regular in the current ordered frame.  When
+`orderOf (q ^ 2)` is large, this file produces a forward iterate of the actual
+rotation about that axis whose adjacent trace is primitive on the split torus
+and candidate regular in a prescribed target frame.  The fixed coefficient
+triple is never permuted; two directed cases are treated separately.
 
-## New considerations
+* First to second: `rotation1` acts on `fiberPoint1`, with moving coordinates
+  `(x₂, x₃)`.  On the parameter coset `s * h` the second-axis trace has
+  weights `actualAlpha a.multiplier * s` and
+  `actualBeta a.multiplier a.a2 a.a3 u t / s` and shift
+  `actualGammaFirst a.multiplier a.a2 a.a3 u t`; the current frame is
+  `(a.a1, a.a2, a.a3)` and the target frame is `(a.a2, targetB, targetC)`.
+* Second to first: `rotation2` acts on `fiberPoint2`, with moving coordinates
+  `(x₃, x₁)`.  The first-axis trace is that of the second moving coordinate,
+  so its weights contain the eigenvalue `q` and its shift is
+  `actualGammaSecond`; the current frame is `(a.a2, a.a1, a.a3)` and the
+  target frame is `(a.a1, targetB, targetC)`.
 
-* `rotation1` advances the actual fiber parameter by `q ^ 2`, not by `q`.
-  Consequently the complementary power exponent is
-  `Nat.card (ZMod p)ˣ / orderOf (q ^ 2)`.
-* The translated parameter coset has the ordered first-coordinate weights
-  `actualAlpha a.multiplier * s` and
-  `actualBeta a.multiplier a.a2 a.a3 u t / s`, with shift
-  `actualGammaFirst a.multiplier a.a2 a.a3 u t`.
-* Candidate regularity of the primitive output is requested in the explicitly
-  named target frame `(a.a2, targetB, targetC)`.  The general ordered count
-  therefore pays the forty-pair exceptional margin and needs the square
-  hypotheses in precisely the first two target-frame positions.
-* In the reverse second-to-first direction, `fiberPoint2` orders its moving
-  coordinates as `(x3, x1)`.  Thus the first-coordinate output is the second
-  moving coordinate: its weights contain the eigenvalue `q`, its affine shift
-  is `actualGammaSecond`, and the current regular frame is
-  `(a.a2, a.a1, a.a3)`.
-* Recovering a `fiberPoint2` parameter from an arbitrary point uses the ordered
-  pair `(x3, x1)`.  Reverse candidate regularity must first be converted to
-  nonvanishing of `centeredFiberProduct a.a3 a.a1`; the direct-order inverse
-  wrapper has the opposite regular-frame order and cannot be applied blindly.
-* The alternating dispatcher fixes the outgoing regular frame by direction:
-  first-to-second lands in `(a.a2, a.a1, a.a3)`, while second-to-first lands
-  in `(a.a1, a.a2, a.a3)`.  These are changes of directed state only, never
-  permutations of the coefficient triple.
+Both rotations advance the fiber parameter by `q ^ 2`, so the parameters
+reached from `s` include every `s * h` with `h` in the image of the power map
+with exponent `Nat.card (ZMod p)ˣ / orderOf (q ^ 2)`.  The primitive trace comes from the
+ordered count of `GenMarkoff.General.Endgame.RegularPrimitiveCount` with its
+margin of forty.  The reasonable-cutoff versions verify this margin for
+`p ≥ reasonableAnalyticCutoff` and `p ^ (1/2 + delta) ≤ orderOf (q ^ 2)` with
+`delta ≥ 1/4`, and the dispatcher for an `AlternatingRegularState` returns
+`alternatingPrimitiveSplitEndgameResult`, whose outgoing frame is
+`(a.a2, a.a1, a.a3)` after a first-to-second move and `(a.a1, a.a2, a.a3)` after
+a second-to-first move.
 -/
 
 namespace GenMarkoff.General.Endgame
@@ -86,9 +86,10 @@ theorem
   simpa only [Units.val_pow_eq_pow_val, Units.val_mul, mul_comm] using
     congrArg (fun z : ZMod p ↦ (s : ZMod p) * z) hnVal
 
-/-- The second-coordinate trace on the reached complementary `q²`-power
-coset has the ordered unequal-coefficient weights and first-coordinate
-shift. -/
+/-- On the parameter `s * h` with `h` in the complementary power image of
+`q²`, the second-axis trace of `fiberPoint1` is the weighted split-torus trace
+of `h` with the translated first-directed weights and shift
+`actualGammaFirst`. -/
 theorem
     orderedTrace_fiberPoint1_complementarySquarePowerRange_eq_weightedShiftedTrace
     (p : ℕ) [Fact p.Prime]
@@ -144,9 +145,10 @@ theorem
   simpa only [Units.val_pow_eq_pow_val, Units.val_mul, mul_comm] using
     congrArg (fun z : ZMod p ↦ (s : ZMod p) * z) hnVal
 
-/-- The first-coordinate trace on the reached complementary `q²`-power
-coset has the reverse ordered unequal-coefficient weights and the
-second-moving-coordinate shift. -/
+/-- On the parameter `s * h` with `h` in the complementary power image of
+`q²`, the first-axis trace of `fiberPoint2` is the weighted split-torus trace
+of `h` with the translated second-directed weights and shift
+`actualGammaSecond`. -/
 theorem
     orderedTrace_fiberPoint2_complementarySquarePowerRange_eq_weightedShiftedTrace
     (p : ℕ) [Fact p.Prime]
@@ -164,6 +166,7 @@ theorem
               (q : ZMod p)) /
             (s : ZMod p)) h.1 +
         actualGammaSecond a.multiplier a.a3 a.a1 u t := by
+  -- `orderedTrace` is `s * y - A`, `(fiberPoint2 ..).x1` is `(fiberPair ..).2`: needed by `exact`.
   change
     a.multiplier *
           (fiberPair a.a3 a.a1 u t (q : ZMod p)
@@ -178,9 +181,10 @@ theorem
   exact secondTrace_fiberPair_mul_eq_weightedSplitTorusTrace
     a.multiplier a.a3 a.a1 u t q s h.1
 
-/-- The `q²`-coset-correct primitive count is realized by an actual forward
-`rotation1` iterate.  The primitive target trace is candidate regular in the
-explicit ordered frame `(a.a2, targetB, targetC)`. -/
+/-- Under the forty-pair counting margin for the complementary exponent of
+`q²`, some forward `rotation1` iterate of `fiberPoint1 a u t q s` has a second-axis
+trace that is primitive on the split torus and candidate regular in the
+ordered frame `(a.a2, targetB, targetC)`. -/
 theorem
     exists_iterate_actualSplitFiberPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
     (p : ℕ) [Fact p.Prime]
@@ -210,6 +214,7 @@ theorem
       orderOf v = Nat.card (ZMod p)ˣ ∧
         OrderedTraceCandidateRegular
           a.a2 targetB targetC (splitTorusTrace v) := by
+  -- Exponent, weights and shift of the second-axis trace on the translated coset.
   let orbitExponent :=
     Nat.card (ZMod p)ˣ / orderOf (q ^ 2)
   let alpha : ZMod p :=
@@ -218,12 +223,9 @@ theorem
     actualBeta a.multiplier a.a2 a.a3 u t / (s : ZMod p)
   let gamma : ZMod p :=
     actualGammaFirst a.multiplier a.a2 a.a3 u t
-  have htwo : (2 : ZMod p) ≠ 0 := by
-    intro hzero
-    have hpDvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp hzero
-    have hpLe : p ≤ 2 := Nat.le_of_dvd (by norm_num) hpDvd
-    exact hpTwo
-      (Nat.le_antisymm hpLe (Fact.out : p.Prime).two_le)
+  -- Candidate regularity gives the nondegeneracy hypotheses of the weighted count.
+  have htwo : (2 : ZMod p) ≠ 0 :=
+    Ring.two_ne_zero (by rwa [ZMod.ringChar_zmod_n])
   have hsigmaBase :
       actualSigma a.multiplier a.a2 a.a3 u t ≠ 0 :=
     actualSigma_ne_zero_of_candidateRegular
@@ -256,6 +258,7 @@ theorem
     rw [hweights]
     exact actualEvenObstruction_ne_zero_of_candidateRegular
       a.multiplier a.a1 a.a2 a.a3 u t htrace hA2 hregular
+  -- A primitive pair whose trace is candidate regular in the target frame.
   obtain ⟨z, hzTrace, hzOrder, hzRegular⟩ :=
     exists_weightedShiftedSplitPrimitiveTracePair_candidateRegular_of_error_add_forty_lt_main
       p coefficient hWeil
@@ -265,6 +268,7 @@ theorem
         (BGS.Markoff.splitComplementaryExponent_cast_ne_zero p (q ^ 2))
         (BGS.Markoff.complementaryExponent_dvd_natCard (q ^ 2))
         (by simpa [orbitExponent] using hmargin)
+  -- Reach its parameter by a `rotation1` iterate and identify the trace.
   have hD : discriminant t ≠ 0 := by
     simpa [discriminant] using hregular.1
   obtain ⟨n, hn⟩ :=
@@ -285,10 +289,10 @@ theorem
       rfl
     _ = splitTorusTrace z.2 := hzTrace
 
-/-- Reverse `q²`-coset-correct primitive endgame.  A forward `rotation2`
-iterate sends a second-axis fiber to a primitive first-coordinate trace,
-candidate regular in the explicitly named frame
-`(a.a1, targetB, targetC)`. -/
+/-- Under the forty-pair counting margin for the complementary exponent of
+`q²`, some forward `rotation2` iterate of `fiberPoint2 a u t q s` has a first-axis
+trace that is primitive on the split torus and candidate regular in the
+ordered frame `(a.a1, targetB, targetC)`. -/
 theorem
     exists_iterate_actualSplitFiberPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
     (p : ℕ) [Fact p.Prime]
@@ -318,6 +322,7 @@ theorem
       orderOf v = Nat.card (ZMod p)ˣ ∧
         OrderedTraceCandidateRegular
           a.a1 targetB targetC (splitTorusTrace v) := by
+  -- Exponent, weights and shift of the first-axis trace on the translated coset.
   let orbitExponent :=
     Nat.card (ZMod p)ˣ / orderOf (q ^ 2)
   let alpha : ZMod p :=
@@ -327,12 +332,9 @@ theorem
       (q : ZMod p)) / (s : ZMod p)
   let gamma : ZMod p :=
     actualGammaSecond a.multiplier a.a3 a.a1 u t
-  have htwo : (2 : ZMod p) ≠ 0 := by
-    intro hzero
-    have hpDvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp hzero
-    have hpLe : p ≤ 2 := Nat.le_of_dvd (by norm_num) hpDvd
-    exact hpTwo
-      (Nat.le_antisymm hpLe (Fact.out : p.Prime).two_le)
+  -- Reverse candidate regularity gives the nondegeneracy hypotheses of the weighted count.
+  have htwo : (2 : ZMod p) ≠ 0 :=
+    Ring.two_ne_zero (by rwa [ZMod.ringChar_zmod_n])
   have hweights :
       alpha * beta =
         actualSigma a.multiplier a.a3 a.a1 u t := by
@@ -359,6 +361,7 @@ theorem
     exact actualSecondEvenObstruction_ne_zero_of_candidateRegular
       a.multiplier a.a2 a.a3 a.a1 u t
         htrace hA1 hregular
+  -- A primitive pair whose trace is candidate regular in the target frame.
   obtain ⟨z, hzTrace, hzOrder, hzRegular⟩ :=
     exists_weightedShiftedSplitPrimitiveTracePair_candidateRegular_of_error_add_forty_lt_main
       p coefficient hWeil
@@ -368,6 +371,7 @@ theorem
         (BGS.Markoff.splitComplementaryExponent_cast_ne_zero p (q ^ 2))
         (BGS.Markoff.complementaryExponent_dvd_natCard (q ^ 2))
         (by simpa [orbitExponent] using hmargin)
+  -- Reach its parameter by a `rotation2` iterate and identify the trace.
   have hD : discriminant t ≠ 0 := by
     simpa [discriminant] using hregular.1
   obtain ⟨n, hn⟩ :=
@@ -388,9 +392,10 @@ theorem
       rfl
     _ = splitTorusTrace z.2 := hzTrace
 
-/-- Arbitrary-point form of the fixed-coefficient first-to-second split
-endgame.  Candidate regularity supplies the nonzero centered product needed
-to recover the initial translated fiber parameter. -/
+/-- Arbitrary-point form of the first-to-second split endgame: for every
+solution `x` with `x.x1 = u`, some forward `rotation1` iterate of `x` has a
+second-axis trace that is primitive on the split torus and candidate regular
+in `(a.a2, targetB, targetC)`. -/
 theorem
     exists_iterate_actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
     (p : ℕ) [Fact p.Prime]
@@ -445,9 +450,9 @@ theorem
   refine ⟨n, v, ?_, hvOrder, hvRegular⟩
   simpa [hsPoint] using hn
 
-/-- Reverse candidate regularity supplies the nonzero centered product needed
-to invert the ordered second-axis parametrization.  The moving pair remains
-`(x3, x1)`; no coefficient or coordinate permutation is performed. -/
+/-- Candidate regularity in the reverse frame `(A, C, B)` makes
+`centeredFiberProduct B C u t` nonzero.  For the second-axis fiber, with moving
+pair `(x₃, x₁)`, this is the hypothesis of `exists_unit_fiberPair_eq`. -/
 theorem centeredFiberProduct_ne_zero_of_reverseCandidateRegular
     {K : Type*} [Field K]
     (s A B C u t : K)
@@ -459,9 +464,9 @@ theorem centeredFiberProduct_ne_zero_of_reverseCandidateRegular
     s A B C u t htrace hregular
   simp [actualSigma, actualBeta, hzero]
 
-/-- Arbitrary-point form of the fixed-coefficient second-to-first split
-endgame.  The inverse parametrization uses the ordered moving coordinates
-`(x3, x1)` and the output lies in the exact frame
+/-- Arbitrary-point form of the second-to-first split endgame: for every
+solution `x` with `x.x2 = u`, some forward `rotation2` iterate of `x` has a
+first-axis trace that is primitive on the split torus and candidate regular in
 `(a.a1, targetB, targetC)`. -/
 theorem
     exists_iterate_actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
@@ -521,6 +526,9 @@ theorem
   refine ⟨n, v, ?_, hvOrder, hvRegular⟩
   simpa [hsPoint] using hn
 
+/-- The explicit inequality for the coefficient `coefficient + 40` gives the
+forty-pair margin: the divisor-count error term plus `40` is below
+`primitiveTraceMoebiusMainTerm`. -/
 private theorem
     error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
     (groupOrder fieldCard fixedExponent coefficient : ℕ)
@@ -538,6 +546,7 @@ private theorem
     BGS.Markoff.divisorsError_lt_primitiveTraceMoebiusMainTerm_of_explicitInequality
       groupOrder fieldCard fixedExponent (coefficient + 40)
       hgroup hfixed hexplicit
+  -- Since `1 ≤ #divisors * √fieldCard`, the additive `40` is absorbed into the coefficient.
   have hdivisorsOne :
       (1 : ℝ) ≤ (groupOrder.divisors.card : ℝ) := by
     exact_mod_cast
@@ -572,6 +581,7 @@ private theorem
               Real.sqrt (fieldCard : ℝ)) := by
         simpa only [mul_one] using
           (mul_le_mul_of_nonneg_left hproductOne
+            -- `show` only fixes the side goal `0 ≤ 40` in `ℝ`; nothing is unfolded.
             (show (0 : ℝ) ≤ 40 by norm_num))
       exact add_le_add
         (le_refl
@@ -587,271 +597,11 @@ private theorem
     _ < primitiveTraceMoebiusMainTerm
         groupOrder fieldCard fixedExponent := hdomination
 
-/-- Uniform large-`orderOf(q²)` split endgame for the fixed first-to-second
-frame.  The forty-point ordered exceptional loss is absorbed by applying the
-numerical threshold to `coefficient + 40`. -/
-theorem
-    exists_threshold_actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)) (u t : ZMod p)
-          (q : (ZMod p)ˣ) (x : Point (ZMod p))
-          (targetB targetC : ZMod p),
-        IsSolution a x →
-        x.x1 = u →
-        t = orderedTrace a.multiplier a.a1 u →
-        t = splitTorusTrace q →
-        a.a2 ^ 2 ≠ 4 →
-        targetB ^ 2 ≠ 4 →
-        OrderedTraceCandidateRegular a.a1 a.a2 a.a3 t →
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2) →
-        ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-          orderedTrace a.multiplier a.a2
-              (((rotation1 a)^[n]) x).x2 =
-            splitTorusTrace v ∧
-          orderOf v = Nat.card (ZMod p)ˣ ∧
-            OrderedTraceCandidateRegular
-              a.a2 targetB targetC (splitTorusTrace v) := by
-  obtain ⟨inequalityThreshold, hInequality⟩ :=
-    BGS.Markoff.exists_threshold_endgamePrimitiveTrace_explicitInequality_of_largeOrder
-      (coefficient + 40) hdelta
-  refine ⟨max inequalityThreshold 3, ?_⟩
-  intro p hp _ a u t q x targetB targetC hx hx1 htrace heigen
-    hA2 hTargetB hregular hlarge
-  have hpInequality : inequalityThreshold ≤ p :=
-    (Nat.le_max_left inequalityThreshold 3).trans hp
-  have hpThree : 3 ≤ p :=
-    (Nat.le_max_right inequalityThreshold 3).trans hp
-  have hpTwo : p ≠ 2 := by omega
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  let orbitExponent :=
-    Nat.card (ZMod p)ˣ / orderOf (q ^ 2)
-  have hmul :
-      orbitExponent * orderOf (q ^ 2) = p - 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (q ^ 2)), hcard]
-  have hexplicit :=
-    hInequality p hpInequality orbitExponent (orderOf (q ^ 2))
-      hmul hlarge
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcard] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcard]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (q ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t q x hx hx1 htrace heigen hA2
-        targetB targetC hTargetB hregular
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Uniform large-`orderOf(q²)` split endgame for the fixed second-to-first
-frame.  The reverse ordered weights have the same invariant product, while
-the forty-point numerical loss is again absorbed at `coefficient + 40`. -/
-theorem
-    exists_threshold_actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)) (u t : ZMod p)
-          (q : (ZMod p)ˣ) (x : Point (ZMod p))
-          (targetB targetC : ZMod p),
-        IsSolution a x →
-        x.x2 = u →
-        t = orderedTrace a.multiplier a.a2 u →
-        t = splitTorusTrace q →
-        a.a1 ^ 2 ≠ 4 →
-        targetB ^ 2 ≠ 4 →
-        OrderedTraceCandidateRegular a.a2 a.a1 a.a3 t →
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2) →
-        ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-          orderedTrace a.multiplier a.a1
-              (((rotation2 a)^[n]) x).x1 =
-            splitTorusTrace v ∧
-          orderOf v = Nat.card (ZMod p)ˣ ∧
-            OrderedTraceCandidateRegular
-              a.a1 targetB targetC (splitTorusTrace v) := by
-  obtain ⟨inequalityThreshold, hInequality⟩ :=
-    BGS.Markoff.exists_threshold_endgamePrimitiveTrace_explicitInequality_of_largeOrder
-      (coefficient + 40) hdelta
-  refine ⟨max inequalityThreshold 3, ?_⟩
-  intro p hp _ a u t q x targetB targetC hx hx2 htrace heigen
-    hA1 hTargetB hregular hlarge
-  have hpInequality : inequalityThreshold ≤ p :=
-    (Nat.le_max_left inequalityThreshold 3).trans hp
-  have hpThree : 3 ≤ p :=
-    (Nat.le_max_right inequalityThreshold 3).trans hp
-  have hpTwo : p ≠ 2 := by omega
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  let orbitExponent :=
-    Nat.card (ZMod p)ˣ / orderOf (q ^ 2)
-  have hmul :
-      orbitExponent * orderOf (q ^ 2) = p - 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (q ^ 2)), hcard]
-  have hexplicit :=
-    hInequality p hpInequality orbitExponent (orderOf (q ^ 2))
-      hmul hlarge
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcard] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcard]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (q ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t q x hx hx2 htrace heigen hA1
-        targetB targetC hTargetB hregular
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Pointwise version of the first-to-second split endgame at the closed
-analytic cutoff.  The hypotheses expose the only two numerical facts used:
-`delta ≥ 1/32` and the augmented Weil coefficient is at most `1032`. -/
-theorem
-    actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p)) (u t : ZMod p)
-    (q : (ZMod p)ˣ) (x : Point (ZMod p))
-    (targetB targetC : ZMod p)
-    (hx : IsSolution a x) (hx1 : x.x1 = u)
-    (htrace : t = orderedTrace a.multiplier a.a1 u)
-    (heigen : t = splitTorusTrace q)
-    (hA2 : a.a2 ^ 2 ≠ 4) (hTargetB : targetB ^ 2 ≠ 4)
-    (hregular : OrderedTraceCandidateRegular a.a1 a.a2 a.a3 t)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2)) :
-    ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-      orderedTrace a.multiplier a.a2 (((rotation1 a)^[n]) x).x2 =
-          splitTorusTrace v ∧
-        orderOf v = Nat.card (ZMod p)ˣ ∧
-          OrderedTraceCandidateRegular
-            a.a2 targetB targetC (splitTorusTrace v) := by
-  have hpThree : 3 ≤ p := by
-    have := GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-    omega
-  have hpTwo : p ≠ 2 := by omega
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  let orbitExponent :=
-    Nat.card (ZMod p)ˣ / orderOf (q ^ 2)
-  have hmul :
-      orbitExponent * orderOf (q ^ 2) = p - 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (q ^ 2)), hcard]
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_of_card_sub_one
-      hp hmul hlarge hdelta hcoefficient
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcard] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcard]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (q ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t q x hx hx1 htrace heigen hA2
-        targetB targetC hTargetB hregular
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Pointwise reverse-frame companion to
-`actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_analyticCutoff`. -/
-theorem
-    actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p)) (u t : ZMod p)
-    (q : (ZMod p)ˣ) (x : Point (ZMod p))
-    (targetB targetC : ZMod p)
-    (hx : IsSolution a x) (hx2 : x.x2 = u)
-    (htrace : t = orderedTrace a.multiplier a.a2 u)
-    (heigen : t = splitTorusTrace q)
-    (hA1 : a.a1 ^ 2 ≠ 4) (hTargetB : targetB ^ 2 ≠ 4)
-    (hregular : OrderedTraceCandidateRegular a.a2 a.a1 a.a3 t)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2)) :
-    ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-      orderedTrace a.multiplier a.a1 (((rotation2 a)^[n]) x).x1 =
-          splitTorusTrace v ∧
-        orderOf v = Nat.card (ZMod p)ˣ ∧
-          OrderedTraceCandidateRegular
-            a.a1 targetB targetC (splitTorusTrace v) := by
-  have hpThree : 3 ≤ p := by
-    have := GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-    omega
-  have hpTwo : p ≠ 2 := by omega
-  have hcard : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  let orbitExponent :=
-    Nat.card (ZMod p)ˣ / orderOf (q ^ 2)
-  have hmul :
-      orbitExponent * orderOf (q ^ 2) = p - 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (q ^ 2)), hcard]
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_of_card_sub_one
-      hp hmul hlarge hdelta hcoefficient
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcard] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcard]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (q ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t q x hx hx2 htrace heigen hA1
-        targetB targetC hTargetB hregular
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Direction-indexed primitive split endgame with the exact outgoing
-alternating regular frame.  The fixed coefficient triple `a` is unchanged in
-both branches. -/
+/-- Conclusion of the split endgame for an alternating direction.  For
+`.firstSecond`, some `rotation1` iterate of `x` has a primitive split
+second-axis trace that is candidate regular in `(a.a2, a.a1, a.a3)`; for
+`.secondFirst`, some `rotation2` iterate of `x` has a primitive split
+first-axis trace that is candidate regular in `(a.a1, a.a2, a.a3)`. -/
 def alternatingPrimitiveSplitEndgameResult
     (p : ℕ) [Fact p.Prime]
     (a : Coefficients (ZMod p))
@@ -875,107 +625,11 @@ def alternatingPrimitiveSplitEndgameResult
           OrderedTraceCandidateRegular
             a.a1 a.a2 a.a3 (splitTorusTrace v)
 
-/-- A uniform dispatcher for either alternating directed state.  Large
-`orderOf(q²)` on the currently fixed split trace produces a primitive trace
-in the exact outgoing alternating frame by iterating the corresponding
-actual rotation. -/
-theorem
-    exists_threshold_alternatingRegularState_actualSplitPrimitiveEndgame
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)),
-        a.a1 ^ 2 ≠ 4 →
-        a.a2 ^ 2 ≠ 4 →
-        ∀ (state : AlternatingRegularState a) (q : (ZMod p)ˣ),
-          traceAt a state.direction.fixed state.point.1 =
-              splitTorusTrace q →
-          (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2) →
-          alternatingPrimitiveSplitEndgameResult
-            p a state.direction state.point.1 := by
-  obtain ⟨forwardThreshold, hforward⟩ :=
-    exists_threshold_actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-      coefficient hWeil hdelta
-  obtain ⟨reverseThreshold, hreverse⟩ :=
-    exists_threshold_actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-      coefficient hWeil hdelta
-  refine ⟨max forwardThreshold reverseThreshold, ?_⟩
-  intro p hp _ a hA1 hA2 state q heigen hlarge
-  have hpForward : forwardThreshold ≤ p :=
-    (Nat.le_max_left forwardThreshold reverseThreshold).trans hp
-  have hpReverse : reverseThreshold ≤ p :=
-    (Nat.le_max_right forwardThreshold reverseThreshold).trans hp
-  rcases state with ⟨direction, point, hregular⟩
-  cases direction with
-  | firstSecond =>
-      obtain ⟨n, v, hn, hvOrder, hvRegular⟩ :=
-        hforward p hpForward
-          a point.1.x1 (traceAt a .first point.1) q point.1
-            a.a1 a.a3 point.2 rfl rfl
-            (by
-              simpa [AlternatingDirectedAxis.fixed] using heigen)
-            hA2 hA1
-            (by
-              simpa [alternatingTraceRegular] using hregular)
-            hlarge
-      exact ⟨n, v, hn, hvOrder, hvRegular⟩
-  | secondFirst =>
-      obtain ⟨n, v, hn, hvOrder, hvRegular⟩ :=
-        hreverse p hpReverse
-          a point.1.x2 (traceAt a .second point.1) q point.1
-            a.a2 a.a3 point.2 rfl rfl
-            (by
-              simpa [AlternatingDirectedAxis.fixed] using heigen)
-            hA1 hA2
-            (by
-              simpa [alternatingTraceRegular] using hregular)
-            hlarge
-      exact ⟨n, v, hn, hvOrder, hvRegular⟩
-
-/-- Explicit-cutoff dispatcher for either alternating split direction. -/
-theorem alternatingRegularState_actualSplitPrimitiveEndgame_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
-    (state : AlternatingRegularState a) (q : (ZMod p)ˣ)
-    (heigen :
-      traceAt a state.direction.fixed state.point.1 = splitTorusTrace q)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2)) :
-    alternatingPrimitiveSplitEndgameResult
-      p a state.direction state.point.1 := by
-  rcases state with ⟨direction, point, hregular⟩
-  cases direction with
-  | firstSecond =>
-      exact
-        actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_analyticCutoff
-          coefficient hWeil hdelta hcoefficient p hp
-          a point.1.x1 (traceAt a .first point.1) q point.1
-          a.a1 a.a3 point.2 rfl rfl
-          (by simpa [AlternatingDirectedAxis.fixed] using heigen)
-          hA2 hA1
-          (by simpa [alternatingTraceRegular] using hregular)
-          hlarge
-  | secondFirst =>
-      exact
-        actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame_of_analyticCutoff
-          coefficient hWeil hdelta hcoefficient p hp
-          a point.1.x2 (traceAt a .second point.1) q point.1
-          a.a2 a.a3 point.2 rfl rfl
-          (by simpa [AlternatingDirectedAxis.fixed] using heigen)
-          hA1 hA2
-          (by simpa [alternatingTraceRegular] using hregular)
-          hlarge
-
-/-- Reasonable-cutoff version of the first-to-second split endgame.  The
-three-quarter source scale supplies `delta ≥ 1/4`. -/
+/-- Reasonable-cutoff version of the first-to-second split endgame: for
+`p ≥ reasonableAnalyticCutoff`, `coefficient + 40 ≤ 1032` and
+`p ^ (1/2 + delta) ≤ orderOf (q ^ 2)` with `delta ≥ 1/4`, the forty-pair
+counting margin holds and the conclusion of the arbitrary-point form
+follows. -/
 theorem
     actualSplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_reasonableCutoff
     (coefficient : ℕ)
@@ -1037,7 +691,8 @@ theorem
         targetB targetC hTargetB hregular
         (by simpa [orbitExponent] using hmargin)
 
-/-- Reverse-frame companion at the reasonable cutoff. -/
+/-- Reasonable-cutoff version of the second-to-first split endgame, under the
+same hypotheses on `p` and `orderOf (q ^ 2)`. -/
 theorem
     actualSplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame_of_reasonableCutoff
     (coefficient : ℕ)
@@ -1099,7 +754,8 @@ theorem
         targetB targetC hTargetB hregular
         (by simpa [orbitExponent] using hmargin)
 
-/-- Reasonable-cutoff dispatcher for either alternating split direction. -/
+/-- Reasonable-cutoff split endgame for an alternating regular state whose
+fixed trace is `q + q⁻¹` with `q ∈ (ZMod p)ˣ`, in either direction. -/
 theorem alternatingRegularState_actualSplitPrimitiveEndgame_of_reasonableCutoff
     (coefficient : ℕ)
     (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)

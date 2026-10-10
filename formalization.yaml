@@ -107,7 +107,7 @@ status:
         - "Quot.sound"
         - "Classical.choice"
       literature_dependencies: []
-    - declaration: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff"
+    - declaration: "GenMarkoff.IntegrallyNondegenerate.reduction_surjective_of_explicitCutoff"
       sorry_count: 0
       axioms:
         - "propext"
@@ -145,6 +145,23 @@ automation:
       prompting_notes: >-
         Iterative human-directed formalization with explicit source,
         soundness, completion, and metadata requirements.
+
+    - method: "agent"
+      models:
+        - "Anthropic Claude models"
+      framework: "Claude Code"
+      tool_setup: >-
+        Rubric-guided review against the TauCetiReview rubrics, removal of
+        declarations unreachable from the main theorem, reuse of Mathlib and
+        vendored lemmas, module regrouping, documentation, and build and
+        axiom verification.
+      cost:
+        wall_time: "Not tracked"
+        spend_usd: "Not tracked"
+        hardware: "Local Windows workstation"
+      prompting_notes: >-
+        Human-requested refactoring; every change was checked by a full
+        `lake build` and the declaration-level axiom audit.
   spend_usd: "Not tracked"
   notes: >-
     Automation assisted implementation; the checked Lean declarations,
@@ -208,7 +225,7 @@ alignment:
         this declaration.
 
     - source: "Kingsbury-Neuschotz, arXiv:2603.04096v3, Theorem 4.3 and Sections 5--9"
-      lean: "GenMarkoff.General.Assembly.IntegrallyNondegenerate.vietaStrongApproximationAt_of_explicitCutoff"
+      lean: "GenMarkoff.IntegrallyNondegenerate.vietaStrongApproximationAt_of_explicitCutoff"
       module: "GenMarkoff.General.Assembly.ExplicitStrongApproximation"
       status: "adapted"
       note: >-

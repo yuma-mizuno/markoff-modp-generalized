@@ -3,9 +3,12 @@ import Mathlib.RingTheory.Polynomial.Resultant.Basic
 /-!
 # A closed resultant formula for two formal quadratics
 
-This generic identity is shared by coefficient-dependent cage calculations.
-The formal degrees are fixed at two, so the formula remains valid when a
-displayed leading coefficient specializes to zero.
+This file computes `Polynomial.resultant` of two quadratics with formal
+degrees `2` and `2` in closed form (`resultant_quadratic_quadratic`).  The
+identity is used by the incidence-algebra calculations in
+`GenMarkoff.General.Cage`.  Because the formal degrees are fixed at two, the
+formula remains valid when a displayed leading coefficient specializes to
+zero.
 -/
 
 namespace GenMarkoff.Cage
@@ -25,6 +28,8 @@ theorem resultant_quadratic_quadratic
       (a * h - d * e) ^ 2 -
         (a * f - b * e) * (b * h - d * f) := by
   rw [Polynomial.resultant]
+  -- Identify the Sylvester matrix with an explicit `4 × 4` matrix and expand
+  -- its determinant along the first row.
   let M : Matrix (Fin 4) (Fin 4) K :=
     !![h, 0, d, 0;
        f, h, b, d;

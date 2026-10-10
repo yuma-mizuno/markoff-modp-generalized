@@ -1,14 +1,30 @@
-import GenMarkoff.Divisibility.RawAngleOrbit
+import GenMarkoff.Divisibility.RawAngle.Orbit
 import GenMarkoff.Divisibility.ZeroCoordinateSum
 import GenMarkoff.Core.Statements
+import Mathlib.Algebra.Field.ZMod
 
 /-!
 # Generic generalized Martin divisibility
 
-The totalized raw-angle defect gives a direct proof of orbit divisibility when
-the multiplier is nonzero and no coefficient square is `4`.  This is the
-generic branch of the generalized theorem; the exceptional branch has
-different hypotheses and is deliberately not claimed here.
+This file proves the generic branch of Theorem 1.1 of arXiv:2509.02187v3:
+over `ZMod p` with `p ≥ 5`, if the multiplier is nonzero and no coefficient
+square is `4`, every punctured Vieta orbit has cardinality divisible by `p`.
+
+The key step, `multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant`,
+shows that `s · #C = 0` for every finite Vieta-invariant set `C` of punctured
+solutions over a field of characteristic not `2`.  At zero-coordinate points
+it uses the totalized raw-angle defect identity from
+`GenMarkoff.Divisibility.RawAngle.Orbit` together with the vanishing of the
+raw-angle sums on zero-coordinate fibers from
+`GenMarkoff.Divisibility.ZeroCoordinateSum`, in place of the paper's
+pointwise propagation construction.
+
+## Main results
+
+* `prime_dvd_puncturedVietaOrbit_ncard_of_generic`: orbit divisibility for one
+  punctured Vieta orbit.
+* `generalizedMartinGenericDivisibility`: the statement
+  `GeneralizedMartinGenericDivisibilityStatement`.
 -/
 
 namespace GenMarkoff
@@ -31,6 +47,7 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
     (hC3 : ∀ x, vieta3PuncturedPerm a x ∈ C ↔ x ∈ C) :
     a.multiplier * (C.card : K) = 0 := by
   classical
+  -- Step 1: `C` is also invariant under the three two-Vieta rotations.
   have hrotation1_eq (x : PuncturedSolutionSurface a) :
       rotation1PuncturedPerm a x =
         vieta3PuncturedPerm a (vieta2PuncturedPerm a x) := by
@@ -58,6 +75,8 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
   have hCrotation3 : ∀ x, rotation3PuncturedPerm a x ∈ C ↔ x ∈ C := by
     intro x
     rw [hrotation3_eq, hC2, hC1]
+  -- Step 2: restrict the rotation `Rᵢ` to `C` and then to the points of `C`
+  -- with `xᵢ = 0`, which `Rᵢ` preserves.
   let rhoC1 : Equiv.Perm C :=
     (rotation1PuncturedPerm a).subtypePerm hCrotation1
   let rhoC2 : Equiv.Perm C :=
@@ -67,16 +86,25 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
   have hzero1 : ∀ x : C,
       ((rhoC1 x).1.1.1 : Point K).x1 = 0 ↔ (x.1.1 : Point K).x1 = 0 := by
     intro x
+    -- The point of `rhoC1 x` is `rotation1 a` of the point of `x`, through
+    -- `subtypePerm`, `rotation1PuncturedPerm` and `rotation1SurfacePerm`;
+    -- restate on points so `simp` computes the first coordinate.
     change (rotation1 a (x.1.1 : Point K)).x1 = 0 ↔ (x.1.1 : Point K).x1 = 0
     simp [rotation1, vieta2, vieta3]
   have hzero2 : ∀ x : C,
       ((rhoC2 x).1.1.1 : Point K).x2 = 0 ↔ (x.1.1 : Point K).x2 = 0 := by
     intro x
+    -- The point of `rhoC2 x` is `rotation2 a` of the point of `x`, through
+    -- `subtypePerm`, `rotation2PuncturedPerm` and `rotation2SurfacePerm`;
+    -- restate on points so `simp` computes the second coordinate.
     change (rotation2 a (x.1.1 : Point K)).x2 = 0 ↔ (x.1.1 : Point K).x2 = 0
     simp [rotation2, vieta1, vieta3]
   have hzero3 : ∀ x : C,
       ((rhoC3 x).1.1.1 : Point K).x3 = 0 ↔ (x.1.1 : Point K).x3 = 0 := by
     intro x
+    -- The point of `rhoC3 x` is `rotation3 a` of the point of `x`, through
+    -- `subtypePerm`, `rotation3PuncturedPerm` and `rotation3SurfacePerm`;
+    -- restate on points so `simp` computes the third coordinate.
     change (rotation3 a (x.1.1 : Point K)).x3 = 0 ↔ (x.1.1 : Point K).x3 = 0
     simp [rotation3, vieta1, vieta2]
   let rho1 : Equiv.Perm {x : C // (x.1.1 : Point K).x1 = 0} :=
@@ -85,12 +113,17 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
     rhoC2.subtypePerm hzero2
   let rho3 : Equiv.Perm {x : C // (x.1.1 : Point K).x3 = 0} :=
     rhoC3.subtypePerm hzero3
+  -- Step 3: on each zero-coordinate slice of `C`, the corresponding raw angle
+  -- sums to zero (`sum_rawAngle*_eq_zero_of_zero_rotation_model`).
   have hsum1subtype :
       (∑ x : {x : C // (x.1.1 : Point K).x1 = 0},
         rawAngle1 a (x.1.1.1 : Point K)) = 0 := by
     apply sum_rawAngle1_eq_zero_of_zero_rotation_model a rho1
         (fun x ↦ (x.1.1.1 : Point K)) ha1
     · intro x
+      -- By the definitions of `rho1`, `rhoC1` and `rotation1PuncturedPerm`, the
+      -- point of `rho1 x` is `rotation1 a` of the point of `x`; state this on
+      -- points and close it by `rfl`.
       change ((rho1 x).1.1.1.1 : Point K) = rotation1 a (x.1.1.1 : Point K)
       rfl
     · intro x
@@ -107,6 +140,9 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
     apply sum_rawAngle2_eq_zero_of_zero_rotation_model a rho2
         (fun x ↦ (x.1.1.1 : Point K)) ha2
     · intro x
+      -- By the definitions of `rho2`, `rhoC2` and `rotation2PuncturedPerm`, the
+      -- point of `rho2 x` is `rotation2 a` of the point of `x`; state this on
+      -- points and close it by `rfl`.
       change ((rho2 x).1.1.1.1 : Point K) = rotation2 a (x.1.1.1 : Point K)
       rfl
     · intro x
@@ -123,6 +159,9 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
     apply sum_rawAngle3_eq_zero_of_zero_rotation_model a rho3
         (fun x ↦ (x.1.1.1 : Point K)) ha3
     · intro x
+      -- By the definitions of `rho3`, `rhoC3` and `rotation3PuncturedPerm`, the
+      -- point of `rho3 x` is `rotation3 a` of the point of `x`; state this on
+      -- points and close it by `rfl`.
       change ((rho3 x).1.1.1.1 : Point K) = rotation3 a (x.1.1.1 : Point K)
       rfl
     · intro x
@@ -133,6 +172,7 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
       exact hpoint
     · intro x
       exact x.2
+  -- Step 4: rewrite each slice sum as an indicator sum over all of `C`.
   have hsum1 :
       (∑ x : C, if (x.1.1 : Point K).x1 = 0 then rawAngle1 a x.1.1 else 0) = 0 := by
     calc
@@ -175,6 +215,8 @@ theorem multiplier_mul_card_cast_eq_zero_of_generic_vieta_invariant
             intro x
             simp
       _ = 0 := hsum3subtype
+  -- Step 5: the zero-coordinate correction therefore sums to zero, and the
+  -- defect identity gives `s · #C = 2 · 0`.
   have hcorrection : (∑ x : C, zeroRawAngleCorrection a x.1.1) = 0 := by
     simp_rw [zeroRawAngleCorrection, Finset.sum_add_distrib]
     rw [hsum1, hsum2, hsum3]
@@ -194,10 +236,8 @@ theorem prime_dvd_puncturedVietaOrbit_ncard_of_generic
     (x : PuncturedSolutionSurface a) :
     p ∣ (puncturedVietaOrbit x).ncard := by
   classical
-  have htwo : (2 : ZMod p) ≠ 0 := by
-    intro hzero
-    have hpDvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp hzero
-    exact (Nat.not_dvd_of_pos_of_lt (by omega) (by omega)) hpDvd
+  have htwo : (2 : ZMod p) ≠ 0 :=
+    Ring.two_ne_zero (by rw [ZMod.ringChar_zmod_n]; omega)
   rcases ha with ⟨hmultiplier, ha1, ha2, ha3⟩
   let S := puncturedVietaOrbit x
   have hS : S.Finite := Set.toFinite S
@@ -205,6 +245,8 @@ theorem prime_dvd_puncturedVietaOrbit_ncard_of_generic
   have hC1 : ∀ y, vieta1PuncturedPerm a y ∈ C ↔ y ∈ C := by
     intro y
     simp only [C, Set.Finite.mem_toFinset]
+    -- `S` is `puncturedVietaOrbit x`, i.e. `MulAction.orbit (VietaGroup a) x`;
+    -- restate so that `MulAction.mapsTo_smul_orbit` applies.
     change vieta1PuncturedPerm a y ∈ MulAction.orbit (VietaGroup a) x ↔
       y ∈ MulAction.orbit (VietaGroup a) x
     rw [← vieta1InVietaGroup_smul_punctured]
@@ -217,6 +259,8 @@ theorem prime_dvd_puncturedVietaOrbit_ncard_of_generic
   have hC2 : ∀ y, vieta2PuncturedPerm a y ∈ C ↔ y ∈ C := by
     intro y
     simp only [C, Set.Finite.mem_toFinset]
+    -- `S` is `puncturedVietaOrbit x`, i.e. `MulAction.orbit (VietaGroup a) x`;
+    -- restate so that `MulAction.mapsTo_smul_orbit` applies.
     change vieta2PuncturedPerm a y ∈ MulAction.orbit (VietaGroup a) x ↔
       y ∈ MulAction.orbit (VietaGroup a) x
     rw [← vieta2InVietaGroup_smul_punctured]
@@ -229,6 +273,8 @@ theorem prime_dvd_puncturedVietaOrbit_ncard_of_generic
   have hC3 : ∀ y, vieta3PuncturedPerm a y ∈ C ↔ y ∈ C := by
     intro y
     simp only [C, Set.Finite.mem_toFinset]
+    -- `S` is `puncturedVietaOrbit x`, i.e. `MulAction.orbit (VietaGroup a) x`;
+    -- restate so that `MulAction.mapsTo_smul_orbit` applies.
     change vieta3PuncturedPerm a y ∈ MulAction.orbit (VietaGroup a) x ↔
       y ∈ MulAction.orbit (VietaGroup a) x
     rw [← vieta3InVietaGroup_smul_punctured]
@@ -243,13 +289,17 @@ theorem prime_dvd_puncturedVietaOrbit_ncard_of_generic
       a htwo ha1 ha2 ha3 C hC1 hC2 hC3
   have hcardZero : (C.card : ZMod p) = 0 :=
     (mul_eq_zero.mp hmulZero).resolve_left hmultiplier
+  -- The goal `p ∣ (puncturedVietaOrbit x).ncard` is `p ∣ S.ncard` for the local
+  -- `S`; restate so that `Set.ncard_eq_toFinset_card S hS` rewrites it.
   change p ∣ S.ncard
   apply (ZMod.natCast_eq_zero_iff _ _).mp
   rw [Set.ncard_eq_toFinset_card S hS]
   simpa [C] using hcardZero
 
-/-- The internally proved generic branch of generalized Martin
-divisibility. -/
+/-- The generic branch of generalized Martin divisibility
+(arXiv:2509.02187v3, Theorem 1.1): for `p ≥ 5` and generically admissible
+coefficients over `ZMod p`, every punctured Vieta orbit has cardinality
+divisible by `p`. -/
 theorem generalizedMartinGenericDivisibility :
     GeneralizedMartinGenericDivisibilityStatement := by
   intro p hp a hpFive ha

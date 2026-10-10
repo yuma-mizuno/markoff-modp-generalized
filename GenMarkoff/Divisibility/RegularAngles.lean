@@ -1,4 +1,7 @@
 import GenMarkoff.Core.Basic
+import Mathlib.Tactic.LinearCombination
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Algebra.Field.Basic
 
 /-!
 # Regular angle identities
@@ -10,8 +13,16 @@ nonvanishing hypotheses under which the displayed rational formulas have
 their intended meaning.
 
 The coefficient `1 / 2` forces the field to have characteristic different
-from two.  The Vieta-pair identities need only the two coordinates unchanged
-by the corresponding Vieta move, and do not require the surface equation.
+from two.  On the all-nonzero locus the three raw angles sum to the multiplier
+(`rawAngle_total`), and each raw angle pairs with its Vieta involution to give
+the multiplier (`rawAngle1_add_vieta1` and its cyclic versions); the pairing
+identities need only the two coordinates unchanged by the Vieta move, and do
+not require the surface equation.
+
+At a punctured solution with one vanishing coordinate, the file shows that the
+other two coordinates are nonzero, that their ratio is a root of
+`T² + aᵢT + 1`, and that the rotation fixing that coordinate scales the
+corresponding raw angle by the square of this ratio.
 -/
 
 namespace GenMarkoff
@@ -112,7 +123,7 @@ theorem ratio_quadratic_of_x1_eq_zero (a : Coefficients K) (x : Point K)
   linear_combination hx
 
 /-- On the punctured surface, if `x₂ = 0`, then the other two coordinates are
-both nonzero.  This is proved directly on the fixed coefficient surface. -/
+both nonzero. -/
 theorem coordinates_ne_zero_of_x2_eq_zero (a : Coefficients K) (x : Point K)
     (hx : IsSolution a x) (hpunctured : x ≠ origin) (hx2 : x.x2 = 0) :
     x.x1 ≠ 0 ∧ x.x3 ≠ 0 := by
@@ -147,7 +158,7 @@ theorem ratio_quadratic_of_x2_eq_zero (a : Coefficients K) (x : Point K)
   linear_combination hx
 
 /-- On the punctured surface, if `x₃ = 0`, then the other two coordinates are
-both nonzero.  This is proved directly on the fixed coefficient surface. -/
+both nonzero. -/
 theorem coordinates_ne_zero_of_x3_eq_zero (a : Coefficients K) (x : Point K)
     (hx : IsSolution a x) (hpunctured : x ≠ origin) (hx3 : x.x3 = 0) :
     x.x1 ≠ 0 ∧ x.x2 ≠ 0 := by
@@ -181,14 +192,10 @@ theorem ratio_quadratic_of_x3_eq_zero (a : Coefficients K) (x : Point K)
   rw [hx3] at hx
   linear_combination hx
 
-/-- Suppose `x₁ = 0` and put `r = x₂ / x₃`.  For the repository's
-right-to-left composition convention `rotation1 = vieta3 ∘ vieta2`, the
-first raw angle scales by `r²` in one step.  The quadratic hypothesis is
-exactly the conclusion of `ratio_quadratic_of_x1_eq_zero` on the punctured
-surface.
-
-Equivalently, the two nonzero coordinates scale by `r⁻²`; this explains why
-the reciprocal raw angle has the displayed `r²` factor. -/
+/-- Suppose `x₁ = 0` and put `r = x₂ / x₃`, a root of `T² + a₁T + 1` (the
+conclusion of `ratio_quadratic_of_x1_eq_zero` on the punctured surface).  Then
+`rotation1 = vieta3 ∘ vieta2` multiplies both nonzero coordinates by `r⁻²`
+and fixes `x₁ = 0`, so it multiplies the first raw angle by `r²`. -/
 theorem rawAngle1_rotation1_scale_of_x1_eq_zero (a : Coefficients K) (x : Point K)
     (hx1 : x.x1 = 0) (hx2 : x.x2 ≠ 0) (hx3 : x.x3 ≠ 0)
     (hratio : (x.x2 / x.x3) ^ 2 + a.a1 * (x.x2 / x.x3) + 1 = 0) :
@@ -219,8 +226,8 @@ theorem rawAngle1_rotation1_scale_of_x1_eq_zero (a : Coefficients K) (x : Point 
 
 /-- Cyclic second-coordinate version of
 `rawAngle1_rotation1_scale_of_x1_eq_zero`.  With `x₂ = 0` and
-`r = x₃ / x₁`, the actual fixed-coefficient rotation
-`rotation2 = vieta1 ∘ vieta3` scales the second raw angle by `r²`. -/
+`r = x₃ / x₁`, the rotation `rotation2 = vieta1 ∘ vieta3` scales the second
+raw angle by `r²`. -/
 theorem rawAngle2_rotation2_scale_of_x2_eq_zero (a : Coefficients K) (x : Point K)
     (hx2 : x.x2 = 0) (hx1 : x.x1 ≠ 0) (hx3 : x.x3 ≠ 0)
     (hratio : (x.x3 / x.x1) ^ 2 + a.a2 * (x.x3 / x.x1) + 1 = 0) :
@@ -251,8 +258,8 @@ theorem rawAngle2_rotation2_scale_of_x2_eq_zero (a : Coefficients K) (x : Point 
 
 /-- Cyclic third-coordinate version of
 `rawAngle1_rotation1_scale_of_x1_eq_zero`.  With `x₃ = 0` and
-`r = x₁ / x₂`, the actual fixed-coefficient rotation
-`rotation3 = vieta2 ∘ vieta1` scales the third raw angle by `r²`. -/
+`r = x₁ / x₂`, the rotation `rotation3 = vieta2 ∘ vieta1` scales the third
+raw angle by `r²`. -/
 theorem rawAngle3_rotation3_scale_of_x3_eq_zero (a : Coefficients K) (x : Point K)
     (hx3 : x.x3 = 0) (hx1 : x.x1 ≠ 0) (hx2 : x.x2 ≠ 0)
     (hratio : (x.x1 / x.x2) ^ 2 + a.a3 * (x.x1 / x.x2) + 1 = 0) :

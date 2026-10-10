@@ -1,13 +1,18 @@
 import GenMarkoff.General.MiddleGame.ActualParameters
 import BGS.Markoff.Core.RotationTorus
+import BGS.Markoff.Core.ConicParametrization
 
 /-!
 # Diagonalizing an ordered general affine fiber
 
 The forward map `fiberPair B C u t q h` parametrizes the ordered moving
 coordinates on a nonparabolic fiber.  This module constructs its inverse
-parameter explicitly.  The two moving coordinates have different affine
-centers when `B ≠ C`; retaining their order is therefore essential.
+parameter `actualFiberParameter` explicitly, as the coefficient of the
+`q`-eigenline in centered coordinates, and proves that every point of the
+fiber conic `fiberConic B C u t` with nonzero `centeredFiberProduct B C u t` is
+`fiberPair` of a unit parameter (`fiberPair_actualFiberParameter_eq`,
+`exists_unit_fiberPair_eq`).  The two moving coordinates have different affine
+centers when `B ≠ C`, so their order is retained throughout.
 -/
 
 namespace GenMarkoff.General.MiddleGame
@@ -44,19 +49,8 @@ def actualFiberReciprocalParameter
   ((v.1 - m.1) * (q : K) - (v.2 - m.2)) /
     ((q : K) - ((q⁻¹ : Kˣ) : K))
 
-theorem actualFiber_eigenvalue_sub_inv_ne_zero
-    (q : Kˣ) (hq : (q : K) ^ 2 ≠ 1) :
-    (q : K) - ((q⁻¹ : Kˣ) : K) ≠ 0 := by
-  intro hzero
-  have hinv : (q : K) = ((q⁻¹ : Kˣ) : K) :=
-    sub_eq_zero.mp hzero
-  apply hq
-  rw [pow_two]
-  calc
-    (q : K) * (q : K) = ((q⁻¹ : Kˣ) : K) * (q : K) :=
-      congrArg (fun z : K ↦ z * (q : K)) hinv
-    _ = 1 := by simp
-
+/-- A trace eigenvalue `q` with `t = q + q⁻¹` and `t ^ 2 - 4 ≠ 0` satisfies
+`q ^ 2 ≠ 1`. -/
 theorem actualFiber_eigenvalue_sq_ne_one_of_discriminant_ne_zero
     (t : K) (q : Kˣ)
     (htrace : t = BGS.Markoff.splitTorusTrace q)
@@ -73,6 +67,8 @@ theorem actualFiber_eigenvalue_sq_ne_one_of_discriminant_ne_zero
         4 * ((q : K) ^ 2 - 1) := by ring
     _ = 0 := by rw [hq]; ring
 
+/-- The two eigenline coefficients add up to the first centered
+coordinate. -/
 theorem actualFiberParameter_add_reciprocal
     (B C u t : K) (q : Kˣ) (v : K × K)
     (hq : (q : K) ^ 2 ≠ 1) :
@@ -81,9 +77,11 @@ theorem actualFiberParameter_add_reciprocal
       v.1 - (fiberCenter B C u t).1 := by
   simp only [actualFiberParameter, actualFiberReciprocalParameter]
   rw [← add_div]
-  rw [div_eq_iff (actualFiber_eigenvalue_sub_inv_ne_zero q hq)]
+  rw [div_eq_iff (BGS.Markoff.splitEigenvalueDifference_ne_zero q hq)]
   ring
 
+/-- Weighting the two eigenline coefficients by `q` and `q⁻¹` gives the
+second centered coordinate. -/
 theorem actualFiberParameter_mul_add_reciprocal_mul_inv
     (B C u t : K) (q : Kˣ) (v : K × K)
     (hq : (q : K) ^ 2 ≠ 1) :
@@ -93,7 +91,7 @@ theorem actualFiberParameter_mul_add_reciprocal_mul_inv
       v.2 - (fiberCenter B C u t).2 := by
   simp only [actualFiberParameter, actualFiberReciprocalParameter]
   rw [div_mul_eq_mul_div, div_mul_eq_mul_div, ← add_div]
-  rw [div_eq_iff (actualFiber_eigenvalue_sub_inv_ne_zero q hq)]
+  rw [div_eq_iff (BGS.Markoff.splitEigenvalueDifference_ne_zero q hq)]
   field_simp [Units.ne_zero q]
   ring
 
@@ -110,6 +108,7 @@ theorem actualFiberParameter_mul_reciprocal_eq_centeredFiberProduct
   let m := fiberCenter B C u t
   let Y := v.1 - m.1
   let Z := v.2 - m.2
+  -- The conic equation in centered coordinates `(Y, Z)`.
   have hconic :
       Y ^ 2 + Z ^ 2 - t * Y * Z +
           u ^ 2 * centeredNorm B C t / discriminant t = 0 := by
@@ -123,6 +122,7 @@ theorem actualFiberParameter_mul_reciprocal_eq_centeredFiberProduct
   have hq : (q : K) ^ 2 ≠ 1 :=
     actualFiber_eigenvalue_sq_ne_one_of_discriminant_ne_zero
       t q htrace hD
+  -- The squared denominator `(q - q⁻¹) ^ 2` is the discriminant.
   have hdenomSq :
       ((q : K) - ((q⁻¹ : Kˣ) : K)) ^ 2 = discriminant t := by
     have hunit :
@@ -139,6 +139,7 @@ theorem actualFiberParameter_mul_reciprocal_eq_centeredFiberProduct
         ring
       _ = t ^ 2 - 4 := by rw [htq]
       _ = discriminant t := rfl
+  -- The product of the two numerators is the conic constant.
   have hnumerator :
       (Z - Y * ((q⁻¹ : Kˣ) : K)) *
           (Y * (q : K) - Z) =
@@ -162,11 +163,14 @@ theorem actualFiberParameter_mul_reciprocal_eq_centeredFiberProduct
       _ = t * Y * Z - Y ^ 2 - Z ^ 2 := by rw [htq]
       _ = u ^ 2 * centeredNorm B C t / discriminant t :=
         hnegativeConic
+  -- Divide: conic constant over discriminant is `centeredFiberProduct`.
   simp only [actualFiberParameter, actualFiberReciprocalParameter]
   rw [div_mul_div_comm, hnumerator, ← pow_two, hdenomSq]
   simp only [centeredFiberProduct]
   field_simp [hD]
 
+/-- On the fiber conic, the eigen-parameter is nonzero when the centered
+product is nonzero. -/
 theorem actualFiberParameter_ne_zero
     (B C u t : K) (q : Kˣ) (v : K × K)
     (hv : fiberConic B C u t v.1 v.2 = 0)
@@ -204,14 +208,17 @@ theorem fiberPair_actualFiberParameter_eq
     rw [← hhr]
     field_simp [hh]
   apply Prod.ext
+  -- Unfold `fiberPair` and `torusPair` in the first coordinate so that `rw [hdiv]` applies.
   · change
       h + centeredFiberProduct B C u t / h +
           (fiberCenter B C u t).1 = v.1
     rw [hdiv]
     have hsum :=
       actualFiberParameter_add_reciprocal B C u t q v hq
+    -- Write `hsum` with the local names `h`, `r`, so `linear_combination` sees the goal's atoms.
     change h + r = v.1 - (fiberCenter B C u t).1 at hsum
     linear_combination hsum
+  -- Unfold `fiberPair` and `torusPair` in the second coordinate so that `rw [← hhr]` applies.
   · change
       (q : K) * h +
           centeredFiberProduct B C u t / ((q : K) * h) +
@@ -226,6 +233,7 @@ theorem fiberPair_actualFiberParameter_eq
     have hsum :=
       actualFiberParameter_mul_add_reciprocal_mul_inv
         B C u t q v hq
+    -- Write `hsum` with the local names `h`, `r`, so `linear_combination` sees the goal's atoms.
     change
       h * (q : K) + r * ((q⁻¹ : Kˣ) : K) =
         v.2 - (fiberCenter B C u t).2 at hsum

@@ -9,12 +9,16 @@ import Mathlib.FieldTheory.Perfect
 For a univariate polynomial `P`, this file constructs the affine plane
 equation
 
-`root ^ 2 = P(parameter)`.
+`root ^ 2 = P(parameter)`
 
-Squarefreeness and nonconstancy of `P` imply absolute irreducibility over a
-perfect field.  The construction is independent of the generalized Markoff
-coefficients, so the same model applies to each of the seven nonempty
-products in the three-square-root identity.
+as `hyperellipticPlanePolynomial P`.  The plane polynomial is absolutely
+irreducible as soon as the base change of `P` to the algebraic closure is a
+nonsquare in its rational function field; it has bidegree at most
+`(2, natDegree P)`; and over a finite field its affine zero count equals
+`squareRootCoverPointCount` of the values of `P`.  The construction is
+independent of the generalized Markoff coefficients, so the same model
+applies to each of the seven nonempty products in the three-square-root
+identity.
 -/
 
 namespace GenMarkoff.General.Cage
@@ -88,43 +92,10 @@ theorem hyperellipticIteratedPolynomial_irreducible_of_not_isSquare
     hmonic.isPrimitive.irreducible_iff_irreducible_map_fraction_map.mpr
       hfraction
 
-/-- A nonunit squarefree radicand gives an irreducible quadratic over the
-parameter polynomial ring. -/
-theorem hyperellipticIteratedPolynomial_irreducible
-    {P : K[X]} (hsquarefree : Squarefree P)
-    (hnonunit : ¬ IsUnit P) :
-    Irreducible (hyperellipticIteratedPolynomial P) := by
-  apply
-    hyperellipticIteratedPolynomial_irreducible_of_not_isSquare
-  exact
-    not_isSquare_algebraMap_of_squarefree_not_isUnit
-      hsquarefree hnonunit
-
-/-- Ground-field irreducibility of the hyperelliptic plane equation. -/
-theorem hyperellipticPlanePolynomial_irreducible
-    {P : K[X]} (hsquarefree : Squarefree P)
-    (hnonunit : ¬ IsUnit P) :
-    Irreducible (hyperellipticPlanePolynomial P) := by
-  have hiterated :=
-    hyperellipticIteratedPolynomial_irreducible
-      hsquarefree hnonunit
-  have hback :=
-    hiterated.map (finTwoToIteratedPolynomial (K := K)).symm
-  have heq :
-      (finTwoToIteratedPolynomial (K := K)).symm
-          (hyperellipticIteratedPolynomial P) =
-        hyperellipticPlanePolynomial P := by
-    rw [←
-      finTwoToIteratedPolynomial_hyperellipticPlanePolynomial]
-    exact
-      (finTwoToIteratedPolynomial (K := K)).symm_apply_apply _
-  rw [heq] at hback
-  exact hback
-
-/-- Direct geometric irreducibility criterion.  This version only asks that
-the scalar-extended radicand be nonsquare in the rational function field;
-it therefore also applies when the original polynomial contains an explicit
-square factor. -/
+/-- Absolute irreducibility criterion: if the radicand, base-changed to the
+algebraic closure, is a nonsquare in the rational function field, then the
+base change of the plane polynomial is irreducible.  No squarefreeness is
+assumed, so the radicand may contain a square factor. -/
 theorem
     hyperellipticPlanePolynomial_absolutelyIrreducible_of_not_isSquare_map
     {P : K[X]}
@@ -143,36 +114,6 @@ theorem
         (hyperellipticIteratedPolynomial (P.map phi)) :=
     hyperellipticIteratedPolynomial_irreducible_of_not_isSquare
       hnonsquare
-  have himage :
-      finTwoToIteratedPolynomial (K := AlgebraicClosure K)
-          (MvPolynomial.map phi (hyperellipticPlanePolynomial P)) =
-        hyperellipticIteratedPolynomial (P.map phi) := by
-    rw [finTwoToIteratedPolynomial_map]
-    simp [hyperellipticIteratedPolynomial, adjoinSquarePolynomial]
-  rw [← himage] at hiterated
-  have hback :=
-    hiterated.map
-      (finTwoToIteratedPolynomial
-        (K := AlgebraicClosure K)).symm
-  simpa [phi] using hback
-
-/-- Over a perfect ground field, a nonunit squarefree radicand gives an
-absolutely irreducible hyperelliptic plane equation. -/
-theorem hyperellipticPlanePolynomial_absolutelyIrreducible
-    [PerfectField K] {P : K[X]}
-    (hsquarefree : Squarefree P) (hnonunit : ¬ IsUnit P) :
-    Irreducible
-      (MvPolynomial.map (algebraMap K (AlgebraicClosure K))
-        (hyperellipticPlanePolynomial P)) := by
-  let phi := algebraMap K (AlgebraicClosure K)
-  have hsquarefreeMap : Squarefree (P.map phi) :=
-    (PerfectField.separable_iff_squarefree.mpr
-      hsquarefree).map.squarefree
-  have hnonunitMap : ¬ IsUnit (P.map phi) := by
-    rwa [Polynomial.isUnit_map]
-  have hiterated :=
-    hyperellipticIteratedPolynomial_irreducible
-      hsquarefreeMap hnonunitMap
   have himage :
       finTwoToIteratedPolynomial (K := AlgebraicClosure K)
           (MvPolynomial.map phi (hyperellipticPlanePolynomial P)) =
@@ -343,60 +284,6 @@ theorem hyperellipticPlaneZeros_card_int_eq_squareRootCoverPointCount
         P.eval parameter) := by
   rw [hyperellipticPlaneZeros_card_eq_sum_squareRoots]
   simp [squareRootCoverPointCount, squareRootCount]
-
-/-- The in-repository coefficient-eight affine Hasse--Weil theorem yields
-the simplified error `16 * sqrt(|K|) * D`. -/
-theorem hyperellipticPlaneZeros_card_error_le
-    [PerfectField K]
-    {P : K[X]} (hsquarefree : Squarefree P)
-    (hnonunit : ¬ IsUnit P)
-    {D : ℕ} (hD : 0 < D) (hdegree : P.natDegree ≤ D) :
-    |((BGS.External.affinePlaneCurveZeros K
-          (hyperellipticPlanePolynomial P)).card : ℝ) -
-        (Fintype.card K : ℝ)| ≤
-      16 * Real.sqrt (Fintype.card K : ℝ) * D := by
-  have hbound :=
-    BGS.HasseWeil.abs_affinePlaneCurveZeros_card_sub_card_le_eight_mul_bidegree
-      K (hyperellipticPlanePolynomial P) 2 D
-      (by norm_num) hD
-      (hyperellipticPlanePolynomial_hasBidegreeAtMost
-        P hdegree)
-      (hyperellipticPlanePolynomial_absolutelyIrreducible
-        hsquarefree hnonunit)
-  calc
-    |((BGS.External.affinePlaneCurveZeros K
-          (hyperellipticPlanePolynomial P)).card : ℝ) -
-        (Fintype.card K : ℝ)| ≤
-        (8 : ℝ) * Real.sqrt (Fintype.card K : ℝ) *
-          (((2 : ℕ) : ℝ)) * (D : ℝ) :=
-      hbound
-    _ = 16 * Real.sqrt (Fintype.card K : ℝ) * D := by
-      ring
-
-/-- The same coefficient-eight estimate, expressed in terms of the cover
-count consumed by the seven-cover identity. -/
-theorem squareRootCoverPointCount_error_le
-    [PerfectField K]
-    {P : K[X]} (hsquarefree : Squarefree P)
-    (hnonunit : ¬ IsUnit P)
-    {D : ℕ} (hD : 0 < D) (hdegree : P.natDegree ≤ D) :
-    |((squareRootCoverPointCount
-          (fun parameter : K => P.eval parameter) : ℤ) : ℝ) -
-        (Fintype.card K : ℝ)| ≤
-      16 * Real.sqrt (Fintype.card K : ℝ) * D := by
-  have hcountReal :
-      ((squareRootCoverPointCount
-          (fun parameter : K => P.eval parameter) : ℤ) : ℝ) =
-        ((BGS.External.affinePlaneCurveZeros K
-          (hyperellipticPlanePolynomial P)).card : ℝ) := by
-    have hcountInt :=
-      (hyperellipticPlaneZeros_card_int_eq_squareRootCoverPointCount
-        P).symm
-    exact_mod_cast hcountInt
-  rw [hcountReal]
-  exact
-    hyperellipticPlaneZeros_card_error_le
-      hsquarefree hnonunit hD hdegree
 
 end FiniteFieldCount
 

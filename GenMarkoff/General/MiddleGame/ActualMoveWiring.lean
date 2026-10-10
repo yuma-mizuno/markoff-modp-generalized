@@ -1,4 +1,4 @@
-import GenMarkoff.General.TraceParameters
+import GenMarkoff.General.Trace.Parameters
 import BGS.Markoff.TraceCurve.Geometry
 
 /-!
@@ -10,16 +10,18 @@ starting unit `r` form the translated coset
 
 `r * Subgroup.zpowers (q ^ 2)`.
 
-This is a genuine parity distinction from the symmetric one-step wiring,
-which uses `Subgroup.zpowers q`: when `q` has even order, the square-generated
-subgroup can be a proper parity class.  The middle game must therefore use
-the actual square subgroup and its actual order throughout.
+When `q` has even order, `Subgroup.zpowers (q ^ 2)` has index two in
+`Subgroup.zpowers q`, so the middle game uses the square subgroup and its
+order throughout.
 
 Translation by `r` changes the first-directed weights from
 `actualAlpha s` and `actualBeta s B C u t` to
 `actualAlpha s * r` and `actualBeta s B C u t / r`; their product remains
 `actualSigma s B C u t`, and the affine shift remains
 `actualGammaFirst s B C u t`.
+
+The second-coordinate analogues are in
+`GenMarkoff.General.MiddleGame.DirectedOrderGrowth`.
 -/
 
 namespace GenMarkoff.General.MiddleGame
@@ -96,8 +98,10 @@ theorem exists_iterate_fiberPoint1_eq_mul_zpowers_sq
   rw [hnVal]
   ring
 
-/-- Exact first-directed adjacent trace on a translated actual-rotation
-parameter coset. -/
+/-- At the translated parameter `r * h`, the second-axis trace of
+`fiberPoint1` is the weighted split-torus trace of `h` with weights
+`actualAlpha a.multiplier * r` and `actualBeta a.multiplier a.a2 a.a3 u t / r`,
+shifted by `actualGammaFirst a.multiplier a.a2 a.a3 u t`. -/
 theorem orderedTrace_fiberPoint1_mul_eq_weightedSplitTorusTrace
     (a : Coefficients K) (u t : K) (q r h : Kˣ) :
     orderedTrace a.multiplier a.a2
@@ -107,6 +111,7 @@ theorem orderedTrace_fiberPoint1_mul_eq_weightedSplitTorusTrace
           (actualAlpha a.multiplier * (r : K))
           (actualBeta a.multiplier a.a2 a.a3 u t / (r : K)) h +
         actualGammaFirst a.multiplier a.a2 a.a3 u t := by
+  -- `orderedTrace` is `s * y - A`, `(fiberPoint1 ..).x2` is `(fiberPair ..).1`: needed by the `rw`.
   change
     a.multiplier *
           (fiberPair a.a2 a.a3 u t (q : K)

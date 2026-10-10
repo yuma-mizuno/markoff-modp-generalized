@@ -46,10 +46,21 @@ every prime beyond that bound.
 - [Challenge.lean](Challenge.lean) is the elementary statement built directly
   on Mathlib and existentially quantifies the numerical cutoff.
 - [Solution.lean](Solution.lean) defines the explicit cutoff, supplies it as
-  the existential witness, and imports the proved production endpoint.
+  the existential witness, and derives the statement from
+  `GenMarkoff.IntegrallyNondegenerate.reduction_surjective_of_explicitCutoff`.
 - [comparator.json](comparator.json) selects the theorem and permitted axioms.
-- [GenMarkoff/](GenMarkoff/) contains the production proof development.
-- [GenMarkoff.lean](GenMarkoff.lean) is the production library root.
+- [GenMarkoff/](GenMarkoff/) contains the proof development:
+  - `Core/` defines the surface, the Vieta involutions, the two-Vieta
+    rotations, and their group actions;
+  - `Divisibility/` proves the generic branch of the orbit-divisibility
+    theorem of arXiv:2509.02187v3;
+  - `General/` follows the opening, middle-game, endgame, and cage
+    architecture of arXiv:2603.04096v3 for a fixed coefficient triple, and
+    `General/Assembly/ExplicitStrongApproximation.lean` states the main
+    results with the explicit cutoff;
+  - `TraceCurve/` and `ShiftedTrace/` contain the shifted trace curves, their
+    covers, and the point counts used by the middle game and endgame.
+- [GenMarkoff.lean](GenMarkoff.lean) is the library root.
 - [BGS/](BGS/) and [RiemannRoch/](RiemannRoch/) contain the transitive proof
   dependencies vendored from the pinned markoff-modp revision.
 - [scripts/AxiomAudit.lean](scripts/AxiomAudit.lean) records declaration-level
@@ -94,8 +105,8 @@ the complete independent comparison and NanoDa replay:
 ```
 
 The deliberate `sorry` in `Challenge.lean` marks the theorem selected for
-comparison. The production `GenMarkoff/` library and `Solution.lean` supply its
-complete proof.
+comparison. The `GenMarkoff/` library and `Solution.lean` supply its complete
+proof.
 
 ## Mathematical sources
 

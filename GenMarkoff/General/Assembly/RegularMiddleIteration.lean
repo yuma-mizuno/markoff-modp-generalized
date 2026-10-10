@@ -1,35 +1,38 @@
 import GenMarkoff.General.Axis
-import GenMarkoff.General.MiddleGame.DirectedStrictOrderGrowth
-import GenMarkoff.Symmetric.MiddleGame.RegularTraceEscape
+import GenMarkoff.General.MiddleGame.ParityClosedOrderEscape
+import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
+import GenMarkoff.Core.Statements
+import GenMarkoff.TraceCurve.ExceptionalRouting
+import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
 import BGS.Dynamics.StrictMeasureEscape
 
 /-!
-# Regular middle-game iteration for a fixed unequal coefficient triple
+# Regular middle-game iteration for a fixed coefficient triple
 
-This module starts the iteration layer for the six directed strict
-actual-order growth theorems.  The coefficient triple is fixed throughout:
-none of the proofs below uses a coordinate permutation as a symmetry.
+A directed middle-game move starts from a point whose fixed trace is
+candidate regular and moves along a fiber to a point whose next trace has
+strictly larger actual rotation order.  This module adds candidate
+regularity of the target trace in a prescribed ordered frame: a single
+square-coset parameter avoids both the parity-closed bad-order support and
+the at most twenty parameters at which the ordered safe polynomial vanishes
+(`exists_iterate_with_larger_actualOrder_and_regular_of_squareCosetTrace`).
 
-There is one genuinely new iteration issue compared with the symmetric
-proof.  The initial strict directed endpoints produced a target trace of
-larger actual order, but did not prove that this target trace was candidate
-regular in an outgoing ordered frame.  This file closes that gap by avoiding
-the parity-closed bad-order support and the ordered safe-polynomial zero
-support with the same square-coset parameter.  The latter support has size
-at most twenty, rather than the symmetric margin fourteen.
-
-The surface iterator then alternates the fixed directed choices
-`.firstSecond` and `.secondFirst`.  Each move returns exactly the ordered
-regularity required by the reverse move, so intermediate regularity is a
-proved invariant.  The numerical hypotheses in the threshold theorem are
-required only from the starting actual order upward.
+The surface iteration alternates the directed choices `.firstSecond`
+(along `rotation1`, from the first to the second axis) and `.secondFirst`
+(along `rotation2`, back to the first axis), packaged as
+`AlternatingRegularState`.  Each move returns exactly the ordered regularity
+required by the reverse move.  The main result,
+`exists_sameRotationComponent_alternatingRegularState_reaches_threshold`,
+reaches any actual-order target for which the endgame upper bound and the
+regular-escape margin hold from the starting order up to the target.  The
+coefficient triple is fixed throughout; no coordinate permutation is used.
 -/
 
 namespace GenMarkoff.General.Assembly
 
 open Filter BGS.Markoff
 open GenMarkoff.General.MiddleGame
-open GenMarkoff.Symmetric.MiddleGame
+open GenMarkoff.ShiftedTrace.MiddleGame
 open Polynomial
 
 noncomputable section
@@ -56,10 +59,10 @@ theorem mem_shiftedWeightedOrderedUnsafeTraceSupport_iff
   classical
   simp [shiftedWeightedOrderedUnsafeTraceSupport]
 
-/-- At most twenty elements of the current square coset have an ordered
-candidate-irregular shifted target trace.  This is the first numerical
-difference from the symmetric iterator: the general ordered safe polynomial
-has degree at most ten, rather than the reduced symmetric degree seven. -/
+/-- At most twenty elements of the current square coset have a shifted
+target trace that is not candidate regular in the ordered frame `(A,B,C)`:
+the ordered safe polynomial has at most ten roots, and each trace value is
+attained by at most two parameters. -/
 theorem shiftedWeightedOrderedUnsafeTraceSupport_card_le_twenty
     {E : Type} [Field E] [Fintype E]
     (A B C alpha beta gamma : E) (H1 : Subgroup Eˣ)
@@ -142,8 +145,11 @@ theorem
     exact mem_shiftedWeightedBadOrderTraceSupport_iff.mpr
       ⟨d, hd, hright, heq⟩
 
-/-- The doubled parity-closed divisor envelope and the additional twenty
-ordered-exceptional parameters leave a simultaneous escaping parameter. -/
+/-- Assume the Corvaja--Zannier bound for every parity-closed candidate
+order and the margin `2 T E + 20 < Nat.card H1`, where `T` is the
+simultaneous divisor count of `p - 1` and `p + 1` and `E` the current-order
+envelope.  Then some square-coset parameter gives a shifted trace that is
+candidate regular in `(A,B,C)` and avoids every parity-closed bad order. -/
 theorem
     exists_left_element_escaping_shiftedParityClosedOrders_and_regular_of_estimate
     {E : Type} [Field E] [Fintype E]
@@ -174,6 +180,7 @@ theorem
             weightedSplitTorusTrace alpha beta h1 + gamma ≠
               splitTorusTrace h2 := by
   classical
+  -- Bound the bad-order support by the doubled divisor envelope.
   have hCZIndexed :
       ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
         ((shiftedWeightedTraceEquationSolutions
@@ -217,6 +224,7 @@ theorem
               corvajaZannierCurrentOrderEnvelope p (Nat.card H1) :=
         parityClosedCorvajaZannierSum_le_two_mul_divisorCount_mul_envelope
           p (Nat.card H1)
+  -- Add the twenty unsafe parameters and apply the counting lemma.
   have hsmallReal :
       (((shiftedWeightedBadOrderTraceSupport
         alpha beta gamma H1
@@ -255,9 +263,13 @@ theorem
 
 /-- Axis-independent simultaneous regularity and strict actual-order growth.
 
-The target frame `(A,B,C)` is explicit and may differ from the current
-fiber frame.  The same square-coset parameter avoids every parity-closed
-bad order and all twenty possible ordered-exceptional parameters. -/
+Let `t` be a nonparabolic trace with eigenvalue `q` and actual order below
+`p ^ (1/2 + delta)`, satisfying the regular-escape margin.  If every element
+of `zpowers (q ^ 2)` gives a shifted trace `alpha h + beta h⁻¹ + gamma` that
+is attained as `targetTrace` along some iterate of `rotation`, then some
+iterate has a target trace that is candidate regular in the frame `(A,B,C)`
+and of strictly larger actual order than `t`.  The target frame may differ
+from the current fiber frame. -/
 theorem
     exists_iterate_with_larger_actualOrder_and_regular_of_squareCosetTrace
     {T : Type*}
@@ -301,6 +313,8 @@ theorem
   let rightSubgroup : ℕ → Subgroup Eˣ :=
     fun d ↦ middleGameRightSubgroup p d
   letI : DecidableEq E := Classical.decEq E
+  -- Choose a square-coset parameter `h` escaping the bad orders and the
+  -- unsafe traces, using the Corvaja--Zannier count for each candidate order.
   have hleftCard :
       Nat.card H1 = rotationLinearOrder t := by
     simpa [H1, E] using
@@ -348,6 +362,7 @@ theorem
       p (f A) (f B) (f C) alpha beta gamma H1 rightSubgroup
         htwo hAE hBE halpha hrightOrder hCZ
         (by rw [hleftCard]; exact hmargin)
+  -- The iterate reaching `h` has a candidate-regular target trace `t'`.
   obtain ⟨n, hyTrace⟩ := hreachable h
   let t' : ZMod p := targetTrace (((rotation)^[n]) x)
   have hregularBase : OrderedTraceCandidateRegular A B C t' := by
@@ -356,7 +371,12 @@ theorem
     rw [← hyTrace]
     exact hregularE
   refine ⟨n, hregularBase, ?_⟩
+  -- The statement's `let`-bound target trace is the local `t'`; restate the
+  -- goal with `t'` so that the hypotheses below mention the same term.
   change rotationLinearOrder t < rotationLinearOrder t'
+  -- Growth: if `t'` had actual order at most that of `t`, its order would be
+  -- a parity-closed candidate order (`t'` is not parabolic, since a
+  -- parabolic trace has order `p`), contradicting the choice of `h`.
   by_contra hgrowth
   have htargetLe :
       rotationLinearOrder t' ≤ rotationLinearOrder t :=
@@ -401,17 +421,6 @@ theorem centeredFiberProduct_swap
   congr 2
   ring
 
-/-- Scalar extension preserves the generalized surface equation. -/
-theorem isSolution_mapPoint
-    {R S : Type*} [CommRing R] [CommRing S]
-    (f : R →+* S) (a : Coefficients R) (x : Point R)
-    (hx : IsSolution a x) :
-    IsSolution (mapCoefficients f a) (mapPoint f x) := by
-  change polynomial (mapCoefficients f a) (mapPoint f x) = 0
-  have hmap := congrArg f hx
-  simpa [IsSolution, polynomial, mapCoefficients, mapPoint,
-    Coefficients.multiplier, map_ofNat] using hmap
-
 /-- A nonparabolic first-coordinate fiber with nonzero centered product has
 an actual diagonalization over the canonical quadratic finite field. -/
 theorem exists_axisOne_actualFiber_diagonalization
@@ -427,9 +436,9 @@ theorem exists_axisOne_actualFiber_diagonalization
     ∃ q r : (quadraticFiniteField p)ˣ,
       algebraMap (ZMod p) (quadraticFiniteField p) t =
           splitTorusTrace q ∧
-        mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
+        Point.map (algebraMap (ZMod p) (quadraticFiniteField p)) x =
           fiberPoint1
-            (mapCoefficients
+            (Coefficients.map
               (algebraMap (ZMod p) (quadraticFiniteField p)) a)
             (algebraMap (ZMod p) (quadraticFiniteField p) u)
             (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -437,10 +446,11 @@ theorem exists_axisOne_actualFiber_diagonalization
             (r : quadraticFiniteField p) := by
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
-  let xE : Point E := mapPoint f x
+  let xE : Point E := Point.map f x
+  -- Transport the fiber conic and its nondegeneracy to the quadratic field.
   have hnonparabolic : t ^ 2 ≠ 4 := by
     exact sub_ne_zero.mp (by simpa [discriminant] using hD)
   have hDE : discriminant tE ≠ 0 := by
@@ -460,8 +470,10 @@ theorem exists_axisOne_actualFiber_diagonalization
   have hconicE :
       fiberConic aE.a2 aE.a3 uE tE xE.x2 xE.x3 = 0 := by
     have hmap := congrArg f hconic
-    simpa [aE, uE, tE, xE, mapPoint, mapCoefficients, fiberConic,
+    simpa [aE, uE, tE, xE, Point.map, Coefficients.map, fiberConic,
       map_ofNat] using hmap
+  -- The eigenvalue is a split unit or a norm-one unit; in either case
+  -- `exists_unit_fiberPair_eq` gives the fiber parameter `r`.
   rcases exists_split_or_quadraticNormOneTrace p hpTwo t hnonparabolic with
     ⟨w, htraceW, _hw⟩ | ⟨w, htraceW, _hw⟩
   · let embedding : (ZMod p)ˣ →* Eˣ := Units.map f.toMonoidHom
@@ -469,6 +481,9 @@ theorem exists_axisOne_actualFiber_diagonalization
     have heigen : tE = splitTorusTrace q := by
       dsimp [tE]
       rw [← htraceW]
+      -- Unfold the local `q` to `embedding w` (the image of `w` under
+      -- `Units.map f`); after unfolding `splitTorusTrace` and `map_add` the
+      -- two sides agree by `rfl`.
       change f (splitTorusTrace w) = splitTorusTrace (embedding w)
       rw [splitTorusTrace, splitTorusTrace, map_add]
       rfl
@@ -477,9 +492,11 @@ theorem exists_axisOne_actualFiber_diagonalization
         aE.a2 aE.a3 uE tE q (xE.x2, xE.x3)
           hconicE heigen hDE hproductE
     refine ⟨q, r, heigen, ?_⟩
+    -- Fold `Point.map f x`, `Coefficients.map f a`, `f u`, `f t` into the
+    -- local names `xE`, `aE`, `uE`, `tE` used by `hr` and the `simpa`s below.
     change xE = fiberPoint1 aE uE tE (q : E) (r : E)
     apply Point.ext
-    · simpa [xE, uE, mapPoint] using congrArg f hx1
+    · simpa [xE, uE, Point.map] using congrArg f hx1
     · simpa [fiberPoint1] using congrArg Prod.fst hr.symm
     · simpa [fiberPoint1] using congrArg Prod.snd hr.symm
   · let q : Eˣ := (w : (quadraticFiniteField p)ˣ)
@@ -492,9 +509,11 @@ theorem exists_axisOne_actualFiber_diagonalization
         aE.a2 aE.a3 uE tE q (xE.x2, xE.x3)
           hconicE heigen hDE hproductE
     refine ⟨q, r, heigen, ?_⟩
+    -- Fold `Point.map f x`, `Coefficients.map f a`, `f u`, `f t` into the
+    -- local names `xE`, `aE`, `uE`, `tE` used by `hr` and the `simpa`s below.
     change xE = fiberPoint1 aE uE tE (q : E) (r : E)
     apply Point.ext
-    · simpa [xE, uE, mapPoint] using congrArg f hx1
+    · simpa [xE, uE, Point.map] using congrArg f hx1
     · simpa [fiberPoint1] using congrArg Prod.fst hr.symm
     · simpa [fiberPoint1] using congrArg Prod.snd hr.symm
 
@@ -513,9 +532,9 @@ theorem exists_axisTwo_actualFiber_diagonalization
     ∃ q r : (quadraticFiniteField p)ˣ,
       algebraMap (ZMod p) (quadraticFiniteField p) t =
           splitTorusTrace q ∧
-        mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
+        Point.map (algebraMap (ZMod p) (quadraticFiniteField p)) x =
           fiberPoint2
-            (mapCoefficients
+            (Coefficients.map
               (algebraMap (ZMod p) (quadraticFiniteField p)) a)
             (algebraMap (ZMod p) (quadraticFiniteField p) u)
             (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -523,10 +542,11 @@ theorem exists_axisTwo_actualFiber_diagonalization
             (r : quadraticFiniteField p) := by
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
-  let xE : Point E := mapPoint f x
+  let xE : Point E := Point.map f x
+  -- Transport the fiber conic and its nondegeneracy to the quadratic field.
   have hnonparabolic : t ^ 2 ≠ 4 := by
     exact sub_ne_zero.mp (by simpa [discriminant] using hD)
   have hDE : discriminant tE ≠ 0 := by
@@ -546,8 +566,10 @@ theorem exists_axisTwo_actualFiber_diagonalization
   have hconicE :
       fiberConic aE.a3 aE.a1 uE tE xE.x3 xE.x1 = 0 := by
     have hmap := congrArg f hconic
-    simpa [aE, uE, tE, xE, mapPoint, mapCoefficients, fiberConic,
+    simpa [aE, uE, tE, xE, Point.map, Coefficients.map, fiberConic,
       map_ofNat] using hmap
+  -- The eigenvalue is a split unit or a norm-one unit; in either case
+  -- `exists_unit_fiberPair_eq` gives the fiber parameter `r`.
   rcases exists_split_or_quadraticNormOneTrace p hpTwo t hnonparabolic with
     ⟨w, htraceW, _hw⟩ | ⟨w, htraceW, _hw⟩
   · let embedding : (ZMod p)ˣ →* Eˣ := Units.map f.toMonoidHom
@@ -555,6 +577,9 @@ theorem exists_axisTwo_actualFiber_diagonalization
     have heigen : tE = splitTorusTrace q := by
       dsimp [tE]
       rw [← htraceW]
+      -- Unfold the local `q` to `embedding w` (the image of `w` under
+      -- `Units.map f`); after unfolding `splitTorusTrace` and `map_add` the
+      -- two sides agree by `rfl`.
       change f (splitTorusTrace w) = splitTorusTrace (embedding w)
       rw [splitTorusTrace, splitTorusTrace, map_add]
       rfl
@@ -563,10 +588,12 @@ theorem exists_axisTwo_actualFiber_diagonalization
         aE.a3 aE.a1 uE tE q (xE.x3, xE.x1)
           hconicE heigen hDE hproductE
     refine ⟨q, r, heigen, ?_⟩
+    -- Fold `Point.map f x`, `Coefficients.map f a`, `f u`, `f t` into the
+    -- local names `xE`, `aE`, `uE`, `tE` used by `hr` and the `simpa`s below.
     change xE = fiberPoint2 aE uE tE (q : E) (r : E)
     apply Point.ext
     · simpa [fiberPoint2] using congrArg Prod.snd hr.symm
-    · simpa [xE, uE, mapPoint] using congrArg f hx2
+    · simpa [xE, uE, Point.map] using congrArg f hx2
     · simpa [fiberPoint2] using congrArg Prod.fst hr.symm
   · let q : Eˣ := (w : (quadraticFiniteField p)ˣ)
     have heigen : tE = splitTorusTrace q := by
@@ -578,101 +605,17 @@ theorem exists_axisTwo_actualFiber_diagonalization
         aE.a3 aE.a1 uE tE q (xE.x3, xE.x1)
           hconicE heigen hDE hproductE
     refine ⟨q, r, heigen, ?_⟩
+    -- Fold `Point.map f x`, `Coefficients.map f a`, `f u`, `f t` into the
+    -- local names `xE`, `aE`, `uE`, `tE` used by `hr` and the `simpa`s below.
     change xE = fiberPoint2 aE uE tE (q : E) (r : E)
     apply Point.ext
     · simpa [fiberPoint2] using congrArg Prod.snd hr.symm
-    · simpa [xE, uE, mapPoint] using congrArg f hx2
+    · simpa [xE, uE, Point.map] using congrArg f hx2
     · simpa [fiberPoint2] using congrArg Prod.fst hr.symm
 
-/-- A nonparabolic third-coordinate fiber with nonzero centered product has
-an actual diagonalization, in the fixed moving order `(x₁,x₂)`. -/
-theorem exists_axisThree_actualFiber_diagonalization
-    (p : ℕ) [Fact p.Prime] [Fintype (quadraticFiniteField p)]
-    (hpTwo : p ≠ 2)
-    (a : Coefficients (ZMod p)) (u t : ZMod p)
-    (x : Point (ZMod p))
-    (hx : IsSolution a x)
-    (hx3 : x.x3 = u)
-    (htrace : t = orderedTrace a.multiplier a.a3 u)
-    (hD : discriminant t ≠ 0)
-    (hproduct : centeredFiberProduct a.a1 a.a2 u t ≠ 0) :
-    ∃ q r : (quadraticFiniteField p)ˣ,
-      algebraMap (ZMod p) (quadraticFiniteField p) t =
-          splitTorusTrace q ∧
-        mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
-          fiberPoint3
-            (mapCoefficients
-              (algebraMap (ZMod p) (quadraticFiniteField p)) a)
-            (algebraMap (ZMod p) (quadraticFiniteField p) u)
-            (algebraMap (ZMod p) (quadraticFiniteField p) t)
-            (q : quadraticFiniteField p)
-            (r : quadraticFiniteField p) := by
-  let E := quadraticFiniteField p
-  let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
-  let uE : E := f u
-  let tE : E := f t
-  let xE : Point E := mapPoint f x
-  have hnonparabolic : t ^ 2 ≠ 4 := by
-    exact sub_ne_zero.mp (by simpa [discriminant] using hD)
-  have hDE : discriminant tE ≠ 0 := by
-    simpa [tE, discriminant, map_ofNat] using
-      (_root_.map_ne_zero (f := f)).mpr hD
-  have hproductE :
-      centeredFiberProduct aE.a1 aE.a2 uE tE ≠ 0 := by
-    simpa [aE, uE, tE, centeredFiberProduct, centeredNorm,
-      discriminant, map_ofNat] using
-        (_root_.map_ne_zero (f := f)).mpr hproduct
-  have hconic :
-      fiberConic a.a1 a.a2 u t x.x1 x.x2 = 0 := by
-    rw [htrace]
-    rw [← polynomial_fixed_third a u x.x1 x.x2]
-    rw [← hx3]
-    exact hx
-  have hconicE :
-      fiberConic aE.a1 aE.a2 uE tE xE.x1 xE.x2 = 0 := by
-    have hmap := congrArg f hconic
-    simpa [aE, uE, tE, xE, mapPoint, mapCoefficients, fiberConic,
-      map_ofNat] using hmap
-  rcases exists_split_or_quadraticNormOneTrace p hpTwo t hnonparabolic with
-    ⟨w, htraceW, _hw⟩ | ⟨w, htraceW, _hw⟩
-  · let embedding : (ZMod p)ˣ →* Eˣ := Units.map f.toMonoidHom
-    let q : Eˣ := embedding w
-    have heigen : tE = splitTorusTrace q := by
-      dsimp [tE]
-      rw [← htraceW]
-      change f (splitTorusTrace w) = splitTorusTrace (embedding w)
-      rw [splitTorusTrace, splitTorusTrace, map_add]
-      rfl
-    obtain ⟨r, hr⟩ :=
-      exists_unit_fiberPair_eq
-        aE.a1 aE.a2 uE tE q (xE.x1, xE.x2)
-          hconicE heigen hDE hproductE
-    refine ⟨q, r, heigen, ?_⟩
-    change xE = fiberPoint3 aE uE tE (q : E) (r : E)
-    apply Point.ext
-    · simpa [fiberPoint3] using congrArg Prod.fst hr.symm
-    · simpa [fiberPoint3] using congrArg Prod.snd hr.symm
-    · simpa [xE, uE, mapPoint] using congrArg f hx3
-  · let q : Eˣ := (w : (quadraticFiniteField p)ˣ)
-    have heigen : tE = splitTorusTrace q := by
-      dsimp [tE, f]
-      rw [← htraceW]
-      exact algebraMap_quadraticNormOneTrace p w
-    obtain ⟨r, hr⟩ :=
-      exists_unit_fiberPair_eq
-        aE.a1 aE.a2 uE tE q (xE.x1, xE.x2)
-          hconicE heigen hDE hproductE
-    refine ⟨q, r, heigen, ?_⟩
-    change xE = fiberPoint3 aE uE tE (q : E) (r : E)
-    apply Point.ext
-    · simpa [fiberPoint3] using congrArg Prod.fst hr.symm
-    · simpa [fiberPoint3] using congrArg Prod.snd hr.symm
-    · simpa [xE, uE, mapPoint] using congrArg f hx3
-
-/-- The first-to-second directed surface step simultaneously raises actual
-order and makes the second trace candidate regular for the next cyclic
-frame `(a₂,a₃,a₁)`. -/
+/-- The first-to-second directed surface step on a diagonalized first-axis
+fiber: some `rotation1` iterate has a second trace of strictly larger actual
+order that is candidate regular in the target frame `(a₂, targetB, targetC)`. -/
 theorem
     exists_rotation1_iterate_axisTwo_with_larger_actualOrder_and_regular_in_targetFrame_of_diagonalizedFiber
     (p : ℕ) [Fact p.Prime] [Fintype (quadraticFiniteField p)]
@@ -691,9 +634,9 @@ theorem
       algebraMap (ZMod p) (quadraticFiniteField p) t =
         splitTorusTrace q)
     (hdiagonalized :
-      mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
+      Point.map (algebraMap (ZMod p) (quadraticFiniteField p)) x =
         fiberPoint1
-          (mapCoefficients
+          (Coefficients.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) a)
           (algebraMap (ZMod p) (quadraticFiniteField p) u)
           (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -716,7 +659,7 @@ theorem
         rotationLinearOrder t < rotationLinearOrder t' := by
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
   let alpha : E := actualAlpha aE.multiplier * (r : E)
@@ -724,6 +667,8 @@ theorem
     actualBeta aE.multiplier aE.a2 aE.a3 uE tE / (r : E)
   let gamma : E :=
     actualGammaFirst aE.multiplier aE.a2 aE.a3 uE tE
+  -- Candidate regularity of `t` makes the weights `alpha`, `beta`, `gamma`
+  -- of the shifted square-coset trace nondegenerate.
   have hDBase : discriminant t ≠ 0 := by
     simpa [discriminant] using hregular.1
   have htraceE :
@@ -756,6 +701,7 @@ theorem
     exact actualEvenObstruction_ne_zero_of_candidateRegular
       aE.multiplier aE.a1 aE.a2 aE.a3 uE tE
         htraceE hA2E hregularE
+  -- Every shifted square-coset trace is the next trace of a rotation iterate.
   have hreachable :
       ∀ h : Subgroup.zpowers (q ^ 2),
         ∃ n : ℕ,
@@ -773,13 +719,13 @@ theorem
         aE uE tE q r hDE heigen' htraceE h
     let y : Point (ZMod p) := ((rotation1 a)^[n]) x
     have hyPoint :
-        mapPoint f y =
+        Point.map f y =
           fiberPoint1 aE uE tE (q : E)
             ((r * (h : Eˣ) : Eˣ) : E) := by
       calc
-        mapPoint f y =
-            ((rotation1 aE)^[n]) (mapPoint f x) := by
-          simpa [y, aE] using mapPoint_iterate_rotation1 f a x n
+        Point.map f y =
+            ((rotation1 aE)^[n]) (Point.map f x) := by
+          simpa [y, aE] using Point.map_iterate_rotation1 f a x n
         _ = ((rotation1 aE)^[n])
             (fiberPoint1 aE uE tE (q : E) (r : E)) := by
           simpa [E, f, aE, uE, tE] using congrArg
@@ -795,12 +741,13 @@ theorem
         simpa [alpha, beta, gamma] using
           (orderedTrace_fiberPoint1_mul_eq_weightedSplitTorusTrace
             aE uE tE q r (h : Eˣ)).symm
-      _ = orderedTrace aE.multiplier aE.a2 (mapPoint f y).x2 := by
+      _ = orderedTrace aE.multiplier aE.a2 (Point.map f y).x2 := by
         rw [hyPoint]
       _ = f (orderedTrace a.multiplier a.a2 y.x2) := by
-        simp [orderedTrace, aE, mapPoint]
+        simp [orderedTrace, aE, Point.map]
       _ = f (orderedTrace a.multiplier a.a2
           (((rotation1 a)^[n]) x).x2) := rfl
+  -- Apply the axis-independent escape theorem to the rotation iterates.
   exact
     exists_iterate_with_larger_actualOrder_and_regular_of_squareCosetTrace
       p hpTwo delta hdelta t hDBase q heigen
@@ -809,52 +756,6 @@ theorem
         a.a2 targetB targetC hA2 hTargetB
         alpha beta gamma hsigma hEven hreachable
         hbelowEndgame hmargin
-
-/-- Cyclic specialization of the first-to-second regular growth step. -/
-theorem
-    exists_rotation1_iterate_axisTwo_with_larger_actualOrder_and_regular_of_diagonalizedFiber
-    (p : ℕ) [Fact p.Prime] [Fintype (quadraticFiniteField p)]
-    (hpTwo : p ≠ 2)
-    (delta : ℝ) (hdelta : delta ≤ (1 : ℝ) / 2)
-    (a : Coefficients (ZMod p)) (u t : ZMod p)
-    (x : Point (ZMod p))
-    (hx : IsSolution a x)
-    (hcoordinate : t = orderedTrace a.multiplier a.a1 u)
-    (hA2 : a.a2 ^ 2 ≠ 4)
-    (hA3 : a.a3 ^ 2 ≠ 4)
-    (hregular : OrderedTraceCandidateRegular a.a1 a.a2 a.a3 t)
-    (q r : (quadraticFiniteField p)ˣ)
-    (heigen :
-      algebraMap (ZMod p) (quadraticFiniteField p) t =
-        splitTorusTrace q)
-    (hdiagonalized :
-      mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
-        fiberPoint1
-          (mapCoefficients
-            (algebraMap (ZMod p) (quadraticFiniteField p)) a)
-          (algebraMap (ZMod p) (quadraticFiniteField p) u)
-          (algebraMap (ZMod p) (quadraticFiniteField p) t)
-          (q : quadraticFiniteField p) (r : quadraticFiniteField p))
-    (hbelowEndgame :
-      (rotationLinearOrder t : ℝ) <
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta))
-    (hmargin :
-      2 *
-          (((p - 1).divisors.card +
-            (p + 1).divisors.card : ℕ) : ℝ) *
-            corvajaZannierCurrentOrderEnvelope p
-              (rotationLinearOrder t) +
-          20 <
-        (rotationLinearOrder t : ℝ)) :
-    ∃ n : ℕ,
-      let y := ((rotation1 a)^[n]) x
-      let t' := orderedTrace a.multiplier a.a2 y.x2
-      OrderedTraceCandidateRegular a.a2 a.a3 a.a1 t' ∧
-        rotationLinearOrder t < rotationLinearOrder t' :=
-  exists_rotation1_iterate_axisTwo_with_larger_actualOrder_and_regular_in_targetFrame_of_diagonalizedFiber
-    p hpTwo delta hdelta a u t x hx hcoordinate hA2
-      a.a3 a.a1 hA3 hregular q r heigen hdiagonalized
-      hbelowEndgame hmargin
 
 /-- Reverse-frame specialization.  It returns the state needed to alternate
 the fixed directed choices `.firstSecond` and `.secondFirst`. -/
@@ -875,9 +776,9 @@ theorem
       algebraMap (ZMod p) (quadraticFiniteField p) t =
         splitTorusTrace q)
     (hdiagonalized :
-      mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
+      Point.map (algebraMap (ZMod p) (quadraticFiniteField p)) x =
         fiberPoint1
-          (mapCoefficients
+          (Coefficients.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) a)
           (algebraMap (ZMod p) (quadraticFiniteField p) u)
           (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -902,60 +803,6 @@ theorem
     p hpTwo delta hdelta a u t x hx hcoordinate hA2
       a.a1 a.a3 hA1 hregular q r heigen hdiagonalized
       hbelowEndgame hmargin
-
-/-- Non-diagonalized first-to-second iterable growth.  Candidate regularity
-of the current first trace supplies the actual fiber diagonalization; no
-eigenvalue or initial torus parameter is required from the caller. -/
-theorem
-    exists_rotation1_iterate_axisTwo_with_larger_actualOrder_and_regular
-    (p : ℕ) [Fact p.Prime] [Fintype (quadraticFiniteField p)]
-    (hpTwo : p ≠ 2)
-    (delta : ℝ) (hdelta : delta ≤ (1 : ℝ) / 2)
-    (a : Coefficients (ZMod p)) (x : Point (ZMod p))
-    (hx : IsSolution a x)
-    (hA2 : a.a2 ^ 2 ≠ 4)
-    (hA3 : a.a3 ^ 2 ≠ 4)
-    (hregular :
-      OrderedTraceCandidateRegular a.a1 a.a2 a.a3
-        (traceAt a .first x))
-    (hbelowEndgame :
-      (rotationLinearOrderAt a .first x : ℝ) <
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta))
-    (hmargin :
-      2 *
-          (((p - 1).divisors.card +
-            (p + 1).divisors.card : ℕ) : ℝ) *
-            corvajaZannierCurrentOrderEnvelope p
-              (rotationLinearOrderAt a .first x) +
-          20 <
-        (rotationLinearOrderAt a .first x : ℝ)) :
-    ∃ n : ℕ,
-      let y := ((rotation1 a)^[n]) x
-      OrderedTraceCandidateRegular a.a2 a.a3 a.a1
-          (traceAt a .second y) ∧
-        rotationLinearOrderAt a .first x <
-          rotationLinearOrderAt a .second y := by
-  let t := traceAt a .first x
-  have hD : discriminant t ≠ 0 := by
-    simpa [t, discriminant] using hregular.1
-  have hproduct :
-      centeredFiberProduct a.a2 a.a3 x.x1 t ≠ 0 :=
-    centeredFiberProduct_ne_zero_of_candidateRegular
-      a.multiplier a.a1 a.a2 a.a3 x.x1 t rfl hregular
-  obtain ⟨q, r, heigen, hdiagonalized⟩ :=
-    exists_axisOne_actualFiber_diagonalization
-      p hpTwo a x.x1 t x hx rfl rfl hD hproduct
-  simpa [t, rotationLinearOrderAt, traceAt, orderedTrace,
-    coefficientAt, coordinateAt] using
-    exists_rotation1_iterate_axisTwo_with_larger_actualOrder_and_regular_of_diagonalizedFiber
-      p hpTwo delta hdelta a x.x1 t x hx rfl hA2 hA3 hregular
-        q r heigen hdiagonalized
-        (by
-          simpa [t, rotationLinearOrderAt, traceAt, orderedTrace, coefficientAt,
-            coordinateAt] using hbelowEndgame)
-        (by
-          simpa [t, rotationLinearOrderAt, traceAt, orderedTrace, coefficientAt,
-            coordinateAt] using hmargin)
 
 /-- Non-diagonalized first-to-second growth returning the reverse ordered
 frame `(a₂,a₁,a₃)`. -/
@@ -1031,9 +878,9 @@ theorem
       algebraMap (ZMod p) (quadraticFiniteField p) t =
         splitTorusTrace q)
     (hdiagonalized :
-      mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
+      Point.map (algebraMap (ZMod p) (quadraticFiniteField p)) x =
         fiberPoint2
-          (mapCoefficients
+          (Coefficients.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) a)
           (algebraMap (ZMod p) (quadraticFiniteField p) u)
           (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -1056,7 +903,7 @@ theorem
         rotationLinearOrder t < rotationLinearOrder t' := by
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
   let alpha : E :=
@@ -1066,6 +913,8 @@ theorem
       (q : E)) / (r : E)
   let gamma : E :=
     actualGammaSecond aE.multiplier aE.a3 aE.a1 uE tE
+  -- Candidate regularity of `t` makes the weights `alpha`, `beta`, `gamma`
+  -- of the shifted square-coset trace nondegenerate.
   have hDBase : discriminant t ≠ 0 := by
     simpa [discriminant] using hregular.1
   have htraceE :
@@ -1098,6 +947,7 @@ theorem
     exact actualSecondEvenObstruction_ne_zero_of_candidateRegular
       aE.multiplier aE.a2 aE.a3 aE.a1 uE tE
         htraceE hA1E hregularE
+  -- Every shifted square-coset trace is the next trace of a rotation iterate.
   have hreachable :
       ∀ h : Subgroup.zpowers (q ^ 2),
         ∃ n : ℕ,
@@ -1115,13 +965,13 @@ theorem
         aE uE tE q r hDE heigen' htraceE h
     let y : Point (ZMod p) := ((rotation2 a)^[n]) x
     have hyPoint :
-        mapPoint f y =
+        Point.map f y =
           fiberPoint2 aE uE tE (q : E)
             ((r * (h : Eˣ) : Eˣ) : E) := by
       calc
-        mapPoint f y =
-            ((rotation2 aE)^[n]) (mapPoint f x) := by
-          simpa [y, aE] using mapPoint_iterate_rotation2 f a x n
+        Point.map f y =
+            ((rotation2 aE)^[n]) (Point.map f x) := by
+          simpa [y, aE] using Point.map_iterate_rotation2 f a x n
         _ = ((rotation2 aE)^[n])
             (fiberPoint2 aE uE tE (q : E) (r : E)) := by
           simpa [E, f, aE, uE, tE] using congrArg
@@ -1134,6 +984,9 @@ theorem
           orderedTrace aE.multiplier aE.a1
             (fiberPoint2 aE uE tE (q : E)
               ((r * (h : Eˣ) : Eˣ) : E)).x1 := by
+        -- `orderedTrace s A u` unfolds to `s * u - A` and `(fiberPoint2 ..).x1`
+        -- to `(fiberPair aE.a3 aE.a1 ..).2`; restate in the form of
+        -- `secondTrace_fiberPair_mul_eq_weightedSplitTorusTrace`.
         change
           weightedSplitTorusTrace alpha beta h + gamma =
             aE.multiplier *
@@ -1143,12 +996,13 @@ theorem
         simpa [alpha, beta, gamma] using
           (secondTrace_fiberPair_mul_eq_weightedSplitTorusTrace
             aE.multiplier aE.a3 aE.a1 uE tE q r (h : Eˣ)).symm
-      _ = orderedTrace aE.multiplier aE.a1 (mapPoint f y).x1 := by
+      _ = orderedTrace aE.multiplier aE.a1 (Point.map f y).x1 := by
         rw [hyPoint]
       _ = f (orderedTrace a.multiplier a.a1 y.x1) := by
-        simp [orderedTrace, aE, mapPoint]
+        simp [orderedTrace, aE, Point.map]
       _ = f (orderedTrace a.multiplier a.a1
           (((rotation2 a)^[n]) x).x1) := rfl
+  -- Apply the axis-independent escape theorem to the rotation iterates.
   exact
     exists_iterate_with_larger_actualOrder_and_regular_of_squareCosetTrace
       p hpTwo delta hdelta t hDBase q heigen
@@ -1177,9 +1031,9 @@ theorem
       algebraMap (ZMod p) (quadraticFiniteField p) t =
         splitTorusTrace q)
     (hdiagonalized :
-      mapPoint (algebraMap (ZMod p) (quadraticFiniteField p)) x =
+      Point.map (algebraMap (ZMod p) (quadraticFiniteField p)) x =
         fiberPoint2
-          (mapCoefficients
+          (Coefficients.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) a)
           (algebraMap (ZMod p) (quadraticFiniteField p) u)
           (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -1259,50 +1113,8 @@ theorem
           simpa [t, rotationLinearOrderAt, traceAt, orderedTrace, coefficientAt,
             coordinateAt] using hmargin)
 
-private theorem isSolution_iterate_rotation1_local
-    {R : Type*} [CommRing R] (a : Coefficients R)
-    (x : Point R) (hx : IsSolution a x) (n : ℕ) :
-    IsSolution a (((rotation1 a)^[n]) x) := by
-  induction n with
-  | zero => exact hx
-  | succ n ih =>
-      rw [Function.iterate_succ_apply']
-      exact (isSolution_rotation1 a _).2 ih
-
-private theorem isSolution_iterate_rotation2_local
-    {R : Type*} [CommRing R] (a : Coefficients R)
-    (x : Point R) (hx : IsSolution a x) (n : ℕ) :
-    IsSolution a (((rotation2 a)^[n]) x) := by
-  induction n with
-  | zero => exact hx
-  | succ n ih =>
-      rw [Function.iterate_succ_apply']
-      exact (isSolution_rotation2 a _).2 ih
-
-private theorem coe_iterate_rotation1SurfacePerm
-    {R : Type*} [CommRing R] (a : Coefficients R)
-    (x : SolutionSurface a) (n : ℕ) :
-    ((((rotation1SurfacePerm a)^[n]) x :
-      SolutionSurface a) : Point R) =
-        ((rotation1 a)^[n]) x.1 := by
-  induction n with
-  | zero => rfl
-  | succ n ih =>
-      rw [Function.iterate_succ_apply', Function.iterate_succ_apply',
-        coe_rotation1SurfacePerm, ih]
-
-private theorem coe_iterate_rotation2SurfacePerm
-    {R : Type*} [CommRing R] (a : Coefficients R)
-    (x : SolutionSurface a) (n : ℕ) :
-    ((((rotation2SurfacePerm a)^[n]) x :
-      SolutionSurface a) : Point R) =
-        ((rotation2 a)^[n]) x.1 := by
-  induction n with
-  | zero => rfl
-  | succ n ih =>
-      rw [Function.iterate_succ_apply', Function.iterate_succ_apply',
-        coe_rotation2SurfacePerm, ih]
-
+/-- A point reached by iterating `rotation1` lies in the same rotation
+component. -/
 private theorem sameRotationComponent_of_iterate_rotation1
     {R : Type*} [CommRing R] (a : Coefficients R)
     (x y : SolutionSurface a) (n : ℕ)
@@ -1316,6 +1128,8 @@ private theorem sameRotationComponent_of_iterate_rotation1
   simpa [rotationSurfacePermAt] using
     (coe_iterate_rotation1SurfacePerm a x n).trans hxy
 
+/-- A point reached by iterating `rotation2` lies in the same rotation
+component. -/
 private theorem sameRotationComponent_of_iterate_rotation2
     {R : Type*} [CommRing R] (a : Coefficients R)
     (x y : SolutionSurface a) (n : ℕ)
@@ -1408,7 +1222,7 @@ theorem exists_nextAlternatingRegularState_with_larger_actualOrder
                     AlternatingDirectedAxis.fixed] using hmargin)
           let yPoint : Point (ZMod p) := ((rotation1 a)^[n]) point.1
           have hySolution : IsSolution a yPoint :=
-            isSolution_iterate_rotation1_local a point.1 point.2 n
+            (isSolution_iterate_rotation1 a point.1 n).2 point.2
           let y : SolutionSurface a := ⟨yPoint, hySolution⟩
           let next : AlternatingRegularState a :=
             ⟨.secondFirst, y, by simpa [alternatingTraceRegular, y, yPoint]
@@ -1430,7 +1244,7 @@ theorem exists_nextAlternatingRegularState_with_larger_actualOrder
                     AlternatingDirectedAxis.fixed] using hmargin)
           let yPoint : Point (ZMod p) := ((rotation2 a)^[n]) point.1
           have hySolution : IsSolution a yPoint :=
-            isSolution_iterate_rotation2_local a point.1 point.2 n
+            (isSolution_iterate_rotation2 a point.1 n).2 point.2
           let y : SolutionSurface a := ⟨yPoint, hySolution⟩
           let next : AlternatingRegularState a :=
             ⟨.firstSecond, y, by
@@ -1442,9 +1256,11 @@ theorem exists_nextAlternatingRegularState_with_larger_actualOrder
           · simpa [alternatingActualOrder,
               AlternatingDirectedAxis.fixed, next, y, yPoint] using hincrease
 
-/-- Finite strict-measure iteration reaches any threshold for which the
-endgame upper bound and the simultaneous regular-escape margin hold from
-the starting order up to that threshold. -/
+/-- An alternating regular state reaches, in its rotation component, an
+alternating regular state of actual order at least `target`, provided the
+endgame upper bound `current < p ^ (1/2 + delta)` and the regular-escape
+margin hold for every order `current` from the starting order up to
+`target`. -/
 theorem exists_sameRotationComponent_alternatingRegularState_reaches_threshold
     (p : ℕ) [Fact p.Prime] [Fintype (quadraticFiniteField p)]
     (hpTwo : p ≠ 2)

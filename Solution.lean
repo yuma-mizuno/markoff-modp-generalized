@@ -77,10 +77,16 @@ theorem generalizedMarkoff_reduction_surjective_of_large_prime
   have ha' : GenMarkoff.IntegrallyNondegenerate a := by
     simpa [a, IntegrallyNondegenerate, GenMarkoff.IntegrallyNondegenerate,
       GenMarkoff.Coefficients.multiplier] using ha
-  have hsurjective :=
-    GenMarkoff.General.Assembly.IntegrallyNondegenerate.reduction_surjective_of_concreteExplicitCutoff
-      ha' p hpPrime hpCutoff
+  have hpCutoff' :
+      GenMarkoff.General.Assembly.explicitStrongApproximationCutoff a ≤ p := by
+    rw [GenMarkoff.General.Assembly.explicitStrongApproximationCutoff_eq]
+    simpa only [explicitCutoff, explicitOrientedArithmeticCutoff,
+      GenMarkoff.General.Assembly.orientedArithmeticCutoff_eq, a,
+      GenMarkoff.Coefficients.multiplier] using hpCutoff
+  have hsurjective := ha'.reduction_surjective_of_explicitCutoff p hpPrime hpCutoff'
   intro y
+  -- The library functor evaluated at `ZMod p` is, by definition, the same
+  -- subset of `ZMod p × ZMod p × ZMod p` as `ModPSolutions a₁ a₂ a₃ p`.
   obtain ⟨x, hx⟩ := hsurjective y
   refine ⟨x, ?_⟩
   apply Subtype.ext

@@ -1,41 +1,56 @@
 import GenMarkoff.General.MiddleGame.ActualOrderGrowth
-import GenMarkoff.Symmetric.Assembly.RegularMiddleIteration
+import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+import GenMarkoff.Core.Statements
+import GenMarkoff.TraceCurve.ExceptionalRouting
+import BGS.Markoff.Core.RotationTorus
+import Mathlib.Analysis.Complex.Norm
+import BGS.Markoff.Opening.UnitCircle
+import BGS.Markoff.Opening.CyclotomicBound
+import BGS.Markoff.Core.FiniteRotationEigenvalues
+import BGS.Markoff.Opening.PeriodicSemisimple
+import Mathlib.Algebra.CharP.Reduced
+import Mathlib.GroupTheory.Perm.Cycle.Factors
+import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
+import GenMarkoff.ShiftedTrace.MiddleGame.WeightedShiftedCorvajaZannier
+import BGS.Markoff.MiddleGame.OrderEscape
+import BGS.Dynamics.StrictMeasureEscape
+import BGS.Markoff.MiddleGame.DivisorRange
 
 /-!
-# Parity-closed actual-order escape
+# Parity-closed candidate orders for the actual-order escape
 
-For an actual rotation, the order attached to a trace `t` is
+The fixed-coefficient Vieta rotation acts on the torus parameter by `q ^ 2`,
+while `rotationOrder t` is the order of the unsquared eigenvalue `q`.  Hence the
+actual order attached to a trace `t` is
 
-`rotationOrder t / gcd (rotationOrder t) 2`.
+`rotationOrder t / gcd (rotationOrder t) 2`,
 
-Thus the bad unsquared orders for a current actual order `L` are not merely
-the BGS orders `d ≤ L`, but all divisor orders satisfying
+and the bad unsquared orders for a current actual order `L` are not only the
+candidates `d ≤ L` of `BGS.Markoff.middleGameCandidateOrders`, but all divisor
+orders of `p - 1` or `p + 1` with
 
 `d / gcd d 2 ≤ L`.
 
-This file defines that parity-closed family and reruns the shifted
-Corvaja--Zannier finite-union argument for it.
+This file defines that family, `parityClosedMiddleGameCandidateOrders`, and
+proves the facts that the Corvaja--Zannier union bound needs for it:
 
-## New consideration in the general rotation proof
+* it has at most as many elements as the divisors of `p - 1` and `p + 1`;
+* each member satisfies `d ≤ 2 * L`, so it is an ordinary candidate for the
+  cutoff `2 * L`;
+* the rotation order of a nonparabolic trace with actual order at most `L`
+  lies in it;
+* the Corvaja--Zannier bound for each member is at most twice
+  `corvajaZannierCurrentOrderEnvelope p L`, so the bad-order sum is at most twice
+  the divisor-count envelope.
 
-The fixed-coefficient Vieta rotation acts on the torus parameter by `q ^ 2`,
-while the available trace classification is indexed by the unsquared
-eigenvalue order `d = order(q)`.  Therefore:
-
-* small actual rotation order means `d / gcd(d,2) ≤ L`, not `d ≤ L`;
-* the candidate divisor count is unchanged, but such a `d` can be as large
-  as `2 * L`;
-* a factor two in the common Corvaja--Zannier envelope is sufficient, so the
-  cube and linear size hypotheses below use twice the old coefficient.
-
-This parity closure is the additional argument needed to turn the earlier
-growth-or-factor-two dichotomy into strict growth for the actual rotation.
+The escape argument that uses these bounds is in
+`GenMarkoff.General.Assembly.RegularMiddleIteration`.
 -/
 
 namespace GenMarkoff.General.MiddleGame
 
 open BGS.Markoff
-open GenMarkoff.Symmetric.MiddleGame
+open GenMarkoff.ShiftedTrace.MiddleGame
 
 noncomputable section
 
@@ -46,6 +61,8 @@ def parityClosedMiddleGameCandidateOrders
   ((p - 1).divisors ∪ (p + 1).divisors).filter fun d ↦
     d / Nat.gcd d 2 ≤ currentOrder
 
+/-- Membership in the parity-closed family: the parity bound together with
+`d ∣ p - 1` (with `p - 1 ≠ 0`) or `d ∣ p + 1`. -/
 theorem mem_parityClosedMiddleGameCandidateOrders_iff
     {p currentOrder d : ℕ} :
     d ∈ parityClosedMiddleGameCandidateOrders p currentOrder ↔
@@ -65,7 +82,8 @@ theorem mem_parityClosedMiddleGameCandidateOrders_iff
     · exact Or.inl hd
     · exact Or.inr ⟨hd, by omega⟩
 
-/-- Parity closure changes only the filter, not the ambient divisor union. -/
+/-- The parity-closed family has at most as many elements as the divisors of
+`p - 1` and `p + 1`. -/
 theorem parityClosedMiddleGameCandidateOrders_card_le
     (p currentOrder : ℕ) :
     (parityClosedMiddleGameCandidateOrders p currentOrder).card ≤
@@ -138,14 +156,14 @@ theorem rotationOrder_mem_parityClosedCandidates_of_nonparabolic_actualOrder_le
   exact ⟨hquotient,
     (mem_middleGameCandidateOrders_iff.mp hdOrdinary).2⟩
 
-/-- Allowing an unsquared order up to twice the actual order costs at most a
-factor two in the common Corvaja--Zannier envelope.  This is the new
-numerical input forced by passing from the old `d ≤ L` family to its
-parity closure. -/
+/-- For `d ≤ 2 * currentOrder`, the Corvaja--Zannier trace bound
+`corvajaZannierTraceUpperBound p currentOrder d` is at most twice the common
+envelope `corvajaZannierCurrentOrderEnvelope p currentOrder`. -/
 theorem corvajaZannierTraceUpperBound_le_two_mul_currentOrderEnvelope
     (p currentOrder d : ℕ) (hd : d ≤ 2 * currentOrder) :
     corvajaZannierTraceUpperBound p currentOrder d ≤
       2 * corvajaZannierCurrentOrderEnvelope p currentOrder := by
+  -- Bound `currentOrder * d` by twice `currentOrder ^ 2`, then the cube-root and linear terms.
   have hmulNat :
       currentOrder * d ≤ 2 * (currentOrder * currentOrder) := by
     calc
@@ -183,6 +201,7 @@ theorem corvajaZannierTraceUpperBound_le_two_mul_currentOrderEnvelope
         div_le_div_of_nonneg_right hmul (by positivity)
       _ = 2 * (((currentOrder * currentOrder : ℕ) : ℝ) / (p : ℝ)) := by
         ring
+  -- Combine the two comparisons inside the `max`.
   unfold corvajaZannierTraceUpperBound
     corvajaZannierCurrentOrderEnvelope
   calc
@@ -204,9 +223,9 @@ theorem corvajaZannierTraceUpperBound_le_two_mul_currentOrderEnvelope
           (((currentOrder * currentOrder : ℕ) : ℝ) / (p : ℝ))) := by
       ring
 
-/-- The whole parity-closed bad-order sum is bounded by twice the ordinary
-divisor-count envelope.  The number of candidate divisors does not increase;
-only the individual envelope changes. -/
+/-- The sum of Corvaja--Zannier bounds over the parity-closed candidate orders
+is at most twice the divisor count of `p - 1` and `p + 1` times the common
+envelope. -/
 theorem
     parityClosedCorvajaZannierSum_le_two_mul_divisorCount_mul_envelope
     (p currentOrder : ℕ) :
@@ -242,229 +261,6 @@ theorem
       ring
 
 variable {E : Type} [Field E] [Fintype E]
-
-/-- Exact finite-union escape for the parity-closed order family.  The
-numerical premise is the precise enlarged Corvaja--Zannier sum that must be
-smaller than the actual left-subgroup order. -/
-theorem
-    exists_left_element_escaping_shiftedParityClosedOrders_of_corvajaZannierSum
-    (p : ℕ) (alpha beta gamma : E) (H1 : Subgroup Eˣ)
-    (rightSubgroup : ℕ → Subgroup Eˣ)
-    (hrightOrder :
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        Nat.card (rightSubgroup d) = d)
-    (hCZ :
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        ((shiftedWeightedTraceEquationSolutions
-          alpha beta gamma H1 (rightSubgroup d)).card : ℝ) ≤
-            corvajaZannierTraceUpperBound p (Nat.card H1)
-              (Nat.card (rightSubgroup d)))
-    (hsmall :
-      (∑ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-          corvajaZannierTraceUpperBound p (Nat.card H1) d) <
-        (Nat.card H1 : ℝ)) :
-    ∃ h1 : H1,
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        ∀ h2 : rightSubgroup d,
-          weightedSplitTorusTrace alpha beta h1 + gamma ≠
-            splitTorusTrace h2 := by
-  classical
-  let orders :=
-    parityClosedMiddleGameCandidateOrders p (Nat.card H1)
-  let bad := shiftedWeightedBadOrderTraceSupport
-    alpha beta gamma H1 orders rightSubgroup
-  have hCZIndexed :
-      ∀ d ∈ orders,
-        ((shiftedWeightedTraceEquationSolutions alpha beta gamma H1
-          (rightSubgroup d)).card : ℝ) ≤
-            corvajaZannierTraceUpperBound p (Nat.card H1) d := by
-    intro d hd
-    have hd' :
-        d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1) := by
-      simpa [orders] using hd
-    have hEstimate := hCZ d hd'
-    rw [hrightOrder d hd'] at hEstimate
-    exact hEstimate
-  have hbadReal : (bad.card : ℝ) < (Nat.card H1 : ℝ) := by
-    calc
-      (bad.card : ℝ) ≤
-          ∑ d ∈ orders,
-            corvajaZannierTraceUpperBound p (Nat.card H1) d := by
-        exact
-          shiftedWeightedBadOrderTraceSupport_card_cast_le_sum
-            (E := E) (alpha := alpha) (beta := beta) (gamma := gamma)
-            (H1 := H1) (orders := orders)
-            (rightSubgroup := rightSubgroup)
-            (bound :=
-              fun d ↦ corvajaZannierTraceUpperBound p (Nat.card H1) d)
-            hCZIndexed
-      _ < (Nat.card H1 : ℝ) := by
-        simpa [orders] using hsmall
-  have hbad : bad.card < Nat.card H1 := by
-    exact_mod_cast hbadReal
-  have hexists : ∃ h1 : H1, h1 ∉ bad := by
-    by_contra hall
-    push Not at hall
-    have hle : (Finset.univ : Finset H1).card ≤ bad.card :=
-      Finset.card_le_card fun h1 _ ↦ hall h1
-    rw [Finset.card_univ, Fintype.card_eq_nat_card] at hle
-    exact (Nat.not_le_of_lt hbad) hle
-  obtain ⟨h1, hh1⟩ := hexists
-  refine ⟨h1, ?_⟩
-  intro d hd h2 heq
-  apply hh1
-  exact mem_shiftedWeightedBadOrderTraceSupport_iff.mpr
-    ⟨d, by simpa [orders] using hd, h2, heq⟩
-
-/-- Doubling the coefficient in the two standard elementary size
-inequalities absorbs the factor-two parity-closed envelope and yields a
-genuine escape from every bad actual order. -/
-theorem
-    exists_left_element_escaping_shiftedParityClosedOrders_of_corvajaZannierSizeBounds
-    (p : ℕ) (alpha beta gamma : E) (H1 : Subgroup Eˣ)
-    (rightSubgroup : ℕ → Subgroup Eˣ)
-    (hrightOrder :
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        Nat.card (rightSubgroup d) = d)
-    (hCZ :
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        ((shiftedWeightedTraceEquationSolutions
-          alpha beta gamma H1 (rightSubgroup d)).card : ℝ) ≤
-            corvajaZannierTraceUpperBound p (Nat.card H1)
-              (Nat.card (rightSubgroup d)))
-    (hcurrentOrder : 0 < Nat.card H1)
-    (hcube :
-      (2 * (corvajaZannierCorollaryTwoSafeCoefficient *
-        ((p - 1).divisors.card + (p + 1).divisors.card))) ^ 3 <
-          Nat.card H1)
-    (hlinear :
-      2 * (corvajaZannierCorollaryTwoSafeCoefficient *
-        ((p - 1).divisors.card + (p + 1).divisors.card)) *
-          Nat.card H1 < p) :
-    ∃ h1 : H1,
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        ∀ h2 : rightSubgroup d,
-          weightedSplitTorusTrace alpha beta h1 + gamma ≠
-            splitTorusTrace h2 := by
-  apply
-    exists_left_element_escaping_shiftedParityClosedOrders_of_corvajaZannierSum
-      p alpha beta gamma H1 rightSubgroup hrightOrder hCZ
-  exact
-    (parityClosedCorvajaZannierSum_le_two_mul_divisorCount_mul_envelope
-      p (Nat.card H1)).trans_lt
-        (GenMarkoff.Symmetric.Assembly.two_mul_divisorCount_mul_corvajaZannierEnvelope_lt_currentOrder
-            p (Nat.card H1) hcurrentOrder hcube hlinear)
-
-/-- Axis-independent strict actual-order growth after parity closure.
-
-Compared with the earlier square-coset theorem, the bad family is now
-`d / gcd(d,2) ≤ L`; hence the factor-two residual branch is impossible.  The
-price is exactly the doubled coefficient in the cube and linear size
-hypotheses. -/
-theorem exists_iterate_with_larger_actualOrder_of_squareCosetTrace
-    {T : Type*}
-    (p : ℕ) [Fact p.Prime] [Fintype (quadraticFiniteField p)]
-    (hpTwo : p ≠ 2)
-    (delta : ℝ) (hdelta : delta ≤ (1 : ℝ) / 2)
-    (t : ZMod p) (hD : discriminant t ≠ 0)
-    (q : (quadraticFiniteField p)ˣ)
-    (heigen :
-      algebraMap (ZMod p) (quadraticFiniteField p) t =
-        splitTorusTrace q)
-    (rotation : T → T) (x : T) (targetTrace : T → ZMod p)
-    (alpha beta gamma : quadraticFiniteField p)
-    (hsigma : alpha * beta ≠ 0)
-    (hEven : shiftedTraceEvenObstruction (alpha * beta) gamma ≠ 0)
-    (hreachable :
-      ∀ h : Subgroup.zpowers (q ^ 2),
-        ∃ n : ℕ,
-          weightedSplitTorusTrace alpha beta h + gamma =
-            algebraMap (ZMod p) (quadraticFiniteField p)
-              (targetTrace (((rotation)^[n]) x)))
-    (hbelowEndgame :
-      (rotationLinearOrder t : ℝ) <
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta))
-    (hcube :
-      (2 * (corvajaZannierCorollaryTwoSafeCoefficient *
-        ((p - 1).divisors.card + (p + 1).divisors.card))) ^ 3 <
-          rotationLinearOrder t)
-    (hlinear :
-      2 * (corvajaZannierCorollaryTwoSafeCoefficient *
-        ((p - 1).divisors.card + (p + 1).divisors.card)) *
-          rotationLinearOrder t < p) :
-    ∃ n : ℕ,
-      let t' := targetTrace (((rotation)^[n]) x)
-      rotationLinearOrder t < rotationLinearOrder t' := by
-  let E := quadraticFiniteField p
-  let H1 : Subgroup Eˣ := Subgroup.zpowers (q ^ 2)
-  let rightSubgroup : ℕ → Subgroup Eˣ :=
-    fun d ↦ middleGameRightSubgroup p d
-  letI : DecidableEq E := Classical.decEq E
-  have hleftCard :
-      Nat.card H1 = rotationLinearOrder t := by
-    simpa [H1, E] using
-      card_zpowers_sq_eq_rotationLinearOrder_of_discriminant_ne_zero
-        p t q hD heigen
-  have hrightOrder :
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        Nat.card (rightSubgroup d) = d := by
-    intro d hd
-    exact
-      middleGameRightSubgroup_natCard p (2 * Nat.card H1) d
-        (mem_middleGameCandidateOrders_two_mul_of_mem_parityClosed hd)
-  have hCZ :
-      ∀ d ∈ parityClosedMiddleGameCandidateOrders p (Nat.card H1),
-        ((shiftedWeightedTraceEquationSolutions
-          alpha beta gamma H1 (rightSubgroup d)).card : ℝ) ≤
-            corvajaZannierTraceUpperBound p (Nat.card H1)
-              (Nat.card (rightSubgroup d)) := by
-    intro d _hd
-    exact
-      weightedShiftedTraceEquationSolutions_card_cast_le_corvajaZannier
-        p E alpha beta gamma H1 (rightSubgroup d)
-          hpTwo hsigma hEven
-  obtain ⟨h, hEscapes⟩ :=
-    exists_left_element_escaping_shiftedParityClosedOrders_of_corvajaZannierSizeBounds
-      p alpha beta gamma H1 rightSubgroup hrightOrder hCZ Nat.card_pos
-        (by rw [hleftCard]; exact hcube)
-        (by rw [hleftCard]; exact hlinear)
-  obtain ⟨n, hyTrace⟩ := hreachable h
-  let t' : ZMod p := targetTrace (((rotation)^[n]) x)
-  refine ⟨n, ?_⟩
-  change rotationLinearOrder t < rotationLinearOrder t'
-  by_contra hgrowth
-  have htargetLe :
-      rotationLinearOrder t' ≤ rotationLinearOrder t :=
-    Nat.le_of_not_gt hgrowth
-  have hnonparabolic : t' ^ 2 ≠ 4 := by
-    intro hparabolic
-    have htarget :
-        rotationLinearOrder t' = p :=
-      rotationLinearOrder_eq_prime_of_parabolicTrace
-        p hpTwo t' hparabolic
-    have hthreshold :=
-      endgamePowerThreshold_le_prime p delta hdelta
-    have htargetLeReal :
-        (p : ℝ) ≤ (rotationLinearOrder t : ℝ) := by
-      calc
-        (p : ℝ) = (rotationLinearOrder t' : ℝ) := by
-          exact_mod_cast htarget.symm
-        _ ≤ (rotationLinearOrder t : ℝ) := by
-          exact_mod_cast htargetLe
-    exact
-      (not_le_of_gt hbelowEndgame)
-        (hthreshold.trans htargetLeReal)
-  have hd :
-      BGS.Markoff.rotationOrder t' ∈
-        parityClosedMiddleGameCandidateOrders p (Nat.card H1) := by
-    simpa only [hleftCard] using
-      rotationOrder_mem_parityClosedCandidates_of_nonparabolic_actualOrder_le
-        p (rotationLinearOrder t) hpTwo t' hnonparabolic htargetLe
-  obtain ⟨h2, htrace2⟩ :=
-    exists_middleGameRightSubgroup_trace_of_nonparabolic_rotationOrder
-      p (BGS.Markoff.rotationOrder t') hpTwo t' hnonparabolic rfl
-  apply hEscapes (BGS.Markoff.rotationOrder t') hd h2
-  exact hyTrace.trans htrace2
 
 end
 

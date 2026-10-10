@@ -1,4 +1,7 @@
 import GenMarkoff.Core.Statements
+import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Tactic.FieldSimp
 
 /-!
 # Affine fiber dynamics for a fixed coefficient triple
@@ -11,11 +14,15 @@ Vieta factors are
 `T_c(y, z) = (z, t * z - y - c * u)`.
 
 The rotation is the heterogeneous composition `T_B ∘ T_C`.  Its linear part
-is the square of the usual trace matrix, but its translation is not the
-square translation unless `B = C`.
+is the square of the trace matrix `fiberMatrix t`, but its translation is not
+the square translation unless `B = C`.  The fixed-coordinate identities are
+stated for the first and second coordinates; they cyclically relabel the
+ordered frame while leaving the coefficient triple itself fixed.
 
-All three fixed-coordinate identities are stated explicitly.  They cyclically
-relabel the ordered frame while leaving the coefficient triple itself fixed.
+Over a field with `t² ≠ 4`, translating by the center `fiberCenter` conjugates
+the affine rotation to the square of the linear step
+(`centerCoordinates_affineRotation`) and puts the fiber conic in the centered
+form `Y² + Z² - tYZ + const` (`fiberConic_centered`).
 -/
 
 namespace GenMarkoff.General
@@ -33,11 +40,12 @@ frame. -/
 def orderedTrace (s A u : R) : R :=
   s * u - A
 
-/-- The common linear part of an affine Vieta half-step. -/
+/-- The common linear part `(y, z) ↦ (z, t * z - y)` of the Vieta factors
+`T_c`. -/
 def linearStep (t : R) (v : R × R) : R × R :=
   (v.2, t * v.2 - v.1)
 
-/-- The affine step with translation coefficient `c`. -/
+/-- The Vieta factor `T_c(y, z) = (z, t * z - y - c * u)` on a fiber. -/
 def affineStep (c u t : R) (v : R × R) : R × R :=
   (v.2, t * v.2 - v.1 - c * u)
 
@@ -53,10 +61,6 @@ def movingCoordinates1 (x : Point R) : R × R :=
 /-- Moving coordinates for the rotation fixing the second coordinate. -/
 def movingCoordinates2 (x : Point R) : R × R :=
   (x.x3, x.x1)
-
-/-- Moving coordinates for the rotation fixing the third coordinate. -/
-def movingCoordinates3 (x : Point R) : R × R :=
-  (x.x1, x.x2)
 
 /-- Explicit formula for the heterogeneous affine composition. -/
 theorem affineRotation_apply (B C u t : R) (v : R × R) :
@@ -88,37 +92,7 @@ theorem movingCoordinates2_rotation2 (a : Coefficients R) (x : Point R) :
       affineStep, orderedTrace] <;>
     ring
 
-/-- The third rotation is `T_{a₁} ∘ T_{a₂}` on `(x₁,x₂)`. -/
-theorem movingCoordinates3_rotation3 (a : Coefficients R) (x : Point R) :
-    movingCoordinates3 (rotation3 a x) =
-      affineRotation a.a1 a.a2 x.x3
-        (orderedTrace a.multiplier a.a3 x.x3) (movingCoordinates3 x) := by
-  ext <;>
-    simp [movingCoordinates3, rotation3, vieta1, vieta2, affineRotation,
-      affineStep, orderedTrace] <;>
-    ring
-
-/-- Explicit square of the common linear half-step. -/
-theorem linearStep_sq (t : R) (v : R × R) :
-    linearStep t (linearStep t v) =
-      (t * v.2 - v.1, (t ^ 2 - 1) * v.2 - t * v.1) := by
-  ext
-  · simp [linearStep]
-  · simp [linearStep]
-    ring
-
-/-- Removing the translation from `affineRotation` leaves the square of the
-trace matrix. -/
-theorem affineRotation_eq_linearStep_sq_add (B C u t : R) (v : R × R) :
-    affineRotation B C u t v =
-      let w := linearStep t (linearStep t v)
-      (w.1 - C * u, w.2 - (t * C + B) * u) := by
-  ext
-  · simp [affineRotation, affineStep, linearStep]
-  · simp [affineRotation, affineStep, linearStep]
-    ring
-
-/-- The matrix of the common linear half-step. -/
+/-- The trace matrix `!![0, 1; -1, t]` of the common linear step. -/
 def fiberMatrix (t : R) : Matrix (Fin 2) (Fin 2) R :=
   !![0, 1; -1, t]
 
@@ -134,18 +108,19 @@ theorem fiberMatrix_trace (t : R) : (fiberMatrix t).trace = t := by
 def fiberMatrixSL (t : R) : Matrix.SpecialLinearGroup (Fin 2) R :=
   ⟨fiberMatrix t, fiberMatrix_det t⟩
 
-/-- The order of the actual rotation linear part. -/
+/-- The order of the linear part `fiberMatrixSL t ^ 2` of the rotation. -/
 noncomputable def rotationLinearOrder (t : R) : ℕ :=
   orderOf (fiberMatrixSL t ^ 2)
 
-/-- The actual rotation order is the half-step order divided by its parity
-factor. -/
+/-- The rotation order is the order of `fiberMatrixSL t` divided by its
+greatest common divisor with `2`. -/
 theorem rotationLinearOrder_eq_order_div_gcd (t : R) :
     rotationLinearOrder t =
       orderOf (fiberMatrixSL t) / Nat.gcd (orderOf (fiberMatrixSL t)) 2 := by
   exact orderOf_pow' (fiberMatrixSL t) (by norm_num)
 
-/-- The ordered fixed-coordinate conic. -/
+/-- The fiber conic in the moving coordinates `(y, z)` for the ordered frame
+`(A, B, C)`, with `u` the fixed coordinate and `t = s * u - A`. -/
 def fiberConic (B C u t y z : R) : R :=
   y ^ 2 + z ^ 2 - t * y * z + C * u * y + B * u * z + u ^ 2
 
@@ -166,26 +141,19 @@ theorem polynomial_fixed_second (a : Coefficients R) (u z x : R) :
   simp [polynomial, fiberConic, orderedTrace]
   ring
 
-/-- The surface equation on the third-coordinate fiber, in moving order
-`(x₁,x₂)`. -/
-theorem polynomial_fixed_third (a : Coefficients R) (u x y : R) :
-    polynomial a ⟨x, y, u⟩ =
-      fiberConic a.a1 a.a2 u
-        (orderedTrace a.multiplier a.a3 u) x y := by
-  simp [polynomial, fiberConic, orderedTrace]
-  ring
-
 end Ring
 
 section Field
 
 variable {K : Type u} [Field K]
 
-/-- The nonparabolic discriminant. -/
+/-- The discriminant `t² - 4` of the trace matrix; it vanishes exactly at the
+parabolic traces `t = ±2`. -/
 def discriminant (t : K) : K :=
   t ^ 2 - 4
 
-/-- The numerator of the centered-conic constant. -/
+/-- The numerator `t² - 4 + B² + C² + tBC` of the centered-conic
+constant. -/
 def centeredNorm (B C t : K) : K :=
   discriminant t + B ^ 2 + C ^ 2 + t * B * C
 
@@ -205,29 +173,6 @@ theorem centerCoordinates_injective (m : K × K) :
   · exact sub_left_injective (congrArg Prod.fst h)
   · exact sub_left_injective (congrArg Prod.snd h)
 
-/-- The displayed center is fixed by the heterogeneous affine rotation. -/
-theorem affineRotation_fiberCenter
-    (B C u t : K) (hD : discriminant t ≠ 0) :
-    affineRotation B C u t (fiberCenter B C u t) =
-      fiberCenter B C u t := by
-  rw [affineRotation_apply]
-  apply Prod.ext
-  · change
-      t * (u * (t * C + 2 * B) / discriminant t) -
-          u * (t * B + 2 * C) / discriminant t - C * u =
-        u * (t * B + 2 * C) / discriminant t
-    field_simp [hD]
-    simp only [discriminant]
-    ring
-  · change
-      (t ^ 2 - 1) * (u * (t * C + 2 * B) / discriminant t) -
-            t * (u * (t * B + 2 * C) / discriminant t) -
-          (t * C + B) * u =
-        u * (t * C + 2 * B) / discriminant t
-    field_simp [hD]
-    simp only [discriminant]
-    ring
-
 /-- Centering conjugates the heterogeneous affine rotation to the square of
 the common linear trace step. -/
 theorem centerCoordinates_affineRotation
@@ -238,6 +183,8 @@ theorem centerCoordinates_affineRotation
         (centerCoordinates (fiberCenter B C u t) v)) := by
   rw [affineRotation_apply]
   apply Prod.ext
+  -- Unfold `centerCoordinates`, `fiberCenter` and `linearStep` to explicit
+  -- field expressions so that `field_simp` can clear `discriminant t`.
   · change
       t * v.2 - v.1 - C * u -
           u * (t * B + 2 * C) / discriminant t =
@@ -246,6 +193,8 @@ theorem centerCoordinates_affineRotation
     field_simp [hD]
     simp only [discriminant]
     ring
+  -- Unfold `centerCoordinates`, `fiberCenter` and `linearStep` to explicit
+  -- field expressions so that `field_simp` can clear `discriminant t`.
   · change
       (t ^ 2 - 1) * v.2 - t * v.1 - (t * C + B) * u -
           u * (t * C + 2 * B) / discriminant t =
@@ -265,6 +214,8 @@ theorem fiberConic_centered
         (Z + (fiberCenter B C u t).2) =
       Y ^ 2 + Z ^ 2 - t * Y * Z +
         u ^ 2 * centeredNorm B C t / discriminant t := by
+  -- Unfold `fiberConic`, `fiberCenter` and `centeredNorm` to explicit field
+  -- expressions so that `field_simp` can clear `discriminant t`.
   change
     (Y + u * (t * B + 2 * C) / discriminant t) ^ 2 +
           (Z + u * (t * C + 2 * B) / discriminant t) ^ 2 -

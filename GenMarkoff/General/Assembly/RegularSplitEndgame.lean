@@ -4,23 +4,20 @@ import GenMarkoff.General.Arithmetic.ReasonableCutoff
 /-!
 # Canonical first-axis regular split endgame
 
-This module assembles the two fixed-coefficient alternating split directions
-into a single canonical first-axis endpoint.  No coordinate or coefficient
-permutation is used.
+This module defines `IsCanonicalFirstAxisPrimitiveSplit`: a surface point
+whose first-axis trace is `v + v⁻¹` for a primitive `v : (ZMod p)ˣ` and is
+candidate regular in the ordered frame `(a.a1, a.a2, a.a3)`.  It proves that
+an alternating regular state with a split trace of large actual order reaches
+such a point in its rotation component
+(`alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_reasonableCutoff`).
+No coordinate or coefficient permutation is used.
 
-## New two-step consideration
-
-If an alternating state starts in direction `.firstSecond`, the first split
-endgame move produces a primitive second-axis eigenvalue `v`; a second move is
-needed to return to the canonical first axis.  The actual rotation generator
-is `v ^ 2`, not `v`.  Since a primitive `v : (ZMod p)ˣ` has order `p - 1`,
-its square has order `(p - 1) / 2`.  This still dominates the fixed
-three-quarter endgame scale for all sufficiently large `p`, which supplies
-the second dispatcher's large-order hypothesis.
-
-The output predicate packages a genuine solution-surface point, the primitive
-split eigenvalue of its first-axis trace, and candidate regularity in the exact
-ordered frame `(a.a1, a.a2, a.a3)`.
+A `.secondFirst` state needs one `rotation2` segment.  A `.firstSecond` state
+first reaches a primitive second-axis eigenvalue `v` by a `rotation1` segment
+and then needs a second move back to the first axis.  The actual rotation
+generator there is `v ^ 2`, of order `(p - 1) / 2`, and
+`threeQuarter_le_half_sub_one_of_reasonableCutoff` shows that this order is
+at least `p ^ (3/4)`, as the second move requires.
 -/
 
 namespace GenMarkoff.General.Assembly
@@ -31,8 +28,9 @@ open GenMarkoff.General.Endgame
 
 noncomputable section
 
-/-- Canonical split endgame target on the first axis.  The subtype `x`
-contains the proof that the point lies on the fixed-coefficient surface. -/
+/-- A surface point whose first-axis trace is `v + v⁻¹` for a primitive
+`v : (ZMod p)ˣ` and is candidate regular in the ordered frame
+`(a.a1, a.a2, a.a3)`. -/
 def IsCanonicalFirstAxisPrimitiveSplit
     (p : ℕ) [Fact p.Prime]
     (a : Coefficients (ZMod p)) (x : SolutionSurface a) : Prop :=
@@ -53,83 +51,9 @@ theorem orderOf_sq_eq_half_sub_one_of_primitive
   rw [Nat.gcd_eq_right
     ((Fact.out : p.Prime).even_sub_one hpTwo).two_dvd]
 
-/-- Uniform numerical bridge used only for the second alternating move:
-the three-quarter scale is eventually at most half of `p - 1`. -/
-theorem exists_threshold_threeQuarter_le_half_sub_one :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) ≤
-        (((p - 1) / 2 : ℕ) : ℝ) := by
-  have hexponents :
-      (1 : ℝ) / 2 + (1 : ℝ) / 4 < 1 := by
-    norm_num
-  have habsorb :
-      ∀ᶠ p : ℕ in atTop,
-        (4 : ℝ) * (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) <
-          (p : ℝ) ^ (1 : ℝ) :=
-    BGS.Markoff.eventually_const_mul_rpow_lt_rpow
-      (C := (4 : ℝ)) hexponents
-  obtain ⟨absorbThreshold, hAbsorbThreshold⟩ :=
-    Filter.eventually_atTop.mp habsorb
-  refine ⟨max absorbThreshold 4, ?_⟩
-  intro p hp
-  have hpAbsorb : absorbThreshold ≤ p :=
-    (Nat.le_max_left absorbThreshold 4).trans hp
-  have hpFour : 4 ≤ p :=
-    (Nat.le_max_right absorbThreshold 4).trans hp
-  have hrealAbsorb :
-      (4 : ℝ) * (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) <
-        (p : ℝ) := by
-    simpa using hAbsorbThreshold p hpAbsorb
-  have hnat : p ≤ 4 * ((p - 1) / 2) := by
-    omega
-  have hcast :
-      (p : ℝ) ≤
-        (4 : ℝ) * (((p - 1) / 2 : ℕ) : ℝ) := by
-    exact_mod_cast hnat
-  linarith
-
-/-- Closed-cutoff form of the numerical bridge for the second alternating
-move. -/
-theorem threeQuarter_le_half_sub_one_of_analyticCutoff
-    {p : ℕ} (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p) :
-    (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) ≤
-      (((p - 1) / 2 : ℕ) : ℝ) := by
-  have hpFive : 5 ≤ p :=
-    GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-  have hpFour : 4 ≤ p := by omega
-  have hpRealOne : (1 : ℝ) < p := by
-    exact_mod_cast GenMarkoff.General.Explicit.analyticCutoff_gt_one.trans_le hp
-  have hpRealPos : (0 : ℝ) < p := zero_lt_one.trans hpRealOne
-  have hfour :
-      (4 : ℝ) < (p : ℝ) ^ (1 / 256 : ℝ) :=
-    GenMarkoff.General.Explicit.small_fixed_lt_rpow_one_div_twoHundredFiftySix
-      hp (by norm_num)
-  have habsorb :
-      (4 : ℝ) * (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) <
-        (p : ℝ) := by
-    calc
-      (4 : ℝ) * (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) <
-          (p : ℝ) ^ (1 / 256 : ℝ) *
-            (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) := by
-        exact mul_lt_mul_of_pos_right hfour
-          (Real.rpow_pos_of_pos hpRealPos _)
-      _ = (p : ℝ) ^ (193 / 256 : ℝ) := by
-        rw [← Real.rpow_add hpRealPos]
-        congr 1
-        norm_num
-      _ < (p : ℝ) := by
-        simpa only [Real.rpow_one] using
-          Real.rpow_lt_rpow_of_exponent_lt hpRealOne
-            (show (193 / 256 : ℝ) < 1 by norm_num)
-  have hnat : p ≤ 4 * ((p - 1) / 2) := by omega
-  have hcast :
-      (p : ℝ) ≤ (4 : ℝ) * (((p - 1) / 2 : ℕ) : ℝ) := by
-    exact_mod_cast hnat
-  linarith
-
-/-- The reasonable closed cutoff gives the same bridge using the much weaker
-estimate `4 < p^(1/8)`.  Thus the exponent bookkeeping is `1/8 + 3/4 =
-7/8 < 1`, instead of the old `1/256 + 3/4` calculation. -/
+/-- Beyond `reasonableAnalyticCutoff`, `p ^ (3/4) ≤ (p - 1) / 2`: the square
+of a primitive split eigenvalue has order at least the three-quarter endgame
+scale.  The estimate follows from `4 < p ^ (1/8)`, since `1/8 + 3/4 < 1`. -/
 theorem threeQuarter_le_half_sub_one_of_reasonableCutoff
     {p : ℕ} (hp : GenMarkoff.General.Explicit.reasonableAnalyticCutoff ≤ p) :
     (p : ℝ) ^ ((1 : ℝ) / 2 + (1 : ℝ) / 4) ≤
@@ -165,40 +89,18 @@ theorem threeQuarter_le_half_sub_one_of_reasonableCutoff
     exact_mod_cast hnat
   linarith
 
-private theorem coe_iterate_rotation1SurfacePerm
-    {R : Type*} [CommRing R] (a : Coefficients R)
-    (x : SolutionSurface a) (n : ℕ) :
-    ((((rotation1SurfacePerm a)^[n]) x :
-      SolutionSurface a) : Point R) =
-        ((rotation1 a)^[n]) x.1 := by
-  induction n with
-  | zero => rfl
-  | succ n ih =>
-      rw [Function.iterate_succ_apply', Function.iterate_succ_apply',
-        coe_rotation1SurfacePerm, ih]
+/-- An alternating regular state whose split endgame move succeeds
+(`hstart`) reaches a canonical primitive split point on the first axis in
+the same rotation component, provided the split endgame move also succeeds
+from every state whose squared eigenvalue has order at least `p ^ (3/4)`
+(`hprimitive`) and `p ^ (3/4) ≤ (p - 1) / 2` (`hsquare`).
 
-private theorem coe_iterate_rotation2SurfacePerm
-    {R : Type*} [CommRing R] (a : Coefficients R)
-    (x : SolutionSurface a) (n : ℕ) :
-    ((((rotation2SurfacePerm a)^[n]) x :
-      SolutionSurface a) : Point R) =
-        ((rotation2 a)^[n]) x.1 := by
-  induction n with
-  | zero => rfl
-  | succ n ih =>
-      rw [Function.iterate_succ_apply', Function.iterate_succ_apply',
-        coe_rotation2SurfacePerm, ih]
-
-/-- Every sufficiently large split alternating endgame state reaches a
-canonical primitive split point on the first axis in the same
-fixed-coefficient rotation component.
-
-The `.secondFirst` branch uses one actual `rotation2` segment.  The
-`.firstSecond` branch first uses an actual `rotation1` segment to obtain a
-primitive second-axis state, then applies the dispatcher once more and uses
-an actual `rotation2` segment to return to the first axis. -/
-private theorem
-    alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
+The `.secondFirst` branch uses one `rotation2` segment.  The `.firstSecond`
+branch uses a `rotation1` segment to a primitive second-axis state, then
+applies `hprimitive` once more and returns to the first axis by a
+`rotation2` segment. -/
+theorem
+    alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit
     (p : ℕ) [Fact p.Prime]
     (hpTwo : p ≠ 2)
     (a : Coefficients (ZMod p))
@@ -223,6 +125,8 @@ private theorem
   | mk direction point hregular =>
       cases direction with
       | secondFirst =>
+          -- `alternatingPrimitiveSplitEndgameResult` at `.secondFirst` is its
+          -- `rotation2` branch; restate it so that `obtain` can destructure it.
           change
             ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
               orderedTrace a.multiplier a.a1
@@ -242,6 +146,8 @@ private theorem
               coe_iterate_rotation2SurfacePerm a point n
           have hfinishTrace :
               traceAt a .first finish.1 = splitTorusTrace v := by
+            -- `traceAt a .first` unfolds to `orderedTrace a.multiplier a.a1 _.x1`;
+            -- restate so that after `rw [hfinishPoint]` the goal is `hn`.
             change
               orderedTrace a.multiplier a.a1 finish.1.x1 =
                 splitTorusTrace v
@@ -256,6 +162,8 @@ private theorem
           rw [hfinishTrace]
           exact hvRegular
       | firstSecond =>
+          -- `alternatingPrimitiveSplitEndgameResult` at `.firstSecond` is its
+          -- `rotation1` branch; restate it so that `obtain` can destructure it.
           change
             ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
               orderedTrace a.multiplier a.a2
@@ -265,6 +173,7 @@ private theorem
                 OrderedTraceCandidateRegular
                   a.a2 a.a1 a.a3 (splitTorusTrace v)
             at hfirstResult
+          -- First move: a `rotation1` segment to a primitive second-axis state.
           obtain ⟨n₁, v₁, hn₁, hv₁Order, hv₁Regular⟩ :=
             hfirstResult
           let middle : SolutionSurface a :=
@@ -275,6 +184,8 @@ private theorem
               coe_iterate_rotation1SurfacePerm a point n₁
           have hmiddleTrace :
               traceAt a .second middle.1 = splitTorusTrace v₁ := by
+            -- `traceAt a .second` unfolds to `orderedTrace a.multiplier a.a2 _.x2`;
+            -- restate so that after `rw [hmiddlePoint]` the goal is `hn₁`.
             change
               orderedTrace a.multiplier a.a2 middle.1.x2 =
                 splitTorusTrace v₁
@@ -292,6 +203,8 @@ private theorem
             simpa [middle, rotationSurfacePermAt] using
               sameRotationComponent_iterate_rotationSurfacePermAt
                 a .first point n₁
+          -- Second move: `v₁ ^ 2` has order `(p - 1) / 2 ≥ p ^ (3/4)`, so
+          -- `hprimitive` gives a `rotation2` segment back to the first axis.
           have hv₁SquareOrder :
               orderOf (v₁ ^ 2) = (p - 1) / 2 :=
             orderOf_sq_eq_half_sub_one_of_primitive
@@ -308,6 +221,8 @@ private theorem
               hmiddleTrace
           have hsecondResult :=
             hprimitive middleState v₁ hmiddleEigen hv₁Large
+          -- `middleState` has direction `.secondFirst`, so the endgame result
+          -- is its `rotation2` branch; restate it so that `obtain` applies.
           change
             ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
               orderedTrace a.multiplier a.a1
@@ -327,6 +242,8 @@ private theorem
               coe_iterate_rotation2SurfacePerm a middle n₂
           have hfinishTrace :
               traceAt a .first finish.1 = splitTorusTrace v₂ := by
+            -- `traceAt a .first` unfolds to `orderedTrace a.multiplier a.a1 _.x1`;
+            -- restate so that after `rw [hfinishPoint]` the goal is `hn₂`.
             change
               orderedTrace a.multiplier a.a1 finish.1.x1 =
                 splitTorusTrace v₂
@@ -345,105 +262,11 @@ private theorem
           rw [hfinishTrace]
           exact hv₂Regular
 
-/-- Every sufficiently large split alternating endgame state reaches the
-canonical first-axis target. -/
-theorem
-    exists_threshold_alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)),
-        a.a1 ^ 2 ≠ 4 →
-        a.a2 ^ 2 ≠ 4 →
-        ∀ (state : AlternatingRegularState a) (q : (ZMod p)ˣ),
-          traceAt a state.direction.fixed state.point.1 =
-              splitTorusTrace q →
-          (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2) →
-          ∃ finish : SolutionSurface a,
-            SameRotationComponent state.point finish ∧
-              IsCanonicalFirstAxisPrimitiveSplit p a finish := by
-  obtain ⟨startThreshold, hstart⟩ :=
-    exists_threshold_alternatingRegularState_actualSplitPrimitiveEndgame
-      coefficient hWeil hdelta
-  obtain ⟨primitiveThreshold, hprimitive⟩ :=
-    exists_threshold_alternatingRegularState_actualSplitPrimitiveEndgame
-      coefficient hWeil
-        (delta := (1 : ℝ) / 4) (by norm_num)
-  obtain ⟨squareThreshold, hsquare⟩ :=
-    exists_threshold_threeQuarter_le_half_sub_one
-  refine
-    ⟨max (max startThreshold primitiveThreshold)
-        (max squareThreshold 3), ?_⟩
-  intro p hp _ a hA1 hA2 state q heigen hlarge
-  have hpStart : startThreshold ≤ p :=
-    (Nat.le_max_left startThreshold primitiveThreshold).trans
-      ((Nat.le_max_left
-        (max startThreshold primitiveThreshold)
-        (max squareThreshold 3)).trans hp)
-  have hpPrimitive : primitiveThreshold ≤ p :=
-    (Nat.le_max_right startThreshold primitiveThreshold).trans
-      ((Nat.le_max_left
-        (max startThreshold primitiveThreshold)
-        (max squareThreshold 3)).trans hp)
-  have hpSquare : squareThreshold ≤ p :=
-    (Nat.le_max_left squareThreshold 3).trans
-      ((Nat.le_max_right
-        (max startThreshold primitiveThreshold)
-        (max squareThreshold 3)).trans hp)
-  have hpThree : 3 ≤ p :=
-    (Nat.le_max_right squareThreshold 3).trans
-      ((Nat.le_max_right
-        (max startThreshold primitiveThreshold)
-        (max squareThreshold 3)).trans hp)
-  exact
-    alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p (by omega) a state
-      (hstart p hpStart a hA1 hA2 state q heigen hlarge)
-      (fun next v hnext hnextLarge =>
-        hprimitive p hpPrimitive a hA1 hA2 next v hnext hnextLarge)
-      (hsquare p hpSquare)
-
-/-- The closed analytic cutoff suffices for the split assembly whenever the
-initial exponent is at least `1/32` and the augmented coefficient is at most
-`1032`. -/
-theorem alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
-    (state : AlternatingRegularState a) (q : (ZMod p)ˣ)
-    (heigen :
-      traceAt a state.direction.fixed state.point.1 = splitTorusTrace q)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (q ^ 2)) :
-    ∃ finish : SolutionSurface a,
-      SameRotationComponent state.point finish ∧
-        IsCanonicalFirstAxisPrimitiveSplit p a finish := by
-  have hpTwo : p ≠ 2 := by
-    have hpFive :=
-      GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-    omega
-  exact
-    alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
-      p hpTwo a state
-      (alternatingRegularState_actualSplitPrimitiveEndgame_of_analyticCutoff
-        coefficient hWeil hdelta hcoefficient p hp
-          a hA1 hA2 state q heigen hlarge)
-      (fun next v hnext hnextLarge =>
-        alternatingRegularState_actualSplitPrimitiveEndgame_of_analyticCutoff
-          coefficient hWeil (delta := (1 : ℝ) / 4) (by norm_num)
-            hcoefficient p hp a hA1 hA2 next v hnext hnextLarge)
-      (threeQuarter_le_half_sub_one_of_analyticCutoff hp)
-
-/-- The reasonable cutoff version of the canonical split assembly.  The
-initial and return steps both use the divisor-moment primitive trace
-inequality at exponent `1/4`. -/
+/-- Beyond `reasonableAnalyticCutoff`, with `a₁ ^ 2 ≠ 4` and `a₂ ^ 2 ≠ 4`, an
+alternating regular state whose fixed trace is `q + q⁻¹` with
+`p ^ (1/2 + delta) ≤ orderOf (q ^ 2)` for some `delta ≥ 1/4` reaches a
+canonical primitive split first-axis point in its rotation component.  Both
+moves use `alternatingRegularState_actualSplitPrimitiveEndgame_of_reasonableCutoff`. -/
 theorem alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_reasonableCutoff
     (coefficient : ℕ)
     (hWeil : WeightedShiftedTraceWeilBoundAssumption coefficient)
@@ -467,7 +290,7 @@ theorem alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_reas
       GenMarkoff.General.Explicit.five_le_reasonableAnalyticCutoff.trans hp
     omega
   exact
-    alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit_of_dispatchers
+    alternatingRegularState_reaches_canonicalFirstAxisPrimitiveSplit
       p hpTwo a state
       (alternatingRegularState_actualSplitPrimitiveEndgame_of_reasonableCutoff
         coefficient hWeil hdelta hcoefficient p hp

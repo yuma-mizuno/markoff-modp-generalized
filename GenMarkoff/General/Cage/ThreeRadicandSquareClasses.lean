@@ -1,4 +1,4 @@
-import GenMarkoff.General.Cage.ConnectingPairwiseCoprime
+import GenMarkoff.General.Cage.Connecting.PairwiseCoprime
 import BGS.Markoff.Incidence.Geometry
 
 /-!
@@ -9,6 +9,9 @@ each nonempty product of three radicands.  Pairwise coprimality and
 squarefreeness make all seven products squarefree.  If the three individual
 radicands are nonunits, all seven products are therefore nonsquares in the
 rational function field.
+
+The last theorem applies this to the two incidence pullbacks of a connecting
+incidence pair and the reduced centered-norm pullback.
 -/
 
 namespace GenMarkoff.General.Cage
@@ -97,9 +100,11 @@ theorem sevenRadicandProducts_not_isSquare_ratFunc
     exact hfUnit
       (IsUnit.mul_iff.mp (IsUnit.mul_iff.mp hunit).1).1
 
-/-- The three unequal connecting-cage radicands have all seven nontrivial
-rational-function square classes after replacing the centered pullback by
-its reduced representative. -/
+/-- For a connecting incidence pair `(xi, eta)` of candidate-regular traces,
+the incidence pullbacks `incidencePulledRadicand a xi d`,
+`incidencePulledRadicand a eta d` and the reduced centered-norm pullback
+`centeredNormReducedPulledRadicand a.a3 a.a1 d` have all seven nonempty
+products nonsquare in `RatFunc K`. -/
 theorem connectingSevenRadicandProducts_not_isSquare_ratFunc
     (h2 : (2 : K) ≠ 0)
     {a : Coefficients K} {xi eta : K}

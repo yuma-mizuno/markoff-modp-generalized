@@ -4,16 +4,20 @@ import GenMarkoff.General.Assembly.RegularMiddleIteration
 import GenMarkoff.General.Assembly.RotationComponent
 
 /-!
-# Source-order-preserving coarse startup
+# Coarse startup of the regular middle game
 
-The eventual startup first found a large first/second rotation cycle and then
-changed the active axis to obtain candidate regularity.  That change costs one
-extra factor of the simultaneous divisor count.
+Write `T = #divisors (p - 1) + #divisors (p + 1)` and
+`coarseRegularBound p = (192 T)^3 + 1`.  Beyond `reasonableAnalyticCutoff`,
+every `p`-divisible punctured rotation orbit contains an alternating
+candidate-regular state of actual order at least `coarseRegularBound p`
+(`exists_sameRotationComponent_coarseRegularState_of_dvd`).
 
-For the first explicit reasonable cutoff we instead count, on both axes at
-once, the trace labels which are either small-order or roots of the ordered
-safe polynomial.  A point outside that trace-pair set is already an
-alternating candidate-regular source, so its actual order is preserved.
+The count is made on both axes at once: fewer than `p` surface points have
+both their first and second traces of small actual order or at a root of an
+ordered safe polynomial, so some point of the orbit has a first- or
+second-axis trace that is candidate regular of large order
+(`exists_mem_rotationOrbit_with_candidateRegular_large_first_or_second_of_dvd`).
+That point is used directly as the starting state.
 -/
 
 namespace GenMarkoff.General.Assembly
@@ -23,20 +27,23 @@ open GenMarkoff.General.Explicit
 
 noncomputable section
 
-/-- The strict actual-order threshold at which the coefficient-`192`
-Corvaja--Zannier cube is available. -/
+/-- The actual-order threshold `(192 T)^3 + 1`, with
+`T = #divisors (p - 1) + #divisors (p + 1)`, above which the middle game's
+Corvaja--Zannier cube estimate applies. -/
 def coarseRegularBound (p : ℕ) : ℕ :=
   let T := (p - 1).divisors.card + (p + 1).divisors.card
   (192 * T) ^ 3 + 1
 
+/-- The cube `(192 T)^3` lies strictly below `coarseRegularBound p`. -/
 theorem corvajaZannierCube_lt_coarseRegularBound (p : ℕ) :
     (192 * ((p - 1).divisors.card + (p + 1).divisors.card)) ^ 3 <
       coarseRegularBound p := by
   simp [coarseRegularBound]
 
-/-- A `p`-divisible punctured component contains an alternating
-candidate-regular state beyond the Corvaja--Zannier cube, at the reasonable
-cutoff. -/
+/-- Beyond `reasonableAnalyticCutoff`, for coefficients with nonzero
+multiplier and `a₁ ^ 2 ≠ 4`, `a₂ ^ 2 ≠ 4`, a `p`-divisible punctured rotation
+orbit contains an alternating candidate-regular state of actual order at
+least `coarseRegularBound p`. -/
 theorem exists_sameRotationComponent_coarseRegularState_of_dvd
     (p : ℕ) [Fact p.Prime] (hpTwo : p ≠ 2)
     (hpCutoff : reasonableAnalyticCutoff ≤ p)

@@ -1,17 +1,19 @@
-import GenMarkoff.General.Cage.ConnectingDirectedRelay
+import GenMarkoff.General.Cage.Connecting.DirectedRelay
 
 /-!
 # Cyclic transport of full-Vieta strong approximation
 
-The unequal connecting cage is most economical in a coefficient ordering
-whose first coefficient is nonzero.  This file records that changing the
-ordering by a cyclic permutation does not change the mathematical content:
-coefficients and coordinates are cycled simultaneously, and the Vieta words
-are transported through the explicit intertwining proved in
-`ConnectingDirectedRelay`.
-
-No coordinate permutation is asserted to preserve a fixed unequal
-coefficient triple.
+The connecting-cage argument needs a coefficient ordering whose first
+coefficient is nonzero.  This file shows that Vieta strong approximation for
+a cyclically permuted coefficient triple (`directedCycleLeftCoefficients`,
+`directedCycleRightCoefficients`) implies it for the original triple.
+Coefficients and coordinates are cycled simultaneously, and Vieta words are
+transported by `sameVietaComponent_of_directedCycleLeft` and
+`sameVietaComponent_of_directedCycleRight` from
+`GenMarkoff.General.Cage.Connecting.DirectedRelay`.  It also records that
+integral nondegeneracy is invariant under cycling, and defines
+`firstCoefficientNonzeroCutoff`, beyond which a nonzero integral first
+coefficient stays nonzero modulo `p`.
 -/
 
 namespace GenMarkoff.General.Assembly
@@ -165,6 +167,8 @@ theorem vietaStrongApproximationAt_of_directedCycleLeft
         (directedCycleLeftCoefficients a) p hp) :
     VietaStrongApproximationAt a p hp := by
   letI : Fact p.Prime := ⟨hp⟩
+  -- Unfold `VietaStrongApproximationAt` in `h` so that its coefficients
+  -- `modCoefficients (directedCycleLeftCoefficients a) p` can be rewritten.
   change
     ∀ x y :
         PuncturedSolutionSurface
@@ -174,6 +178,8 @@ theorem vietaStrongApproximationAt_of_directedCycleLeft
             (modCoefficients (directedCycleLeftCoefficients a) p),
         g • x = y at h
   rw [modCoefficients_directedCycleLeftCoefficients] at h
+  -- Unfold `VietaStrongApproximationAt` in the goal to the punctured
+  -- transitivity statement concluded by `vietaTransitive_of_directedCycleLeft`.
   change
     ∀ x y : PuncturedSolutionSurface (modCoefficients a p),
       ∃ g : VietaGroup (modCoefficients a p), g • x = y
@@ -190,6 +196,8 @@ theorem vietaStrongApproximationAt_of_directedCycleRight
         (directedCycleRightCoefficients a) p hp) :
     VietaStrongApproximationAt a p hp := by
   letI : Fact p.Prime := ⟨hp⟩
+  -- Unfold `VietaStrongApproximationAt` in `h` so that its coefficients
+  -- `modCoefficients (directedCycleRightCoefficients a) p` can be rewritten.
   change
     ∀ x y :
         PuncturedSolutionSurface
@@ -199,70 +207,14 @@ theorem vietaStrongApproximationAt_of_directedCycleRight
             (modCoefficients (directedCycleRightCoefficients a) p),
         g • x = y at h
   rw [modCoefficients_directedCycleRightCoefficients] at h
+  -- Unfold `VietaStrongApproximationAt` in the goal to the punctured
+  -- transitivity statement concluded by `vietaTransitive_of_directedCycleRight`.
   change
     ∀ x y : PuncturedSolutionSurface (modCoefficients a p),
       ∃ g : VietaGroup (modCoefficients a p), g • x = y
   exact
     vietaTransitive_of_directedCycleRight
       (modCoefficients a p) h
-
-/-- Eventual Vieta strong approximation for the left-cycled integral
-coefficient triple pulls back to the original triple. -/
-theorem eventuallyVietaStrongApproximation_of_directedCycleLeft
-    (a : Coefficients ℤ)
-    (h :
-      EventuallyVietaStrongApproximation
-        (directedCycleLeftCoefficients a)) :
-    EventuallyVietaStrongApproximation a := by
-  obtain ⟨threshold, hthreshold⟩ := h
-  refine ⟨threshold, ?_⟩
-  intro p hp hpLarge
-  letI : Fact p.Prime := ⟨hp⟩
-  have hcycled := hthreshold p hp hpLarge
-  change
-    ∀ x y :
-        PuncturedSolutionSurface
-          (modCoefficients (directedCycleLeftCoefficients a) p),
-      ∃ g :
-          VietaGroup
-            (modCoefficients (directedCycleLeftCoefficients a) p),
-        g • x = y at hcycled
-  rw [modCoefficients_directedCycleLeftCoefficients] at hcycled
-  change
-    ∀ x y : PuncturedSolutionSurface (modCoefficients a p),
-      ∃ g : VietaGroup (modCoefficients a p), g • x = y
-  exact
-    vietaTransitive_of_directedCycleLeft
-      (modCoefficients a p) hcycled
-
-/-- Eventual Vieta strong approximation for the right-cycled integral
-coefficient triple pulls back to the original triple. -/
-theorem eventuallyVietaStrongApproximation_of_directedCycleRight
-    (a : Coefficients ℤ)
-    (h :
-      EventuallyVietaStrongApproximation
-        (directedCycleRightCoefficients a)) :
-    EventuallyVietaStrongApproximation a := by
-  obtain ⟨threshold, hthreshold⟩ := h
-  refine ⟨threshold, ?_⟩
-  intro p hp hpLarge
-  letI : Fact p.Prime := ⟨hp⟩
-  have hcycled := hthreshold p hp hpLarge
-  change
-    ∀ x y :
-        PuncturedSolutionSurface
-          (modCoefficients (directedCycleRightCoefficients a) p),
-      ∃ g :
-          VietaGroup
-            (modCoefficients (directedCycleRightCoefficients a) p),
-        g • x = y at hcycled
-  rw [modCoefficients_directedCycleRightCoefficients] at hcycled
-  change
-    ∀ x y : PuncturedSolutionSurface (modCoefficients a p),
-      ∃ g : VietaGroup (modCoefficients a p), g • x = y
-  exact
-    vietaTransitive_of_directedCycleRight
-      (modCoefficients a p) hcycled
 
 /-- Integral nondegeneracy is invariant under left cycling. -/
 theorem integrallyNondegenerate_directedCycleLeft_iff
@@ -284,8 +236,8 @@ theorem integrallyNondegenerate_directedCycleRight_iff
   simp only [directedCycleRightCoefficients]
   tauto
 
-/-- A cutoff after which a fixed nonzero first integral coefficient remains
-nonzero modulo every prime (indeed, modulo every larger positive modulus). -/
+/-- The cutoff `|a₁| + 1`: a nonzero integral first coefficient stays
+nonzero modulo every `p` at or beyond it. -/
 def firstCoefficientNonzeroCutoff (a : Coefficients ℤ) : ℕ :=
   a.a1.natAbs + 1
 

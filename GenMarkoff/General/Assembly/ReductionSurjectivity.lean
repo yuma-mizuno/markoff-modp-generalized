@@ -1,4 +1,6 @@
 import GenMarkoff.Core.Statements
+import Mathlib.Data.ZMod.Basic
+import Mathlib.Algebra.Category.Ring.Basic
 
 /-!
 # Reduction surjectivity from Vieta connectedness
@@ -35,8 +37,9 @@ def fixedIntegralCoefficientSurfaceFunctor
       simpa only [Set.mem_setOf_eq, map_add, map_sub, map_mul, map_pow,
         map_zero, map_ofNat, map_intCast] using congrArg f.hom hx⟩
 
-/-- The public triple presentation of the fixed integral surface agrees with
-the structured solution surface used by the Vieta action. -/
+/-- The triple presentation `fixedIntegralCoefficientSurfaceFunctor` of the
+fixed integral surface agrees with the structured solution surface used by
+the Vieta action. -/
 def fixedIntegralCoefficientSurfaceEquivSolutionSurface
     (a : Coefficients ℤ) (R : Type) [CommRing R] :
     (fixedIntegralCoefficientSurfaceFunctor a).obj (CommRingCat.of R) ≃
@@ -59,12 +62,6 @@ def fixedIntegralCoefficientSurfaceEquivSolutionSurface
     cases x.1
     rfl
 
-/-- Apply a ring homomorphism coordinatewise to a point. -/
-def coordinatewisePointMap
-    {R : Type u} {S : Type v} [CommRing R] [CommRing S]
-    (f : R →+* S) (x : Point R) : Point S :=
-  ⟨f x.x1, f x.x2, f x.x3⟩
-
 /-- Coordinatewise base change on the structured surface attached to a fixed
 integral coefficient triple. -/
 def fixedIntegralCoefficientSurfaceMap
@@ -72,10 +69,12 @@ def fixedIntegralCoefficientSurfaceMap
     [CommRing R] [CommRing S] (f : R →+* S) :
     SolutionSurface (a.intCast R) → SolutionSurface (a.intCast S) :=
   fun x ↦
-    ⟨coordinatewisePointMap f x.1, by
-      change polynomial (a.intCast S) (coordinatewisePointMap f x.1) = 0
+    ⟨Point.map f x.1, by
+      -- `IsSolution` unfolds to `polynomial _ _ = 0`; state the equation so
+      -- that `simpa` can match it with the image of `x.2` under `f`.
+      change polynomial (a.intCast S) (Point.map f x.1) = 0
       have hmap := congrArg f x.2
-      simpa [IsSolution, polynomial, coordinatewisePointMap,
+      simpa [IsSolution, polynomial, Point.map,
         Coefficients.intCast, Coefficients.multiplier, map_ofNat] using hmap⟩
 
 @[simp]
@@ -101,7 +100,7 @@ theorem fixedIntegralCoefficientSurfaceMap_origin
       surfaceOrigin (a.intCast S) := by
   apply Subtype.ext
   ext <;>
-    simp [fixedIntegralCoefficientSurfaceMap, coordinatewisePointMap,
+    simp [fixedIntegralCoefficientSurfaceMap, Point.map,
       surfaceOrigin, origin]
 
 @[simp]
@@ -113,7 +112,7 @@ theorem fixedIntegralCoefficientSurfaceMap_unit
       surfaceUnit (a.intCast S) := by
   apply Subtype.ext
   ext <;>
-    simp [fixedIntegralCoefficientSurfaceMap, coordinatewisePointMap,
+    simp [fixedIntegralCoefficientSurfaceMap, Point.map,
       surfaceUnit, unitPoint]
 
 @[simp]
@@ -126,10 +125,12 @@ theorem fixedIntegralCoefficientSurfaceMap_vieta1
       vieta1SurfacePerm (a.intCast S)
         (fixedIntegralCoefficientSurfaceMap a f x) := by
   apply Subtype.ext
-  change coordinatewisePointMap f (vieta1 (a.intCast R) x.1) =
-    vieta1 (a.intCast S) (coordinatewisePointMap f x.1)
+  -- `fixedIntegralCoefficientSurfaceMap` is `Point.map f` on values and
+  -- `vieta1SurfacePerm` is `vieta1`; restate on points so `ext; simp` applies.
+  change Point.map f (vieta1 (a.intCast R) x.1) =
+    vieta1 (a.intCast S) (Point.map f x.1)
   ext <;>
-    simp [coordinatewisePointMap, vieta1, Coefficients.intCast,
+    simp [Point.map, vieta1, Coefficients.intCast,
       Coefficients.multiplier, map_ofNat]
 
 @[simp]
@@ -142,10 +143,12 @@ theorem fixedIntegralCoefficientSurfaceMap_vieta2
       vieta2SurfacePerm (a.intCast S)
         (fixedIntegralCoefficientSurfaceMap a f x) := by
   apply Subtype.ext
-  change coordinatewisePointMap f (vieta2 (a.intCast R) x.1) =
-    vieta2 (a.intCast S) (coordinatewisePointMap f x.1)
+  -- `fixedIntegralCoefficientSurfaceMap` is `Point.map f` on values and
+  -- `vieta2SurfacePerm` is `vieta2`; restate on points so `ext; simp` applies.
+  change Point.map f (vieta2 (a.intCast R) x.1) =
+    vieta2 (a.intCast S) (Point.map f x.1)
   ext <;>
-    simp [coordinatewisePointMap, vieta2, Coefficients.intCast,
+    simp [Point.map, vieta2, Coefficients.intCast,
       Coefficients.multiplier, map_ofNat]
 
 @[simp]
@@ -158,10 +161,12 @@ theorem fixedIntegralCoefficientSurfaceMap_vieta3
       vieta3SurfacePerm (a.intCast S)
         (fixedIntegralCoefficientSurfaceMap a f x) := by
   apply Subtype.ext
-  change coordinatewisePointMap f (vieta3 (a.intCast R) x.1) =
-    vieta3 (a.intCast S) (coordinatewisePointMap f x.1)
+  -- `fixedIntegralCoefficientSurfaceMap` is `Point.map f` on values and
+  -- `vieta3SurfacePerm` is `vieta3`; restate on points so `ext; simp` applies.
+  change Point.map f (vieta3 (a.intCast R) x.1) =
+    vieta3 (a.intCast S) (Point.map f x.1)
   ext <;>
-    simp [coordinatewisePointMap, vieta3, Coefficients.intCast,
+    simp [Point.map, vieta3, Coefficients.intCast,
       Coefficients.multiplier, map_ofNat]
 
 /-- Every Vieta word over the target ring lifts to the same word over the
@@ -183,6 +188,7 @@ theorem exists_fixedIntegralVietaGroup_lift
           fixedIntegralCoefficientSurfaceMap a f (h • x) =
             (⟨q, hq⟩ : VietaGroup (a.intCast S)) •
               fixedIntegralCoefficientSurfaceMap a f x
+  -- Closure induction: the three generators, `1`, products and inverses.
   apply Subgroup.closure_induction (p := motive)
   · intro q hq
     simp only [vietaGenerators, Set.mem_insert_iff,
@@ -201,6 +207,8 @@ theorem exists_fixedIntegralVietaGroup_lift
             vieta3SurfacePerm_mem_VietaGroup (a.intCast R)⟩, fun x ↦ ?_⟩
       exact fixedIntegralCoefficientSurfaceMap_vieta3 a f x
   · refine ⟨1, fun x ↦ ?_⟩
+    -- The subgroup element `⟨1, _⟩` is `(1 : VietaGroup _)` by definition;
+    -- restate with `1` so that `simp` can use `one_smul`.
     change fixedIntegralCoefficientSurfaceMap a f
         ((1 : VietaGroup (a.intCast R)) • x) =
       (1 : VietaGroup (a.intCast S)) •
@@ -210,6 +218,8 @@ theorem exists_fixedIntegralVietaGroup_lift
     obtain ⟨qR, hqR⟩ := hqLift
     obtain ⟨rR, hrR⟩ := hrLift
     refine ⟨qR * rR, fun x ↦ ?_⟩
+    -- The subgroup element `⟨q * r, _⟩` is the product `⟨q, hq⟩ * ⟨r, hr⟩` by
+    -- definition; restate as a product so that `mul_smul` rewrites it.
     change fixedIntegralCoefficientSurfaceMap a f ((qR * rR) • x) =
       ((⟨q, hq⟩ : VietaGroup (a.intCast S)) *
         (⟨r, hr⟩ : VietaGroup (a.intCast S))) •
@@ -218,6 +228,8 @@ theorem exists_fixedIntegralVietaGroup_lift
   · intro q hq hqLift
     obtain ⟨qR, hqR⟩ := hqLift
     refine ⟨qR⁻¹, fun x ↦ ?_⟩
+    -- The subgroup element `⟨q⁻¹, _⟩` is the inverse `⟨q, hq⟩⁻¹` by
+    -- definition; restate as an inverse so that `hqR` and `mul_smul` apply.
     change fixedIntegralCoefficientSurfaceMap a f (qR⁻¹ • x) =
       (⟨q, hq⟩ : VietaGroup (a.intCast S))⁻¹ •
         fixedIntegralCoefficientSurfaceMap a f x
@@ -235,6 +247,9 @@ theorem reduction_surjective_of_vietaStrongApproximationAt
       ((fixedIntegralCoefficientSurfaceFunctor a).map
         (CommRingCat.ofHom (Int.castRingHom (ZMod p)))) := by
   letI : Fact p.Prime := ⟨hp⟩
+  -- `VietaStrongApproximationAt` unfolds, through
+  -- `modCoefficients a p = a.intCast (ZMod p)`, to punctured transitivity;
+  -- restate it with `a.intCast`, the coefficients used below.
   change
     ∀ x y : PuncturedSolutionSurface (a.intCast (ZMod p)),
       ∃ g : VietaGroup (a.intCast (ZMod p)), g • x = y
@@ -244,6 +259,8 @@ theorem reduction_surjective_of_vietaStrongApproximationAt
         (fixedIntegralCoefficientSurfaceMap a
           (Int.castRingHom (ZMod p))) := by
     intro y
+    -- The origin lifts to the origin; any other point is the image of
+    -- `(1, 1, 1)` under a Vieta word, which lifts to the integers.
     by_cases hy : y = surfaceOrigin (a.intCast (ZMod p))
     · refine ⟨surfaceOrigin (a.intCast ℤ), ?_⟩
       simp [hy]
@@ -273,8 +290,11 @@ theorem reduction_surjective_of_vietaStrongApproximationAt
               (Int.castRingHom (ZMod p)))
         _ = y := by
           have hval := congrArg Subtype.val hg
+          -- The punctured action is `g • _` on values, `root.1` is
+          -- `surfaceUnit _` and `target.1` is `y`; restate `hval` accordingly.
           change g • surfaceUnit (a.intCast (ZMod p)) = y at hval
           exact hval
+  -- Transfer surjectivity to the triple presentation of the functor.
   intro y
   obtain ⟨x, hx⟩ :=
     hsurface
@@ -284,21 +304,5 @@ theorem reduction_surjective_of_vietaStrongApproximationAt
   apply
     (fixedIntegralCoefficientSurfaceEquivSolutionSurface a (ZMod p)).injective
   simpa using hx
-
-/-- Eventual Vieta strong approximation gives eventual surjectivity of
-coordinatewise reduction from the fixed integral generalized surface. -/
-theorem
-    eventually_reduction_surjective_of_eventuallyVietaStrongApproximation
-    (a : Coefficients ℤ)
-    (htransitive : EventuallyVietaStrongApproximation a) :
-    ∃ p0 : ℕ, ∀ (p : ℕ) (_hp : p.Prime), p0 ≤ p →
-      Function.Surjective
-        ((fixedIntegralCoefficientSurfaceFunctor a).map
-          (CommRingCat.ofHom (Int.castRingHom (ZMod p)))) := by
-  obtain ⟨p0, hp0⟩ := htransitive
-  refine ⟨p0, ?_⟩
-  intro p hp hpLarge
-  exact reduction_surjective_of_vietaStrongApproximationAt
-    a p hp (hp0 p hp hpLarge)
 
 end GenMarkoff.General.Assembly

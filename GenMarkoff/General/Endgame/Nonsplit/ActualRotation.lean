@@ -1,5 +1,7 @@
 import GenMarkoff.General.Endgame.Nonsplit.RegularPrimitiveCount
-import GenMarkoff.General.Arithmetic.ExplicitCutoff
+import GenMarkoff.General.Endgame.ActualSplitRotation
+import BGS.NumberTheory.ExplicitDivisorBound
+import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
 import GenMarkoff.General.Arithmetic.ReasonableCutoff
 import GenMarkoff.General.Assembly.RegularMiddleIteration
 import GenMarkoff.General.MiddleGame.ActualOrderGrowth
@@ -9,40 +11,33 @@ import BGS.Markoff.Endgame.PrimitiveOrbitWiring
 /-!
 # Fixed-coefficient descended nonsplit actual-rotation endgame
 
-This file treats the explicit first-to-second ordered frame.  A base-field
-point on the first-coordinate nonsplit fiber is diagonalized over the
-canonical quadratic extension in moving-coordinate order `(x₂,x₃)`.  Its
-initial eigen-parameter gives a norm-`actualSigma` seed for the descended
-nonsplit cover.
+Nonsplit analogue of `GenMarkoff.General.Endgame.ActualSplitRotation`.  Here the
+trace `t` on the fixed axis is `quadraticNormOneTrace p w` for a norm-one
+eigenvalue `w` in `quadraticFiniteField p`.  A base-field point on the fiber is
+diagonalized over the quadratic extension in its ordered moving coordinates.
+Frobenius fixes both coordinates of the ordered affine center and sends the
+eigen-parameter to the reciprocal parameter (`actualFiberParameter_frobenius`),
+so the initial parameter, scaled by the leading weight, is a seed in the norm
+fiber of `actualSigma`.  Along the forward rotation orbit, the adjacent trace is
+then the descended nonsplit shifted trace of this seed, and the descended
+primitive count of `GenMarkoff.General.Endgame.Nonsplit.RegularPrimitiveCount`
+gives an iterate whose adjacent trace is primitive on the split torus and
+candidate regular in a prescribed target frame.
 
-## New considerations
+* First to second: `rotation1` acts on `fiberPoint1` with moving coordinates
+  `(x₂, x₃)`; the seed is `actualAlpha s * h` and the shift is
+  `actualGammaFirst`.  The current frame is `(a.a1, a.a2, a.a3)` and the
+  target frame is `(a.a2, targetB, targetC)`.
+* Second to first: `rotation2` acts on `fiberPoint2` with moving coordinates
+  `(x₃, x₁)`; the output `x₁` is the second moving coordinate, so the seed is
+  `s * w * h` and the shift is `actualGammaSecond`.  The current frame is
+  `(a.a2, a.a1, a.a3)` and the target frame is `(a.a1, targetB, targetC)`.
 
-* The unequal-coefficient affine center is an ordered pair.  Frobenius must
-  be checked separately on its two coordinates before it exchanges the two
-  eigen-parameters.
-* The actual fixed-coefficient generator is `rotation1`, so one iteration
-  multiplies the eigen-parameter by `q ^ 2`.  Every power-range exponent,
-  divisibility theorem, order hypothesis, and uniform threshold below uses
-  `w ^ 2`, never the unsquared nonsplit eigenvalue `w`.
-* The primitive output is required to be candidate regular in the explicit
-  target frame `(a.a2, targetB, targetC)`.  The descended count therefore
-  loses forty pairs and requires nonparabolicity precisely of `a.a2` and
-  `targetB`.
-* In the reverse second-to-first direction, `fiberPoint2` keeps the moving
-  coordinates in the order `(x3, x1)`.  The first-coordinate output is
-  therefore the second moving coordinate, its leading seed is
-  `s * q * h`, and its affine shift is `actualGammaSecond`.
-* Multiplication by the norm-one eigenvalue `q` does not change the required
-  norm fiber, but that factor must be retained in both the descended seed and
-  the exact trace identity.  The reverse regular frame is
-  `(a.a2, a.a1, a.a3)`, while its target frame is
-  `(a.a1, targetB, targetC)`.
-* The reverse `rotation2` action also advances by the square `w ^ 2`.
-  Frobenius, reachability, complementary exponents, and uniform order bounds
-  are consequently stated with the same squared nonsplit eigenvalue.
-
-The coefficient triple remains fixed throughout; no coordinate permutation
-is used.
+Each rotation multiplies the eigen-parameter by `w ^ 2`, so reachability,
+complementary exponents and order hypotheses are stated with `w ^ 2`.  The
+reasonable-cutoff versions assume `p ^ (1/2 + delta) ≤ orderOf (w ^ 2)` with
+`delta ≥ 1/4`.  The coefficient triple remains fixed throughout; no
+coordinate permutation is used.
 -/
 
 namespace GenMarkoff.General.Endgame.Nonsplit
@@ -50,7 +45,7 @@ namespace GenMarkoff.General.Endgame.Nonsplit
 open BGS.Markoff
 open GenMarkoff.General.Assembly
 open GenMarkoff.General.MiddleGame
-open GenMarkoff.Symmetric.Endgame.Nonsplit
+open GenMarkoff.ShiftedTrace.Endgame.Nonsplit
 
 noncomputable section
 
@@ -67,6 +62,7 @@ theorem actualSigmaUnit_val {K : Type*} [Field K]
       actualSigma s B C u t :=
   rfl
 
+/-- `centeredFiberProduct` commutes with field homomorphisms. -/
 theorem map_centeredFiberProduct
     {K L : Type*} [Field K] [Field L] (f : K →+* L)
     (B C u t : K) :
@@ -75,11 +71,13 @@ theorem map_centeredFiberProduct
   simp [centeredFiberProduct, centeredNorm, discriminant, map_sub,
     map_add, map_mul, map_pow, map_div₀, map_ofNat]
 
+/-- `actualAlpha` commutes with field homomorphisms. -/
 theorem map_actualAlpha
     {K L : Type*} [Field K] [Field L] (f : K →+* L) (s : K) :
     f (actualAlpha s) = actualAlpha (f s) := by
   simp [actualAlpha]
 
+/-- `actualBeta` commutes with field homomorphisms. -/
 theorem map_actualBeta
     {K L : Type*} [Field K] [Field L] (f : K →+* L)
     (s B C u t : K) :
@@ -87,6 +85,7 @@ theorem map_actualBeta
       actualBeta (f s) (f B) (f C) (f u) (f t) := by
   simp [actualBeta, map_centeredFiberProduct]
 
+/-- `actualSigma` commutes with field homomorphisms. -/
 theorem map_actualSigma
     {K L : Type*} [Field K] [Field L] (f : K →+* L)
     (s B C u t : K) :
@@ -95,6 +94,7 @@ theorem map_actualSigma
   rw [actualSigma, actualSigma, map_mul, map_actualAlpha,
     map_actualBeta]
 
+/-- `actualGammaFirst` commutes with field homomorphisms. -/
 theorem map_actualGammaFirst
     {K L : Type*} [Field K] [Field L] (f : K →+* L)
     (s B C u t : K) :
@@ -103,6 +103,7 @@ theorem map_actualGammaFirst
   simp [actualGammaFirst, fiberCenter, discriminant, map_sub,
     map_add, map_mul, map_pow, map_div₀, map_ofNat]
 
+/-- `actualGammaSecond` commutes with field homomorphisms. -/
 theorem map_actualGammaSecond
     {K L : Type*} [Field K] [Field L] (f : K →+* L)
     (s B C u t : K) :
@@ -135,6 +136,7 @@ theorem actualFiberParameter_frobenius
           algebraMap (ZMod p) (quadraticFiniteField p) v.2) := by
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
+  -- Frobenius swaps `w` and `w⁻¹` and fixes base-field values, e.g. both center coordinates.
   have hwFrobenius :
       (((w : Eˣ) : E) ^ p) =
         ((((w : Eˣ)⁻¹ : Eˣ) : E)) :=
@@ -175,6 +177,7 @@ theorem actualFiberParameter_frobenius
         hbase (u * (t * C + 2 * B) / discriminant t)
       _ = (fiberCenter (f B) (f C) (f u) (f t)).2 := by
         simp [fiberCenter, discriminant, map_ofNat]
+  -- Expand the `p`-th power of the quotient with these rules; the denominator changes sign.
   simp only [actualFiberParameter, actualFiberReciprocalParameter]
   rw [div_pow, sub_pow_char, sub_pow_char, mul_pow, sub_pow_char,
     sub_pow_char, hbase v.2, hcenterSecond, hbase v.1,
@@ -186,8 +189,10 @@ theorem actualFiberParameter_frobenius
   rw [hden, div_neg]
   ring
 
-/-- The descended trace of the norm-`actualSigma` seed equals the ordered
-second-axis trace of the corresponding extension-field fiber point. -/
+/-- Let `S = actualAlpha s * h` lie in the norm fiber of `actualSigma`.  For
+every norm-one `g`, the descended trace `Tr (S * g) + actualGammaFirst` equals,
+over `quadraticFiniteField p`, the trace of the first moving coordinate of
+`fiberPair` at the parameter `h * g`. -/
 theorem algebraMap_shiftedActualSeedTrace_eq_firstTrace_fiberPair
     (p : ℕ) [Fact p.Prime]
     (s B C u t : ZMod p)
@@ -244,6 +249,7 @@ theorem algebraMap_shiftedActualSeedTrace_eq_firstTrace_fiberPair
   rw [map_add, algebraMap_quadraticTrace, mul_pow, hSFrobenius,
     hgFrobenius]
   simp only [actualSigmaUnit_val, Units.val_mul]
+  -- Unfold `orderedTrace`, write `algebraMap` as `f`, keep `↑(h * g)`; for `firstTrace_fiberPair`.
   change
     (S.1 : E) * ((g : Eˣ) : E) +
           (f (actualSigma s B C u t) *
@@ -265,10 +271,11 @@ theorem algebraMap_shiftedActualSeedTrace_eq_firstTrace_fiberPair
   simp only [actualSigma]
   field_simp [hAlphaE, hAlphaTarget, hH, hg]
 
-/-- The descended trace of the reverse norm-`actualSigma` seed equals the
-ordered first-axis trace of the corresponding second-axis extension-field
-fiber point.  The seed contains the eigenvalue factor because `x1` is the
-second moving coordinate in the ordered pair `(x3,x1)`. -/
+/-- Let `S = s * q * h` lie in the norm fiber of `actualSigma`.  For every
+norm-one `g`, the descended trace `Tr (S * g) + actualGammaSecond` equals, over
+`quadraticFiniteField p`, the trace of the second moving coordinate of
+`fiberPair` at the parameter `h * g`.  The factor `q` appears because the
+second moving coordinate of `torusPair q P h` is `q * h + P / (q * h)`. -/
 theorem algebraMap_shiftedActualSecondSeedTrace_eq_secondTrace_fiberPair
     (p : ℕ) [Fact p.Prime]
     (s B C u t : ZMod p)
@@ -326,6 +333,7 @@ theorem algebraMap_shiftedActualSecondSeedTrace_eq_secondTrace_fiberPair
   rw [map_add, algebraMap_quadraticTrace, mul_pow, hSFrobenius,
     hgFrobenius]
   simp only [actualSigmaUnit_val, Units.val_mul]
+  -- Unfold `orderedTrace`, write `algebraMap` as `f`, keep `↑(h * g)`; for `secondTrace_fiberPair`.
   change
     (S.1 : E) * ((g : Eˣ) : E) +
           (f (actualSigma s B C u t) *
@@ -349,7 +357,10 @@ theorem algebraMap_shiftedActualSecondSeedTrace_eq_secondTrace_fiberPair
   field_simp [hsE, hq, hH, hg]
 
 /-- A candidate-regular base-field point on the ordered first-coordinate
-nonsplit fiber supplies the actual norm-`actualSigma` seed. -/
+nonsplit fiber supplies the actual seed: over `quadraticFiniteField p` the
+point is `fiberPoint1` at some unit parameter `h`, and
+`actualAlpha a.multiplier * h` lies in the norm fiber of
+`actualSigma a.multiplier a.a2 a.a3 u t`. -/
 theorem exists_actualShiftedNonsplitSeed
     (p : ℕ) [Fact p.Prime]
     (a : Coefficients (ZMod p)) (u t : ZMod p)
@@ -364,10 +375,10 @@ theorem exists_actualShiftedNonsplitSeed
         (actualSigmaUnit a.multiplier a.a2 a.a3 u t
           (actualSigma_ne_zero_of_candidateRegular
             a.multiplier a.a1 a.a2 a.a3 u t htrace hregular))),
-        mapPoint
+        Point.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) x =
           fiberPoint1
-            (mapCoefficients
+            (Coefficients.map
               (algebraMap (ZMod p) (quadraticFiniteField p)) a)
             (algebraMap (ZMod p) (quadraticFiniteField p) u)
             (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -378,17 +389,18 @@ theorem exists_actualShiftedNonsplitSeed
           algebraMap (ZMod p) (quadraticFiniteField p)
               (actualAlpha a.multiplier) *
             (h : quadraticFiniteField p) := by
+  -- Transport the fiber data to the quadratic extension `E`.
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
-  let xE : Point E := mapPoint f x
+  let xE : Point E := Point.map f x
   let q : Eˣ := (w : Eˣ)
   have htraceE :
       tE = orderedTrace aE.multiplier aE.a1 uE := by
     have hmap := congrArg f htrace
-    simpa [tE, aE, uE, orderedTrace, mapCoefficients,
+    simpa [tE, aE, uE, orderedTrace, Coefficients.map,
       Coefficients.multiplier, map_ofNat] using hmap
   have hregularE :
       OrderedTraceCandidateRegular aE.a1 aE.a2 aE.a3 tE := by
@@ -417,12 +429,13 @@ theorem exists_actualShiftedNonsplitSeed
   have hconicE :
       fiberConic aE.a2 aE.a3 uE tE xE.x2 xE.x3 = 0 := by
     have hmap := congrArg f hconic
-    simpa [aE, uE, tE, xE, mapPoint, mapCoefficients, fiberConic,
+    simpa [aE, uE, tE, xE, Point.map, Coefficients.map, fiberConic,
       map_ofNat] using hmap
   have heigen : tE = splitTorusTrace q := by
     dsimp [tE, q, f]
     rw [← htraceW]
     exact algebraMap_quadraticNormOneTrace p w
+  -- Diagonalize: over `E` the point is `fiberPoint1` at the eigen-parameter `h`.
   let parameter : E :=
     actualFiberParameter aE.a2 aE.a3 uE tE q (xE.x2, xE.x3)
   have hparameter : parameter ≠ 0 := by
@@ -440,9 +453,11 @@ theorem exists_actualShiftedNonsplitSeed
   have hpoint :
       xE = fiberPoint1 aE uE tE (q : E) (h : E) := by
     apply Point.ext
-    · simpa [xE, uE, mapPoint] using congrArg f hx1
+    · simpa [xE, uE, Point.map] using congrArg f hx1
     · simpa [fiberPoint1] using congrArg Prod.fst hpair.symm
     · simpa [fiberPoint1] using congrArg Prod.snd hpair.symm
+  -- The seed `actualAlpha s * h` has norm `actualSigma`, since Frobenius sends `h` to its
+  -- reciprocal parameter.
   have hsigma :
       actualSigma a.multiplier a.a2 a.a3 u t ≠ 0 :=
     actualSigma_ne_zero_of_candidateRegular
@@ -463,7 +478,7 @@ theorem exists_actualShiftedNonsplitSeed
       (parameter : E) ^ p =
         actualFiberReciprocalParameter
           aE.a2 aE.a3 uE tE q (xE.x2, xE.x3) := by
-    simpa [parameter, aE, uE, tE, q, xE, mapPoint, f, E] using
+    simpa [parameter, aE, uE, tE, q, xE, Point.map, f, E] using
       actualFiberParameter_frobenius
         p a.a2 a.a3 u t w (x.x2, x.x3)
   have hparameterProduct :
@@ -484,6 +499,7 @@ theorem exists_actualShiftedNonsplitSeed
           f (actualAlpha a.multiplier) := by
       simpa [f, E] using
         algebraMap_zmod_pow_card p (actualAlpha a.multiplier)
+    -- Unfold `seedValue = f (actualAlpha _) * ↑h` and `↑h = parameter` so that the `rw` applies.
     change
       (f (actualAlpha a.multiplier) * parameter) *
           (f (actualAlpha a.multiplier) * parameter) ^ p =
@@ -508,9 +524,11 @@ theorem exists_actualShiftedNonsplitSeed
         rw [map_actualSigma]
         simp [actualSigma, actualAlpha, actualBeta, aE, uE, tE]
         ring
+  -- Package the seed as an element of the norm fiber.
   let sigmaUnit : (ZMod p)ˣ :=
     actualSigmaUnit a.multiplier a.a2 a.a3 u t hsigma
   have hseedMem : seedUnit ∈ quadraticNormFiber p sigmaUnit := by
+    -- `quadraticNormFiber` is a preimage of `{sigmaUnit}`; unfold for `Set.mem_singleton_iff`.
     change
       quadraticNormUnitsHom p seedUnit ∈
         ({sigmaUnit} : Set (ZMod p)ˣ)
@@ -524,9 +542,10 @@ theorem exists_actualShiftedNonsplitSeed
   · rfl
 
 /-- A candidate-regular base-field point on the ordered second-coordinate
-nonsplit fiber supplies the reverse actual norm-`actualSigma` seed.  The
-moving-coordinate order is exactly `(x3,x1)`, and the seed contains the
-norm-one eigenvalue factor needed by the second-moving-coordinate trace. -/
+nonsplit fiber supplies the reverse actual seed: over `quadraticFiniteField p`
+the point is `fiberPoint2` at some unit parameter `h`, with moving coordinates
+`(x₃, x₁)`, and `a.multiplier * w * h` lies in the norm fiber of
+`actualSigma a.multiplier a.a3 a.a1 u t`. -/
 theorem exists_actualShiftedNonsplitSecondSeed
     (p : ℕ) [Fact p.Prime]
     (a : Coefficients (ZMod p)) (u t : ZMod p)
@@ -541,10 +560,10 @@ theorem exists_actualShiftedNonsplitSecondSeed
         (actualSigmaUnit a.multiplier a.a3 a.a1 u t
           (actualSigma_ne_zero_of_reverseCandidateRegular
             a.multiplier a.a2 a.a3 a.a1 u t htrace hregular))),
-        mapPoint
+        Point.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) x =
           fiberPoint2
-            (mapCoefficients
+            (Coefficients.map
               (algebraMap (ZMod p) (quadraticFiniteField p)) a)
             (algebraMap (ZMod p) (quadraticFiniteField p) u)
             (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -558,17 +577,18 @@ theorem exists_actualShiftedNonsplitSecondSeed
                 (quadraticFiniteField p)ˣ) :
               quadraticFiniteField p) *
             (h : quadraticFiniteField p) := by
+  -- Transport the fiber data to the quadratic extension `E`.
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
-  let xE : Point E := mapPoint f x
+  let xE : Point E := Point.map f x
   let q : Eˣ := (w : Eˣ)
   have htraceE :
       tE = orderedTrace aE.multiplier aE.a2 uE := by
     have hmap := congrArg f htrace
-    simpa [tE, aE, uE, orderedTrace, mapCoefficients,
+    simpa [tE, aE, uE, orderedTrace, Coefficients.map,
       Coefficients.multiplier, map_ofNat] using hmap
   have hregularE :
       OrderedTraceCandidateRegular aE.a2 aE.a1 aE.a3 tE := by
@@ -601,12 +621,13 @@ theorem exists_actualShiftedNonsplitSecondSeed
   have hconicE :
       fiberConic aE.a3 aE.a1 uE tE xE.x3 xE.x1 = 0 := by
     have hmap := congrArg f hconic
-    simpa [aE, uE, tE, xE, mapPoint, mapCoefficients, fiberConic,
+    simpa [aE, uE, tE, xE, Point.map, Coefficients.map, fiberConic,
       map_ofNat] using hmap
   have heigen : tE = splitTorusTrace q := by
     dsimp [tE, q, f]
     rw [← htraceW]
     exact algebraMap_quadraticNormOneTrace p w
+  -- Diagonalize: over `E` the point is `fiberPoint2` at the eigen-parameter `h`.
   let parameter : E :=
     actualFiberParameter aE.a3 aE.a1 uE tE q (xE.x3, xE.x1)
   have hparameter : parameter ≠ 0 := by
@@ -625,8 +646,10 @@ theorem exists_actualShiftedNonsplitSecondSeed
       xE = fiberPoint2 aE uE tE (q : E) (h : E) := by
     apply Point.ext
     · simpa [fiberPoint2] using congrArg Prod.snd hpair.symm
-    · simpa [xE, uE, mapPoint] using congrArg f hx2
+    · simpa [xE, uE, Point.map] using congrArg f hx2
     · simpa [fiberPoint2] using congrArg Prod.fst hpair.symm
+  -- The seed `s * w * h` has norm `actualSigma`: Frobenius inverts `w` and sends `h` to its
+  -- reciprocal parameter.
   have hs : a.multiplier ≠ 0 := by
     intro hzero
     apply hsigma
@@ -642,7 +665,7 @@ theorem exists_actualShiftedNonsplitSecondSeed
       (parameter : E) ^ p =
         actualFiberReciprocalParameter
           aE.a3 aE.a1 uE tE q (xE.x3, xE.x1) := by
-    simpa [parameter, aE, uE, tE, q, xE, mapPoint, f, E] using
+    simpa [parameter, aE, uE, tE, q, xE, Point.map, f, E] using
       actualFiberParameter_frobenius
         p a.a3 a.a1 u t w (x.x3, x.x1)
   have hparameterProduct :
@@ -665,6 +688,7 @@ theorem exists_actualShiftedNonsplitSecondSeed
     have hqFrobenius :
         ((q : E) ^ p) = (((q⁻¹ : Eˣ) : E)) := by
       simpa [q, E] using quadraticNormOne_frobenius_eq_inv p w
+    -- Unfold `seedValue = f s * ↑q * ↑h` and `↑h = parameter` so that the `rw` applies.
     change
       (f a.multiplier * (q : E) * parameter) *
           (f a.multiplier * (q : E) * parameter) ^ p =
@@ -703,9 +727,11 @@ theorem exists_actualShiftedNonsplitSecondSeed
         rw [map_actualSigma]
         simp [actualSigma, actualAlpha, actualBeta, aE, uE, tE]
         ring
+  -- Package the seed as an element of the norm fiber.
   let sigmaUnit : (ZMod p)ˣ :=
     actualSigmaUnit a.multiplier a.a3 a.a1 u t hsigma
   have hseedMem : seedUnit ∈ quadraticNormFiber p sigmaUnit := by
+    -- `quadraticNormFiber` is a preimage of `{sigmaUnit}`; unfold for `Set.mem_singleton_iff`.
     change
       quadraticNormUnitsHom p seedUnit ∈
         ({sigmaUnit} : Set (ZMod p)ˣ)
@@ -735,10 +761,10 @@ theorem exists_iterate_actualNonsplitSeedTrace
         (actualSigma_ne_zero_of_candidateRegular
           a.multiplier a.a1 a.a2 a.a3 u t htrace hregular))))
     (hpoint :
-      mapPoint
+      Point.map
           (algebraMap (ZMod p) (quadraticFiniteField p)) x =
         fiberPoint1
-          (mapCoefficients
+          (Coefficients.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) a)
           (algebraMap (ZMod p) (quadraticFiniteField p) u)
           (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -761,16 +787,17 @@ theorem exists_iterate_actualNonsplitSeedTrace
               ((g.1 : (quadraticFiniteField p)ˣ) :
                 quadraticFiniteField p)) +
           actualGammaFirst a.multiplier a.a2 a.a3 u t := by
+  -- Transport the fiber data to the quadratic extension `E`.
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
   let q : Eˣ := (w : Eˣ)
   have htraceE :
       tE = orderedTrace aE.multiplier aE.a1 uE := by
     have hmap := congrArg f htrace
-    simpa [tE, aE, uE, orderedTrace, mapCoefficients,
+    simpa [tE, aE, uE, orderedTrace, Coefficients.map,
       Coefficients.multiplier, map_ofNat] using hmap
   have heigen : tE = splitTorusTrace q := by
     dsimp [tE, q, f]
@@ -791,14 +818,16 @@ theorem exists_iterate_actualNonsplitSeedTrace
             actualBeta a.multiplier a.a2 a.a3 u t ≠ 0 := by
       simpa [actualSigma] using hsigma
     exact (mul_ne_zero_iff.mp hproduct).1
+  -- Choose `n` with `(w ^ 2) ^ n = g` and compare the traces after mapping to `E`.
   obtain ⟨n, hn⟩ :=
     BGS.Markoff.exists_pow_eq_of_mem_complementaryPowerRange (w ^ 2) g
   refine ⟨n, ?_⟩
   apply f.injective
+  -- Over `E`, the `n`-th iterate is `fiberPoint1` at the parameter `h * g`.
   have hmapIterate :=
-    mapPoint_iterate_rotation1 f a x n
+    Point.map_iterate_rotation1 f a x n
   have hiterated :
-      mapPoint f (((rotation1 a)^[n]) x) =
+      Point.map f (((rotation1 a)^[n]) x) =
         fiberPoint1 aE uE tE (q : E)
           (((h * (g.1 : Eˣ)) : Eˣ) : E) := by
     rw [hmapIterate, hpoint]
@@ -819,12 +848,13 @@ theorem exists_iterate_actualNonsplitSeedTrace
             (((z : Eˣ)) : E)) hn
     simpa only [Units.val_mul, Units.val_pow_eq_pow_val, mul_comm] using
       congrArg (fun z : E ↦ z * (h : E)) hnE
+  -- Identify the trace with the descended seed trace.
   calc
     f (orderedTrace a.multiplier a.a2
           (((rotation1 a)^[n]) x).x2) =
         orderedTrace aE.multiplier aE.a2
-          (mapPoint f (((rotation1 a)^[n]) x)).x2 := by
-      simp [orderedTrace, aE, mapCoefficients, mapPoint,
+          (Point.map f (((rotation1 a)^[n]) x)).x2 := by
+      simp [orderedTrace, aE, Coefficients.map, Point.map,
         Coefficients.multiplier, map_ofNat]
     _ = orderedTrace aE.multiplier aE.a2
         (fiberPoint1 aE uE tE (q : E)
@@ -861,10 +891,10 @@ theorem exists_iterate_actualNonsplitSecondSeedTrace
         (actualSigma_ne_zero_of_reverseCandidateRegular
           a.multiplier a.a2 a.a3 a.a1 u t htrace hregular))))
     (hpoint :
-      mapPoint
+      Point.map
           (algebraMap (ZMod p) (quadraticFiniteField p)) x =
         fiberPoint2
-          (mapCoefficients
+          (Coefficients.map
             (algebraMap (ZMod p) (quadraticFiniteField p)) a)
           (algebraMap (ZMod p) (quadraticFiniteField p) u)
           (algebraMap (ZMod p) (quadraticFiniteField p) t)
@@ -889,16 +919,17 @@ theorem exists_iterate_actualNonsplitSecondSeedTrace
               ((g.1 : (quadraticFiniteField p)ˣ) :
                 quadraticFiniteField p)) +
           actualGammaSecond a.multiplier a.a3 a.a1 u t := by
+  -- Transport the fiber data to the quadratic extension `E`.
   let E := quadraticFiniteField p
   let f : ZMod p →+* E := algebraMap (ZMod p) E
-  let aE : Coefficients E := mapCoefficients f a
+  let aE : Coefficients E := Coefficients.map f a
   let uE : E := f u
   let tE : E := f t
   let q : Eˣ := (w : Eˣ)
   have htraceE :
       tE = orderedTrace aE.multiplier aE.a2 uE := by
     have hmap := congrArg f htrace
-    simpa [tE, aE, uE, orderedTrace, mapCoefficients,
+    simpa [tE, aE, uE, orderedTrace, Coefficients.map,
       Coefficients.multiplier, map_ofNat] using hmap
   have heigen : tE = splitTorusTrace q := by
     dsimp [tE, q, f]
@@ -917,14 +948,16 @@ theorem exists_iterate_actualNonsplitSecondSeedTrace
     intro hzero
     apply hsigma
     simp [actualSigma, actualAlpha, hzero]
+  -- Choose `n` with `(w ^ 2) ^ n = g` and compare the traces after mapping to `E`.
   obtain ⟨n, hn⟩ :=
     BGS.Markoff.exists_pow_eq_of_mem_complementaryPowerRange (w ^ 2) g
   refine ⟨n, ?_⟩
   apply f.injective
+  -- Over `E`, the `n`-th iterate is `fiberPoint2` at the parameter `h * g`.
   have hmapIterate :=
-    mapPoint_iterate_rotation2 f a x n
+    Point.map_iterate_rotation2 f a x n
   have hiterated :
-      mapPoint f (((rotation2 a)^[n]) x) =
+      Point.map f (((rotation2 a)^[n]) x) =
         fiberPoint2 aE uE tE (q : E)
           (((h * (g.1 : Eˣ)) : Eˣ) : E) := by
     rw [hmapIterate, hpoint]
@@ -945,12 +978,13 @@ theorem exists_iterate_actualNonsplitSecondSeedTrace
             (((z : Eˣ)) : E)) hn
     simpa only [Units.val_mul, Units.val_pow_eq_pow_val, mul_comm] using
       congrArg (fun z : E ↦ z * (h : E)) hnE
+  -- Identify the trace with the descended seed trace.
   calc
     f (orderedTrace a.multiplier a.a1
           (((rotation2 a)^[n]) x).x1) =
         orderedTrace aE.multiplier aE.a1
-          (mapPoint f (((rotation2 a)^[n]) x)).x1 := by
-      simp [orderedTrace, aE, mapCoefficients, mapPoint,
+          (Point.map f (((rotation2 a)^[n]) x)).x1 := by
+      simp [orderedTrace, aE, Coefficients.map, Point.map,
         Coefficients.multiplier, map_ofNat]
     _ = orderedTrace aE.multiplier aE.a1
         (fiberPoint2 aE uE tE (q : E)
@@ -970,10 +1004,10 @@ theorem exists_iterate_actualNonsplitSecondSeedTrace
             a.multiplier a.a2 a.a3 a.a1 u t htrace hregular)
           hs w h S hS g.1
 
-/-- Under the explicit descended-count margin, a candidate-regular point on
+/-- Under the forty-pair descended-count margin, a candidate-regular point on
 the first-coordinate nonsplit fiber has a forward `rotation1` iterate whose
-second-axis trace is split-primitive and candidate regular in the explicitly
-named target frame. -/
+second-axis trace is primitive on the split torus and candidate regular in
+the target frame `(a.a2, targetB, targetC)`. -/
 theorem
     exists_iterate_actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
     (p : ℕ) [Fact p.Prime]
@@ -1004,6 +1038,7 @@ theorem
       orderOf v = Nat.card (ZMod p)ˣ ∧
         OrderedTraceCandidateRegular
           a.a2 targetB targetC (splitTorusTrace v) := by
+  -- The seed norm `k = actualSigma ≠ 1` and the even obstruction, from candidate regularity.
   have hsigma :
       actualSigma a.multiplier a.a2 a.a3 u t ≠ 0 :=
     actualSigma_ne_zero_of_candidateRegular
@@ -1024,6 +1059,7 @@ theorem
       actualEvenObstruction_ne_zero_of_candidateRegular
         a.multiplier a.a1 a.a2 a.a3 u t
           htrace hA2 hregular
+  -- Seed the descended count, take a primitive candidate-regular pair, and reach it.
   obtain ⟨h, S, hpoint, hS⟩ :=
     exists_actualShiftedNonsplitSeed
       p a u t x hx hx1 htrace hregular w htraceW
@@ -1059,10 +1095,10 @@ theorem
             z.1 := rfl
     _ = splitTorusTrace z.2 := hzTrace
 
-/-- Under the explicit descended-count margin, a candidate-regular point on
+/-- Under the forty-pair descended-count margin, a candidate-regular point on
 the second-coordinate nonsplit fiber has a forward `rotation2` iterate whose
-first-axis trace is split-primitive and candidate regular in the explicitly
-named target frame. -/
+first-axis trace is primitive on the split torus and candidate regular in the
+target frame `(a.a1, targetB, targetC)`. -/
 theorem
     exists_iterate_actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
     (p : ℕ) [Fact p.Prime]
@@ -1093,6 +1129,7 @@ theorem
       orderOf v = Nat.card (ZMod p)ˣ ∧
         OrderedTraceCandidateRegular
           a.a1 targetB targetC (splitTorusTrace v) := by
+  -- The seed norm `k = actualSigma ≠ 1` and the even obstruction, from reverse regularity.
   have hsigma :
       actualSigma a.multiplier a.a3 a.a1 u t ≠ 0 :=
     actualSigma_ne_zero_of_reverseCandidateRegular
@@ -1118,6 +1155,7 @@ theorem
       actualSecondEvenObstruction_ne_zero_of_candidateRegular
         a.multiplier a.a2 a.a3 a.a1 u t
           htrace hA1 hregular
+  -- Seed the descended count, take a primitive candidate-regular pair, and reach it.
   obtain ⟨h, S, hpoint, hS⟩ :=
     exists_actualShiftedNonsplitSecondSeed
       p a u t x hx hx2 htrace hregular w htraceW
@@ -1153,6 +1191,9 @@ theorem
             z.1 := rfl
     _ = splitTorusTrace z.2 := hzTrace
 
+/-- The explicit inequality for the coefficient `coefficient + 40` gives the
+forty-pair margin: the divisor-count error term plus `40` is below
+`primitiveTraceMoebiusMainTerm`. -/
 private theorem
     error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
     (groupOrder fieldCard fixedExponent coefficient : ℕ)
@@ -1170,6 +1211,7 @@ private theorem
     BGS.Markoff.divisorsError_lt_primitiveTraceMoebiusMainTerm_of_explicitInequality
       groupOrder fieldCard fixedExponent (coefficient + 40)
       hgroup hfixed hexplicit
+  -- Since `1 ≤ #divisors * √fieldCard`, the additive `40` is absorbed into the coefficient.
   have hdivisorsOne :
       (1 : ℝ) ≤ (groupOrder.divisors.card : ℝ) := by
     exact_mod_cast
@@ -1204,6 +1246,7 @@ private theorem
               Real.sqrt (fieldCard : ℝ)) := by
         simpa only [mul_one] using
           (mul_le_mul_of_nonneg_left hproductOne
+            -- `show` only fixes the side goal `0 ≤ 40` in `ℝ`; nothing is unfolded.
             (show (0 : ℝ) ≤ 40 by norm_num))
       exact add_le_add
         (le_refl
@@ -1219,395 +1262,10 @@ private theorem
     _ < primitiveTraceMoebiusMainTerm
         groupOrder fieldCard fixedExponent := hdomination
 
-/-- Uniform large-`orderOf(w²)` descended nonsplit endgame for the fixed
-first-to-second ordered frame. -/
-theorem
-    exists_threshold_actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-    (coefficient : ℕ)
-    (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)) (u t : ZMod p)
-          (x : Point (ZMod p)) (w : quadraticNormOneTorus p)
-          (targetB targetC : ZMod p),
-        IsSolution a x →
-        x.x1 = u →
-        t = orderedTrace a.multiplier a.a1 u →
-        a.a2 ^ 2 ≠ 4 →
-        targetB ^ 2 ≠ 4 →
-        OrderedTraceCandidateRegular a.a1 a.a2 a.a3 t →
-        quadraticNormOneTrace p w = t →
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2) →
-        ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-          orderedTrace a.multiplier a.a2
-              (((rotation1 a)^[n]) x).x2 =
-            splitTorusTrace v ∧
-          orderOf v = Nat.card (ZMod p)ˣ ∧
-            OrderedTraceCandidateRegular
-              a.a2 targetB targetC (splitTorusTrace v) := by
-  obtain ⟨inequalityThreshold, hInequality⟩ :=
-    BGS.Markoff.exists_threshold_endgamePrimitiveTrace_explicitInequality_of_largeNonsplitOrder
-      (coefficient + 40) hdelta
-  refine ⟨max inequalityThreshold 3, ?_⟩
-  intro p hp _ a u t x w targetB targetC hx hx1 htrace
-    hA2 hTargetB hregular htraceW hlarge
-  have hpInequality : inequalityThreshold ≤ p :=
-    (Nat.le_max_left inequalityThreshold 3).trans hp
-  have hpThree : 3 ≤ p :=
-    (Nat.le_max_right inequalityThreshold 3).trans hp
-  have hpTwo : p ≠ 2 := by omega
-  let orbitExponent :=
-    Nat.card (quadraticNormOneTorus p) / orderOf (w ^ 2)
-  have hmul :
-      orbitExponent * orderOf (w ^ 2) = p + 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (w ^ 2)),
-      quadraticNormOneTorus_natCard]
-  have hexplicit :=
-    hInequality p hpInequality orbitExponent (orderOf (w ^ 2))
-      hmul hlarge
-  have hcardUnits : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcardUnits] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcardUnits]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (w ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t x hx hx1 htrace
-        hA2 targetB targetC hTargetB hregular w htraceW
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Uniform large-`orderOf(w²)` descended nonsplit endgame for the fixed
-second-to-first ordered frame.  The reverse seed retains its norm-one
-eigenvalue factor, while the numerical estimate is unchanged. -/
-theorem
-    exists_threshold_actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-    (coefficient : ℕ)
-    (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)) (u t : ZMod p)
-          (x : Point (ZMod p)) (w : quadraticNormOneTorus p)
-          (targetB targetC : ZMod p),
-        IsSolution a x →
-        x.x2 = u →
-        t = orderedTrace a.multiplier a.a2 u →
-        a.a1 ^ 2 ≠ 4 →
-        targetB ^ 2 ≠ 4 →
-        OrderedTraceCandidateRegular a.a2 a.a1 a.a3 t →
-        quadraticNormOneTrace p w = t →
-        (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2) →
-        ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-          orderedTrace a.multiplier a.a1
-              (((rotation2 a)^[n]) x).x1 =
-            splitTorusTrace v ∧
-          orderOf v = Nat.card (ZMod p)ˣ ∧
-            OrderedTraceCandidateRegular
-              a.a1 targetB targetC (splitTorusTrace v) := by
-  obtain ⟨inequalityThreshold, hInequality⟩ :=
-    BGS.Markoff.exists_threshold_endgamePrimitiveTrace_explicitInequality_of_largeNonsplitOrder
-      (coefficient + 40) hdelta
-  refine ⟨max inequalityThreshold 3, ?_⟩
-  intro p hp _ a u t x w targetB targetC hx hx2 htrace
-    hA1 hTargetB hregular htraceW hlarge
-  have hpInequality : inequalityThreshold ≤ p :=
-    (Nat.le_max_left inequalityThreshold 3).trans hp
-  have hpThree : 3 ≤ p :=
-    (Nat.le_max_right inequalityThreshold 3).trans hp
-  have hpTwo : p ≠ 2 := by omega
-  let orbitExponent :=
-    Nat.card (quadraticNormOneTorus p) / orderOf (w ^ 2)
-  have hmul :
-      orbitExponent * orderOf (w ^ 2) = p + 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (w ^ 2)),
-      quadraticNormOneTorus_natCard]
-  have hexplicit :=
-    hInequality p hpInequality orbitExponent (orderOf (w ^ 2))
-      hmul hlarge
-  have hcardUnits : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcardUnits] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcardUnits]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (w ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t x hx hx2 htrace
-        hA1 targetB targetC hTargetB hregular w htraceW
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Pointwise first-to-second nonsplit-source endgame at the closed analytic
-cutoff. -/
-theorem
-    actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p)) (u t : ZMod p)
-    (x : Point (ZMod p)) (w : quadraticNormOneTorus p)
-    (targetB targetC : ZMod p)
-    (hx : IsSolution a x) (hx1 : x.x1 = u)
-    (htrace : t = orderedTrace a.multiplier a.a1 u)
-    (hA2 : a.a2 ^ 2 ≠ 4) (hTargetB : targetB ^ 2 ≠ 4)
-    (hregular : OrderedTraceCandidateRegular a.a1 a.a2 a.a3 t)
-    (htraceW : quadraticNormOneTrace p w = t)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2)) :
-    ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-      orderedTrace a.multiplier a.a2 (((rotation1 a)^[n]) x).x2 =
-          splitTorusTrace v ∧
-        orderOf v = Nat.card (ZMod p)ˣ ∧
-          OrderedTraceCandidateRegular
-            a.a2 targetB targetC (splitTorusTrace v) := by
-  have hpThree : 3 ≤ p := by
-    have := GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-    omega
-  have hpTwo : p ≠ 2 := by omega
-  let orbitExponent :=
-    Nat.card (quadraticNormOneTorus p) / orderOf (w ^ 2)
-  have hmul :
-      orbitExponent * orderOf (w ^ 2) = p + 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (w ^ 2)),
-      quadraticNormOneTorus_natCard]
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_of_card_add_one
-      hp hmul hlarge hdelta hcoefficient
-  have hcardUnits : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcardUnits] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcardUnits]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (w ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t x hx hx1 htrace
-        hA2 targetB targetC hTargetB hregular w htraceW
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Pointwise reverse-frame nonsplit-source endgame at the same cutoff. -/
-theorem
-    actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p)) (u t : ZMod p)
-    (x : Point (ZMod p)) (w : quadraticNormOneTorus p)
-    (targetB targetC : ZMod p)
-    (hx : IsSolution a x) (hx2 : x.x2 = u)
-    (htrace : t = orderedTrace a.multiplier a.a2 u)
-    (hA1 : a.a1 ^ 2 ≠ 4) (hTargetB : targetB ^ 2 ≠ 4)
-    (hregular : OrderedTraceCandidateRegular a.a2 a.a1 a.a3 t)
-    (htraceW : quadraticNormOneTrace p w = t)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2)) :
-    ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-      orderedTrace a.multiplier a.a1 (((rotation2 a)^[n]) x).x1 =
-          splitTorusTrace v ∧
-        orderOf v = Nat.card (ZMod p)ˣ ∧
-          OrderedTraceCandidateRegular
-            a.a1 targetB targetC (splitTorusTrace v) := by
-  have hpThree : 3 ≤ p := by
-    have := GenMarkoff.General.Explicit.five_le_analyticCutoff.trans hp
-    omega
-  have hpTwo : p ≠ 2 := by omega
-  let orbitExponent :=
-    Nat.card (quadraticNormOneTorus p) / orderOf (w ^ 2)
-  have hmul :
-      orbitExponent * orderOf (w ^ 2) = p + 1 := by
-    dsimp [orbitExponent]
-    rw [Nat.div_mul_cancel (orderOf_dvd_natCard (w ^ 2)),
-      quadraticNormOneTorus_natCard]
-  have hexplicit :=
-    GenMarkoff.General.Explicit.primitiveTrace_explicitInequality_of_card_add_one
-      hp hmul hlarge hdelta hcoefficient
-  have hcardUnits : Nat.card (ZMod p)ˣ = p - 1 := by
-    rw [Nat.card_units, Nat.card_zmod]
-  have hexplicit' :
-      (orbitExponent : ℝ) *
-          ((Nat.card (ZMod p)ˣ).divisors.card : ℝ) ^ 2 *
-            (((coefficient + 40 : ℕ) : ℝ) *
-              Real.sqrt (p : ℝ)) < p := by
-    simpa only [hcardUnits] using hexplicit
-  have hgroupPositive : 0 < Nat.card (ZMod p)ˣ := by
-    rw [hcardUnits]
-    omega
-  have hmargin :=
-    error_add_forty_lt_primitiveMain_of_augmented_explicitInequality
-      (Nat.card (ZMod p)ˣ) p orbitExponent coefficient
-        hgroupPositive (by omega)
-        (BGS.Markoff.complementaryExponent_pos (w ^ 2)) hexplicit'
-  exact
-    exists_iterate_actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-      p coefficient hWeil hpTwo a u t x hx hx2 htrace
-        hA1 targetB targetC hTargetB hregular w htraceW
-        (by simpa [orbitExponent] using hmargin)
-
-/-- Direction-indexed primitive endgame from a nonsplit source trace.  The
-source eigenvalue lies in the quadratic norm-one torus, while the descended
-count produces a primitive trace in the base-field split torus.  The fixed
-coefficient triple is unchanged in both branches. -/
-def alternatingPrimitiveSplitEndgameResultFromNonsplitSource
-    (p : ℕ) [Fact p.Prime]
-    (a : Coefficients (ZMod p))
-    (direction : AlternatingDirectedAxis)
-    (x : Point (ZMod p)) : Prop :=
-  match direction with
-  | .firstSecond =>
-      ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-        orderedTrace a.multiplier a.a2
-            (((rotation1 a)^[n]) x).x2 =
-          splitTorusTrace v ∧
-        orderOf v = Nat.card (ZMod p)ˣ ∧
-          OrderedTraceCandidateRegular
-            a.a2 a.a1 a.a3 (splitTorusTrace v)
-  | .secondFirst =>
-      ∃ n : ℕ, ∃ v : (ZMod p)ˣ,
-        orderedTrace a.multiplier a.a1
-            (((rotation2 a)^[n]) x).x1 =
-          splitTorusTrace v ∧
-        orderOf v = Nat.card (ZMod p)ˣ ∧
-          OrderedTraceCandidateRegular
-            a.a1 a.a2 a.a3 (splitTorusTrace v)
-
-/-- Uniform dispatcher for either alternating directed state with a
-nonsplit fixed trace.  Large `orderOf(w²)` produces a primitive split trace
-in the exact outgoing ordered frame. -/
-theorem
-    exists_threshold_alternatingRegularState_actualNonsplitSourcePrimitiveSplitEndgame
-    (coefficient : ℕ)
-    (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : 0 < delta) :
-    ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p →
-      [Fact p.Prime] →
-      ∀ (a : Coefficients (ZMod p)),
-        a.a1 ^ 2 ≠ 4 →
-        a.a2 ^ 2 ≠ 4 →
-        ∀ (state : AlternatingRegularState a)
-            (w : quadraticNormOneTorus p),
-          traceAt a state.direction.fixed state.point.1 =
-              quadraticNormOneTrace p w →
-          (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2) →
-          alternatingPrimitiveSplitEndgameResultFromNonsplitSource
-            p a state.direction state.point.1 := by
-  obtain ⟨forwardThreshold, hforward⟩ :=
-    exists_threshold_actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame
-      coefficient hWeil hdelta
-  obtain ⟨reverseThreshold, hreverse⟩ :=
-    exists_threshold_actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame
-      coefficient hWeil hdelta
-  refine ⟨max forwardThreshold reverseThreshold, ?_⟩
-  intro p hp _ a hA1 hA2 state w heigen hlarge
-  have hpForward : forwardThreshold ≤ p :=
-    (Nat.le_max_left forwardThreshold reverseThreshold).trans hp
-  have hpReverse : reverseThreshold ≤ p :=
-    (Nat.le_max_right forwardThreshold reverseThreshold).trans hp
-  rcases state with ⟨direction, point, hregular⟩
-  cases direction with
-  | firstSecond =>
-      obtain ⟨n, v, hn, hvOrder, hvRegular⟩ :=
-        hforward p hpForward
-          a point.1.x1 (traceAt a .first point.1) point.1 w
-            a.a1 a.a3 point.2 rfl rfl
-            hA2 hA1
-            (by
-              simpa [alternatingTraceRegular] using hregular)
-            (by
-              simpa [AlternatingDirectedAxis.fixed] using heigen.symm)
-            hlarge
-      exact ⟨n, v, hn, hvOrder, hvRegular⟩
-  | secondFirst =>
-      obtain ⟨n, v, hn, hvOrder, hvRegular⟩ :=
-        hreverse p hpReverse
-          a point.1.x2 (traceAt a .second point.1) point.1 w
-            a.a2 a.a3 point.2 rfl rfl
-            hA1 hA2
-            (by
-              simpa [alternatingTraceRegular] using hregular)
-            (by
-              simpa [AlternatingDirectedAxis.fixed] using heigen.symm)
-            hlarge
-      exact ⟨n, v, hn, hvOrder, hvRegular⟩
-
-/-- Explicit-cutoff dispatcher for either nonsplit-source direction. -/
-theorem alternatingRegularState_actualNonsplitSourcePrimitiveSplitEndgame_of_analyticCutoff
-    (coefficient : ℕ)
-    (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
-    {delta : ℝ} (hdelta : (1 : ℝ) / 32 ≤ delta)
-    (hcoefficient : coefficient + 40 ≤ 1032)
-    (p : ℕ) (hp : GenMarkoff.General.Explicit.analyticCutoff ≤ p)
-    [Fact p.Prime]
-    (a : Coefficients (ZMod p))
-    (hA1 : a.a1 ^ 2 ≠ 4) (hA2 : a.a2 ^ 2 ≠ 4)
-    (state : AlternatingRegularState a)
-    (w : quadraticNormOneTorus p)
-    (heigen :
-      traceAt a state.direction.fixed state.point.1 =
-        quadraticNormOneTrace p w)
-    (hlarge :
-      (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2)) :
-    alternatingPrimitiveSplitEndgameResultFromNonsplitSource
-      p a state.direction state.point.1 := by
-  rcases state with ⟨direction, point, hregular⟩
-  cases direction with
-  | firstSecond =>
-      exact
-        actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_analyticCutoff
-          coefficient hWeil hdelta hcoefficient p hp
-          a point.1.x1 (traceAt a .first point.1) point.1 w
-          a.a1 a.a3 point.2 rfl rfl hA2 hA1
-          (by simpa [alternatingTraceRegular] using hregular)
-          (by simpa [AlternatingDirectedAxis.fixed] using heigen.symm)
-          hlarge
-  | secondFirst =>
-      exact
-        actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame_of_analyticCutoff
-          coefficient hWeil hdelta hcoefficient p hp
-          a point.1.x2 (traceAt a .second point.1) point.1 w
-          a.a2 a.a3 point.2 rfl rfl hA1 hA2
-          (by simpa [alternatingTraceRegular] using hregular)
-          (by simpa [AlternatingDirectedAxis.fixed] using heigen.symm)
-          hlarge
-
-/-- Reasonable-cutoff first-to-second nonsplit-source endgame. -/
+/-- Reasonable-cutoff version of the first-to-second nonsplit-source endgame:
+for `p ≥ reasonableAnalyticCutoff`, `coefficient + 40 ≤ 1032` and
+`p ^ (1/2 + delta) ≤ orderOf (w ^ 2)` with `delta ≥ 1/4`, the forty-pair
+margin holds and the descended-count endgame applies. -/
 theorem
     actualNonsplitPoint_with_primitiveCandidateRegularAxisTwoTrace_in_targetFrame_of_reasonableCutoff
     (coefficient : ℕ)
@@ -1670,7 +1328,8 @@ theorem
         hA2 targetB targetC hTargetB hregular w htraceW
         (by simpa [orbitExponent] using hmargin)
 
-/-- Reasonable-cutoff reverse-frame nonsplit-source endgame. -/
+/-- Reasonable-cutoff version of the second-to-first nonsplit-source endgame,
+under the same hypotheses on `p` and `orderOf (w ^ 2)`. -/
 theorem
     actualNonsplitPoint_with_primitiveCandidateRegularAxisOneTrace_in_targetFrame_of_reasonableCutoff
     (coefficient : ℕ)
@@ -1733,7 +1392,9 @@ theorem
         hA1 targetB targetC hTargetB hregular w htraceW
         (by simpa [orbitExponent] using hmargin)
 
-/-- Reasonable-cutoff dispatcher for either nonsplit-source direction. -/
+/-- Reasonable-cutoff endgame for an alternating regular state whose fixed
+trace is `quadraticNormOneTrace p w`, in either direction; the output is the
+split result `alternatingPrimitiveSplitEndgameResult`. -/
 theorem alternatingRegularState_actualNonsplitSourcePrimitiveSplitEndgame_of_reasonableCutoff
     (coefficient : ℕ)
     (hWeil : ShiftedSeededNonsplitTraceWeilBoundAssumption coefficient)
@@ -1751,7 +1412,7 @@ theorem alternatingRegularState_actualNonsplitSourcePrimitiveSplitEndgame_of_rea
         quadraticNormOneTrace p w)
     (hlarge :
       (p : ℝ) ^ ((1 : ℝ) / 2 + delta) ≤ orderOf (w ^ 2)) :
-    alternatingPrimitiveSplitEndgameResultFromNonsplitSource
+    alternatingPrimitiveSplitEndgameResult
       p a state.direction state.point.1 := by
   rcases state with ⟨direction, point, hregular⟩
   cases direction with
