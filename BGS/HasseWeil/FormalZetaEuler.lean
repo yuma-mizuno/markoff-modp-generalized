@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FormalZetaRationality
-import BGS.HasseWeil.FormalZetaUniqueness
+module
+
+public import BGS.HasseWeil.FormalZetaRationality
+public import BGS.HasseWeil.FormalZetaUniqueness
+
+@[expose] public section
 
 /-!
 # Euler recurrences for a formal effective-divisor zeta series

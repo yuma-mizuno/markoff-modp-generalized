@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.Action
-import BGS.Markoff.Core.Normalization
+module
+
+public import BGS.Markoff.Core.Action
+public import BGS.Markoff.Core.Normalization
+
+@[expose] public section
 
 /-!
 # Normalization on the punctured Markoff surface

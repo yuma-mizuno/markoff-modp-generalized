@@ -1,6 +1,10 @@
-import BGS.Markoff.TraceCurve.SyntacticDivisionCriterion
-import BGS.Markoff.TraceCurve.WeightedIrreducibility
-import Mathlib.FieldTheory.RatFunc.IntermediateField
+module
+
+public import BGS.Markoff.TraceCurve.SyntacticDivisionCriterion
+public import BGS.Markoff.TraceCurve.WeightedIrreducibility
+public import Mathlib.FieldTheory.RatFunc.IntermediateField
+
+@[expose] public section
 
 /-!
 # Injectivity of the Laurent comparison from cover irreducibility
@@ -147,12 +151,12 @@ theorem finTwoToIteratedPolynomial_aeval
         finTwoToIteratedPolynomial_X_one]
   exact DFunLike.congr_fun heq p
 
-private def splitTraceEtaPolynomialEvaluation
+def splitTraceEtaPolynomialEvaluation
     (sigma : K) (e d : ℕ) :
     K[X] →ₐ[K] SplitTraceXiFunctionField K sigma e d :=
   Polynomial.aeval (splitTraceEtaRootInXiField sigma e d)
 
-private theorem splitTraceEtaPolynomialEvaluation_injective
+theorem splitTraceEtaPolynomialEvaluation_injective
     (sigma : K) (hsigma : sigma ≠ 0) (e d : ℕ)
     (heOdd : Odd e) (hdOdd : Odd d) (hde : d.Coprime e) :
     Function.Injective (splitTraceEtaPolynomialEvaluation sigma e d) := by
@@ -160,7 +164,7 @@ private theorem splitTraceEtaPolynomialEvaluation_injective
     (splitTraceEtaRootInXiField_transcendental
       sigma hsigma e d heOdd hdOdd hde)
 
-private def splitTraceEtaRatFuncEvaluation
+def splitTraceEtaRatFuncEvaluation
     (sigma : K) (hsigma : sigma ≠ 0) (e d : ℕ)
     (heOdd : Odd e) (hdOdd : Odd d) (hde : d.Coprime e) :
     RatFunc K →ₐ[K] SplitTraceXiFunctionField K sigma e d := by

@@ -1,9 +1,13 @@
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
-import GenMarkoff.Core.Statements
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedCorvajaZannier
-import BGS.Markoff.MiddleGame.CorvajaZannierStep
-import BGS.Markoff.MiddleGame.RightSubgroups
+module
+
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+public import GenMarkoff.Core.Statements
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedCorvajaZannier
+public import BGS.Markoff.MiddleGame.CorvajaZannierStep
+public import BGS.Markoff.MiddleGame.RightSubgroups
+
+@[expose] public section
 
 /-!
 # Union bound for the shifted trace equation over several right orders

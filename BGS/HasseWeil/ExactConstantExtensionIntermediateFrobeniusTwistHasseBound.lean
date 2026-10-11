@@ -1,7 +1,11 @@
-import BGS.HasseWeil.ExactConstantExtensionIntermediateFrobeniusTwistRationalPlaceAverage
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistStepanovUpper
-import BGS.HasseWeil.FiniteExtensionPlaceAlgEquiv
-import BGS.HasseWeil.GaloisTowerFactorialDegree
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionIntermediateFrobeniusTwistRationalPlaceAverage
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistStepanovUpper
+public import BGS.HasseWeil.FiniteExtensionPlaceAlgEquiv
+public import BGS.HasseWeil.GaloisTowerFactorialDegree
+
+@[expose] public section
 
 /-!
 # A fixed-tower Hasse bound from intermediate Frobenius twists

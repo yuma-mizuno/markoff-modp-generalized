@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.GoodPowerCover
-import GenMarkoff.General.Cage.Connecting.ThreeRootEstimate
+module
+
+public import GenMarkoff.General.Cage.Connecting.GoodPowerCover
+public import GenMarkoff.General.Cage.Connecting.ThreeRootEstimate
+
+@[expose] public section
 
 /-!
 # Primitive connecting witnesses
@@ -126,6 +130,8 @@ private theorem natCard_connectingSquareRootFiber_le_two
   have hf : f ≠ 0 := by
     intro hzero
     have hcoeff := congrArg (fun q : (ZMod p)[X] => q.coeff 2) hzero
+    set_option backward.isDefEq.respectTransparency false in
+    set_option backward.isDefEq.respectTransparency.types false in
     simp [f] at hcoeff
   let rootEmbedding : {x : ZMod p // x ^ 2 = b} ↪ f.roots.toFinset :=
     { toFun := fun x => ⟨x, by

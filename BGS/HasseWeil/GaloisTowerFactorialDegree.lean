@@ -1,4 +1,8 @@
-import Mathlib.FieldTheory.Galois.Basic
+module
+
+public import Mathlib.FieldTheory.Galois.Basic
+
+@[expose] public section
 
 /-!
 # A common factorial degree for Galois groups in a field tower

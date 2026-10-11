@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Zero counting from principal-divisor height

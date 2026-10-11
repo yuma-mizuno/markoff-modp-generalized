@@ -1,5 +1,9 @@
-import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
-import BGS.Markoff.Assembly.ExceptionalPrimeCount
+module
+
+public import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
+public import BGS.Markoff.Assembly.ExceptionalPrimeCount
+
+@[expose] public section
 
 /-!
 # Unconditional BGS assembly

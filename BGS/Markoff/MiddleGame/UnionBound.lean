@@ -1,5 +1,9 @@
-import BGS.Markoff.MiddleGame.TraceEquation
-import BGS.NumberTheory.DivisorBound
+module
+
+public import BGS.Markoff.MiddleGame.TraceEquation
+public import BGS.NumberTheory.DivisorBound
+
+@[expose] public section
 
 /-!
 # The middle-game bad-order union

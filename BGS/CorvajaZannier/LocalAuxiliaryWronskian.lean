@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.AuxiliaryFamily
-import BGS.CorvajaZannier.LocalWronskian
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+module
+
+public import BGS.CorvajaZannier.AuxiliaryFamily
+public import BGS.CorvajaZannier.LocalWronskian
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+
+@[expose] public section
 
 /-!
 # Local auxiliary-family Wronskian estimates

@@ -1,6 +1,10 @@
-import GenMarkoff.General.Assembly.RegularMiddleIteration
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+module
+
+public import GenMarkoff.General.Assembly.RegularMiddleIteration
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+
+@[expose] public section
 
 /-!
 # Scaled divisor-envelope estimate for the middle game

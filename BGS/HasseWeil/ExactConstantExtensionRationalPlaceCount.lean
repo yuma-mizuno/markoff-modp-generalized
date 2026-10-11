@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOne
-import BGS.HasseWeil.PlaneAffineHasseWeilFromZeta
+module
+
+public import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOne
+public import BGS.HasseWeil.PlaneAffineHasseWeilFromZeta
+
+@[expose] public section
 
 /-!
 # Rational-place count of an exact constant extension

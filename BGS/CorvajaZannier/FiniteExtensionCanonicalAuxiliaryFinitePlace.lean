@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.AuxiliaryFamilyIndexing
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
-import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
-import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.AuxiliaryFamilyIndexing
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
+public import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
+public import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 

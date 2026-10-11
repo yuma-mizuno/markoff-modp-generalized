@@ -1,7 +1,14 @@
-import BGS.Markoff.TraceCurve.Geometry
-import Mathlib.FieldTheory.KummerExtension
-import Mathlib.FieldTheory.RatFunc.Degree
-import Mathlib.RingTheory.Norm.Basic
+module
+
+public import BGS.Markoff.TraceCurve.Geometry
+public import Mathlib.FieldTheory.KummerExtension
+public import Mathlib.FieldTheory.RatFunc.Degree
+public import Mathlib.RingTheory.Norm.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Kummer descent for the split trace power cover
@@ -179,7 +186,7 @@ lemma norm_splitTraceBaseRoot
   change Algebra.norm (RatFunc K) pb.gen = -splitTraceRadicand sigma
   rw [Algebra.PowerBasis.norm_gen_eq_coeff_zero_minpoly,
     AdjoinRoot.minpoly_powerBasis_gen_of_monic]
-  · simp [pb, splitTraceBaseKummerPolynomial]
+  · simp [pb, AdjoinRoot.powerBasis_dim, splitTraceBaseKummerPolynomial]
   · exact monic_X_pow_sub_C _ (by norm_num)
 
 /-- A prime-power root of the base coordinate `v` cannot already lie in the quadratic base
@@ -265,7 +272,7 @@ lemma splitTraceBaseFunctionField_finrank
   let hIrred := splitTraceBaseKummerPolynomial_irreducible sigma hsigma
   letI : Fact (Irreducible (splitTraceBaseKummerPolynomial sigma)) := ⟨hIrred⟩
   rw [PowerBasis.finrank (AdjoinRoot.powerBasis hIrred.ne_zero)]
-  simp [splitTraceBaseKummerPolynomial]
+  simp [AdjoinRoot.powerBasis_dim, splitTraceBaseKummerPolynomial]
 
 /-- The norm of `u * v` has rational-function degree one.  This is the second independent divisor
 obstruction used after adjoining the `e`-th root of `v`. -/
@@ -316,7 +323,7 @@ lemma splitTraceEtaFunctionField_finrank
   let hEtaIrred := splitTraceEtaKummerPolynomial_irreducible' sigma hsigma e heOdd
   letI : Fact (Irreducible (splitTraceEtaKummerPolynomial sigma e)) := ⟨hEtaIrred⟩
   rw [PowerBasis.finrank (AdjoinRoot.powerBasis hEtaIrred.ne_zero)]
-  simp [splitTraceEtaKummerPolynomial]
+  simp [AdjoinRoot.powerBasis_dim, splitTraceEtaKummerPolynomial]
 
 /-- The second Kummer radicand, corresponding to `xi^d = u * v`. -/
 def splitTraceXiRadicand (sigma : K) (e : ℕ) :
@@ -532,7 +539,7 @@ lemma splitTraceXiFunctionField_finrank
     splitTraceXiKummerPolynomial_irreducible sigma hsigma e d heOdd hdOdd hde
   letI : Fact (Irreducible (splitTraceXiKummerPolynomial sigma e d)) := ⟨hXiIrred⟩
   rw [PowerBasis.finrank (AdjoinRoot.powerBasis hXiIrred.ne_zero)]
-  simp [splitTraceXiKummerPolynomial]
+  simp [AdjoinRoot.powerBasis_dim, splitTraceXiKummerPolynomial]
 
 /-- The iterated Kummer function-field tower for the odd, coprime split trace power cover is a
 domain.  All three irreducibility facts are constructed from the explicit norm-degree arguments

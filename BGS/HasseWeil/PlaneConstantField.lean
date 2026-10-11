@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PoweredImageBaseChange
-import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
-import Mathlib.FieldTheory.RatFunc.Luroth
+module
+
+public import BGS.CorvajaZannier.PoweredImageBaseChange
+public import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
+public import Mathlib.FieldTheory.RatFunc.Luroth
+
+@[expose] public section
 
 /-!
 # Constants in an absolutely irreducible plane-curve function field

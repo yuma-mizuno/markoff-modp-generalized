@@ -1,6 +1,10 @@
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.RingTheory.DedekindDomain.Factorization
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation
+
+@[expose] public section
 
 open scoped nonZeroDivisors
 
@@ -30,7 +34,7 @@ theorem le_iff_count_ge {I J : FractionalIdeal R⁰ K} (hI : I ≠ 0) (hJ : J �
       exact hcount.subset fun v hv hzero ↦ by
         apply hv
         simp [hzero]
-    apply finprod_le_finprod
+    apply finprod_le_finprod₀
     · exact hfinite I
     · exact fun _ ↦ zero_le _
     · exact hfinite J

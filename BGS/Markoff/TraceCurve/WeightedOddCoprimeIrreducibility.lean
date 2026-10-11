@@ -1,6 +1,10 @@
-import BGS.Markoff.TraceCurve.CommonPrimeKummerTower
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+module
+
+public import BGS.Markoff.TraceCurve.CommonPrimeKummerTower
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+public import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+
+@[expose] public section
 
 /-!
 # Absolute irreducibility of weighted odd-coprime split trace covers

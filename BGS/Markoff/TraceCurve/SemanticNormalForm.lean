@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.NormalForm
+module
+
+public import BGS.Markoff.TraceCurve.NormalForm
+
+@[expose] public section
 
 /-!
 # Semantic normal forms for the split trace cover
@@ -79,11 +83,11 @@ section TraceCover
 variable (sigma : K) (hsigma : sigma ≠ 0) (e d : ℕ)
   (heOdd : Odd e) (hdOdd : Odd d) (hde : d.Coprime e)
 
-private lemma etaExponent_ne_zero (e : ℕ) (heOdd : Odd e) : e ≠ 0 := by
+lemma etaExponent_ne_zero (e : ℕ) (heOdd : Odd e) : e ≠ 0 := by
   rintro rfl
   simp at heOdd
 
-private lemma xiExponent_ne_zero (d : ℕ) (hdOdd : Odd d) : d ≠ 0 := by
+lemma xiExponent_ne_zero (d : ℕ) (hdOdd : Odd d) : d ≠ 0 := by
   rintro rfl
   simp at hdOdd
 

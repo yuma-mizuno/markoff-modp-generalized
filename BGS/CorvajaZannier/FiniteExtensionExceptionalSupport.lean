@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionPolynomialHeight
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPolynomialHeight
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Exceptional-place bookkeeping for Corvaja--Zannier
@@ -289,7 +293,7 @@ theorem finiteExtensionPrincipalDivisor_supportDegree_le_two_mul_height
       rw [← finiteExtensionPositiveDegree_eq_height K L x hx]
     _ = _ := by omega
 
-private def finsuppWeightedNegativeDegree
+def finsuppWeightedNegativeDegree
     {ι : Type*} [DecidableEq ι] (D : ι →₀ ℤ) (weight : ι → ℕ) : ℕ :=
   ∑ i ∈ D.support, (-D i).toNat * weight i
 
@@ -556,7 +560,7 @@ section ExceptionalSet
 
 variable {A : Type*} [Fintype A]
 
-private def finiteExtensionFamilyMemberSupportEmbedding
+def finiteExtensionFamilyMemberSupportEmbedding
     (f : A → L) (a : A) :
     {w // w ∈ (finiteExtensionPrincipalDivisor K L (f a)).support} ↪
       FiniteExtensionFamilyPlace K L f where

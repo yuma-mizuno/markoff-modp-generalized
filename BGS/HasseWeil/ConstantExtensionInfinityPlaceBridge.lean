@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ConstantTensorResidue
-import BGS.HasseWeil.ExactConstantExtensionInfinityNormalization
-import BGS.HasseWeil.OnePointLeadingCoefficient
+module
+
+public import BGS.HasseWeil.ConstantTensorResidue
+public import BGS.HasseWeil.ExactConstantExtensionInfinityNormalization
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+
+@[expose] public section
 
 /-!
 # Infinity places in an exact constant extension
@@ -30,32 +34,32 @@ section ReciprocalFractionField
 
 variable (K : Type*) [Field K] [DecidableEq K] [DecidableEq (RatFunc K)]
 
-@[reducible] private noncomputable def canonicalRatFuncPolynomialAlgebra :
+@[reducible] noncomputable def constantExtensionBridgeRatFuncPolynomialAlgebra :
     Algebra K[X] (RatFunc K) := inferInstance
 
 omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 private theorem canonicalRatFuncPolynomialFractionRing :
-    letI := canonicalRatFuncPolynomialAlgebra K
+    letI := constantExtensionBridgeRatFuncPolynomialAlgebra K
     IsFractionRing K[X] (RatFunc K) := by
-  letI := canonicalRatFuncPolynomialAlgebra K
+  letI := constantExtensionBridgeRatFuncPolynomialAlgebra K
   infer_instance
 
 omit [DecidableEq K] [DecidableEq (RatFunc K)] in
-private theorem canonicalRatFuncPolynomialAlgebraMap_injective :
+private theorem constantExtensionBridgeRatFuncPolynomialAlgebraMap_injective :
     Function.Injective
       (@algebraMap K[X] (RatFunc K) _ _
-        (canonicalRatFuncPolynomialAlgebra K)) := by
-  letI := canonicalRatFuncPolynomialAlgebra K
+        (constantExtensionBridgeRatFuncPolynomialAlgebra K)) := by
+  letI := constantExtensionBridgeRatFuncPolynomialAlgebra K
   exact RatFunc.algebraMap_injective K
 
 omit [DecidableEq K] [DecidableEq (RatFunc K)] in
 private theorem canonicalRatFunc_div_surjective (z : RatFunc K) :
     ∃ p q : K[X], q ≠ 0 ∧ z =
       @algebraMap K[X] (RatFunc K) _ _
-          (canonicalRatFuncPolynomialAlgebra K) p /
+          (constantExtensionBridgeRatFuncPolynomialAlgebra K) p /
         @algebraMap K[X] (RatFunc K) _ _
-          (canonicalRatFuncPolynomialAlgebra K) q := by
-  letI := canonicalRatFuncPolynomialAlgebra K
+          (constantExtensionBridgeRatFuncPolynomialAlgebra K) q := by
+  letI := constantExtensionBridgeRatFuncPolynomialAlgebra K
   letI : IsFractionRing K[X] (RatFunc K) :=
     canonicalRatFuncPolynomialFractionRing K
   obtain ⟨p, q, hq, h⟩ := IsFractionRing.div_surjective K[X] z
@@ -107,10 +111,10 @@ theorem ratFunc_isFractionRing_reciprocalPolynomial :
   have hq := eval_reciprocal_reverse_mul_X_pow K q
   let can : K[X] →+* RatFunc K :=
     @algebraMap K[X] (RatFunc K) _ _
-      (canonicalRatFuncPolynomialAlgebra K)
+      (constantExtensionBridgeRatFuncPolynomialAlgebra K)
   have hcanq : can q ≠ 0 := by
     simpa [can] using
-      (canonicalRatFuncPolynomialAlgebraMap_injective K).ne hq0
+      (constantExtensionBridgeRatFuncPolynomialAlgebraMap_injective K).ne hq0
   have hevalq :
       Polynomial.eval₂ RatFunc.C (1 / RatFunc.X) q.reverse ≠ 0 := by
     intro hzero
@@ -130,7 +134,7 @@ end ReciprocalFractionField
 
 section LocalizationHelpers
 
-private noncomputable def heightOneResidueFieldRingEquiv
+noncomputable def infinityHeightOneResidueFieldRingEquiv
     {A B : Type*} [CommRing A] [CommRing B]
     (e : A ≃+* B) (q : HeightOneSpectrum A) :
     q.asIdeal.ResidueField ≃+*
@@ -141,7 +145,7 @@ private noncomputable def heightOneResidueFieldRingEquiv
       change q.asIdeal = (q.asIdeal.comap e.symm).comap e
       exact (Ideal.comap_of_equiv e).symm)
 
-private theorem mappedPrimeCompl_disjoint_of_under_eq
+theorem mappedPrimeCompl_disjoint_of_under_eq
     (R A : Type*) [CommRing R] [CommRing A] [Algebra R A]
     (p : Ideal R) [p.IsPrime] (q : Ideal A)
     (hq : q.under R = p) :
@@ -153,7 +157,7 @@ private theorem mappedPrimeCompl_disjoint_of_under_eq
   obtain ⟨r, hr, rfl⟩ := hxM
   exact hr (hq ▸ hxq)
 
-private theorem localizationMap_liesOver_maximalIdeal
+theorem localizationMap_liesOver_maximalIdeal
     (R V A B : Type*)
     [CommRing R] [CommRing V] [CommRing A] [CommRing B]
     [Algebra R V] [Algebra R A] [Algebra R B]
@@ -181,7 +185,7 @@ private theorem localizationMap_liesOver_maximalIdeal
       (congrArg (Ideal.under R) hQA).symm.trans (Ideal.under_under Q)
     _ = (Q.under V).under R := Ideal.under_under Q |>.symm
 
-private noncomputable def localizationResidueFieldAlgEquiv
+noncomputable def localizationResidueFieldAlgEquiv
     (K A B : Type*)
     [Field K] [CommRing A] [CommRing B]
     [Algebra K A] [Algebra K B] [Algebra A B]
@@ -205,7 +209,7 @@ private noncomputable def localizationResidueFieldAlgEquiv
   exact (RingHom.surjectiveOnStalks_of_isLocalization M B)
     |>.residueFieldMap_bijective q Q hcomap
 
-private noncomputable def localizationResidueFieldRingEquiv
+noncomputable def localizationResidueFieldRingEquiv
     (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
     (M : Submonoid A) [IsLocalization M B]
     (q : Ideal A) [q.IsPrime]
@@ -263,7 +267,7 @@ private theorem actualInfinityPlaceResidueField_finite
     simpa [p] using Ideal.primesOver.liesOver
       (ratFuncInfinityPlace K).asIdeal P
   letI := Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra.QuasiFiniteAt (RatFuncInfinityIntegers K) P.1 :=
     inferInstance
   letI : Module.Finite p.ResidueField P.1.ResidueField := inferInstance
@@ -683,7 +687,7 @@ noncomputable def exactConstantExtensionUpstairsResidueFieldRingEquiv
       _ = o := hqOrigin
   let affineResidue : q.asIdeal.ResidueField ≃+*
       qA.asIdeal.ResidueField :=
-    heightOneResidueFieldRingEquiv e.toRingEquiv q
+    infinityHeightOneResidueFieldRingEquiv e.toRingEquiv q
   letI : Algebra S[X] V := ratFuncInfinityReciprocalPolynomialAlgebra S
   letI : o.IsPrime :=
     (Ideal.span_singleton_prime Polynomial.X_ne_zero).mpr Polynomial.prime_X

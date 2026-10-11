@@ -1,6 +1,10 @@
-import BGS.HasseWeil.OnePointHeight
-import BGS.HasseWeil.SquareFieldStepanovAuxiliary
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointHeight
+public import BGS.HasseWeil.SquareFieldStepanovAuxiliary
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The square-field Stepanov zero count

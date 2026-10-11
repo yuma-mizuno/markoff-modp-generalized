@@ -1,8 +1,15 @@
-import BGS.HasseWeil.ExactConstantExtensionFiniteDifferent
-import BGS.HasseWeil.ExactConstantExtensionInfinityDifferent
-import BGS.HasseWeil.ExactConstantExtensionInfinityPlaceCompatibility
-import BGS.HasseWeil.ExactConstantExtensionGenusInvariance
-import BGS.HasseWeil.IdealMultiplicityMap
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFiniteDifferent
+public import BGS.HasseWeil.ExactConstantExtensionInfinityDifferent
+public import BGS.HasseWeil.ExactConstantExtensionInfinityPlaceCompatibility
+public import BGS.HasseWeil.ExactConstantExtensionGenusInvariance
+public import BGS.HasseWeil.IdealMultiplicityMap
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Local different coefficients under exact constant extension
@@ -24,6 +31,46 @@ open BGS.CorvajaZannier IsDedekindDomain
 
 set_option synthInstance.maxHeartbeats 400000
 set_option maxHeartbeats 2000000
+
+-- Fix the normalization action before inferring its algebra and module
+-- structures; the presentation below also carries an equal polynomial action.
+local instance (priority := 1100) differentCoefficientRatFuncPolynomialAlgebra
+    (k : Type*) [Field k] : Algebra k[X] (RatFunc k) := inferInstance
+
+local instance (priority := 10) differentCoefficientTransportPolynomialAlgebra
+    (k T : Type*) [Field k] [Field T] [Algebra (RatFunc k) T] :
+    Algebra k[X] T := ratFuncInducedPolynomialAlgebra k T
+
+local instance (priority := 1200) differentCoefficientFiniteClosureAlgebra
+    (k T : Type*) [Field k] [Field T] [Algebra (RatFunc k) T] :
+    Algebra k[X] (RatFuncFiniteIntegralClosure k T) := by
+  letI : Algebra k[X] T := ratFuncInducedPolynomialAlgebra k T
+  exact Subalgebra.algebra (RatFuncFiniteIntegralClosure k T)
+
+local instance (priority := 1200) differentCoefficientFiniteClosureAmbientAlgebra
+    (k T : Type*) [Field k] [Field T] [Algebra (RatFunc k) T] :
+    Algebra (RatFuncFiniteIntegralClosure k T) T := by
+  letI : Algebra k[X] T := ratFuncInducedPolynomialAlgebra k T
+  exact Algebra.ofSubsemiring (RatFuncFiniteIntegralClosure k T).toSubsemiring
+
+local instance differentCoefficientFiniteClosureDedekind
+    (k T : Type*) [Field k] [Field T] [Algebra (RatFunc k) T]
+    [FiniteDimensional (RatFunc k) T] [Algebra.IsSeparable (RatFunc k) T] :
+    IsDedekindDomain (RatFuncFiniteIntegralClosure k T) := by
+  letI : Algebra k[X] T := ratFuncInducedPolynomialAlgebra k T
+  letI : IsScalarTower k[X] (RatFunc k) T :=
+    IsScalarTower.of_algebraMap_eq' rfl
+  exact integralClosure.isDedekindDomain k[X] (RatFunc k) T
+
+local instance differentCoefficientFiniteClosureTorsionFree
+    (k T : Type*) [Field k] [Field T] [Algebra (RatFunc k) T] :
+    Module.IsTorsionFree k[X] (RatFuncFiniteIntegralClosure k T) := by
+  letI : Algebra k[X] T := ratFuncInducedPolynomialAlgebra k T
+  letI : IsScalarTower k[X] (RatFunc k) T :=
+    IsScalarTower.of_algebraMap_eq' rfl
+  letI : Module.IsTorsionFree k[X] T :=
+    Module.IsTorsionFree.trans_faithfulSMul k[X] (RatFunc k) T
+  exact Subalgebra.instIsTorsionFree (RatFuncFiniteIntegralClosure k T)
 
 variable (C S N : Type*) [Field C] [Field S] [Field N]
   [Fintype C] [Finite S]
@@ -66,7 +113,7 @@ local instance exactConstantDifferentCoefficientTargetPolynomialAlgebra :
     Algebra S[X] (ExactConstantExtension C N S) :=
   constantExtensionTensorPolynomialAlgebra C S N
 
-@[reducible] private noncomputable def
+@[reducible] noncomputable def
     exactConstantDifferentCoefficientCanonicalFractionRingAlgebra
     (R : Type*) [CommRing R] [IsDomain R] :
     Algebra R (FractionRing R) := inferInstance
@@ -93,7 +140,7 @@ private theorem integralClosureAlgEquivRatFuncFiniteOfEq_coe
 the multiplicity of its different.  The equivalence here is the equality
 transport from a chosen compatible polynomial action to the action induced
 by the fixed rational-function-field embedding. -/
-private def idealMapMulEquiv {R T : Type*} [CommSemiring R] [CommSemiring T]
+def idealMapMulEquiv {R T : Type*} [CommSemiring R] [CommSemiring T]
     (e : R ≃+* T) : Ideal R ≃* Ideal T where
   toFun I := I.map e
   invFun I := I.map e.symm
@@ -114,8 +161,8 @@ private theorem finiteNormalization_multiplicity_map_eq
           (Ideal.map e I) =
       multiplicity q.asIdeal I := by
   dsimp only
-  rw [heightOneSpectrumEquivOfAlgEquiv_asIdeal]
   let e := integralClosureAlgEquivRatFuncFiniteOfEq k T a h
+  rw [heightOneSpectrumEquivOfAlgEquiv_asIdeal e q]
   rw [show Ideal.comap e.symm q.asIdeal = Ideal.map e q.asIdeal by
     exact (Ideal.map_comap_of_equiv e.toRingEquiv).symm]
   exact multiplicity_map_eq
@@ -163,7 +210,7 @@ private theorem ramificationIdx_algEquiv
   let q' := heightOneSpectrumEquivOfAlgEquiv e q
   have hIdeal : q'.asIdeal = Ideal.map e.toRingHom q.asIdeal := by
     dsimp only [q']
-    rw [heightOneSpectrumEquivOfAlgEquiv_asIdeal]
+    rw [heightOneSpectrumEquivOfAlgEquiv_asIdeal e q]
     exact (Ideal.map_comap_of_equiv e.toRingEquiv).symm
   calc
     q'.asIdeal.ramificationIdx R =
@@ -244,7 +291,7 @@ theorem exactConstantExtensionPresentedFinitePlace_ramificationIdx_eq_one
   letI : IsScalarTower C C[X] N :=
     IsScalarTower.of_algebraMap_eq' rfl
   letI : IsDedekindDomain R2 :=
-    IsIntegralClosure.isDedekindDomain C[X] (RatFunc C) N R2
+    differentCoefficientFiniteClosureDedekind C N
   letI : Module.IsTorsionFree C[X] N := by
     rw [Module.isTorsionFree_iff_algebraMap_injective]
     change Function.Injective
@@ -252,7 +299,7 @@ theorem exactConstantExtensionPresentedFinitePlace_ramificationIdx_eq_one
     exact (algebraMap (RatFunc C) N).injective.comp
       (RatFunc.algebraMap_injective C)
   letI : Module.IsTorsionFree C[X] R2 :=
-    IsIntegralClosure.isTorsionFree C[X] N
+    differentCoefficientFiniteClosureTorsionFree C N
   letI : Algebra C R2 :=
     RingHom.toAlgebra
       ((algebraMap C[X] R2).comp (algebraMap C C[X]))
@@ -292,7 +339,7 @@ theorem exactConstantExtensionPresentedFinitePlace_ramificationIdx_eq_one
   letI : SMul R2 CC := Algebra.toSMul
   letI : Module R2 CC := Algebra.toModule
   letI : IsDedekindDomain CC :=
-    IsIntegralClosure.isDedekindDomain C[X] (RatFunc C) E CC
+    differentCoefficientFiniteClosureDedekind C E
   letI : Algebra S CC :=
     exactConstantExtensionFiniteIntegralClosureConstantAlgebra C N S hExact
   letI : Algebra S CS :=
@@ -713,7 +760,7 @@ theorem exactConstantExtension_presented_totalDifferentMultiplicity_eq
       letI : IsScalarTower C[X] (RatFunc C) N :=
         IsScalarTower.of_algebraMap_eq' rfl
       letI : IsDedekindDomain R2 :=
-        IsIntegralClosure.isDedekindDomain C[X] (RatFunc C) N R2
+        differentCoefficientFiniteClosureDedekind C N
       letI : Module.IsTorsionFree C[X] N := by
         rw [Module.isTorsionFree_iff_algebraMap_injective]
         change Function.Injective
@@ -722,7 +769,7 @@ theorem exactConstantExtension_presented_totalDifferentMultiplicity_eq
         exact (algebraMap (RatFunc C) N).injective.comp
           (RatFunc.algebraMap_injective C)
       letI : Module.IsTorsionFree C[X] R2 :=
-        IsIntegralClosure.isTorsionFree C[X] N
+        differentCoefficientFiniteClosureTorsionFree C N
       letI : Algebra R2 B :=
         exactConstantExtensionFiniteNormalizationAlgebra C S N
       letI : SMul R2 B := Algebra.toSMul

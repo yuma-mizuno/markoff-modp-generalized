@@ -1,7 +1,11 @@
-import BGS.Markoff.Incidence.Fibers
-import Mathlib.FieldTheory.KummerPolynomial
-import Mathlib.RingTheory.TensorProduct.MvPolynomial
-import Mathlib.RingTheory.TensorProduct.Quotient
+module
+
+public import BGS.Markoff.Incidence.Fibers
+public import Mathlib.FieldTheory.KummerPolynomial
+public import Mathlib.RingTheory.TensorProduct.MvPolynomial
+public import Mathlib.RingTheory.TensorProduct.Quotient
+
+@[expose] public section
 
 /-!
 # Geometric integrality of the incidence auxiliary coordinate ring
@@ -112,70 +116,71 @@ lemma not_isSquare_algebraMap_adjoinSquare_of_independent
     (hf : ¬ IsSquare f) (hg : ¬ IsSquare g) (hfg : ¬ IsSquare (f * g)) :
     ¬ IsSquare
       (algebraMap F (AdjoinRoot (adjoinSquarePolynomial f)) g) := by
-  let q : Polynomial F := adjoinSquarePolynomial f
-  have hqIrreducible : Irreducible q :=
-    adjoinSquarePolynomial_irreducible_of_not_isSquare hf
-  letI : Fact (Irreducible q) := ⟨hqIrreducible⟩
-  change ¬ IsSquare (algebraMap F (AdjoinRoot q) g)
-  have hqMonic : q.Monic := by simpa [q] using adjoinSquarePolynomial_monic f
-  have hqNatDegree : q.natDegree = 2 := by
-    simpa [q] using adjoinSquarePolynomial_natDegree f
-  let b : Module.Basis (Fin 2) F (AdjoinRoot q) :=
-    (AdjoinRoot.powerBasis' hqMonic).basis.reindex (finCongr hqNatDegree)
-  rintro ⟨z, hzSquare⟩
-  let x : F := b.repr z 0
-  let y : F := b.repr z 1
-  have hb0 : b 0 = 1 := by
-    simp [b, PowerBasis.coe_basis]
-  have hb1 : b 1 = AdjoinRoot.root q := by
-    simp [b, PowerBasis.coe_basis]
-  have hz : z = algebraMap F (AdjoinRoot q) x +
-      algebraMap F (AdjoinRoot q) y * AdjoinRoot.root q := by
-    have hsum := b.sum_repr z
-    rw [Fin.sum_univ_two] at hsum
-    simpa [hb0, hb1, x, y, Algebra.smul_def] using hsum.symm
-  have hroot : (AdjoinRoot.root q) ^ 2 = algebraMap F (AdjoinRoot q) f := by
-    simpa [q] using adjoinSquareRoot_sq f
-  have hexpand :
-      algebraMap F (AdjoinRoot q) g =
-        algebraMap F (AdjoinRoot q) (x * x + y * y * f) +
-          algebraMap F (AdjoinRoot q) (2 * x * y) * AdjoinRoot.root q := by
-    rw [hzSquare, hz]
-    calc
-      (algebraMap F (AdjoinRoot q) x +
-          algebraMap F (AdjoinRoot q) y * AdjoinRoot.root q) *
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+      let q : Polynomial F := adjoinSquarePolynomial f
+      have hqIrreducible : Irreducible q :=
+        adjoinSquarePolynomial_irreducible_of_not_isSquare hf
+      letI : Fact (Irreducible q) := ⟨hqIrreducible⟩
+      change ¬ IsSquare (algebraMap F (AdjoinRoot q) g)
+      have hqMonic : q.Monic := by simpa [q] using adjoinSquarePolynomial_monic f
+      have hqNatDegree : q.natDegree = 2 := by
+        simpa [q] using adjoinSquarePolynomial_natDegree f
+      let b : Module.Basis (Fin 2) F (AdjoinRoot q) :=
+        (AdjoinRoot.powerBasis' hqMonic).basis.reindex (finCongr hqNatDegree)
+      rintro ⟨z, hzSquare⟩
+      let x : F := b.repr z 0
+      let y : F := b.repr z 1
+      have hb0 : b 0 = 1 := by
+        simp [b, PowerBasis.coe_basis]
+      have hb1 : b 1 = AdjoinRoot.root q := by
+        simp [b, PowerBasis.coe_basis]
+      have hz : z = algebraMap F (AdjoinRoot q) x +
+          algebraMap F (AdjoinRoot q) y * AdjoinRoot.root q := by
+        have hsum := b.sum_repr z
+        rw [Fin.sum_univ_two] at hsum
+        simpa [hb0, hb1, x, y, Algebra.smul_def] using hsum.symm
+      have hroot : (AdjoinRoot.root q) ^ 2 = algebraMap F (AdjoinRoot q) f := by
+        simpa [q] using adjoinSquareRoot_sq f
+      have hexpand :
+          algebraMap F (AdjoinRoot q) g =
+            algebraMap F (AdjoinRoot q) (x * x + y * y * f) +
+              algebraMap F (AdjoinRoot q) (2 * x * y) * AdjoinRoot.root q := by
+        rw [hzSquare, hz]
+        calc
           (algebraMap F (AdjoinRoot q) x +
-            algebraMap F (AdjoinRoot q) y * AdjoinRoot.root q) =
-        algebraMap F (AdjoinRoot q) x * algebraMap F (AdjoinRoot q) x +
-          2 * algebraMap F (AdjoinRoot q) x * algebraMap F (AdjoinRoot q) y *
-            AdjoinRoot.root q +
-          algebraMap F (AdjoinRoot q) y * algebraMap F (AdjoinRoot q) y *
-            (AdjoinRoot.root q) ^ 2 := by ring
-      _ = _ := by
-        rw [hroot]
-        simp only [map_add, map_mul, map_ofNat]
+              algebraMap F (AdjoinRoot q) y * AdjoinRoot.root q) *
+              (algebraMap F (AdjoinRoot q) x +
+                algebraMap F (AdjoinRoot q) y * AdjoinRoot.root q) =
+            algebraMap F (AdjoinRoot q) x * algebraMap F (AdjoinRoot q) x +
+              2 * algebraMap F (AdjoinRoot q) x * algebraMap F (AdjoinRoot q) y *
+                AdjoinRoot.root q +
+              algebraMap F (AdjoinRoot q) y * algebraMap F (AdjoinRoot q) y *
+                (AdjoinRoot.root q) ^ 2 := by ring
+          _ = _ := by
+            rw [hroot]
+            simp only [map_add, map_mul, map_ofNat]
+            ring
+      have hbasisExpression :
+          g • b 0 = (x * x + y * y * f) • b 0 + (2 * x * y) • b 1 := by
+        simpa [hb0, hb1, Algebra.smul_def] using hexpand
+      have hconstant := congrArg (b.coord 0) hbasisExpression
+      have hlinear := congrArg (b.coord 1) hbasisExpression
+      have hgExpression : g = x * x + y * y * f := by
+        simpa using hconstant
+      have hxy : x * y = 0 := by
+        have htwoXY : (2 : F) * (x * y) = 0 := by
+          simpa [mul_assoc] using hlinear.symm
+        exact (mul_eq_zero.mp htwoXY).resolve_left h2
+      rcases mul_eq_zero.mp hxy with hx | hy
+      · apply hfg
+        refine ⟨y * f, ?_⟩
+        rw [hgExpression, hx]
         ring
-  have hbasisExpression :
-      g • b 0 = (x * x + y * y * f) • b 0 + (2 * x * y) • b 1 := by
-    simpa [hb0, hb1, Algebra.smul_def] using hexpand
-  have hconstant := congrArg (b.coord 0) hbasisExpression
-  have hlinear := congrArg (b.coord 1) hbasisExpression
-  have hgExpression : g = x * x + y * y * f := by
-    simpa using hconstant
-  have hxy : x * y = 0 := by
-    have htwoXY : (2 : F) * (x * y) = 0 := by
-      simpa [mul_assoc] using hlinear.symm
-    exact (mul_eq_zero.mp htwoXY).resolve_left h2
-  rcases mul_eq_zero.mp hxy with hx | hy
-  · apply hfg
-    refine ⟨y * f, ?_⟩
-    rw [hgExpression, hx]
-    ring
-  · apply hg
-    refine ⟨x, ?_⟩
-    rw [hgExpression, hy]
-    ring
-
+      · apply hg
+        refine ⟨x, ?_⟩
+        rw [hgExpression, hy]
+        ring
 /-- Extend coefficients in a quadratic `AdjoinRoot` presentation. -/
 def adjoinSquareMap {R S : Type*} [CommRing R] [CommRing S]
     (φ : R →+* S) (f : R) :
@@ -188,45 +193,46 @@ def adjoinSquareMap {R S : Type*} [CommRing R] [CommRing S]
 lemma adjoinSquareMap_injective {R S : Type*} [CommRing R] [CommRing S]
     [Nontrivial R] [Nontrivial S] (φ : R →+* S) (hφ : Function.Injective φ) (f : R) :
     Function.Injective (adjoinSquareMap φ f) := by
-  let qR : Polynomial R := adjoinSquarePolynomial f
-  let qS : Polynomial S := adjoinSquarePolynomial (φ f)
-  have hqRMonic : qR.Monic := by simpa [qR] using adjoinSquarePolynomial_monic f
-  have hqSMonic : qS.Monic := by simpa [qS] using adjoinSquarePolynomial_monic (φ f)
-  have hqRNatDegree : qR.natDegree = 2 := by
-    simpa [qR] using adjoinSquarePolynomial_natDegree f
-  have hqSNatDegree : qS.natDegree = 2 := by
-    simpa [qS] using adjoinSquarePolynomial_natDegree (φ f)
-  let bR : Module.Basis (Fin 2) R (AdjoinRoot qR) :=
-    (AdjoinRoot.powerBasis' hqRMonic).basis.reindex (finCongr hqRNatDegree)
-  let bS : Module.Basis (Fin 2) S (AdjoinRoot qS) :=
-    (AdjoinRoot.powerBasis' hqSMonic).basis.reindex (finCongr hqSNatDegree)
-  have hbR0 : bR 0 = 1 := by simp [bR, PowerBasis.coe_basis]
-  have hbR1 : bR 1 = AdjoinRoot.root qR := by simp [bR, PowerBasis.coe_basis]
-  have hbS0 : bS 0 = 1 := by simp [bS, PowerBasis.coe_basis]
-  have hbS1 : bS 1 = AdjoinRoot.root qS := by simp [bS, PowerBasis.coe_basis]
-  rw [injective_iff_map_eq_zero]
-  intro z hzMap
-  let x : R := bR.repr z 0
-  let y : R := bR.repr z 1
-  have hz : z = algebraMap R (AdjoinRoot qR) x +
-      algebraMap R (AdjoinRoot qR) y * AdjoinRoot.root qR := by
-    have hsum := bR.sum_repr z
-    rw [Fin.sum_univ_two] at hsum
-    simpa [hbR0, hbR1, x, y, Algebra.smul_def] using hsum.symm
-  have htarget :
-      algebraMap S (AdjoinRoot qS) (φ x) +
-          algebraMap S (AdjoinRoot qS) (φ y) * AdjoinRoot.root qS = 0 := by
-    rw [hz] at hzMap
-    simpa [adjoinSquareMap, qR, qS] using hzMap
-  have hbasisTarget : φ x • bS 0 + φ y • bS 1 = 0 := by
-    simpa [hbS0, hbS1, Algebra.smul_def] using htarget
-  have hxMap := congrArg (bS.coord 0) hbasisTarget
-  have hyMap := congrArg (bS.coord 1) hbasisTarget
-  have hx : x = 0 := hφ (by simpa using hxMap)
-  have hy : y = 0 := hφ (by simpa using hyMap)
-  rw [hz, hx, hy]
-  simp
-
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+      let qR : Polynomial R := adjoinSquarePolynomial f
+      let qS : Polynomial S := adjoinSquarePolynomial (φ f)
+      have hqRMonic : qR.Monic := by simpa [qR] using adjoinSquarePolynomial_monic f
+      have hqSMonic : qS.Monic := by simpa [qS] using adjoinSquarePolynomial_monic (φ f)
+      have hqRNatDegree : qR.natDegree = 2 := by
+        simpa [qR] using adjoinSquarePolynomial_natDegree f
+      have hqSNatDegree : qS.natDegree = 2 := by
+        simpa [qS] using adjoinSquarePolynomial_natDegree (φ f)
+      let bR : Module.Basis (Fin 2) R (AdjoinRoot qR) :=
+        (AdjoinRoot.powerBasis' hqRMonic).basis.reindex (finCongr hqRNatDegree)
+      let bS : Module.Basis (Fin 2) S (AdjoinRoot qS) :=
+        (AdjoinRoot.powerBasis' hqSMonic).basis.reindex (finCongr hqSNatDegree)
+      have hbR0 : bR 0 = 1 := by simp [bR, PowerBasis.coe_basis]
+      have hbR1 : bR 1 = AdjoinRoot.root qR := by simp [bR, PowerBasis.coe_basis]
+      have hbS0 : bS 0 = 1 := by simp [bS, PowerBasis.coe_basis]
+      have hbS1 : bS 1 = AdjoinRoot.root qS := by simp [bS, PowerBasis.coe_basis]
+      rw [injective_iff_map_eq_zero]
+      intro z hzMap
+      let x : R := bR.repr z 0
+      let y : R := bR.repr z 1
+      have hz : z = algebraMap R (AdjoinRoot qR) x +
+          algebraMap R (AdjoinRoot qR) y * AdjoinRoot.root qR := by
+        have hsum := bR.sum_repr z
+        rw [Fin.sum_univ_two] at hsum
+        simpa [hbR0, hbR1, x, y, Algebra.smul_def] using hsum.symm
+      have htarget :
+          algebraMap S (AdjoinRoot qS) (φ x) +
+              algebraMap S (AdjoinRoot qS) (φ y) * AdjoinRoot.root qS = 0 := by
+        rw [hz] at hzMap
+        simpa [adjoinSquareMap, qR, qS] using hzMap
+      have hbasisTarget : φ x • bS 0 + φ y • bS 1 = 0 := by
+        simpa [hbS0, hbS1, Algebra.smul_def] using htarget
+      have hxMap := congrArg (bS.coord 0) hbasisTarget
+      have hyMap := congrArg (bS.coord 1) hbasisTarget
+      have hx : x = 0 := hφ (by simpa using hxMap)
+      have hy : y = 0 := hφ (by simpa using hyMap)
+      rw [hz, hx, hy]
+      simp
 /-- Adjoin the first branch square root over the polynomial ring in the `y`-coordinate. -/
 abbrev IncidenceFirstQuadraticRing (a : L) :=
   AdjoinRoot (adjoinSquarePolynomial (incidenceBranchPolynomial a))
@@ -666,9 +672,10 @@ lemma incidenceAuxCoordinateRingToBiquadratic_coordinateClass (a b : L) (i : Fin
         (incidenceAuxCoordinateClass L a b i) =
       ![incidenceBiquadraticY L a b, incidenceBiquadraticLambda L a b,
         incidenceBiquadraticMu L a b] i := by
-  simp [incidenceAuxCoordinateRingToBiquadratic, incidenceAuxCoordinateClass,
-    incidenceAuxAevalToBiquadratic]
-
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+      simp [incidenceAuxCoordinateRingToBiquadratic, incidenceAuxCoordinateClass,
+        incidenceAuxAevalToBiquadratic]
 @[simp]
 lemma incidenceBiquadraticToAuxCoordinateRing_y (a b : L) :
     incidenceBiquadraticToAuxCoordinateRing L a b (incidenceBiquadraticY L a b) =

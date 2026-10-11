@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.Kummer
+module
+
+public import BGS.Markoff.TraceCurve.Kummer
+
+@[expose] public section
 
 /-!
 # Shifted trace power covers

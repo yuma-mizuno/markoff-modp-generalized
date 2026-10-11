@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionCanonicalDifferentGenusBound
+module
+
+public import BGS.HasseWeil.FiniteExtensionCanonicalDifferentGenusBound
+
+@[expose] public section
 
 /-!
 # Canonicality criterion for the finite-extension different divisor

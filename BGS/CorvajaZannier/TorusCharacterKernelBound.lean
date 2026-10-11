@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.PlaneCurveSupportDeterminant
-import Mathlib.Data.Int.GCD
-import Mathlib.RingTheory.RootsOfUnity.Basic
-import Mathlib.SetTheory.Cardinal.Finite
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveSupportDeterminant
+public import Mathlib.Data.Int.GCD
+public import Mathlib.RingTheory.RootsOfUnity.Basic
+public import Mathlib.SetTheory.Cardinal.Finite
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Rank-two character kernels in a two-dimensional torus

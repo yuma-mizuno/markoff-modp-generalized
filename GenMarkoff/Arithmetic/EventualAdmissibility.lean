@@ -1,5 +1,9 @@
-import GenMarkoff.Divisibility.GenericMartin
-import Mathlib.Data.ZMod.Basic
+module
+
+public import GenMarkoff.Divisibility.GenericMartin
+public import Mathlib.Data.ZMod.Basic
+
+@[expose] public section
 
 /-!
 # Eventual admissibility of integral coefficients

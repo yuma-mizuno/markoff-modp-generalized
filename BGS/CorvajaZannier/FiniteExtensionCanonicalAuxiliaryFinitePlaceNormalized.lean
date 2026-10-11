@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryFinitePlace
-import BGS.CorvajaZannier.FiniteExtensionCanonicalPlacewiseScaling
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryFinitePlace
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalPlacewiseScaling
+
+@[expose] public section
 
 /-!
 # Canonical finite-place bounds for a normalized derivation
@@ -49,7 +53,7 @@ local instance normalizedCasesFiniteIntegralClosureIsTorsionFree :
     Module.IsTorsionFree K[X] (RatFuncFiniteIntegralClosure K L) :=
   IsIntegralClosure.isTorsionFree K[X] L
 
-private abbrev canonicalDifferent : FiniteExtensionPlace K L →₀ ℤ :=
+abbrev canonicalDifferent : FiniteExtensionPlace K L →₀ ℤ :=
   finiteExtensionCanonicalDifferentDivisor K L
     (finiteExtensionFiniteDifferentIdeal_ne_bot K L)
 

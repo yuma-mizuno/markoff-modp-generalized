@@ -1,6 +1,10 @@
-import BGS.External.GeneralCurveTheorems
-import Mathlib.RingTheory.RootsOfUnity.Basic
-import Mathlib.Tactic
+module
+
+public import BGS.External.GeneralCurveTheorems
+public import Mathlib.RingTheory.RootsOfUnity.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Elementary finite-field torsion bounds

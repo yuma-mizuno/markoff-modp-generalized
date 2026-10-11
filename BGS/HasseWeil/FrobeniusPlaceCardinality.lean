@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FinitePlaceFrobeniusFiber
+module
+
+public import BGS.HasseWeil.FinitePlaceFrobeniusFiber
+
+@[expose] public section
 
 /-!
 # Cardinalities of Frobenius place stabilizers

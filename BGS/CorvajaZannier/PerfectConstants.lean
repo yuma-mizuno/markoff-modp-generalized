@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FrobeniusSubfield
-import Mathlib.FieldTheory.Perfect
+module
+
+public import BGS.CorvajaZannier.FrobeniusSubfield
+public import Mathlib.FieldTheory.Perfect
+
+@[expose] public section
 
 /-!
 # Perfect constants inside the Frobenius subfield

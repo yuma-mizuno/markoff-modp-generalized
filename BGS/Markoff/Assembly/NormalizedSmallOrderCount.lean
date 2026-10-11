@@ -1,5 +1,9 @@
-import BGS.Markoff.Assembly.NormalizationCount
-import BGS.Markoff.Core.ConicParametrization
+module
+
+public import BGS.Markoff.Assembly.NormalizationCount
+public import BGS.Markoff.Core.ConicParametrization
+
+@[expose] public section
 
 /-!
 # The elementary small-order point count

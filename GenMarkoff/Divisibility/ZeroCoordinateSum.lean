@@ -1,5 +1,9 @@
-import GenMarkoff.Divisibility.RegularAngles
-import Mathlib.Algebra.BigOperators.Ring.Finset
+module
+
+public import GenMarkoff.Divisibility.RegularAngles
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 # Sums of raw angles on zero-coordinate fibers

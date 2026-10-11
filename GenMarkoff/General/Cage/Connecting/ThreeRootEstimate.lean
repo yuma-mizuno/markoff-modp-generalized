@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.SevenPlaneEstimates
-import GenMarkoff.General.Cage.ThreeRootPowerCover
+module
+
+public import GenMarkoff.General.Cage.Connecting.SevenPlaneEstimates
+public import GenMarkoff.General.Cage.ThreeRootPowerCover
+
+@[expose] public section
 
 /-!
 # Three-root cover estimate for the connecting cage
@@ -39,7 +43,7 @@ private theorem abs_seven_sum_le_sum_abs
 
 /-- A third-root-zero unit-cover point determines a root of the third
 radicand together with the first two square roots above that parameter. -/
-private def thirdRootZeroUnitPowerCoverEmbedding
+def thirdRootZeroUnitPowerCoverEmbedding
     (f g h : K[X]) :
     ThirdRootZeroUnitPowerCover f g h ↪
       Σ parameter : {t : K // h.eval t = 0},

@@ -1,5 +1,9 @@
-import BGS.Markoff.TraceCurve.Kummer
-import BGS.Markoff.Incidence.CoordinateRing
+module
+
+public import BGS.Markoff.TraceCurve.Kummer
+public import BGS.Markoff.Incidence.CoordinateRing
+
+@[expose] public section
 
 /-!
 # Kummer-class independence for common cover primes

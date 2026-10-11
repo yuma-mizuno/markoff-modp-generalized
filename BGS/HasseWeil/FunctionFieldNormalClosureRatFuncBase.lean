@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FunctionFieldNormalClosureConstantBase
-import BGS.HasseWeil.RatFuncConstantExtension
-import Mathlib.FieldTheory.RatFunc.AsPolynomial
+module
+
+public import BGS.HasseWeil.FunctionFieldNormalClosureConstantBase
+public import BGS.HasseWeil.RatFuncConstantExtension
+public import Mathlib.FieldTheory.RatFunc.AsPolynomial
+
+@[expose] public section
 
 /-!
 # The rational-function constant base of the normal closure

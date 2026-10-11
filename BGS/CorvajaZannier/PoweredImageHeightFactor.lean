@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.PoweredImageCurve
+module
+
+public import BGS.CorvajaZannier.PoweredImageCurve
+
+@[expose] public section
 
 /-!
 # The source-to-powered-image degree factor

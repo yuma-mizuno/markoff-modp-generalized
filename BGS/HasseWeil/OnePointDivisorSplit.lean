@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Splitting an effective divisor at one place

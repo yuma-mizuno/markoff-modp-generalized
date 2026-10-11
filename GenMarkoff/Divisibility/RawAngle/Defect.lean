@@ -1,6 +1,10 @@
-import GenMarkoff.Divisibility.RegularAngles
-import Mathlib.Tactic.LinearCombination
-import Mathlib.Tactic.FieldSimp
+module
+
+public import GenMarkoff.Divisibility.RegularAngles
+public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
 
 /-!
 # The raw-angle defect at zero coordinates

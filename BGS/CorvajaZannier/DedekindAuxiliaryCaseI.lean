@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.DedekindAuxiliaryWronskian
-import BGS.CorvajaZannier.DedekindLeadingTermCancellation
-import BGS.CorvajaZannier.LocalAuxiliaryCaseI
-import Mathlib.LinearAlgebra.Matrix.Transvection
+module
+
+public import BGS.CorvajaZannier.DedekindAuxiliaryWronskian
+public import BGS.CorvajaZannier.DedekindLeadingTermCancellation
+public import BGS.CorvajaZannier.LocalAuxiliaryCaseI
+public import Mathlib.LinearAlgebra.Matrix.Transvection
+
+@[expose] public section
 
 /-!
 # Corvaja--Zannier case (i) at a Dedekind DVR place

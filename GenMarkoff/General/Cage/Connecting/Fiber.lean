@@ -1,9 +1,13 @@
-import GenMarkoff.General.Cage.Connecting.Quartic
-import GenMarkoff.General.MiddleGame.ActualDiagonalization
-import GenMarkoff.General.MiddleGame.ActualMoveWiring
-import GenMarkoff.General.Assembly.Vieta.ParityCollapse
-import Mathlib.Algebra.Group.Subgroup.Even
-import Mathlib.FieldTheory.Finite.Basic
+module
+
+public import GenMarkoff.General.Cage.Connecting.Quartic
+public import GenMarkoff.General.MiddleGame.ActualDiagonalization
+public import GenMarkoff.General.MiddleGame.ActualMoveWiring
+public import GenMarkoff.General.Assembly.Vieta.ParityCollapse
+public import Mathlib.Algebra.Group.Subgroup.Even
+public import Mathlib.FieldTheory.Finite.Basic
+
+@[expose] public section
 
 /-!
 # Full-Vieta connectivity of a primitive connecting fiber

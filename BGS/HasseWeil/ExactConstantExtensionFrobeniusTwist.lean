@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionQuotient
-import BGS.HasseWeil.FrobeniusTwistGroup
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionQuotient
+public import BGS.HasseWeil.FrobeniusTwistGroup
+
+@[expose] public section
 
 /-!
 # Fixed fields of Frobenius twists

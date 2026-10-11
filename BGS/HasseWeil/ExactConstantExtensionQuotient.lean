@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ExactConstantExtensionAutomorphism
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionAutomorphism
+
+@[expose] public section
 
 /-!
 # The Frobenius quotient of an exact constant extension

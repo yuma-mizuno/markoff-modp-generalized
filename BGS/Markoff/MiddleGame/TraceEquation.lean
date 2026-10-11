@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.TraceClassification
+module
+
+public import BGS.Markoff.Core.TraceClassification
+
+@[expose] public section
 
 /-!
 # The middle-game trace equation

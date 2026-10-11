@@ -1,6 +1,10 @@
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.RingTheory.PolynomialAlgebra
-import Mathlib.RingTheory.Unramified.Field
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.PolynomialAlgebra
+public import Mathlib.RingTheory.Unramified.Field
+
+@[expose] public section
 
 /-!
 # The different of a separable coefficient extension

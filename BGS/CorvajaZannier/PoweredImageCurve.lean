@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PoweredCoordinateRelation
-import Mathlib.FieldTheory.RatFunc.AsPolynomial
-import Mathlib.RingTheory.Polynomial.GaussLemma
+module
+
+public import BGS.CorvajaZannier.PoweredCoordinateRelation
+public import Mathlib.FieldTheory.RatFunc.AsPolynomial
+public import Mathlib.RingTheory.Polynomial.GaussLemma
+
+@[expose] public section
 
 /-!
 # The actual powered-coordinate image curve

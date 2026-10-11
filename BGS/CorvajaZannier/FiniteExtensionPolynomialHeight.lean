@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import BGS.CorvajaZannier.DedekindPlaceOrder
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import BGS.CorvajaZannier.DedekindPlaceOrder
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Height of a polynomial in a finite rational-function extension

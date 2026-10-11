@@ -1,10 +1,14 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import BGS.CorvajaZannier.InfinityInertiaDegree
-import BGS.CorvajaZannier.DedekindLocalizationOrder
-import BGS.CorvajaZannier.PlaneCurveCoordinatePowerHeight
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
-import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import BGS.CorvajaZannier.InfinityInertiaDegree
+public import BGS.CorvajaZannier.DedekindLocalizationOrder
+public import BGS.CorvajaZannier.PlaneCurveCoordinatePowerHeight
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
+public import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Weighted boundary support for a plane curve
@@ -93,7 +97,7 @@ local instance probeInfinityIntegralClosureIsFractionRing :
   integralClosure.isFractionRing_of_finite_extension (RatFunc K) L
 
 /-- The normalized valuation on `L` represented by an exhaustive place. -/
-private noncomputable def probeFiniteExtensionPlaceValuation
+noncomputable def probeFiniteExtensionPlaceValuation
     (w : FiniteExtensionPlace K L) :
     Valuation L (WithZero (Multiplicative ℤ)) :=
   match w with
@@ -259,7 +263,7 @@ private theorem probeFiniteExtensionPlaceValuation_constant_le_one
       rw [hrepr]
       exact (primeOverHeightOne (ratFuncInfinityPlace K) P).valuation_le_one _
 
-private noncomputable def residueFieldAlgEquivOfIdealEq
+noncomputable def residueFieldAlgEquivOfIdealEq
     {I J : Ideal K[X]} [I.IsPrime] [J.IsPrime] (h : I = J) :
     I.ResidueField ≃ₐ[K] J.ResidueField := by
   subst J
@@ -271,7 +275,7 @@ variable {R F S E : Type*}
   [CommRing R] [IsDedekindDomain R] [Field F] [Algebra R F] [IsFractionRing R F]
   [CommRing S] [IsDedekindDomain S] [Field E] [Algebra S E] [IsFractionRing S E]
 
-private noncomputable def valuationSubringRingEquivOfComapEq
+noncomputable def valuationSubringRingEquivOfComapEq
     (V : ValuationSubring F) (W : ValuationSubring E) (e : F ≃+* E)
     (h : W.comap e.toRingHom = V) : V ≃+* W where
   toFun x := ⟨e x, by
@@ -287,7 +291,7 @@ private noncomputable def valuationSubringRingEquivOfComapEq
   map_mul' x y := Subtype.ext (map_mul e (x : F) (y : F))
   map_add' x y := Subtype.ext (map_add e (x : F) (y : F))
 
-private noncomputable def heightOneSpectrumResidueFieldToValuationSubring
+noncomputable def heightOneSpectrumResidueFieldToValuationSubring
     (q : HeightOneSpectrum R) :
     q.asIdeal.ResidueField ≃+*
       IsLocalRing.ResidueField
@@ -297,7 +301,7 @@ private noncomputable def heightOneSpectrumResidueFieldToValuationSubring
       (Localization.AtPrime q.asIdeal)
       (IsDedekindDomain.HeightOneSpectrum.valuationSubringAtPrime F q)).toRingEquiv
 
-private noncomputable def heightOneSpectrumResidueFieldRingEquivOfComapEq
+noncomputable def heightOneSpectrumResidueFieldRingEquivOfComapEq
     (q : HeightOneSpectrum R) (r : HeightOneSpectrum S) (e : F ≃+* E)
     (h : (IsDedekindDomain.HeightOneSpectrum.valuationSubringAtPrime E r).comap
         e.toRingHom =
@@ -335,7 +339,7 @@ variable {R S F : Type*} [CommRing R] [IsDomain R]
   [IsScalarTower R S F] [IsIntegralClosure S R F]
   [IsDedekindDomain S] [IsFractionRing S F]
 
-private noncomputable def integralClosureToValuationSubring
+noncomputable def integralClosureToValuationSubring
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V) :
     S →+* V := by
@@ -344,7 +348,7 @@ private noncomputable def integralClosureToValuationSubring
   exact (Subring.inclusion ((Subring.integralClosure_le_iff).2 hbase)).comp
     (IsIntegralClosure.equiv R S F (integralClosure R F)).toRingEquiv.toRingHom
 
-private def valuationCenterIdeal
+def valuationCenterIdeal
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V) :
     Ideal S :=
@@ -352,7 +356,7 @@ private def valuationCenterIdeal
     (IsLocalRing.maximalIdeal V)
 
 omit [IsDomain R] [IsDedekindDomain S] [IsFractionRing S F] in
-private theorem valuationCenterIdeal_isPrime
+theorem valuationCenterIdeal_isPrime
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V) :
     (valuationCenterIdeal (S := S) V hbase).IsPrime := by
@@ -390,7 +394,7 @@ private theorem valuationCenterIdeal_ne_bot_of_mem_nonunits
   rw [hbot] at ha
   exact ha0 (Ideal.mem_bot.mp ha)
 
-private noncomputable def valuationCenterPlace
+noncomputable def valuationCenterPlace
     (V : ValuationSubring F)
     (hbase : ∀ r : R, algebraMap R F r ∈ V)
     (hne : valuationCenterIdeal (S := S) V hbase ≠ ⊥) :
@@ -489,7 +493,7 @@ private theorem probe_finiteExtensionPlaceDegree_inl_eq_finrank_residue
   letI : q.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
-  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := inferInstance
   rw [finiteExtensionPlaceDegree, Ideal.inertiaDeg_eq p.asIdeal q.asIdeal]
   rw [← probe_ratFuncFinitePlaceDegree_eq_finrank_residue K p]
   rw [mul_comm, Module.finrank_mul_finrank]
@@ -501,7 +505,7 @@ private theorem probe_finiteExtensionPlaceDegree_inr_eq_finrank_residue
       Module.finrank K P.1.ResidueField := by
   let p := (ratFuncInfinityPlace K).asIdeal
   letI hLocalAlg := Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra p.ResidueField P.1.ResidueField :=
     IsLocalRing.ResidueField.instAlgebra
   letI : IsScalarTower K p.ResidueField P.1.ResidueField := inferInstance
@@ -608,7 +612,15 @@ theorem finiteExtensionPositiveDegree_planeCurveSecondCoordinate_le_degreeOf_fir
       (RatFuncInfinityIntegers K₀) (RatFunc K₀) L₀
       (RatFuncInfinityIntegralClosure K₀ L₀)
   letI : IsFractionRing (RatFuncInfinityIntegralClosure K₀ L₀) L₀ :=
-    integralClosure.isFractionRing_of_finite_extension (RatFunc K₀) L₀
+    IsIntegralClosure.isFractionRing_of_finite_extension
+      (RatFuncInfinityIntegers K₀) (RatFunc K₀) L₀
+      (RatFuncInfinityIntegralClosure K₀ L₀)
+  letI : Module.IsTorsionFree (RatFuncInfinityIntegers K₀) L₀ :=
+    Module.IsTorsionFree.trans_faithfulSMul
+      (RatFuncInfinityIntegers K₀) (RatFunc K₀) L₀
+  letI : Module.IsTorsionFree (RatFuncInfinityIntegers K₀)
+      (RatFuncInfinityIntegralClosure K₀ L₀) :=
+    Subalgebra.instIsTorsionFree (RatFuncInfinityIntegralClosure K₀ L₀)
   let W₁ := FiniteExtensionPlace K₀ L₀
   let divisor₁ : W₁ →₀ ℤ :=
     finiteExtensionPrincipalDivisor K₀ L₀ y

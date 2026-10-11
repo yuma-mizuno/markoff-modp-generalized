@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveCanonicalDegreeBound
-import BGS.CorvajaZannier.PlaneCurveBoundarySupport
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveCanonicalDegreeBound
+public import BGS.CorvajaZannier.PlaneCurveBoundarySupport
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The log-canonical degree budget for a plane curve

@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.Basic
-import Mathlib.GroupTheory.SpecificGroups.Cyclic
+module
+
+public import BGS.Markoff.Core.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+
+@[expose] public section
 
 /-!
 # Elementary counts for the giant-orbit assembly

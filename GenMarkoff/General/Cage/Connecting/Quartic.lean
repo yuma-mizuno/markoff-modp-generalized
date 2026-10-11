@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.FirstAxisTorusVieta
-import GenMarkoff.General.Trace.Surface
+module
+
+public import GenMarkoff.General.Cage.FirstAxisTorusVieta
+public import GenMarkoff.General.Trace.Surface
+
+@[expose] public section
 
 /-!
 # Square classes on a connecting fiber

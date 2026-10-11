@@ -1,7 +1,11 @@
-import GenMarkoff.Core.Statements
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
-import GenMarkoff.TraceCurve.WeightedShiftedCover.Counting
+module
+
+public import GenMarkoff.Core.Statements
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+public import GenMarkoff.TraceCurve.WeightedShiftedCover.Counting
+
+@[expose] public section
 
 /-!
 # Trace fibers of weighted shifted primitive pairs

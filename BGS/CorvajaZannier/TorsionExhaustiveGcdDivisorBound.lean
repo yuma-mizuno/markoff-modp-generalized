@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.TorsionGcdDivisorBound
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import BGS.CorvajaZannier.PlaneCurveRatFuncModel
-import BGS.CorvajaZannier.DedekindLocalizationOrder
-import Mathlib.RingTheory.Valuation.LocalSubring
+module
+
+public import BGS.CorvajaZannier.TorsionGcdDivisorBound
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import BGS.CorvajaZannier.PlaneCurveRatFuncModel
+public import BGS.CorvajaZannier.DedekindLocalizationOrder
+public import Mathlib.RingTheory.Valuation.LocalSubring
+
+@[expose] public section
 
 /-!
 # Torsion points and the exhaustive gcd divisor
@@ -34,7 +38,7 @@ variable {A L : Type*} [CommRing A] [IsDomain A] [Field L]
   [Algebra A L] [IsFractionRing A L]
 
 /-- The fraction-field embedding, with codomain restricted to its range. -/
-private noncomputable def fractionEmbeddingRangeEquiv :
+noncomputable def fractionEmbeddingRangeEquiv :
     A ≃+* (algebraMap A L).range :=
   RingEquiv.ofBijective (algebraMap A L).rangeRestrict
     ⟨fun x y hxy => IsFractionRing.injective A L (congrArg Subtype.val hxy),
@@ -43,12 +47,12 @@ private noncomputable def fractionEmbeddingRangeEquiv :
         exact ⟨x, Subtype.ext hx⟩⟩
 
 /-- The image of a maximal ideal inside the embedded copy of `A` in `L`. -/
-private noncomputable def maximalIdealInFractionEmbeddingRange
+noncomputable def maximalIdealInFractionEmbeddingRange
     (m : MaximalSpectrum A) : Ideal (algebraMap A L).range :=
   m.asIdeal.map (fractionEmbeddingRangeEquiv (A := A) (L := L)).toRingHom
 
 omit [IsDomain A] in
-private theorem maximalIdealInFractionEmbeddingRange_ne_top
+theorem maximalIdealInFractionEmbeddingRange_ne_top
     (m : MaximalSpectrum A) :
     maximalIdealInFractionEmbeddingRange (A := A) (L := L) m ≠ ⊤ := by
   rw [maximalIdealInFractionEmbeddingRange]

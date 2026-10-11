@@ -1,7 +1,11 @@
-import BGS.Markoff.TraceCurve.WeightedOddCoprimeIrreducibility
-import BGS.Markoff.TraceCurve.Boundary
-import BGS.Markoff.Endgame.Nonsplit.SeededCover
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import BGS.Markoff.TraceCurve.WeightedOddCoprimeIrreducibility
+public import BGS.Markoff.TraceCurve.Boundary
+public import BGS.Markoff.Endgame.Nonsplit.SeededCover
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # The explicit endgame Weil-bound assumption

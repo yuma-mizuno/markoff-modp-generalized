@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.DedekindLocalWronskian
-import BGS.CorvajaZannier.FrobeniusWronskian
-import BGS.CorvajaZannier.AuxiliaryFamily
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.DedekindLocalWronskian
+public import BGS.CorvajaZannier.FrobeniusWronskian
+public import BGS.CorvajaZannier.AuxiliaryFamily
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 

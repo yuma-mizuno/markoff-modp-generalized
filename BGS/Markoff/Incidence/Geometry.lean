@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.Basic
+module
+
+public import BGS.Markoff.Core.Basic
+
+@[expose] public section
 
 /-!
 # Square classes for the incidence auxiliary curve

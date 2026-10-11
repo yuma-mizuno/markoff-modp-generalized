@@ -1,4 +1,8 @@
-import Mathlib.RingTheory.Polynomial.Resultant.Basic
+module
+
+public import Mathlib.RingTheory.Polynomial.Resultant.Basic
+
+@[expose] public section
 
 /-!
 # A closed resultant formula for two formal quadratics

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCotrace
-import BGS.HasseWeil.FinitePlaceApproximation
+module
+
+public import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCotrace
+public import BGS.HasseWeil.FinitePlaceApproximation
+
+@[expose] public section
 
 /-!
 # Local trace image for cotrace maximality

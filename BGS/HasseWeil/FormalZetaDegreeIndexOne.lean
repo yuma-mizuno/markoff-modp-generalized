@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FormalZetaRationality
-import Mathlib.RingTheory.PowerSeries.Substitution
+module
+
+public import BGS.HasseWeil.FormalZetaRationality
+public import Mathlib.RingTheory.PowerSeries.Substitution
+
+@[expose] public section
 
 /-!
 # An ordinary-extension specialization of the degree-index argument

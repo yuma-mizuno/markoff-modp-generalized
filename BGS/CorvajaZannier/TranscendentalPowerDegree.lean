@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PoweredImageCurve
-import Mathlib.RingTheory.Polynomial.Eisenstein.Basic
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PoweredImageCurve
+public import Mathlib.RingTheory.Polynomial.Eisenstein.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Exact degree of a transcendental power map

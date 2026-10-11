@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryFinitePlaceNormalized
-import BGS.CorvajaZannier.FiniteExtensionCanonicalGlobalGcdBound
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryFinitePlaceNormalized
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalGlobalGcdBound
+
+@[expose] public section
 
 /-!
 # Global canonical bound from a normalized derivation

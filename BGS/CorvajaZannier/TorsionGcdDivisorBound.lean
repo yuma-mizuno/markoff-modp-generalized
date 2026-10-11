@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.TorsionPointNormalization
+module
+
+public import BGS.CorvajaZannier.TorsionPointNormalization
+
+@[expose] public section
 
 /-!
 # Torsion points contribute to the normalization gcd divisor

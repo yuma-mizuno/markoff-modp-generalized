@@ -1,5 +1,9 @@
-import Mathlib.GroupTheory.SpecificGroups.Cyclic
-import Mathlib.GroupTheory.Coset.Basic
+module
+
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+public import Mathlib.GroupTheory.Coset.Basic
+
+@[expose] public section
 
 /-!
 # Exact power-cover multiplicities in the endgame

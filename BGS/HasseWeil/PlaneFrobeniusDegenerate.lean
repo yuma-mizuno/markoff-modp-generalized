@@ -1,4 +1,8 @@
-import BGS.HasseWeil.PlaneFrobeniusDeflation
+module
+
+public import BGS.HasseWeil.PlaneFrobeniusDeflation
+
+@[expose] public section
 
 /-!
 # The zero-coordinate-degree case of Frobenius reduction
@@ -37,7 +41,7 @@ theorem natDegree_uniqueAlgEquiv_fin_one
     intro m hm
     apply Polynomial.le_natDegree_of_ne_zero
     rw [MvPolynomial.coeff_uniqueAlgEquiv]
-    change coeff (Finsupp.single (0 : Fin 1) (m 0)) q ≠ 0
+    change q.coeff (Finsupp.single (0 : Fin 1) (m 0)) ≠ 0
     have hmEq : Finsupp.single (0 : Fin 1) (m 0) = m := by
       simpa using (Finsupp.unique_single m).symm
     rw [hmEq]

@@ -1,5 +1,9 @@
-import GenMarkoff.General.Trace.Parameters
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+module
+
+public import GenMarkoff.General.Trace.Parameters
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+
+@[expose] public section
 
 /-!
 # Regular actual parameters for a directed general fiber

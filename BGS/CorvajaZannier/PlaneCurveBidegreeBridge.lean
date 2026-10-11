@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.AbsoluteIrreducibilityBaseChange
-import BGS.CorvajaZannier.PlaneCurveSeparability
-import BGS.External.GeneralCurveTheorems
+module
+
+public import BGS.CorvajaZannier.AbsoluteIrreducibilityBaseChange
+public import BGS.CorvajaZannier.PlaneCurveSeparability
+public import BGS.External.GeneralCurveTheorems
+
+@[expose] public section
 
 /-!
 # From the public bidegree interface to function-field degrees

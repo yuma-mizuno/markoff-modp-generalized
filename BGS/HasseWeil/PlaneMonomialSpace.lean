@@ -1,10 +1,14 @@
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryIndependence
-import BGS.CorvajaZannier.PoweredImageCurve
-import BGS.HasseWeil.PoleDivisor
-import Mathlib.Algebra.Polynomial.Basis
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import Mathlib.RingTheory.AlgebraTower
-import Mathlib.RingTheory.Finiteness.Basic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryIndependence
+public import BGS.CorvajaZannier.PoweredImageCurve
+public import BGS.HasseWeil.PoleDivisor
+public import Mathlib.Algebra.Polynomial.Basis
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.RingTheory.AlgebraTower
+public import Mathlib.RingTheory.Finiteness.Basic
+
+@[expose] public section
 
 /-!
 # Plane monomial spaces for the Stepanov construction

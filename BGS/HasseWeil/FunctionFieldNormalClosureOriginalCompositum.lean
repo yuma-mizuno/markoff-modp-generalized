@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ExactConstantExtensionAutomorphism
-import BGS.HasseWeil.FunctionFieldNormalClosureRatFuncEquiv
-import BGS.HasseWeil.RatFuncExactConstantExtension
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionAutomorphism
+public import BGS.HasseWeil.FunctionFieldNormalClosureRatFuncEquiv
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+
+@[expose] public section
 
 /-!
 # The original function field after enlarging the normal-closure constants

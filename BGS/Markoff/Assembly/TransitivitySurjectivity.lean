@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.NatConnectivity
-import BGS.Markoff.Core.Statements
+module
+
+public import BGS.Markoff.Core.NatConnectivity
+public import BGS.Markoff.Core.Statements
+
+@[expose] public section
 
 /-!
 # Punctured finite-field transitivity and reduction surjectivity

@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.BivariateResultant
-import Mathlib.RingTheory.Polynomial.GaussLemma
+module
+
+public import BGS.CorvajaZannier.BivariateResultant
+public import Mathlib.RingTheory.Polynomial.GaussLemma
+
+@[expose] public section
 
 /-!
 # Gauss descent for the Corvaja--Zannier bivariate resultant

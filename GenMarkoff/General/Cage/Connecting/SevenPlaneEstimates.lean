@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.GeometricSquareClasses
-import GenMarkoff.General.Cage.HyperellipticPlane
+module
+
+public import GenMarkoff.General.Cage.Connecting.GeometricSquareClasses
+public import GenMarkoff.General.Cage.HyperellipticPlane
+
+@[expose] public section
 
 /-!
 # Seven hyperelliptic-plane estimates for the connecting cage

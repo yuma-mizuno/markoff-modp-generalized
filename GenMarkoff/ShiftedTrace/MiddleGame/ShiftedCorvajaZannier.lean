@@ -1,6 +1,10 @@
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
-import GenMarkoff.TraceCurve.ShiftedCover.AbsoluteIrreducibility
-import BGS.Markoff.MiddleGame.CorvajaZannierFromGeneral
+module
+
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+public import GenMarkoff.TraceCurve.ShiftedCover.AbsoluteIrreducibility
+public import BGS.Markoff.MiddleGame.CorvajaZannierFromGeneral
+
+@[expose] public section
 
 /-!
 # The shifted trace curve is not a subtorus translate

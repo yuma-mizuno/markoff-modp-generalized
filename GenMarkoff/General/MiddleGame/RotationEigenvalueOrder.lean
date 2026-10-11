@@ -1,4 +1,8 @@
-import GenMarkoff.General.Opening.RotationBridge
+module
+
+public import GenMarkoff.General.Opening.RotationBridge
+
+@[expose] public section
 
 /-!
 # Actual rotation order from a quadratic-extension eigenvalue

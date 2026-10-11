@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ExactConstantExtensionDifferentCoefficient
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistMultiplication
-import RiemannRoch.CoordinateFree.AlgEquiv
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionDifferentCoefficient
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistMultiplication
+public import RiemannRoch.CoordinateFree.AlgEquiv
+
+@[expose] public section
 
 /-!
 # Genus of Frobenius-twist fixed fields

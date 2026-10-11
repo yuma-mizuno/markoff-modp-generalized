@@ -1,7 +1,11 @@
-import Mathlib.RingTheory.Derivation.Basic
-import Mathlib.RingTheory.Localization.Basic
-import Mathlib.RingTheory.Localization.FractionRing
-import Mathlib.Tactic
+module
+
+public import Mathlib.RingTheory.Derivation.Basic
+public import Mathlib.RingTheory.Localization.Basic
+public import Mathlib.RingTheory.Localization.FractionRing
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Derivations preserving localizations

@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+
+@[expose] public section
 
 /-!
 # Constants surject onto residue fields of all function-field places
@@ -101,7 +105,7 @@ theorem finiteExtensionFinitePlace_constantResidue_surjective
   letI : q.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
-  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := inferInstance
   letI : Algebra.QuasiFiniteAt K[X] q.asIdeal := inferInstance
   letI : Module.Finite p.asIdeal.ResidueField q.asIdeal.ResidueField :=
     inferInstance
@@ -130,7 +134,7 @@ theorem finiteExtensionInfinityPlace_constantResidue_surjective
   let p := (ratFuncInfinityPlace K).asIdeal
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra.QuasiFiniteAt (RatFuncInfinityIntegers K) P.1 :=
     inferInstance
   letI : Module.Finite p.ResidueField P.1.ResidueField := inferInstance

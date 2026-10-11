@@ -1,6 +1,10 @@
-import BGS.HasseWeil.LocalPoleFiltration
-import Mathlib.RingTheory.LocalRing.Length
-import Mathlib.RingTheory.LocalRing.Quotient
+module
+
+public import BGS.HasseWeil.LocalPoleFiltration
+public import Mathlib.RingTheory.LocalRing.Length
+public import Mathlib.RingTheory.LocalRing.Quotient
+
+@[expose] public section
 
 /-!
 # Cumulative local principal parts
@@ -24,7 +28,7 @@ variable {K R L : Type*} [Field K] [CommRing R]
 
 omit [IsDedekindDomain R] [IsDiscreteValuationRing R]
   [IsFractionRing R L] in
-private theorem cumulativeLocalPoleSpace_regular (π : R) (n : ℕ) :
+theorem cumulativeLocalPoleSpace_regular (π : R) (n : ℕ) :
     ∀ x : localPoleSpace (K := K) (L := L) π n,
       ∃ r : R, algebraMap R L (π ^ n) * x.1 = algebraMap R L r := by
   intro x

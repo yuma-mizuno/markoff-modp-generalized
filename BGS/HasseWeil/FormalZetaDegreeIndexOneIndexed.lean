@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FormalZetaDegreeIndexOne
+module
+
+public import BGS.HasseWeil.FormalZetaDegreeIndexOne
+
+@[expose] public section
 
 /-!
 # The noncircular indexed F. K. Schmidt argument

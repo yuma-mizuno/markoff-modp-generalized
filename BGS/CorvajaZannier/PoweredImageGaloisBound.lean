@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.PlaneCurveDiagonalStabilizer
-import BGS.CorvajaZannier.PoweredImageIndex
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.FieldTheory.KummerExtension
-import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveDiagonalStabilizer
+public import BGS.CorvajaZannier.PoweredImageIndex
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.FieldTheory.KummerExtension
+public import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The source-to-powered-image index over algebraically closed constants
@@ -18,7 +22,7 @@ a rank-two support determinant bounds the extension degree.
 namespace BGS.CorvajaZannier
 noncomputable section
 
-private def autUnitRatio {B L : Type*} [Field B] [Field L] [Algebra B L]
+def autUnitRatio {B L : Type*} [Field B] [Field L] [Algebra B L]
     (σ : L ≃ₐ[B] L) (x : L) (hx : x ≠ 0) : Lˣ :=
   Units.mk0 (σ x / x) (div_ne_zero ((map_ne_zero σ).2 hx) hx)
 
@@ -31,7 +35,7 @@ private theorem autUnitRatio_pow_eq_one
   change (σ x / x) ^ d = 1
   rw [div_pow, ← map_pow, hfix, div_self (pow_ne_zero d hx)]
 
-private def descendedRootUnit
+def descendedRootUnit
     {F L : Type*} [Field F] [Field L] [Algebra F L]
     {d : ℕ} [NeZero d]
     (hμ : (primitiveRoots d F).Nonempty)

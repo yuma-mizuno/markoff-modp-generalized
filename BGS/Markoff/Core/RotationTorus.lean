@@ -1,6 +1,10 @@
-import BGS.Markoff.Assembly.ElementaryCounts
-import BGS.Markoff.Core.Rotation
-import Mathlib.FieldTheory.Finite.Trace
+module
+
+public import BGS.Markoff.Assembly.ElementaryCounts
+public import BGS.Markoff.Core.Rotation
+public import Mathlib.FieldTheory.Finite.Trace
+
+@[expose] public section
 
 /-!
 # Split-torus traces and normalized Markoff rotations
@@ -99,8 +103,9 @@ theorem splitDiagonalSLHom_injective :
   apply Units.ext
   have hentry := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) F =>
     (A : Matrix (Fin 2) (Fin 2) F) 0 0) h
-  simpa [splitDiagonalSLHom, splitDiagonalSL_coe, MonoidHom.coe_mk, OneHom.coe_mk] using
-    hentry
+  change (splitDiagonalSL w : Matrix (Fin 2) (Fin 2) F) 0 0 =
+    (splitDiagonalSL z : Matrix (Fin 2) (Fin 2) F) 0 0 at hentry
+  simpa only [splitDiagonalSL_coe, Matrix.of_apply, Matrix.cons_val_zero] using hentry
 
 /-- The diagonal `SL₂` element has exactly the multiplicative order of its first eigenvalue. -/
 theorem splitDiagonalSL_orderOf (w : Fˣ) :

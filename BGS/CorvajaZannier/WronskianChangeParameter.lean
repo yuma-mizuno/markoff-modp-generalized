@@ -1,5 +1,9 @@
-import BGS.Algebra.DifferentialWronskian
-import Mathlib.LinearAlgebra.Matrix.Block
+module
+
+public import BGS.Algebra.DifferentialWronskian
+public import Mathlib.LinearAlgebra.Matrix.Block
+
+@[expose] public section
 
 /-!
 # Change of parameter for ordinary Wronskians
@@ -22,7 +26,7 @@ variable {C L : Type*} [Field C] [Field L] [Algebra C L]
 
 /-- Coefficients expressing the iterates of `a • E` in terms of the iterates
 of `E`.  The recurrence is the Leibniz rule written coefficientwise. -/
-private def changeParameterCoeff (E : Derivation C L L) (a : L) : ℕ → ℕ → L
+def changeParameterCoeff (E : Derivation C L L) (a : L) : ℕ → ℕ → L
   | 0, k => if k = 0 then 1 else 0
   | n + 1, k =>
       a * (E (changeParameterCoeff E a n k) +
@@ -121,7 +125,7 @@ private lemma derivation_iterate_eq_changeParameterCoeff_sum
 
 /-- The lower-triangular matrix relating the two lists of iterated
 derivations. -/
-private def changeParameterMatrix (E : Derivation C L L) (a : L) (n : ℕ) :
+def changeParameterMatrix (E : Derivation C L L) (a : L) (n : ℕ) :
     Matrix (Fin n) (Fin n) L :=
   fun i k => changeParameterCoeff E a i k
 

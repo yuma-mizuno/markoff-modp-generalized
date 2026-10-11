@@ -1,5 +1,9 @@
-import GenMarkoff.General.Assembly.CoarseRegularMiddle
-import GenMarkoff.General.Assembly.UnifiedRegularEndgame
+module
+
+public import GenMarkoff.General.Assembly.CoarseRegularMiddle
+public import GenMarkoff.General.Assembly.UnifiedRegularEndgame
+
+@[expose] public section
 
 /-!
 # Every rotation component reaches a canonical split point

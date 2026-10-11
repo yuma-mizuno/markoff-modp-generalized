@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionAutomorphism
-import BGS.HasseWeil.RatFuncExactConstantExtension
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionAutomorphism
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+
+@[expose] public section
 
 /-!
 # Towers of exact constant extensions

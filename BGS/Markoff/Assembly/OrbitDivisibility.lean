@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.Action
+module
+
+public import BGS.Markoff.Core.Action
+
+@[expose] public section
 
 /-!
 # Divisibility of Markoff orbit cardinalities

@@ -1,6 +1,10 @@
-import GenMarkoff.General.Cage.ThreeSquareRootCount
-import GenMarkoff.General.Cage.Connecting.PulledRadicands
-import BGS.NumberTheory.OneSidedPrimitiveWitness
+module
+
+public import GenMarkoff.General.Cage.ThreeSquareRootCount
+public import GenMarkoff.General.Cage.Connecting.PulledRadicands
+public import BGS.NumberTheory.OneSidedPrimitiveWitness
+
+@[expose] public section
 
 /-!
 # Unit power covers for three simultaneous square roots

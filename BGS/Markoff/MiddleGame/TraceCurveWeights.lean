@@ -1,6 +1,10 @@
-import BGS.Markoff.MiddleGame.OrderEscape
-import BGS.Markoff.TraceCurve.WeightedIrreducibility
-import BGS.Markoff.TraceCurve.WeightedNotSubtorus
+module
+
+public import BGS.Markoff.MiddleGame.OrderEscape
+public import BGS.Markoff.TraceCurve.WeightedIrreducibility
+public import BGS.Markoff.TraceCurve.WeightedNotSubtorus
+
+@[expose] public section
 
 /-!
 # Nondegeneracy of the actual middle-game trace-curve coefficients

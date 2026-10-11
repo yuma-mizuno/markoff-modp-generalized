@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteExtensionAffineIdealDegree
-import BGS.HasseWeil.FunctionFieldConstantField
-import BGS.CorvajaZannier.DedekindDifferentDivisor
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+module
+
+public import BGS.HasseWeil.FiniteExtensionAffineIdealDegree
+public import BGS.HasseWeil.FunctionFieldConstantField
+public import BGS.CorvajaZannier.DedekindDifferentDivisor
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+
+@[expose] public section
 
 /-!
 # Nonzero affine ideals as effective finite divisors

@@ -1,5 +1,9 @@
-import GenMarkoff.TraceCurve.ShiftedCover.CommonPrime
-import BGS.Markoff.TraceCurve.WeightedIrreducibility
+module
+
+public import GenMarkoff.TraceCurve.ShiftedCover.CommonPrime
+public import BGS.Markoff.TraceCurve.WeightedIrreducibility
+
+@[expose] public section
 
 /-!
 # The shifted Kummer tower and the degree-one shifted cover

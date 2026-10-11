@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionPolynomialHeight
-import BGS.CorvajaZannier.PlaneCurveRatFuncModel
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPolynomialHeight
+public import BGS.CorvajaZannier.PlaneCurveRatFuncModel
+
+@[expose] public section
 
 /-!
 # Exact heights of powered plane-curve coordinates

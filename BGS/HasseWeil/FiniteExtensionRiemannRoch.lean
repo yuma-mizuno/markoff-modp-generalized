@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
-import RiemannRoch.CoordinateFree.RiemannRoch
+module
+
+public import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
+public import RiemannRoch.CoordinateFree.RiemannRoch
+
+@[expose] public section
 
 /-!
 # Riemann--Roch for the exhaustive finite-extension place model
@@ -137,7 +141,7 @@ theorem finiteExtensionInfinityBaseRingEquiv_apply_coe
   rfl
 
 omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
-private theorem isIntegral_infinityBase_iff (x : L) :
+theorem isIntegral_infinityBase_iff (x : L) :
     IsIntegral (RatFuncInfinityIntegers K) x ↔
       IsIntegral (FunctionField.Chart.inftyValuationSubring K) x := by
   let e := finiteExtensionInfinityBaseRingEquiv K

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionEffectiveDivisorSplit
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+module
+
+public import BGS.HasseWeil.FiniteExtensionEffectiveDivisorSplit
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+
+@[expose] public section
 
 /-!
 # The total effective different divisor

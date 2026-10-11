@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ConstantFieldRatFuncCompatibility
-import BGS.HasseWeil.RationalPlaceTower
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+module
+
+public import BGS.HasseWeil.ConstantFieldRatFuncCompatibility
+public import BGS.HasseWeil.RationalPlaceTower
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+
+@[expose] public section
 
 /-!
 # Finite places under constant-field extension

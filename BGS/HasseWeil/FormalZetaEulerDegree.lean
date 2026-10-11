@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FormalZetaEuler
-import BGS.HasseWeil.FormalZetaRationalityDegree
+module
+
+public import BGS.HasseWeil.FormalZetaEuler
+public import BGS.HasseWeil.FormalZetaRationalityDegree
+
+@[expose] public section
 
 /-!
 # Euler composition with numerator-degree bounds

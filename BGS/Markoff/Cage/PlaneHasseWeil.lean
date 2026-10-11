@@ -1,5 +1,9 @@
-import BGS.Markoff.Cage.PlaneModels
-import BGS.Markoff.Cage.HasseWeilAssumption
+module
+
+public import BGS.Markoff.Cage.PlaneModels
+public import BGS.Markoff.Cage.HasseWeilAssumption
+
+@[expose] public section
 
 /-!
 # Hasse--Weil estimates for the direct cage plane models

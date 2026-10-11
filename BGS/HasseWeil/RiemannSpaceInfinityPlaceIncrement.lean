@@ -1,4 +1,8 @@
-import BGS.HasseWeil.RiemannSpaceFinitePlaceIncrement
+module
+
+public import BGS.HasseWeil.RiemannSpaceFinitePlaceIncrement
+
+@[expose] public section
 
 namespace BGS.HasseWeil
 
@@ -83,14 +87,14 @@ local instance upperInfinityClosureConstantTowerToField :
   rw [IsScalarTower.algebraMap_apply K (RatFunc K) L]
   rfl
 
-private noncomputable def infinityIncrementResidueFieldAlgEquivOfIdealEq
+noncomputable def infinityIncrementResidueFieldAlgEquivOfIdealEq
     {I J : Ideal (RatFuncInfinityIntegralClosure K L)}
     [I.IsPrime] [J.IsPrime] (h : I = J) :
     I.ResidueField ≃ₐ[K] J.ResidueField := by
   subst J
   exact AlgEquiv.refl
 
-private noncomputable def infinityIncrementResidueFieldAlgEquiv
+noncomputable def infinityIncrementResidueFieldAlgEquiv
     (P : FiniteExtensionInfinityPlace K L) :
     (primeOverHeightOne (ratFuncInfinityPlace K) P).asIdeal.ResidueField
       ≃ₐ[K] P.1.ResidueField :=
@@ -174,7 +178,9 @@ theorem finiteExtensionRiemannSpace_infinityPlace_increment
     apply finiteExtensionInfinityPlace_exists_local_lift_of_orderTop_nonnegative
       (K := K) (L := L) P (a * x.1)
     by_cases hx0 : x.1 = 0
-    · simp [a, hx0, finiteExtensionInfinityPlaceLocalOrderTop]
+    · set_option backward.isDefEq.respectTransparency false in
+      set_option backward.isDefEq.respectTransparency.types false in
+      simp [a, hx0, finiteExtensionInfinityPlaceLocalOrderTop, finitePlaceOrderTop_zero]
     · have hxmem := (mem_finiteExtensionRiemannSpace (K := K) (L := L)).mp x.2
       rcases hxmem with hxmem | ⟨_, hxorders⟩
       · exact (hx0 hxmem).elim

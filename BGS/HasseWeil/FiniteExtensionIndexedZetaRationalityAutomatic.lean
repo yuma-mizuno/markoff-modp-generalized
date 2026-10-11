@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteExtensionIndexedZetaRationality
-import BGS.HasseWeil.FiniteExtensionRiemannRoch
-import BGS.HasseWeil.FormalZetaEulerDegree
+module
+
+public import BGS.HasseWeil.FiniteExtensionIndexedZetaRationality
+public import BGS.HasseWeil.FiniteExtensionRiemannRoch
+public import BGS.HasseWeil.FormalZetaEulerDegree
+
+@[expose] public section
 
 /-!
 # Unconditional indexed zeta rationality from exact constants

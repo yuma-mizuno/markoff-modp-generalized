@@ -1,7 +1,11 @@
-import BGS.Markoff.ExplicitEstimates
-import BGS.Markoff.ExplicitNumericCertificates
-import BGS.Markoff.Endgame.PrimitiveOrbitWiring
-import BGS.Markoff.Cage.Connectivity
+module
+
+public import BGS.Markoff.ExplicitEstimates
+public import BGS.Markoff.ExplicitNumericCertificates
+public import BGS.Markoff.Endgame.PrimitiveOrbitWiring
+public import BGS.Markoff.Cage.Connectivity
+
+@[expose] public section
 
 /-!
 # Explicit endgame and cage connectivity

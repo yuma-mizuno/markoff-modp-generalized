@@ -1,6 +1,10 @@
-import BGS.HasseWeil.PlaneSingularPointBound
-import BGS.CorvajaZannier.TorsionBidegreeCount
-import BGS.CorvajaZannier.TorsionPointNormalization
+module
+
+public import BGS.HasseWeil.PlaneSingularPointBound
+public import BGS.CorvajaZannier.TorsionBidegreeCount
+public import BGS.CorvajaZannier.TorsionPointNormalization
+
+@[expose] public section
 
 /-!
 # Elementary affine plane-curve fiber bounds

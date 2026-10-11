@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveFiniteDifferentBound
-import BGS.CorvajaZannier.PlaneCurveInfinityComplement
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveFiniteDifferentBound
+public import BGS.CorvajaZannier.PlaneCurveInfinityComplement
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The canonical different degree of a plane function field

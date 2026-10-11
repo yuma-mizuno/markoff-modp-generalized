@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.DedekindAuxiliaryWronskian
+module
+
+public import BGS.CorvajaZannier.DedekindAuxiliaryWronskian
+
+@[expose] public section
 
 /-!
 # Uniformizer-free Dedekind auxiliary cases

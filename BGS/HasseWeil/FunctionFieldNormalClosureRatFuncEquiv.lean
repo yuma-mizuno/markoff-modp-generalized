@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FunctionFieldNormalClosureRatFuncBase
+module
+
+public import BGS.HasseWeil.FunctionFieldNormalClosureRatFuncBase
+
+@[expose] public section
 
 /-!
 # The rational-function equivalence for the normal-closure constant base
@@ -14,7 +18,7 @@ noncomputable section
 
 set_option synthInstance.maxHeartbeats 20000
 
-private noncomputable def ratFuncEquivOfAdjoinEqTop
+noncomputable def ratFuncEquivOfAdjoinEqTop
     {C B : Type*} [Field C] [Field B] [Algebra C B]
     (x : B) (hx : Transcendental C x)
     (hgen : IntermediateField.adjoin C ({x} : Set B) = ⊤) :
@@ -29,7 +33,7 @@ private noncomputable def ratFuncEquivOfAdjoinEqTop
     ratFuncEquivOfAdjoinEqTop x hx hgen RatFunc.X = x := by
   simp [ratFuncEquivOfAdjoinEqTop]
 
-@[reducible] private noncomputable def ratFuncSelfAlgebra
+@[reducible] noncomputable def ratFuncSelfAlgebra
     (C : Type*) [Field C] : Algebra C (RatFunc C) :=
   RatFunc.instAlgebraOfPolynomial C C
 

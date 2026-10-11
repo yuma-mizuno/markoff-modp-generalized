@@ -1,8 +1,12 @@
-import GenMarkoff.General.Endgame.ActualSplitRotation
-import GenMarkoff.General.Endgame.CageReady.PrimitiveCount
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
+module
+
+public import GenMarkoff.General.Endgame.ActualSplitRotation
+public import GenMarkoff.General.Endgame.CageReady.PrimitiveCount
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+
+@[expose] public section
 
 /-!
 # Cage-ready actual split endgame

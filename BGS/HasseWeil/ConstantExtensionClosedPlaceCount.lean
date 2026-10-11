@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ClosedPlaceEulerRecurrence
-import BGS.HasseWeil.ConstantExtensionFinitePlaceBridge
-import BGS.HasseWeil.ConstantExtensionInfinityPlaceBridge
+module
+
+public import BGS.HasseWeil.ClosedPlaceEulerRecurrence
+public import BGS.HasseWeil.ConstantExtensionFinitePlaceBridge
+public import BGS.HasseWeil.ConstantExtensionInfinityPlaceBridge
+
+@[expose] public section
 
 /-!
 # Closed places and rational places after extension of constants

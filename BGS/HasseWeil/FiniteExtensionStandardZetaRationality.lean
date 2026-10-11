@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteExtensionZetaNumeratorNoncancellation
-import BGS.HasseWeil.FiniteExtensionIndexedZetaRationalityAutomatic
-import BGS.HasseWeil.FormalZetaRationalityDegree
-import BGS.HasseWeil.FormalZetaTrace
+module
+
+public import BGS.HasseWeil.FiniteExtensionZetaNumeratorNoncancellation
+public import BGS.HasseWeil.FiniteExtensionIndexedZetaRationalityAutomatic
+public import BGS.HasseWeil.FormalZetaRationalityDegree
+public import BGS.HasseWeil.FormalZetaTrace
+
+@[expose] public section
 
 /-!
 # Standard zeta rationality after proving degree index one

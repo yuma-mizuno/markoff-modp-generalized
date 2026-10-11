@@ -1,7 +1,11 @@
-import BGS.HasseWeil.PlaneRegularPointCount
-import BGS.HasseWeil.PlaneSmoothPointNormalization
-import BGS.HasseWeil.RationalPlace
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.PlaneRegularPointCount
+public import BGS.HasseWeil.PlaneSmoothPointNormalization
+public import BGS.HasseWeil.RationalPlace
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Affine plane points and rational normalization places

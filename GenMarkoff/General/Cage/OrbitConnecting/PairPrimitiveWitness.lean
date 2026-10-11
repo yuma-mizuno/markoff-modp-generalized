@@ -1,4 +1,8 @@
-import GenMarkoff.General.Cage.OrbitConnecting.PrimitiveWitness
+module
+
+public import GenMarkoff.General.Cage.OrbitConnecting.PrimitiveWitness
+
+@[expose] public section
 
 /-!
 # Primitive orbit-connecting witnesses avoiding finitely many middle traces

@@ -1,7 +1,11 @@
-import BGS.Markoff.MiddleGame.MoveWiring
-import BGS.Markoff.MiddleGame.ParabolicEscape
-import BGS.Markoff.MiddleGame.RightSubgroups
-import BGS.Markoff.MiddleGame.WeightedTraceEquation
+module
+
+public import BGS.Markoff.MiddleGame.MoveWiring
+public import BGS.Markoff.MiddleGame.ParabolicEscape
+public import BGS.Markoff.MiddleGame.RightSubgroups
+public import BGS.Markoff.MiddleGame.WeightedTraceEquation
+
+@[expose] public section
 
 /-!
 # The nonparabolic middle-game order-escape step

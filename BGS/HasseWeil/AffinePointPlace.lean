@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+module
+
+public import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+
+@[expose] public section
 
 /-!
 # Finite places centered at affine rational points

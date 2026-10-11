@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.Statements
-import BGS.Markoff.Assembly.OrbitDivisibility
+module
+
+public import BGS.Markoff.Core.Statements
+public import BGS.Markoff.Assembly.OrbitDivisibility
+
+@[expose] public section
 
 /-!
 # From a giant divisible orbit to transitivity

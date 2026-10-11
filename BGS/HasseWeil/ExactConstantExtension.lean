@@ -1,5 +1,12 @@
-import Mathlib.FieldTheory.LinearDisjoint
-import Mathlib.LinearAlgebra.Dimension.OrzechProperty
+module
+
+public import Mathlib.FieldTheory.LinearDisjoint
+public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Exact constants and finite constant extensions
@@ -192,7 +199,8 @@ noncomputable def exactConstantExtensionLinearEquiv :
       map_add' := map_add e
       map_smul' := by
         intro x z
-        refine TensorProduct.induction_on z (by simp) (fun y s => ?_)
+        refine TensorProduct.induction_on (motive := fun z => e (x • z) = x • e z)
+          z (by simp) (fun y s => ?_)
           (fun z w hz hw => ?_)
         · change e ((x * y) ⊗ₜ[C] s) =
             e (x ⊗ₜ[C] (1 : S)) * e (y ⊗ₜ[C] s)

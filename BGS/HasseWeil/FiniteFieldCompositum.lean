@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteFieldSubfield
+module
+
+public import BGS.HasseWeil.FiniteFieldSubfield
+
+@[expose] public section
 
 /-!
 # Composita of finite fields

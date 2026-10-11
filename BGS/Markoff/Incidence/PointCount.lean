@@ -1,6 +1,10 @@
-import BGS.Markoff.Core.Basic
-import BGS.FiniteField.EllipticCharacterSum
-import BGS.FiniteField.QuadraticCharacter
+module
+
+public import BGS.Markoff.Core.Basic
+public import BGS.FiniteField.EllipticCharacterSum
+public import BGS.FiniteField.QuadraticCharacter
+
+@[expose] public section
 
 /-!
 # Point-count algebra for the incidence auxiliary curve

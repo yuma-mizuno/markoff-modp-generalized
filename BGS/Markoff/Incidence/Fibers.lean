@@ -1,7 +1,12 @@
-import BGS.FiniteField.QuadraticCharacter
-import BGS.Markoff.Core.Basic
-import BGS.Markoff.Incidence.Geometry
-import BGS.Markoff.Incidence.PointCount
+module
+
+public import BGS.FiniteField.QuadraticCharacter
+public import BGS.Markoff.Core.Basic
+public import BGS.Markoff.Incidence.Geometry
+public import BGS.Markoff.Incidence.PointCount
+
+@[expose] public section
+
 
 /-!
 # Incidence of Markoff conic fibers
@@ -196,6 +201,8 @@ theorem natCast_ne_zero_zmod_of_pos_of_lt
   have hdvd : p ∣ n := (ZMod.natCast_eq_zero_iff n p).mp hzero
   exact (Nat.not_le_of_gt hnp) (Nat.le_of_dvd hn hdvd)
 
+set_option backward.isDefEq.respectTransparency false in
+set_option backward.isDefEq.respectTransparency.types false in
 /-- Outside the three forbidden values, a coordinate is admissible. -/
 theorem admissible_of_not_mem_forbiddenIntermediateCoordinates
     {p : ℕ} [Fact p.Prime] (h3 : (3 : ZMod p) ≠ 0) {y : ZMod p}
@@ -213,9 +220,8 @@ theorem admissible_of_not_mem_forbiddenIntermediateCoordinates
         (eq_div_iff h3).2 (by simpa [mul_comm] using hpositive)
       exact hy (by simp [forbiddenIntermediateCoordinates, hyvalue])
     · have hyvalue : y = -(2 / 3) := by
-        have h : y = -2 / 3 := (eq_div_iff h3).2 (by simpa [mul_comm] using hnegative)
-        rw [h]
-        ring
+        rw [← neg_div]
+        exact (eq_div_iff h3).2 (by simpa [mul_comm] using hnegative)
       exact hy (by simp [forbiddenIntermediateCoordinates, hyvalue])
 
 /-- The exact auxiliary-point conclusion, including the condition that the new fiber remains a

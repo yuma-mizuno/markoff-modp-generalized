@@ -1,5 +1,9 @@
-import BGS.Markoff.Incidence.Fibers
-import BGS.Markoff.Core.ParabolicFibers
+module
+
+public import BGS.Markoff.Incidence.Fibers
+public import BGS.Markoff.Core.ParabolicFibers
+
+@[expose] public section
 
 /-!
 # The normalized incidence graph and its parabolic vertices
@@ -21,7 +25,10 @@ inductive NormalizedCoordinateAxis
   | first
   | second
   | third
-  deriving DecidableEq, Fintype, Repr
+  deriving DecidableEq, Repr
+
+instance : Fintype NormalizedCoordinateAxis :=
+  ⟨{.first, .second, .third}, fun x ↦ by cases x <;> simp⟩
 
 /-- A normalized conic fiber, indexed without identifying normalized and original coordinates. -/
 def normalizedFiberAt {R : Type u} [CommRing R] :

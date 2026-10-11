@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveSeparability
-import Mathlib.Algebra.CharP.CharAndCard
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveSeparability
+public import Mathlib.Algebra.CharP.CharAndCard
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Plane-curve degrees versus finite-field cardinality

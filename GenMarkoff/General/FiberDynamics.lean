@@ -1,7 +1,11 @@
-import GenMarkoff.Core.Statements
-import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Tactic.FieldSimp
+module
+
+public import GenMarkoff.Core.Statements
+public import Mathlib.LinearAlgebra.Matrix.SpecialLinearGroup
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
 
 /-!
 # Affine fiber dynamics for a fixed coefficient triple

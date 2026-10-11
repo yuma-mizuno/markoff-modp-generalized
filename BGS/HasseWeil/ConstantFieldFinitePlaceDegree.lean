@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ConstantFieldFinitePlace
-import BGS.HasseWeil.OnePointLeadingCoefficient
+module
+
+public import BGS.HasseWeil.ConstantFieldFinitePlace
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+
+@[expose] public section
 
 /-!
 # Finite-place degrees under constant-field extension

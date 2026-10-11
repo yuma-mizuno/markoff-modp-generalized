@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteExtensionGenusBound
-import BGS.HasseWeil.FiniteExtensionRiemannRoch
-import BGS.HasseWeil.PlaneConstantField
-import BGS.HasseWeil.PlaneFinitePlaceRiemannLower
+module
+
+public import BGS.HasseWeil.FiniteExtensionGenusBound
+public import BGS.HasseWeil.FiniteExtensionRiemannRoch
+public import BGS.HasseWeil.PlaneConstantField
+public import BGS.HasseWeil.PlaneFinitePlaceRiemannLower
+
+@[expose] public section
 
 /-!
 # Automatic bidegree genus bound for plane curves

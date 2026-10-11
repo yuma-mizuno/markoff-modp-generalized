@@ -1,8 +1,12 @@
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistDegree
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistBoundedError
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistGenus
-import BGS.HasseWeil.FiniteExtensionRiemannLowerFromGenus
-import BGS.HasseWeil.GeneralSquareFieldStepanovCount
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistDegree
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistBoundedError
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistGenus
+public import BGS.HasseWeil.FiniteExtensionRiemannLowerFromGenus
+public import BGS.HasseWeil.GeneralSquareFieldStepanovCount
+
+@[expose] public section
 
 /-!
 # A uniform Stepanov upper bound for exact-constant Frobenius twists

@@ -1,4 +1,8 @@
-import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+module
+
+public import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+
+@[expose] public section
 
 namespace BGS.Markoff
 

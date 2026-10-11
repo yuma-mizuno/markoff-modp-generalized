@@ -1,7 +1,14 @@
-import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCanonicalityCriterion
-import BGS.HasseWeil.DedekindDifferentLocalTrace
-import BGS.HasseWeil.RatFuncCanonicalInfinityDivisor
-import BGS.HasseWeil.LinearFunctionalGluing
+module
+
+public import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCanonicalityCriterion
+public import BGS.HasseWeil.DedekindDifferentLocalTrace
+public import BGS.HasseWeil.RatFuncCanonicalInfinityDivisor
+public import BGS.HasseWeil.LinearFunctionalGluing
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Cotrace construction for the finite-extension canonical different
@@ -84,6 +91,9 @@ def ratFuncExhaustivePlaceEquivChart :
     (HeightOneSpectrum.equivOfRingEquiv
       (ratFuncInfinityBaseRingEquivChart K))
 
+local instance (priority := 1100) cotraceBasePolynomialAlgebra :
+    Algebra K[X] (RatFunc K) := inferInstance
+
 variable (L : Type*) [Field L] [Algebra (RatFunc K) L]
   [FiniteDimensional (RatFunc K) L]
   [Algebra.IsSeparable (RatFunc K) L]
@@ -95,7 +105,7 @@ local instance cotraceConstantAlgebra : Algebra K L :=
 local instance cotraceConstantTower : IsScalarTower K (RatFunc K) L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
-local instance (priority := 10) cotracePolynomialAlgebra : Algebra K[X] L :=
+local instance (priority := 1001) cotracePolynomialAlgebra : Algebra K[X] L :=
   RingHom.toAlgebra ((algebraMap (RatFunc K) L).comp
     (algebraMap K[X] (RatFunc K)))
 
@@ -105,6 +115,22 @@ local instance cotracePolynomialTower : IsScalarTower K[X] (RatFunc K) L :=
 local instance cotraceConstantPolynomialTower : IsScalarTower K K[X] L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+local instance cotraceFiniteClosureAlgebra :
+    Algebra K[X] (RatFuncFiniteIntegralClosure K L) :=
+  Subalgebra.algebra (integralClosure K[X] L)
+
+local instance cotraceFiniteClosureAmbientAlgebra :
+    Algebra (RatFuncFiniteIntegralClosure K L) L :=
+  Algebra.ofSubsemiring (integralClosure K[X] L).toSubsemiring
+
+local instance cotraceFiniteClosureTower :
+    IsScalarTower K[X] (RatFuncFiniteIntegralClosure K L) L :=
+  IsScalarTower.of_algebraMap_eq' rfl
+
+local instance cotraceFiniteIsIntegralClosure :
+    IsIntegralClosure (RatFuncFiniteIntegralClosure K L) K[X] L :=
+  integralClosure.isIntegralClosure K[X] L
+
 local instance cotraceFiniteClosureModuleFinite :
     Module.Finite K[X] (RatFuncFiniteIntegralClosure K L) :=
   IsIntegralClosure.finite K[X] (RatFunc K) L
@@ -112,7 +138,7 @@ local instance cotraceFiniteClosureModuleFinite :
 
 local instance cotraceFiniteClosureIsIntegral :
     Algebra.IsIntegral K[X] (RatFuncFiniteIntegralClosure K L) :=
-  IsIntegralClosure.isIntegral_algebra K[X] L
+  IsIntegralClosure.isIntegral_algebra K[X] (A := RatFuncFiniteIntegralClosure K L) L
 
 local instance cotraceFiniteBaseTorsionFreeTop :
     Module.IsTorsionFree K[X] L :=
@@ -120,7 +146,7 @@ local instance cotraceFiniteBaseTorsionFreeTop :
 
 local instance cotraceFiniteClosureTorsionFree :
     Module.IsTorsionFree K[X] (RatFuncFiniteIntegralClosure K L) :=
-  IsIntegralClosure.isTorsionFree K[X] L
+  IsIntegralClosure.isTorsionFree K[X] (A := RatFuncFiniteIntegralClosure K L) L
 
 local instance cotraceInfinityClosureModuleFinite :
     Module.Finite (RatFuncInfinityIntegers K)
@@ -965,6 +991,7 @@ theorem finiteExtensionFiberTrace_finite_valuation_le_one
   rw [hpImage] at htraceChart
   exact htraceChart
 
+set_option maxHeartbeats 1000000 in
 /-- At the infinite base place, the componentwise trace of a fiber-constant
 adele in the explicit different filtration has order at least two. -/
 theorem finiteExtensionFiberTrace_infinite_valuation_le_exp_neg_two
@@ -1001,10 +1028,14 @@ theorem finiteExtensionFiberTrace_infinite_valuation_le_exp_neg_two
     exact (one_div_ne_zero RatFunc.X_ne_zero) hcoe
   let t : RatFunc K := algebraMap (RatFuncInfinityIntegers K) (RatFunc K) s
   let tL : L := algebraMap (RatFuncInfinityIntegers K) L s
+  have ht : t ≠ 0 := by
+    change (s : RatFunc K) ≠ 0
+    intro h
+    exact hs (Subtype.ext h)
   have htL : tL ≠ 0 := by
-    simpa only [tL, map_zero] using
-      (FaithfulSMul.algebraMap_injective
-        (RatFuncInfinityIntegers K) L).ne hs
+    change algebraMap (RatFunc K) L t ≠ 0
+    simpa only [map_zero (algebraMap (RatFunc K) L)] using
+      (algebraMap (RatFunc K) L).injective.ne ht
   let z : L := (tL ^ 2)⁻¹ * y
   have hz : z ≠ 0 := mul_ne_zero (inv_ne_zero (pow_ne_zero 2 htL)) hy
   have hlocal : ∀ q : HeightOneSpectrum

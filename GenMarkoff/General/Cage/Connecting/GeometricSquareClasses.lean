@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.ThreeRadicandSquareClasses
-import GenMarkoff.General.MiddleGame.ActualOrderGrowth
+module
+
+public import GenMarkoff.General.Cage.ThreeRadicandSquareClasses
+public import GenMarkoff.General.MiddleGame.ActualOrderGrowth
+
+@[expose] public section
 
 /-!
 # Geometric square classes for the connecting cage

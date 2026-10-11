@@ -1,8 +1,12 @@
-import BGS.HasseWeil.ExactConstantExtensionIntermediateFrobeniusTwistHasseBound
-import BGS.HasseWeil.ExactConstantExtensionGenusDegree
-import BGS.HasseWeil.ExactConstantExtensionNormalClosureTower
-import BGS.HasseWeil.FiniteExtensionDivisibleErrorFromConstantBase
-import BGS.HasseWeil.FiniteFieldDivisibleExtension
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionIntermediateFrobeniusTwistHasseBound
+public import BGS.HasseWeil.ExactConstantExtensionGenusDegree
+public import BGS.HasseWeil.ExactConstantExtensionNormalClosureTower
+public import BGS.HasseWeil.FiniteExtensionDivisibleErrorFromConstantBase
+public import BGS.HasseWeil.FiniteFieldDivisibleExtension
+
+@[expose] public section
 
 /-!
 # Hasse--Weil for finite separable function-field extensions
@@ -180,7 +184,7 @@ theorem exactConstantExtensionClosedPlaceError_le_normalClosureConstants
   letI : IsGalois (RatFunc C) N :=
     functionFieldNormalClosure_isGalois_over_constantRatFunc K F
   letI : Algebra.IsSeparable (RatFunc C) N :=
-    Algebra.IsSeparable.trans (RatFunc C) M N
+    (inferInstance : IsGalois (RatFunc C) N).to_isSeparable
   let g := functionFieldNormalClosureGenus K F
   let H := functionFieldNormalClosureStepanovThreshold K F
   let D := functionFieldNormalClosureRatFuncDegree K F

@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.Basic
+module
+
+public import BGS.Markoff.Core.Basic
+
+@[expose] public section
 
 /-!
 # Normalized coordinates on the Markoff surface

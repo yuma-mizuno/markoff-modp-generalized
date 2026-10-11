@@ -1,9 +1,13 @@
-import BGS.HasseWeil.RatFuncInfinityLocalization
-import BGS.HasseWeil.ConstantFieldInfinityBase
-import BGS.HasseWeil.FiniteFieldPolynomialDifferent
-import Mathlib.Algebra.Polynomial.Eval.Subring
-import Mathlib.Algebra.Polynomial.GroupRingAction
-import Mathlib.FieldTheory.Galois.Basic
+module
+
+public import BGS.HasseWeil.RatFuncInfinityLocalization
+public import BGS.HasseWeil.ConstantFieldInfinityBase
+public import BGS.HasseWeil.FiniteFieldPolynomialDifferent
+public import Mathlib.Algebra.Polynomial.Eval.Subring
+public import Mathlib.Algebra.Polynomial.GroupRingAction
+public import Mathlib.FieldTheory.Galois.Basic
+
+@[expose] public section
 
 /-!
 # The different of a finite coefficient extension at infinity
@@ -215,7 +219,7 @@ private theorem ratFuncCoefficientAlgHom_reciprocalPolynomialRingHom
   rw [Polynomial.eval₂_map]
 
 omit [FiniteDimensional C S] [IsGalois C S] in
-private theorem reciprocalPolynomialAlgebraMap_commutes (p : C[X]) :
+theorem reciprocalPolynomialAlgebraMap_commutes (p : C[X]) :
     algebraMap (RatFuncInfinityIntegers C) (RatFuncInfinityIntegers S)
         (algebraMap C[X] (RatFuncInfinityIntegers C) p) =
       algebraMap C[X] (RatFuncInfinityIntegers S) p := by

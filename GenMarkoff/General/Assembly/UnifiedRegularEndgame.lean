@@ -1,22 +1,26 @@
-import GenMarkoff.General.Trace.Parameters
-import GenMarkoff.General.Assembly.RotationComponent
-import GenMarkoff.General.Assembly.SmallOrderCount
-import GenMarkoff.Arithmetic.EventualAdmissibility
-import GenMarkoff.Core.Action
-import GenMarkoff.Core.Statements
-import GenMarkoff.Assembly.RotationDivisibility
-import BGS.Markoff.Assembly.GiantOrbit
-import GenMarkoff.General.Assembly.RegularMiddleIteration
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import GenMarkoff.General.MiddleGame.RotationEigenvalueOrder
-import GenMarkoff.General.FiberDynamics
-import Mathlib.Dynamics.PeriodicPts.Lemmas
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import BGS.Markoff.Core.FiniteRotationEigenvalues
-import BGS.Markoff.Opening.PeriodicSemisimple
-import GenMarkoff.General.Assembly.RegularMiddleThreshold
-import GenMarkoff.General.Assembly.RegularNonsplitEndgame
+module
+
+public import GenMarkoff.General.Trace.Parameters
+public import GenMarkoff.General.Assembly.RotationComponent
+public import GenMarkoff.General.Assembly.SmallOrderCount
+public import GenMarkoff.Arithmetic.EventualAdmissibility
+public import GenMarkoff.Core.Action
+public import GenMarkoff.Core.Statements
+public import GenMarkoff.Assembly.RotationDivisibility
+public import BGS.Markoff.Assembly.GiantOrbit
+public import GenMarkoff.General.Assembly.RegularMiddleIteration
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import GenMarkoff.General.MiddleGame.RotationEigenvalueOrder
+public import GenMarkoff.General.FiberDynamics
+public import Mathlib.Dynamics.PeriodicPts.Lemmas
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import BGS.Markoff.Core.FiniteRotationEigenvalues
+public import BGS.Markoff.Opening.PeriodicSemisimple
+public import GenMarkoff.General.Assembly.RegularMiddleThreshold
+public import GenMarkoff.General.Assembly.RegularNonsplitEndgame
+
+@[expose] public section
 
 /-!
 # Actual rotation order in the two trace branches

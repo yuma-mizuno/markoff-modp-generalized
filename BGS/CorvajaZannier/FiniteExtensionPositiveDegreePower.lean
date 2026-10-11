@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-! # Positive divisor degree of a power -/
 

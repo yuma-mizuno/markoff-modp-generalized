@@ -1,6 +1,13 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryInfinityPlace
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
-import BGS.HasseWeil.FiniteExtensionZeroCounting
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryInfinityPlace
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Finiteness of the height-zero one-point Riemann space

@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalWronskian
-import BGS.HasseWeil.FiniteExtensionZeroCounting
-import Mathlib.GroupTheory.Archimedean
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalWronskian
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+public import Mathlib.GroupTheory.Archimedean
+
+@[expose] public section
 
 /-!
 # The divisor-degree index
@@ -59,7 +63,7 @@ local instance divisorDegreeIndexInfinityIntegralClosureIsTorsionFree :
 
 omit [Fintype K] [FiniteDimensional (RatFunc K) L]
   [Algebra.IsSeparable (RatFunc K) L] in
-private theorem finiteExtensionDivisorDegree_add_index
+theorem finiteExtensionDivisorDegree_add_index
     (D E : FiniteExtensionPlace K L →₀ ℤ) :
     finiteExtensionDivisorDegree K L (D + E) =
       finiteExtensionDivisorDegree K L D +
@@ -86,7 +90,7 @@ def finiteExtensionDivisorDegreeHom :
   map_zero' := by simp [finiteExtensionDivisorDegree]
   map_add' := finiteExtensionDivisorDegree_add_index K L
 
-private noncomputable def finiteExtensionDivisorDegreeGenerator : ℤ :=
+noncomputable def finiteExtensionDivisorDegreeGenerator : ℤ :=
   Classical.choose
     (Int.subgroup_cyclic (finiteExtensionDivisorDegreeHom K L).range)
 

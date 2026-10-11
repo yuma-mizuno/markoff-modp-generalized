@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.PoweredImageFrobeniusRelation
-import BGS.CorvajaZannier.PoweredImageHeightFactor
-import BGS.CorvajaZannier.PlaneCurvePoweredImageDegreeBudget
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PoweredImageFrobeniusRelation
+public import BGS.CorvajaZannier.PoweredImageHeightFactor
+public import BGS.CorvajaZannier.PlaneCurvePoweredImageDegreeBudget
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Constant-field base change for the powered-image index

@@ -1,4 +1,8 @@
-import Mathlib.FieldTheory.KummerExtension
+module
+
+public import Mathlib.FieldTheory.KummerExtension
+
+@[expose] public section
 
 /-!
 # Eigencharacter descent in a cyclic Kummer extension

@@ -1,5 +1,12 @@
-import BGS.HasseWeil.FiniteExtensionCotraceLocalTraceImage
-import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCanonicalityCriterion
+module
+
+public import BGS.HasseWeil.FiniteExtensionCotraceLocalTraceImage
+public import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCanonicalityCriterion
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Local maximality of the canonical different by cotrace
@@ -156,6 +163,9 @@ theorem ratFuncCanonicalWeil_exists_singlePlace_witness
   · simpa only [E, D] using haE
   · rw [← hvalExp, hm]
 
+local instance (priority := 1100) detectionBasePolynomialAlgebra :
+    Algebra K[X] (RatFunc K) := inferInstance
+
 variable (L : Type*) [Field L] [Algebra (RatFunc K) L]
   [FiniteDimensional (RatFunc K) L]
   [Algebra.IsSeparable (RatFunc K) L]
@@ -167,7 +177,7 @@ local instance detectionConstantAlgebra : Algebra K L :=
 local instance detectionConstantTower : IsScalarTower K (RatFunc K) L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
-local instance (priority := 10) detectionPolynomialAlgebra : Algebra K[X] L :=
+local instance (priority := 1001) detectionPolynomialAlgebra : Algebra K[X] L :=
   RingHom.toAlgebra ((algebraMap (RatFunc K) L).comp
     (algebraMap K[X] (RatFunc K)))
 
@@ -177,6 +187,22 @@ local instance detectionPolynomialTower : IsScalarTower K[X] (RatFunc K) L :=
 local instance detectionConstantPolynomialTower : IsScalarTower K K[X] L :=
   IsScalarTower.of_algebraMap_eq' rfl
 
+local instance detectionFiniteClosureAlgebra :
+    Algebra K[X] (RatFuncFiniteIntegralClosure K L) :=
+  Subalgebra.algebra (integralClosure K[X] L)
+
+local instance detectionFiniteClosureAmbientAlgebra :
+    Algebra (RatFuncFiniteIntegralClosure K L) L :=
+  Algebra.ofSubsemiring (integralClosure K[X] L).toSubsemiring
+
+local instance detectionFiniteClosureTower :
+    IsScalarTower K[X] (RatFuncFiniteIntegralClosure K L) L :=
+  IsScalarTower.of_algebraMap_eq' rfl
+
+local instance detectionFiniteIsIntegralClosure :
+    IsIntegralClosure (RatFuncFiniteIntegralClosure K L) K[X] L :=
+  integralClosure.isIntegralClosure K[X] L
+
 local instance detectionFiniteClosureModuleFinite :
     Module.Finite K[X] (RatFuncFiniteIntegralClosure K L) :=
   IsIntegralClosure.finite K[X] (RatFunc K) L
@@ -184,7 +210,7 @@ local instance detectionFiniteClosureModuleFinite :
 
 local instance detectionFiniteClosureIsIntegral :
     Algebra.IsIntegral K[X] (RatFuncFiniteIntegralClosure K L) :=
-  IsIntegralClosure.isIntegral_algebra K[X] L
+  IsIntegralClosure.isIntegral_algebra K[X] (A := RatFuncFiniteIntegralClosure K L) L
 
 local instance detectionFiniteBaseTorsionFreeTop :
     Module.IsTorsionFree K[X] L :=
@@ -192,7 +218,7 @@ local instance detectionFiniteBaseTorsionFreeTop :
 
 local instance detectionFiniteClosureTorsionFree :
     Module.IsTorsionFree K[X] (RatFuncFiniteIntegralClosure K L) :=
-  IsIntegralClosure.isTorsionFree K[X] L
+  IsIntegralClosure.isTorsionFree K[X] (A := RatFuncFiniteIntegralClosure K L) L
 
 local instance detectionInfinityClosureModuleFinite :
     Module.Finite (RatFuncInfinityIntegers K)
@@ -526,9 +552,9 @@ theorem finiteExtensionFiberCotrace_detects_infinity_excess
       pInf n q₀ hq₀Under hbad' w hw0 hwVal
   let tL : L := algebraMap (RatFuncInfinityIntegers K) L s
   have htL0 : tL ≠ 0 := by
-    simpa only [tL, map_zero] using
-      (FaithfulSMul.algebraMap_injective
-        (RatFuncInfinityIntegers K) L).ne hs
+    change algebraMap (RatFunc K) L t ≠ 0
+    simpa only [map_zero (algebraMap (RatFunc K) L)] using
+      (algebraMap (RatFunc K) L).injective.ne ht0
   have htTower : tL = algebraMap (RatFunc K) L t := by
     exact (IsScalarTower.algebraMap_apply
       (RatFuncInfinityIntegers K) (RatFunc K) L s).symm

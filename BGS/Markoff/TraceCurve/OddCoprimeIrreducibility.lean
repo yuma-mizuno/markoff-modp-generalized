@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.LaurentComparisonInjectivity
+module
+
+public import BGS.Markoff.TraceCurve.LaurentComparisonInjectivity
+
+@[expose] public section
 
 /-!
 # Irreducibility of the odd coprime split trace cover

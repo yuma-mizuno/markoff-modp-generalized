@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionPlaceTower
+module
+
+public import BGS.HasseWeil.FiniteExtensionPlaceTower
+
+@[expose] public section
 
 /-!
 # Finiteness of bounded-degree places

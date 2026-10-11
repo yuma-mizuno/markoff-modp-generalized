@@ -1,4 +1,11 @@
-import BGS.Markoff.Cage.PowerCover
+module
+
+public import BGS.Markoff.Cage.PowerCover
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Comparing the pulled cage cover with its affine plane models

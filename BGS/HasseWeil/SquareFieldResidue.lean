@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Degree-one residues over a square constant field

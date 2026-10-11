@@ -1,12 +1,16 @@
-import GenMarkoff.General.Endgame.RegularPrimitiveCount
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
-import GenMarkoff.General.Assembly.RegularMiddleIteration
-import GenMarkoff.General.MiddleGame.ActualDiagonalization
-import GenMarkoff.General.MiddleGame.ActualMoveWiring
-import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
-import BGS.Markoff.Endgame.PrimitiveOrbitWiring
+module
+
+public import GenMarkoff.General.Endgame.RegularPrimitiveCount
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+public import GenMarkoff.General.Assembly.RegularMiddleIteration
+public import GenMarkoff.General.MiddleGame.ActualDiagonalization
+public import GenMarkoff.General.MiddleGame.ActualMoveWiring
+public import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
+public import BGS.Markoff.Endgame.PrimitiveOrbitWiring
+
+@[expose] public section
 
 /-!
 # Fixed-coefficient alternating split actual-rotation endgame

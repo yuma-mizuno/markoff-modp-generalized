@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ZetaExtensionTrace
-import Mathlib.FieldTheory.IsAlgClosed.Basic
+module
+
+public import BGS.HasseWeil.ZetaExtensionTrace
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+
+@[expose] public section
 
 /-!
 # Spectral parameters from a zeta numerator

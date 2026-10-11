@@ -1,9 +1,13 @@
-import Mathlib.Data.Fintype.Sigma
-import Mathlib.Tactic.DeriveFintype
-import Mathlib.Tactic.Ring
-import Mathlib.Logic.Equiv.Defs
-import Mathlib.Logic.Function.Iterate
-import Mathlib.Algebra.Ring.Hom.Defs
+module
+
+public import Mathlib.Data.Fintype.Sigma
+public import Mathlib.Tactic.DeriveFintype
+public import Mathlib.Tactic.Ring
+public import Mathlib.Logic.Equiv.Defs
+public import Mathlib.Logic.Function.Iterate
+public import Mathlib.Algebra.Ring.Hom.Defs
+
+@[expose] public section
 
 /-!
 # The generalized Markoff surface

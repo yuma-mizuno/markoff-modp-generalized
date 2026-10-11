@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.PoweredImageCurve
-import BGS.CorvajaZannier.AbsoluteIrreducibilityBaseChange
-import Mathlib.RingTheory.TensorProduct.MvPolynomial
-import Mathlib.RingTheory.TensorProduct.Quotient
-import Mathlib.RingTheory.Flat.Basic
+module
+
+public import BGS.CorvajaZannier.PoweredImageCurve
+public import BGS.CorvajaZannier.AbsoluteIrreducibilityBaseChange
+public import Mathlib.RingTheory.TensorProduct.MvPolynomial
+public import Mathlib.RingTheory.TensorProduct.Quotient
+public import Mathlib.RingTheory.Flat.Basic
+
+@[expose] public section
 
 /-!
 # Powered-image relations over the Frobenius constant field

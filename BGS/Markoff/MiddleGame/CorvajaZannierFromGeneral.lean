@@ -1,9 +1,13 @@
-import BGS.External.GeneralCurveTheorems
-import BGS.Markoff.Endgame.WeilFromGeneralHasse
-import BGS.Markoff.MiddleGame.WeightedTraceBound
-import BGS.Markoff.TraceCurve.WeightedIrreducibility
-import BGS.Markoff.TraceCurve.WeightedNotSubtorus
-import BGS.CorvajaZannier.GeneralCorvajaZannier
+module
+
+public import BGS.External.GeneralCurveTheorems
+public import BGS.Markoff.Endgame.WeilFromGeneralHasse
+public import BGS.Markoff.MiddleGame.WeightedTraceBound
+public import BGS.Markoff.TraceCurve.WeightedIrreducibility
+public import BGS.Markoff.TraceCurve.WeightedNotSubtorus
+public import BGS.CorvajaZannier.GeneralCorvajaZannier
+
+@[expose] public section
 
 /-!
 # Applying general Corvaja--Zannier to the weighted trace curve

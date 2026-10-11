@@ -1,11 +1,15 @@
-import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
-import GenMarkoff.General.Assembly.ClassicalZeroBridge
-import GenMarkoff.General.Assembly.ConnectingCageBoundary
-import GenMarkoff.General.Assembly.CyclicStrongApproximation
-import GenMarkoff.General.Assembly.UnifiedRegularEndgame
-import GenMarkoff.General.Cage.CanonicalOrbitConnecting
-import GenMarkoff.General.Cage.CanonicalTwoRootConnecting
-import GenMarkoff.General.Cage.Connecting.AxisTwoAssembly
+module
+
+public import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
+public import GenMarkoff.General.Assembly.ClassicalZeroBridge
+public import GenMarkoff.General.Assembly.ConnectingCageBoundary
+public import GenMarkoff.General.Assembly.CyclicStrongApproximation
+public import GenMarkoff.General.Assembly.UnifiedRegularEndgame
+public import GenMarkoff.General.Cage.CanonicalOrbitConnecting
+public import GenMarkoff.General.Cage.CanonicalTwoRootConnecting
+public import GenMarkoff.General.Cage.Connecting.AxisTwoAssembly
+
+@[expose] public section
 
 /-!
 # The full-Vieta connecting cage beyond the reasonable cutoff

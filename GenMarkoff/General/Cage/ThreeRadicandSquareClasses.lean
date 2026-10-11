@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.PairwiseCoprime
-import BGS.Markoff.Incidence.Geometry
+module
+
+public import GenMarkoff.General.Cage.Connecting.PairwiseCoprime
+public import BGS.Markoff.Incidence.Geometry
+
+@[expose] public section
 
 /-!
 # Seven square classes from three pairwise-disjoint radicands

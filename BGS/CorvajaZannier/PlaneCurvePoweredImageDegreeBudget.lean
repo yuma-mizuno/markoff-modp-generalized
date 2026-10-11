@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PoweredImageHeightFactor
-import BGS.CorvajaZannier.PoweredImageIndex
-import BGS.CorvajaZannier.TranscendentalPowerDegree
+module
+
+public import BGS.CorvajaZannier.PoweredImageHeightFactor
+public import BGS.CorvajaZannier.PoweredImageIndex
+public import BGS.CorvajaZannier.TranscendentalPowerDegree
+
+@[expose] public section
 
 /-!
 # Exact source-height factorization through the powered image

@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
-import Mathlib.RingTheory.Localization.Integral
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
+public import Mathlib.RingTheory.Localization.Integral
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The sharp finite different bound for a plane curve
@@ -584,7 +588,8 @@ theorem finiteExtensionFiniteDifferentDivisorBelow_apply_le_minpolyDiscr_of_loca
     exact horder.symm
   have hmMultiplicity :
       multiplicity p.asIdeal (Ideal.span {(m : K[X])}) = 0 := by
-    rw [multiplicity_eq_zero, Ideal.dvd_span_singleton]
+    apply multiplicity_eq_zero_of_not_dvd
+    rw [Ideal.dvd_span_singleton]
     exact m.property
   have hrOrder : ratFuncFiniteOrder p r = 0 := by
     change finitePlaceOrder p (algebraMap K[X] (RatFunc K) (m : K[X])) = 0

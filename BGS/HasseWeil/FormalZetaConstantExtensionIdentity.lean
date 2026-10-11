@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FormalZetaDegreeIndexOne
-import BGS.HasseWeil.FormalZetaUniqueness
+module
+
+public import BGS.HasseWeil.FormalZetaDegreeIndexOne
+public import BGS.HasseWeil.FormalZetaUniqueness
+
+@[expose] public section
 
 /-!
 # Formal zeta identity under a constant extension
@@ -36,7 +40,7 @@ theorem subst_pointCountDerivativeSeries_mul_derivative_X_pow
     (hsupport : ∀ n, 0 < n → ¬ d ∣ n → pointCount n = 0) :
     PowerSeries.subst (PowerSeries.X ^ d)
           (pointCountDerivativeSeries extendedPointCount) *
-        PowerSeries.derivative ℂ (PowerSeries.X ^ d) =
+        PowerSeries.derivative (PowerSeries.X ^ d) =
       pointCountDerivativeSeries (fun n => d * pointCount n) := by
   ext n
   rw [PowerSeries.derivative_pow]
@@ -121,31 +125,31 @@ theorem formalPointCountZeta_hasDegreeExtensionIdentity_of_positive
       (formalPointCountZeta extendedPointCount) by rfl]
     rw [PowerSeries.constantCoeff_subst_X_pow hd.ne']
     simp [G]
-  have hF : PowerSeries.derivative ℂ F = F * A := by
+  have hF : PowerSeries.derivative F = F * A := by
     have htrace :=
       formalPointCountZeta_hasPointCountDerivative extendedPointCount
     rw [HasFormalZetaPointCountDerivative] at htrace
     calc
-      PowerSeries.derivative ℂ F =
+      PowerSeries.derivative F =
           PowerSeries.subst (PowerSeries.X ^ d)
-              (PowerSeries.derivative ℂ
+              (PowerSeries.derivative
                 (formalPointCountZeta extendedPointCount)) *
-            PowerSeries.derivative ℂ (PowerSeries.X ^ d) := by
-              exact PowerSeries.derivative_subst ℂ hs
+            PowerSeries.derivative (PowerSeries.X ^ d) := by
+              exact PowerSeries.derivative_subst hs
       _ = PowerSeries.subst (PowerSeries.X ^ d)
               (formalPointCountZeta extendedPointCount *
                 pointCountDerivativeSeries extendedPointCount) *
-            PowerSeries.derivative ℂ (PowerSeries.X ^ d) := by rw [htrace]
+            PowerSeries.derivative (PowerSeries.X ^ d) := by rw [htrace]
       _ = F * (PowerSeries.subst (PowerSeries.X ^ d)
               (pointCountDerivativeSeries extendedPointCount) *
-            PowerSeries.derivative ℂ (PowerSeries.X ^ d)) := by
+            PowerSeries.derivative (PowerSeries.X ^ d)) := by
               rw [PowerSeries.subst_mul hs]
               simp only [F]
               rw [mul_assoc]
       _ = F * A := by
         rw [subst_pointCountDerivativeSeries_mul_derivative_X_pow
           pointCount extendedPointCount d hd hcount hsupport]
-  have hG : PowerSeries.derivative ℂ G = G * A := by
+  have hG : PowerSeries.derivative G = G * A := by
     have htrace := formalPointCountZeta_hasPointCountDerivative pointCount
     rw [HasFormalZetaPointCountDerivative] at htrace
     have hpred : d - 1 + 1 = d :=
@@ -155,12 +159,12 @@ theorem formalPointCountZeta_hasDegreeExtensionIdentity_of_positive
           formalPointCountZeta pointCount ^ d := by
       rw [← pow_succ, hpred]
     calc
-      PowerSeries.derivative ℂ G =
+      PowerSeries.derivative G =
           (d : PowerSeries ℂ) *
               formalPointCountZeta pointCount ^ (d - 1) *
-            PowerSeries.derivative ℂ
+            PowerSeries.derivative
               (formalPointCountZeta pointCount) := by
-                exact PowerSeries.derivative_pow ℂ
+                exact PowerSeries.derivative_pow
                   (formalPointCountZeta pointCount) d
       _ = (d : PowerSeries ℂ) *
               formalPointCountZeta pointCount ^ (d - 1) *

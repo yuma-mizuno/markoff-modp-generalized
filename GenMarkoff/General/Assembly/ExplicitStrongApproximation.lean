@@ -1,6 +1,10 @@
-import BGS.Markoff.Assembly.ExplicitPuncturedTransitivity
-import GenMarkoff.General.Assembly.ReasonableUnifiedEndgame
-import GenMarkoff.General.Assembly.StrongApproximation
+module
+
+public import BGS.Markoff.Assembly.ExplicitPuncturedTransitivity
+public import GenMarkoff.General.Assembly.ReasonableUnifiedEndgame
+public import GenMarkoff.General.Assembly.StrongApproximation
+
+@[expose] public section
 
 /-!
 # Explicit cutoff for fixed-coefficient strong approximation

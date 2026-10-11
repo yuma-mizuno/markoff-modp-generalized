@@ -1,11 +1,15 @@
-import BGS.HasseWeil.SquareExtensionAffinePlaces
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
-import Mathlib.RingTheory.DiscreteValuationRing.TFAE
-import Mathlib.RingTheory.Smooth.StandardSmoothCotangent
-import Mathlib.RingTheory.Localization.LocalizationLocalization
-import Mathlib.LinearAlgebra.TensorProduct.Basis
-import Mathlib.RingTheory.Etale.Field
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.SquareExtensionAffinePlaces
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
+public import Mathlib.RingTheory.DiscreteValuationRing.TFAE
+public import Mathlib.RingTheory.Smooth.StandardSmoothCotangent
+public import Mathlib.RingTheory.Localization.LocalizationLocalization
+public import Mathlib.LinearAlgebra.TensorProduct.Basis
+public import Mathlib.RingTheory.Etale.Field
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Smooth affine centres and normalization residue fields
@@ -84,12 +88,14 @@ theorem planeCurveYPreSubmersivePresentation_jacobian
     (fun _ => 1) (fun _ _ _ => Subsingleton.elim _ _)
   let E := planeCurvePresentationEquiv f
   change (P.ofAlgEquiv E).jacobian = planeCurvePartialY f
-  rw [Algebra.PreSubmersivePresentation.jacobian_ofAlgEquiv,
-    Algebra.PreSubmersivePresentation.jacobian_eq_jacobiMatrix_det,
-    Matrix.det_unique, Algebra.PreSubmersivePresentation.jacobiMatrix_naive]
-  change E (Ideal.Quotient.mk _ (MvPolynomial.pderiv 1 f)) =
-    Ideal.Quotient.mk _ (MvPolynomial.pderiv 1 f)
-  exact Ideal.quotientEquivAlgOfEq_mk K _ _
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+    rw [Algebra.PreSubmersivePresentation.jacobian_ofAlgEquiv,
+      Algebra.PreSubmersivePresentation.jacobian_eq_jacobiMatrix_det,
+      Matrix.det_unique, Algebra.PreSubmersivePresentation.jacobiMatrix_naive]
+    change E (Ideal.Quotient.mk _ (MvPolynomial.pderiv 1 f)) =
+      Ideal.Quotient.mk _ (MvPolynomial.pderiv 1 f)
+    exact Ideal.quotientEquivAlgOfEq_mk K _ _
 
 /-- The principal smooth chart on which the second partial derivative is
 inverted. -/
@@ -228,7 +234,12 @@ theorem squareExtensionClosedPoint_asIdeal_ne_bot_of_partialY
       Finite.one_lt_card
   apply hg0
   apply (transcendental_iff.mp hx) g
-  simpa [g, r, planeCurveFunction] using congrArg
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+  simpa only [g, r, planeCurveFunction, RingHom.map_sub,
+    map_pow (algebraMap A (PlaneCurveFunctionField f)),
+    map_zero (algebraMap A (PlaneCurveFunctionField f)),
+    Polynomial.aeval_sub, Polynomial.aeval_X_pow, Polynomial.aeval_X] using congrArg
     (algebraMap A (PlaneCurveFunctionField f)) hrzero
 
 omit [DecidableEq K] in
@@ -272,7 +283,7 @@ theorem planeCurveClosedPoint_localization_isDiscreteValuationRing
     rw [hunder]
     exact m.isMaximal
   letI hqMax : q.IsMaximal := by
-    exact Ideal.IsMaximal.of_isLocalization_of_disjoint (Submonoid.powers d)
+    exact Ideal.IsMaximal.of_isLocalization_of_disjoint (Submonoid.powers d) Ad q
   let S := Localization.AtPrime q
   letI : IsLocalRing S := IsLocalization.AtPrime.isLocalRing S q
   letI : IsDomain S := IsLocalization.isDomain_of_atPrime S q
@@ -350,7 +361,7 @@ theorem planeCurveClosedPoint_localization_isDiscreteValuationRing
   have hprincipal : (IsLocalRing.maximalIdeal S).IsPrincipal :=
     IsLocalRing.finrank_cotangentSpace_le_one_iff.mp hcotangent
   have hSDvr : IsDiscreteValuationRing S :=
-    ((IsDiscreteValuationRing.TFAE S hnotField).out 4 0).mp hprincipal
+    ((IsDiscreteValuationRing.TFAE S hnotField).out 5 1).mp hprincipal
   letI : IsDiscreteValuationRing S := hSDvr
   exact IsDiscreteValuationRing.RingEquivClass.isDiscreteValuationRing
     (IsLocalization.algEquiv m.asIdeal.primeCompl S
@@ -396,7 +407,7 @@ theorem squareExtensionClosedPoint_localization_isDiscreteValuationRing
     rw [hunder]
     exact m.1.isMaximal
   letI hqMax : q.IsMaximal := by
-    exact Ideal.IsMaximal.of_isLocalization_of_disjoint (Submonoid.powers d)
+    exact Ideal.IsMaximal.of_isLocalization_of_disjoint (Submonoid.powers d) Ad q
   let S := Localization.AtPrime q
   letI : IsLocalRing S := IsLocalization.AtPrime.isLocalRing S q
   letI : IsDomain S := IsLocalization.isDomain_of_atPrime S q
@@ -482,7 +493,7 @@ theorem squareExtensionClosedPoint_localization_isDiscreteValuationRing
   have hprincipal : (IsLocalRing.maximalIdeal S).IsPrincipal :=
     IsLocalRing.finrank_cotangentSpace_le_one_iff.mp hcotangent
   have hSDvr : IsDiscreteValuationRing S :=
-    ((IsDiscreteValuationRing.TFAE S hnotField).out 4 0).mp hprincipal
+    ((IsDiscreteValuationRing.TFAE S hnotField).out 5 1).mp hprincipal
   letI : IsDiscreteValuationRing S := hSDvr
   exact IsDiscreteValuationRing.RingEquivClass.isDiscreteValuationRing
     (IsLocalization.algEquiv m.1.asIdeal.primeCompl S

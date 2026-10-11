@@ -1,4 +1,8 @@
-import Mathlib.FieldTheory.Finite.Extension
+module
+
+public import Mathlib.FieldTheory.Finite.Extension
+
+@[expose] public section
 
 /-!
 # Nested canonical finite-field extensions

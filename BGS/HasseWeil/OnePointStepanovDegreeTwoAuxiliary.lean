@@ -1,8 +1,12 @@
-import BGS.HasseWeil.OnePointSectionSelection
-import BGS.HasseWeil.OnePointStepanovBasisGrid
-import BGS.HasseWeil.StepanovParameters
-import BGS.HasseWeil.StepanovRestrictionMaps
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointSectionSelection
+public import BGS.HasseWeil.OnePointStepanovBasisGrid
+public import BGS.HasseWeil.StepanovParameters
+public import BGS.HasseWeil.StepanovRestrictionMaps
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Stepanov auxiliaries at places of degree at most two

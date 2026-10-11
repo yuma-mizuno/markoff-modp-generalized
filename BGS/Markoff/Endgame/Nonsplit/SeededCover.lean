@@ -1,6 +1,10 @@
-import BGS.Markoff.MiddleGame.TraceCurveWeights
-import BGS.Markoff.TraceCurve.Geometry
-import BGS.Markoff.TraceCurve.WeightedOddCoprimeIrreducibility
+module
+
+public import BGS.Markoff.MiddleGame.TraceCurveWeights
+public import BGS.Markoff.TraceCurve.Geometry
+public import BGS.Markoff.TraceCurve.WeightedOddCoprimeIrreducibility
+
+@[expose] public section
 
 /-!
 # The seeded nonsplit endgame cover

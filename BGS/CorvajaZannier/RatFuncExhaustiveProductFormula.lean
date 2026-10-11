@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FunctionFieldProductFormula
-import Mathlib.RingTheory.UniqueFactorizationDomain.Finsupp
+module
+
+public import BGS.CorvajaZannier.FunctionFieldProductFormula
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Finsupp
+
+@[expose] public section
 
 /-!
 # The exhaustive finite-place product formula for the rational function field

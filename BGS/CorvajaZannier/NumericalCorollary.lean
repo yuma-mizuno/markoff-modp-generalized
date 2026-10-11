@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.ParameterizedBound
-import BGS.CorvajaZannier.NumericalOptimization
+module
+
+public import BGS.CorvajaZannier.ParameterizedBound
+public import BGS.CorvajaZannier.NumericalOptimization
+
+@[expose] public section
 
 /-!
 # The numerical Corvaja--Zannier Theorem 2 bound

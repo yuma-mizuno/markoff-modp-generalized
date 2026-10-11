@@ -1,6 +1,10 @@
-import BGS.Markoff.Cage.PlaneCountComparison
-import BGS.Markoff.Cage.AxisEquivalence
-import BGS.Markoff.Cage.SmallPrime
+module
+
+public import BGS.Markoff.Cage.PlaneCountComparison
+public import BGS.Markoff.Cage.AxisEquivalence
+public import BGS.Markoff.Cage.SmallPrime
+
+@[expose] public section
 
 /-!
 # Transferring plane estimates to the cage witness count

@@ -1,5 +1,9 @@
-import Mathlib.Data.Set.Finite.Basic
-import Mathlib.Logic.Function.Iterate
+module
+
+public import Mathlib.Data.Set.Finite.Basic
+public import Mathlib.Logic.Function.Iterate
+
+@[expose] public section
 
 /-!
 # Finite forward orbits of injective maps

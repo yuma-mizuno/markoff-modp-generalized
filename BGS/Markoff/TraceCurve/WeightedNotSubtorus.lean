@@ -1,4 +1,8 @@
-import BGS.Markoff.MiddleGame.CorvajaZannierGeometry
+module
+
+public import BGS.Markoff.MiddleGame.CorvajaZannierGeometry
+
+@[expose] public section
 
 /-!
 # The weighted trace curve is not a subtorus translate

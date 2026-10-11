@@ -1,5 +1,9 @@
-import BGS.Markoff.Opening.OrbitCardBound
-import BGS.Markoff.Core.Statements
+module
+
+public import BGS.Markoff.Opening.OrbitCardBound
+public import BGS.Markoff.Core.Statements
+
+@[expose] public section
 
 /-!
 # The logarithmic lower-bound half of Theorem 1

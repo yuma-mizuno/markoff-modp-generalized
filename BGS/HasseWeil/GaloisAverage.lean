@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FixedPointAverage
-import Mathlib
+module
+
+public import BGS.HasseWeil.FixedPointAverage
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # The finite averaging step in the Corvaja--Zannier Hasse--Weil argument

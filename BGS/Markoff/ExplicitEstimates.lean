@@ -1,8 +1,12 @@
-import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
-import BGS.Markoff.Endgame.WeilFromGeneralHasse
-import BGS.Markoff.Endgame.Nonsplit.HasseFromGeneral
-import BGS.Markoff.Cage.EstimateFromPlane
-import BGS.Markoff.Cage.PlaneHasseWeil
+module
+
+public import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
+public import BGS.Markoff.Endgame.WeilFromGeneralHasse
+public import BGS.Markoff.Endgame.Nonsplit.HasseFromGeneral
+public import BGS.Markoff.Cage.EstimateFromPlane
+public import BGS.Markoff.Cage.PlaneHasseWeil
+
+@[expose] public section
 
 /-!
 # Fixed point-count estimates for explicit strong approximation

@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.PlaneCurveFunctionField
-import Mathlib.FieldTheory.Separable
-import Mathlib.FieldTheory.SeparableDegree
-import Mathlib.RingTheory.Polynomial.GaussLemma
-import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
+module
+
+public import BGS.CorvajaZannier.PlaneCurveFunctionField
+public import Mathlib.FieldTheory.Separable
+public import Mathlib.FieldTheory.SeparableDegree
+public import Mathlib.RingTheory.Polynomial.GaussLemma
+public import Mathlib.RingTheory.AlgebraicIndependent.Adjoin
+
+@[expose] public section
 
 /-!
 # Separability of a plane-curve coordinate extension

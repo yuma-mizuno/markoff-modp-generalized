@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.FiniteExtensionExhaustiveProductFormula
-import BGS.CorvajaZannier.InfinityInertiaDegree
-import BGS.CorvajaZannier.LocalReciprocalDiscriminant
-import BGS.CorvajaZannier.PlaneCurveDiscriminantBound
-import BGS.CorvajaZannier.PlaneCurveLocalReciprocalDiscriminant
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionExhaustiveProductFormula
+public import BGS.CorvajaZannier.InfinityInertiaDegree
+public import BGS.CorvajaZannier.LocalReciprocalDiscriminant
+public import BGS.CorvajaZannier.PlaneCurveDiscriminantBound
+public import BGS.CorvajaZannier.PlaneCurveLocalReciprocalDiscriminant
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The discriminant budget at infinity for a plane curve

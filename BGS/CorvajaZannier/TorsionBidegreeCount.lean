@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveDiscriminantBound
-import Mathlib.RingTheory.RootsOfUnity.Basic
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveDiscriminantBound
+public import Mathlib.RingTheory.RootsOfUnity.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Bidegree bounds for finite torus-curve intersections

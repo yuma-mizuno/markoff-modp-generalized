@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FormalZetaTrace
+module
+
+public import BGS.HasseWeil.FormalZetaTrace
+
+@[expose] public section
 
 /-!
 # The Hasse bound from formal zeta rationality

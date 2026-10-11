@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.OrbitCosetBiquadratic
-import GenMarkoff.General.Cage.Connecting.PulledRadicands
+module
+
+public import GenMarkoff.General.Cage.OrbitCosetBiquadratic
+public import GenMarkoff.General.Cage.Connecting.PulledRadicands
+
+@[expose] public section
 
 /-!
 # Pulled radicands for an orbit connecting coset

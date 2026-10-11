@@ -1,5 +1,9 @@
-import Mathlib.NumberTheory.JacobiSum.Basic
-import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
+module
+
+public import Mathlib.NumberTheory.JacobiSum.Basic
+public import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
+
+@[expose] public section
 
 namespace BGS.FiniteField
 

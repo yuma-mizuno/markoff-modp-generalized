@@ -1,6 +1,10 @@
-import BGS.Algebra.KummerEigencharacterDescent
-import BGS.Markoff.TraceCurve.OddCommonPrimeIndependence
-import BGS.Markoff.TraceCurve.PositiveCoprimeIrreducibility
+module
+
+public import BGS.Algebra.KummerEigencharacterDescent
+public import BGS.Markoff.TraceCurve.OddCommonPrimeIndependence
+public import BGS.Markoff.TraceCurve.PositiveCoprimeIrreducibility
+
+@[expose] public section
 
 /-!
 # The split trace Kummer tower for arbitrary positive exponents

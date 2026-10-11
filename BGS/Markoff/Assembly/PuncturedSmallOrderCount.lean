@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.PuncturedNormalization
-import BGS.Markoff.Assembly.NormalizedSmallOrderCount
+module
+
+public import BGS.Markoff.Core.PuncturedNormalization
+public import BGS.Markoff.Assembly.NormalizedSmallOrderCount
+
+@[expose] public section
 
 /-!
 # Small-order counts on the punctured Markoff surface

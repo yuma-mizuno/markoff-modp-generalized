@@ -1,4 +1,8 @@
-import GenMarkoff.TraceCurve.ShiftedCover.AbsoluteIrreducibility
+module
+
+public import GenMarkoff.TraceCurve.ShiftedCover.AbsoluteIrreducibility
+
+@[expose] public section
 
 /-!
 # Residue-block division for shifted trace covers
@@ -92,19 +96,19 @@ def shiftedTraceBaseResidueEvaluation
     ![shiftedTraceBaseU sigma gamma * shiftedTraceBaseV sigma gamma,
       shiftedTraceBaseV sigma gamma]
 
-private def shiftedTraceBaseVPolynomialEvaluation
+def shiftedTraceBaseVPolynomialEvaluation
     (sigma gamma : K) :
     K[X] →ₐ[K] ShiftedTraceBaseFunctionField sigma gamma :=
   Polynomial.aeval (shiftedTraceBaseV sigma gamma)
 
-private theorem shiftedTraceBaseVPolynomialEvaluation_injective
+theorem shiftedTraceBaseVPolynomialEvaluation_injective
     (sigma gamma : K) (h2 : (2 : K) ≠ 0) (hsigma : sigma ≠ 0) :
     Function.Injective
       (shiftedTraceBaseVPolynomialEvaluation sigma gamma) := by
   exact transcendental_iff_injective.mp
     (shiftedTraceBaseV_transcendental sigma gamma h2 hsigma)
 
-private def shiftedTraceBaseVRatFuncEvaluation
+def shiftedTraceBaseVRatFuncEvaluation
     (sigma gamma : K) (h2 : (2 : K) ≠ 0) (hsigma : sigma ≠ 0) :
     RatFunc K →ₐ[K] ShiftedTraceBaseFunctionField sigma gamma := by
   let hBaseIrred := shiftedTraceBasePolynomial_irreducible

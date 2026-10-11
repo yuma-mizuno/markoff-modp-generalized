@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOneAutomatic
-import BGS.HasseWeil.FormalZetaHasseBound
+module
+
+public import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOneAutomatic
+public import BGS.HasseWeil.FormalZetaHasseBound
+
+@[expose] public section
 
 /-!
 # Hasse bounds from even exact constant-extension estimates

@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.ThreeRootEstimate
-import GenMarkoff.General.Cage.OrbitConnecting.PulledRadicands
+module
+
+public import GenMarkoff.General.Cage.Connecting.ThreeRootEstimate
+public import GenMarkoff.General.Cage.OrbitConnecting.PulledRadicands
+
+@[expose] public section
 
 /-!
 # Three-root cover estimate for orbit-component connecting data
@@ -390,7 +394,7 @@ def orbitConnectingThreeRootPowerCoverEquivPulled
 
 /-- Repackage a good-witness power-cover point as a point of the
 all-witness power cover whose third root is nonzero. -/
-private def orbitConnectingGoodPowerCoverEquivRestrictedCover
+def orbitConnectingGoodPowerCoverEquivRestrictedCover
     (alpha gamma k omegaInv B C0 : K) (d : ℕ) :
     orbitConnectingGoodThreeRootPowerCoverSolutions
         alpha gamma k omegaInv B C0 d ≃
@@ -405,7 +409,7 @@ private def orbitConnectingGoodPowerCoverEquivRestrictedCover
 
 /-- The unrestricted pulled-cover equivalence preserves nonvanishing of the
 third root. -/
-private def orbitConnectingRestrictedPowerCoverEquivGoodPulled
+def orbitConnectingRestrictedPowerCoverEquivGoodPulled
     (alpha gamma k omegaInv B C0 : K) (d : ℕ) :
     {z :
         orbitConnectingThreeRootPowerCoverSolutions

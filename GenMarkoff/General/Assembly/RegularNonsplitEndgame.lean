@@ -1,5 +1,9 @@
-import GenMarkoff.General.Assembly.RegularSplitEndgame
-import GenMarkoff.General.Endgame.Nonsplit.ActualRotation
+module
+
+public import GenMarkoff.General.Assembly.RegularSplitEndgame
+public import GenMarkoff.General.Endgame.Nonsplit.ActualRotation
+
+@[expose] public section
 
 /-!
 # Canonical first-axis split point from a regular nonsplit source

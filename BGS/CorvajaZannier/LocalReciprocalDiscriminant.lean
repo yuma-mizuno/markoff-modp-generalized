@@ -1,6 +1,13 @@
-import BGS.CorvajaZannier.DedekindDifferentDivisor
-import Mathlib.Algebra.Polynomial.Reverse
-import Mathlib.RingTheory.Polynomial.Resultant.Basic
+module
+
+public import BGS.CorvajaZannier.DedekindDifferentDivisor
+public import Mathlib.Algebra.Polynomial.Reverse
+public import Mathlib.RingTheory.Polynomial.Resultant.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Reciprocal normalization at a finite base place
@@ -26,7 +33,7 @@ noncomputable section
 
 variable {R : Type*} [CommRing R]
 
-private def reflectSylvesterEquiv (m n : ℕ) : Fin (n + m) ≃ Fin (m + n) :=
+def reflectSylvesterEquiv (m n : ℕ) : Fin (n + m) ≃ Fin (m + n) :=
   (finCongr (Nat.add_comm n m)).trans Fin.revPerm
 
 @[simp]

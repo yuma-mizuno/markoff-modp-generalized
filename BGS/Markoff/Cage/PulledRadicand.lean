@@ -1,5 +1,9 @@
-import BGS.Markoff.Cage.ShiftedTraceCurveIrreducibility
-import Mathlib.FieldTheory.IsAlgClosed.Basic
+module
+
+public import BGS.Markoff.Cage.ShiftedTraceCurveIrreducibility
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+
+@[expose] public section
 
 /-!
 # Pulled-back cage radicands

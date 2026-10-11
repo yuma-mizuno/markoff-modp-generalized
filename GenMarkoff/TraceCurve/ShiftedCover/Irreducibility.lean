@@ -1,7 +1,14 @@
-import GenMarkoff.TraceCurve.ShiftedCover.Basic
-import BGS.Markoff.Incidence.Geometry
-import BGS.Markoff.TraceCurve.OddCommonPrimeIndependence
-import BGS.Markoff.TraceCurve.PositiveCoprimeIrreducibility
+module
+
+public import GenMarkoff.TraceCurve.ShiftedCover.Basic
+public import BGS.Markoff.Incidence.Geometry
+public import BGS.Markoff.TraceCurve.OddCommonPrimeIndependence
+public import BGS.Markoff.TraceCurve.PositiveCoprimeIrreducibility
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The shifted base function field and its Kummer radicands
@@ -547,7 +554,7 @@ theorem shiftedTraceEtaFunctionField_finrank_of_sqrt_neg_one
   letI : Fact (Irreducible
       (shiftedTraceEtaKummerPolynomial sigma gamma e)) := ⟨hEtaIrred⟩
   rw [PowerBasis.finrank (AdjoinRoot.powerBasis hEtaIrred.ne_zero)]
-  simp [shiftedTraceEtaKummerPolynomial]
+  simp [AdjoinRoot.powerBasis_dim, shiftedTraceEtaKummerPolynomial]
 
 /-- Second Kummer radicand, corresponding to `xi^d = U*V`. -/
 def shiftedTraceXiRadicand (sigma gamma : K) (e : ℕ) :

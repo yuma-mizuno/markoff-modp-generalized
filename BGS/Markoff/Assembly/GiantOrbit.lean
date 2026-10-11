@@ -1,10 +1,14 @@
-import BGS.Markoff.Assembly.MiddleGameThenEndgame
-import BGS.Markoff.Assembly.Asymptotics
-import BGS.Markoff.Opening.EveryOrbitLarge
-import BGS.Markoff.Endgame.WeilFromGeneralHasse
-import BGS.Markoff.Endgame.Nonsplit.HasseFromGeneral
-import BGS.Markoff.MiddleGame.CorvajaZannierFromGeneral
-import BGS.Markoff.Cage.EstimateFromPlane
+module
+
+public import BGS.Markoff.Assembly.MiddleGameThenEndgame
+public import BGS.Markoff.Assembly.Asymptotics
+public import BGS.Markoff.Opening.EveryOrbitLarge
+public import BGS.Markoff.Endgame.WeilFromGeneralHasse
+public import BGS.Markoff.Endgame.Nonsplit.HasseFromGeneral
+public import BGS.Markoff.MiddleGame.CorvajaZannierFromGeneral
+public import BGS.Markoff.Cage.EstimateFromPlane
+
+@[expose] public section
 
 /-!
 # Assembly of the giant orbit
@@ -143,7 +147,7 @@ theorem maximalCoordinateRotationOrder_le_rpow_of_not_same_splitCageComponent
   exact hnot (sameNormalizedComponent_trans (hconnected y hyCage)
     (sameNormalizedComponent_symm hxy))
 
-private theorem three_ne_zero_zmod_of_prime_ne_three
+theorem giantOrbit_three_ne_zero_zmod_of_prime_ne_three
     (p : ℕ) [Fact p.Prime] (hpThree : p ≠ 3) : (3 : ZMod p) ≠ 0 := by
   intro hzero
   have hpDvd : p ∣ 3 := (ZMod.natCast_eq_zero_iff 3 p).mp hzero
@@ -199,7 +203,7 @@ theorem eventually_hasGiantOrbit_of_specializedEstimates
   have hpTwo : p ≠ 2 := by omega
   have hpThree : p ≠ 3 := by omega
   letI : Invertible (3 : ZMod p) :=
-    invertibleOfNonzero (three_ne_zero_zmod_of_prime_ne_three p hpThree)
+    invertibleOfNonzero (giantOrbit_three_ne_zero_zmod_of_prime_ne_three p hpThree)
   letI : Fintype (quadraticFiniteField p) := Fintype.ofFinite _
   obtain ⟨cNormalized, hcNormalizedCage⟩ :=
     exists_normalizedPunctured_splitCagePoint p hpSeven

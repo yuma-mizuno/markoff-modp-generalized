@@ -1,5 +1,9 @@
-import BGS.Markoff.MiddleGame.CorvajaZannierSeparability
-import BGS.Markoff.MiddleGame.CorvajaZannierSourceBound
+module
+
+public import BGS.Markoff.MiddleGame.CorvajaZannierSeparability
+public import BGS.Markoff.MiddleGame.CorvajaZannierSourceBound
+
+@[expose] public section
 
 /-!
 # The weighted-trace torsion-intersection bound

@@ -1,4 +1,8 @@
-import BGS.Markoff.MiddleGame.UnionBound
+module
+
+public import BGS.Markoff.MiddleGame.UnionBound
+
+@[expose] public section
 
 /-!
 # The source-faithful Corvaja--Zannier numerical specialization

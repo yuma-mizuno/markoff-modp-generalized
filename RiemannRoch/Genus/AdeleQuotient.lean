@@ -74,7 +74,7 @@ theorem mem_adeleFilt_divisorOfAdele (α : AdeleSpace k K) :
     α ∈ adeleFilt k K (divisorOfAdele k K α) := by
   intro v
   show placeValuation k K v (α.val v) ≤ WithZero.exp ((divisorOfAdele k K α) v)
-  dsimp [divisorOfAdele, exceptionalPlaces, Finsupp.onFinset_apply]
+  simp only [divisorOfAdele, Finsupp.onFinset_apply]
   by_cases hv : placeValuation k K v (α.val v) ≤ 1
   · have hnotlt : ¬1 < placeValuation k K v (α.val v) := not_lt.mpr hv
     have hnotmem : v ∉ exceptionalPlaces k K α := by

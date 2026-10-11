@@ -1,5 +1,9 @@
-import GenMarkoff.TraceCurve.WeightedShiftedCover.Counting
-import BGS.Markoff.Endgame.Nonsplit.SeededCover
+module
+
+public import GenMarkoff.TraceCurve.WeightedShiftedCover.Counting
+public import BGS.Markoff.Endgame.Nonsplit.SeededCover
+
+@[expose] public section
 
 /-!
 # Shifted seeded nonsplit covers

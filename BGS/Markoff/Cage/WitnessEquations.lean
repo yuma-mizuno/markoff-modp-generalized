@@ -1,4 +1,11 @@
-import BGS.Markoff.Cage.HasseWeilAssumption
+module
+
+public import BGS.Markoff.Cage.HasseWeilAssumption
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Witness-preserving equations for the cage fiber product
@@ -40,7 +47,7 @@ theorem CageIncidenceEquationWitness.ext
   cases y
   simp_all
 
-private theorem first_incidence_discriminant_equation
+theorem first_incidence_discriminant_equation
     {K : Type*} [CommRing K] (xi other middle : K)
     (hSurface :
       normalizedPolynomial
@@ -50,7 +57,7 @@ private theorem first_incidence_discriminant_equation
   simp only [normalizedPolynomial] at hSurface ⊢
   linear_combination -4 * hSurface
 
-private theorem second_incidence_discriminant_equation
+theorem second_incidence_discriminant_equation
     {K : Type*} [CommRing K] (other eta middle : K)
     (hSurface :
       normalizedPolynomial
@@ -60,7 +67,7 @@ private theorem second_incidence_discriminant_equation
   simp only [normalizedPolynomial] at hSurface ⊢
   linear_combination -4 * hSurface
 
-private theorem normalized_first_third_point_of_discriminant_equation
+theorem normalized_first_third_point_of_discriminant_equation
     {K : Type*} [Field K] (hTwo : (2 : K) ≠ 0)
     (xi middle root : K)
     (hEquation :
@@ -71,7 +78,7 @@ private theorem normalized_first_third_point_of_discriminant_equation
   field_simp [hTwo]
   linear_combination -hEquation
 
-private theorem normalized_second_third_point_of_discriminant_equation
+theorem normalized_second_third_point_of_discriminant_equation
     {K : Type*} [Field K] (hTwo : (2 : K) ≠ 0)
     (eta middle root : K)
     (hEquation :

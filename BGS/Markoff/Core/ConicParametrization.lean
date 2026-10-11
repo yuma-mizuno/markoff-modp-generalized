@@ -1,5 +1,12 @@
-import BGS.Markoff.Core.ParabolicFibers
-import BGS.Markoff.Core.TraceClassification
+module
+
+public import BGS.Markoff.Core.ParabolicFibers
+public import BGS.Markoff.Core.TraceClassification
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Explicit parametrizations of normalized Markoff fibers

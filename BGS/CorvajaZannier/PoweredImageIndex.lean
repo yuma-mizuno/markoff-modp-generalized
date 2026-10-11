@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.PoweredImageHeightFactor
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PoweredImageHeightFactor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The common source-to-powered-image index

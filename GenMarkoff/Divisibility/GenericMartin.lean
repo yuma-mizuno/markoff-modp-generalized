@@ -1,7 +1,11 @@
-import GenMarkoff.Divisibility.RawAngle.Orbit
-import GenMarkoff.Divisibility.ZeroCoordinateSum
-import GenMarkoff.Core.Statements
-import Mathlib.Algebra.Field.ZMod
+module
+
+public import GenMarkoff.Divisibility.RawAngle.Orbit
+public import GenMarkoff.Divisibility.ZeroCoordinateSum
+public import GenMarkoff.Core.Statements
+public import Mathlib.Algebra.Field.ZMod
+
+@[expose] public section
 
 /-!
 # Generic generalized Martin divisibility

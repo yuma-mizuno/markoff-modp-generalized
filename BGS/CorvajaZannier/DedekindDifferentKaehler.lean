@@ -1,7 +1,11 @@
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.RingTheory.Kaehler.Basic
-import Mathlib.RingTheory.TensorProduct.Maps
-import Mathlib.LinearAlgebra.TensorProduct.Basis
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.Kaehler.Basic
+public import Mathlib.RingTheory.TensorProduct.Maps
+public import Mathlib.LinearAlgebra.TensorProduct.Basis
+
+@[expose] public section
 
 /-!
 # The trace different annihilates Kähler differentials

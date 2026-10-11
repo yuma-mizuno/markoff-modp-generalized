@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantExtensionInfinityPlaceSplittingMultiplicity
+module
+
+public import BGS.HasseWeil.ConstantExtensionInfinityPlaceSplittingMultiplicity
+
+@[expose] public section
 
 /-!
 # Absolute degrees of constant-extension places at infinity

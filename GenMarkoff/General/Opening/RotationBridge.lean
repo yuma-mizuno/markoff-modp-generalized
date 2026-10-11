@@ -1,5 +1,9 @@
-import GenMarkoff.General.FiberDynamics
-import BGS.Markoff.Core.FiniteRotationEigenvalues
+module
+
+public import GenMarkoff.General.FiberDynamics
+public import BGS.Markoff.Core.FiniteRotationEigenvalues
+
+@[expose] public section
 
 /-!
 # Rotation orders through the BGS trace matrix

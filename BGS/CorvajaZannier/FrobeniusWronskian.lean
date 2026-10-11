@@ -1,5 +1,9 @@
-import BGS.Algebra.DifferentialWronskian
-import BGS.CorvajaZannier.FrobeniusSubfield
+module
+
+public import BGS.Algebra.DifferentialWronskian
+public import BGS.CorvajaZannier.FrobeniusSubfield
+
+@[expose] public section
 
 /-!
 # Frobenius constants and ordinary Wronskians

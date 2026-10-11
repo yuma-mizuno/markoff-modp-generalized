@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.CommonKummerIndependence
+module
+
+public import BGS.Markoff.TraceCurve.CommonKummerIndependence
+
+@[expose] public section
 
 /-!
 # Odd common-prime Kummer classes on the split trace curve

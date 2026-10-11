@@ -1,7 +1,11 @@
-import GenMarkoff.Arithmetic.EventualAdmissibility
-import GenMarkoff.General.Assembly.RotationComponent
-import GenMarkoff.General.Assembly.Vieta.ParityCollapse
-import Mathlib.Algebra.Field.ZMod
+module
+
+public import GenMarkoff.Arithmetic.EventualAdmissibility
+public import GenMarkoff.General.Assembly.RotationComponent
+public import GenMarkoff.General.Assembly.Vieta.ParityCollapse
+public import Mathlib.Algebra.Field.ZMod
+
+@[expose] public section
 
 /-!
 # Rotation strong approximation from Vieta strong approximation
@@ -39,15 +43,15 @@ open Polynomial
 
 noncomputable section
 
-private def vietaFixedConicDelta
+def vietaFixedConicDelta
     {K : Type*} [CommRing K] (a : Coefficients K) : K :=
   4 - a.a1 ^ 2
 
-private def vietaFixedConicV
+def vietaFixedConicV
     {K : Type*} [Field K] (a : Coefficients K) (U : Kˣ) : K :=
   ((U : K) + vietaFixedConicDelta a / (U : K)) / 4
 
-private def vietaFixedConicR
+def vietaFixedConicR
     {K : Type*} [Field K] (a : Coefficients K) (U : Kˣ) : K :=
   (vietaFixedConicDelta a / (U : K) - (U : K) - 2 * a.a1) / 4
 
@@ -65,11 +69,11 @@ private theorem vietaFixedConicV_sq
   field_simp [Units.ne_zero U, h4]
   ring
 
-private def vietaFixedConicRBadPolynomial
+def vietaFixedConicRBadPolynomial
     {K : Type*} [CommRing K] (a : Coefficients K) : K[X] :=
   X ^ 2 + C (2 * a.a1) * X - C (vietaFixedConicDelta a)
 
-private def vietaFixedConicNumeratorBadPolynomial
+def vietaFixedConicNumeratorBadPolynomial
     {K : Type*} [CommRing K] (a : Coefficients K) : K[X] :=
   C (2 - a.a3) * X ^ 2 +
     C (-2 * a.a1 * a.a3 + 4 * a.a2) * X +
@@ -157,12 +161,12 @@ private theorem
   field_simp [Units.ne_zero U, h4] at hnumerator ⊢
   linear_combination hnumerator
 
-private def vietaFixedConicRBadUnits
+def vietaFixedConicRBadUnits
     (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) :
     Finset (ZMod p)ˣ :=
   Finset.univ.filter fun U ↦ vietaFixedConicR a U = 0
 
-private def vietaFixedConicNumeratorBadUnits
+def vietaFixedConicNumeratorBadUnits
     (p : ℕ) [Fact p.Prime] (a : Coefficients (ZMod p)) :
     Finset (ZMod p)ˣ :=
   Finset.univ.filter fun U ↦

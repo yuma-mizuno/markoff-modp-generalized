@@ -1,8 +1,12 @@
-import BGS.HasseWeil.PlaneInfinityRiemannLower
-import BGS.HasseWeil.PlaneFinitePlaceRiemannLower
-import BGS.HasseWeil.RatFuncParameterPole
-import Mathlib.FieldTheory.PrimitiveElement
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.PlaneInfinityRiemannLower
+public import BGS.HasseWeil.PlaneFinitePlaceRiemannLower
+public import BGS.HasseWeil.RatFuncParameterPole
+public import Mathlib.FieldTheory.PrimitiveElement
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # A coarse Riemann inequality for arbitrary function fields

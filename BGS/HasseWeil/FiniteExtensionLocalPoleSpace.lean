@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+
+@[expose] public section
 
 /-!
 # Local and away-regular subspaces of a function field

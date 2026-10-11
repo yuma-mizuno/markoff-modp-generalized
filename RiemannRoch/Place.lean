@@ -35,6 +35,9 @@ places are the height-one primes of the integral closure of the valuation subrin
 
 @[expose] public section
 
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
+
 open scoped nonZeroDivisors Polynomial RatFunc WithZero
 
 noncomputable section
@@ -140,7 +143,7 @@ open MonoidWithZeroHom
 
 /-- The ordered multiplicative group with zero `ℤᵐ⁰` has no nontrivial ordered monoid
 automorphisms. -/
-private noncomputable def withZeroMulIntLogAddEquiv
+noncomputable def withZeroMulIntLogAddEquiv
     (e : ℤᵐ⁰ ≃*o ℤᵐ⁰) : ℤ ≃+ ℤ := by
   let f : ℤ →+ ℤ :=
     { toFun := fun z => WithZero.log (e (WithZero.exp z))
@@ -185,7 +188,9 @@ theorem orderMonoidIso_withZeroMulInt_eq_refl (e : ℤᵐ⁰ ≃*o ℤᵐ⁰) :
       apply WithZero.exp_injective
       have ht := congrArg WithZero.exp
         (DFunLike.congr_fun h (WithZero.log x))
-      simpa [withZeroMulIntLogAddEquiv] using ht
+      change WithZero.exp (WithZero.log (e (WithZero.exp (WithZero.log x)))) =
+        WithZero.exp (WithZero.log x) at ht
+      simpa using ht
   · have hle := hmono (show (0 : ℤ) ≤ 1 by omega)
     rw [h] at hle
     norm_num at hle
@@ -211,7 +216,7 @@ structure Place [Algebra k K] where
   triv_on_k : ∀ c : k, algebraMap k K c ∈ toValuationSubring
   /-- The value group is discrete of rank one, expressed without choosing a normalization. -/
   isDiscrete : Nonempty
-    (ValueGroup₀ (.ofClass toValuationSubring.valuation) ≃*o ℤᵐ⁰)
+    (ValueGroup₀ toValuationSubring.valuation.toMonoidWithZeroHom ≃*o ℤᵐ⁰)
 
 namespace Place
 
@@ -239,20 +244,22 @@ theorem mem_toValuationSubring (v : Place k K) (x : K) :
 
 /-- A normalization of the value group of a coordinate-free place. -/
 noncomputable def normalization (v : Place k K) :
-    ValueGroup₀ (.ofClass v.toValuationSubring.valuation) ≃*o ℤᵐ⁰ :=
+    ValueGroup₀ v.toValuationSubring.valuation.toMonoidWithZeroHom ≃*o ℤᵐ⁰ :=
   Classical.choice v.isDiscrete
 
 /-- The normalized `ℤᵐ⁰`-valued valuation associated to a coordinate-free place. -/
 noncomputable def valuation (v : Place k K) : Valuation K ℤᵐ⁰ :=
   v.toValuationSubring.valuation.restrict.map
-    v.normalization.toMonoidWithZeroHom v.normalization.toOrderIso.monotone
+    ({ v.normalization.toMonoidWithZeroHom with
+      monotone' := v.normalization.toOrderIso.monotone } : _ →*₀o ℤᵐ⁰)
 
 /-- The normalized valuation is equivalent to the canonical valuation of the valuation
 subring. -/
 theorem valuation_isEquiv_canonical (v : Place k K) :
     v.valuation.IsEquiv v.toValuationSubring.valuation := by
   exact (Valuation.isEquiv_map_self_of_strictMono
-    v.normalization.toMonoidWithZeroHom v.normalization.strictMono).trans
+    ({ v.normalization.toMonoidWithZeroHom with
+      monotone' := v.normalization.toOrderIso.monotone } : _ →*₀o ℤᵐ⁰) v.normalization.injective).trans
       v.toValuationSubring.valuation.isEquiv_restrict.symm
 
 /-- Recovering the valuation subring from the normalized valuation gives the original place. -/
@@ -487,8 +494,8 @@ instance finiteDimensionalResidueFieldInfinite
     rw [hp]
     exact inftyValuationSubring.finiteDimensionalResidueField k
   letI : FiniteDimensional (A ⧸ p) (S ⧸ v.asIdeal) := by
-    have hfin := Ideal.inertiaDeg'_pos p v.asIdeal
-    rw [Ideal.inertiaDeg'_algebraMap] at hfin
+    have hfin := Ideal.inertiaDeg_pos v.asIdeal A
+    rw [Ideal.inertiaDeg_eq_of_isMaximal p v.asIdeal] at hfin
     exact FiniteDimensional.of_finrank_pos hfin
   letI : IsScalarTower k (A ⧸ p) (S ⧸ v.asIdeal) :=
     IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -520,7 +527,7 @@ theorem principalDivisorA_apply_finite (x : Additive Kˣ)
     Finsupp.mapDomain Sum.inr
       (FractionalIdeal.principalDivisor (R := infiniteIntegers k K) (K := K) x)
         (Sum.inl v) = _
-  rw [Finsupp.mapDomain_apply Sum.inl_injective]
+  rw [Finsupp.mapDomain_apply_of_injective Sum.inl_injective]
   rw [Finsupp.mapDomain_notin_range]
   · simp
   · rintro ⟨w, h⟩
@@ -538,7 +545,7 @@ theorem principalDivisorA_apply_infinite (x : Additive Kˣ)
     Finsupp.mapDomain Sum.inr
       (FractionalIdeal.principalDivisor (R := infiniteIntegers k K) (K := K) x)
         (Sum.inr v) = _
-  rw [Finsupp.mapDomain_apply Sum.inr_injective]
+  rw [Finsupp.mapDomain_apply_of_injective Sum.inr_injective]
   rw [Finsupp.mapDomain_notin_range]
   · simp
   · rintro ⟨w, h⟩

@@ -1,4 +1,8 @@
-import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedDescended.Irreducibility
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedDescended.Irreducibility
+
+@[expose] public section
 
 /-!
 # Counting the shifted descended nonsplit curve
@@ -17,9 +21,6 @@ open BGS.Markoff
 noncomputable section
 
 variable (p : ℕ) [Fact p.Prime]
-
-private abbrev F := ZMod p
-private abbrev E := quadraticFiniteField p
 
 noncomputable local instance : DecidableEq (quadraticNormOneTorus p) :=
   Classical.decEq _
@@ -120,8 +121,9 @@ theorem eval_shiftedSeededNonsplitDescendedPolynomial_zero_second_ne_zero
   have he0 : e ≠ 0 := Nat.ne_of_gt he
   have htwoe0 : 2 * e ≠ 0 := by omega
   rw [zero_pow he0, zero_pow htwoe0]
-  simp only [mul_zero, zero_add, mul_one, zero_sub, neg_ne_zero]
-  exact
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+  simpa only [mul_zero, zero_add, mul_one, zero_sub, neg_ne_zero] using
     pow_ne_zero d (quadraticCayleyNormPolynomial_eval_ne_zero p z)
 
 /-- An affine zero of the descended polynomial has nonzero second coordinate. -/

@@ -1,5 +1,9 @@
-import BGS.Markoff.MiddleGame.WeightedTraceEquation
-import Mathlib.FieldTheory.IsAlgClosed.Basic
+module
+
+public import BGS.Markoff.MiddleGame.WeightedTraceEquation
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+
+@[expose] public section
 
 /-!
 # The geometric Corvaja--Zannier interface for the middle game

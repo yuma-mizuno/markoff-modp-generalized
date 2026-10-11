@@ -1,7 +1,11 @@
-import GenMarkoff.General.Cage.Connecting.DirectedRelay
-import GenMarkoff.General.Cage.Connecting.SevenPlaneEstimates
-import GenMarkoff.General.Endgame.CageReady.PrimitiveCount
-import BGS.NumberTheory.OneSidedPrimitiveWitness
+module
+
+public import GenMarkoff.General.Cage.Connecting.DirectedRelay
+public import GenMarkoff.General.Cage.Connecting.SevenPlaneEstimates
+public import GenMarkoff.General.Endgame.CageReady.PrimitiveCount
+public import BGS.NumberTheory.OneSidedPrimitiveWitness
+
+@[expose] public section
 
 /-!
 # Two-root covers from a connecting first-axis fiber
@@ -822,7 +826,7 @@ theorem natCard_twoSquareRootFiber_le_four
 
 /-- A vanishing centered root embeds into a root of the centered radicand
 and one incidence square-root choice. -/
-private def secondRootZeroUnitTwoRootPowerCoverEmbedding
+def secondRootZeroUnitTwoRootPowerCoverEmbedding
     (f g : K[X]) :
     SecondRootZeroUnitTwoRootPowerCover f g ↪
       Σ parameter : {t : K // g.eval t = 0},

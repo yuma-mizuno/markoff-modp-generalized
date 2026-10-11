@@ -1,6 +1,10 @@
-import GenMarkoff.TraceCurve.ShiftedCover.ResidueBlocks
-import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
-import BGS.Markoff.Endgame.WeilFromGeneralHasse
+module
+
+public import GenMarkoff.TraceCurve.ShiftedCover.ResidueBlocks
+public import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
+public import BGS.Markoff.Endgame.WeilFromGeneralHasse
+
+@[expose] public section
 
 /-!
 # Hasse--Weil inputs for shifted trace covers

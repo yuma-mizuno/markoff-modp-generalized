@@ -1,7 +1,11 @@
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
-import GenMarkoff.General.Assembly.SmallOrderCount
-import GenMarkoff.General.Assembly.RegularMiddleIteration
-import GenMarkoff.General.Assembly.RotationComponent
+module
+
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+public import GenMarkoff.General.Assembly.SmallOrderCount
+public import GenMarkoff.General.Assembly.RegularMiddleIteration
+public import GenMarkoff.General.Assembly.RotationComponent
+
+@[expose] public section
 
 /-!
 # Coarse startup of the regular middle game

@@ -1,4 +1,8 @@
-import BGS.HasseWeil.PlaneFrobeniusDegenerate
+module
+
+public import BGS.HasseWeil.PlaneFrobeniusDegenerate
+
+@[expose] public section
 
 /-!
 # Closed Frobenius reduction for affine plane curves

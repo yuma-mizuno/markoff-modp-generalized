@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FunctionFieldNormalClosure
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import Mathlib.FieldTheory.Finite.GaloisField
+module
+
+public import BGS.HasseWeil.FunctionFieldNormalClosure
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import Mathlib.FieldTheory.Finite.GaloisField
+
+@[expose] public section
 
 /-!
 # The algebraic constant field of a finite function field
@@ -151,7 +155,7 @@ theorem finiteExtensionFinitePlaceResidueField_finite [Fintype K]
     ratFuncFinitePlaceResidueField_finite K p
   letI : P.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   letI := Localization.AtPrime.algebraOfLiesOver p.asIdeal P.asIdeal
-  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal P.asIdeal := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal P.asIdeal := inferInstance
   letI : Algebra.QuasiFiniteAt K[X] P.asIdeal := inferInstance
   letI : Module.Finite p.asIdeal.ResidueField P.asIdeal.ResidueField :=
     inferInstance
@@ -161,6 +165,7 @@ theorem finiteExtensionFinitePlaceResidueField_finite [Fintype K]
 separable function field is finite-dimensional. -/
 noncomputable instance functionFieldConstantField_finiteDimensional [Fintype K] :
     FiniteDimensional K (FunctionFieldConstantField K N) := by
+  letI : Algebra K[X] N := functionFieldConstantPolynomialAlgebra K N
   let p : HeightOneSpectrum K[X] := Polynomial.idealX K
   obtain ⟨Q, hQprime, hQcomap⟩ :=
     Ideal.exists_ideal_over_prime_of_isIntegral_of_isDomain

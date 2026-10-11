@@ -1,5 +1,9 @@
-import Mathlib.LinearAlgebra.Basis.VectorSpace
-import Mathlib.LinearAlgebra.LinearPMap
+module
+
+public import Mathlib.LinearAlgebra.Basis.VectorSpace
+public import Mathlib.LinearAlgebra.LinearPMap
+
+@[expose] public section
 
 /-!
 # Gluing and extending linear functionals

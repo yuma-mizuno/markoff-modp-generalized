@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.AuxiliaryFamily
-import Mathlib.Algebra.Polynomial.BigOperators
-import Mathlib.Algebra.Polynomial.Bivariate
-import Mathlib.FieldTheory.Minpoly.Field
-import Mathlib.RingTheory.Polynomial.Resultant.Basic
+module
+
+public import BGS.CorvajaZannier.AuxiliaryFamily
+public import Mathlib.Algebra.Polynomial.BigOperators
+public import Mathlib.Algebra.Polynomial.Bivariate
+public import Mathlib.FieldTheory.Minpoly.Field
+public import Mathlib.RingTheory.Polynomial.Resultant.Basic
+
+@[expose] public section
 
 /-!
 # Degree bounds for bivariate resultants

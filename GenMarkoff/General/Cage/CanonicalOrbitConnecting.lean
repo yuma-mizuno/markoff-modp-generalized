@@ -1,11 +1,15 @@
-import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
-import GenMarkoff.General.Cage.Connecting.DirectedRelay
-import GenMarkoff.General.Cage.OrbitConnecting.PairPrimitiveWitness
-import GenMarkoff.General.Cage.OrbitConnecting.Reconstruction
-import GenMarkoff.General.Cage.OrbitConnecting.SquareClasses
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
+module
+
+public import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
+public import GenMarkoff.General.Cage.Connecting.DirectedRelay
+public import GenMarkoff.General.Cage.OrbitConnecting.PairPrimitiveWitness
+public import GenMarkoff.General.Cage.OrbitConnecting.Reconstruction
+public import GenMarkoff.General.Cage.OrbitConnecting.SquareClasses
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+
+@[expose] public section
 
 /-!
 # Connecting a canonical primitive endpoint through its rotation coset

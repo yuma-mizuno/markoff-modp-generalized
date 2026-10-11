@@ -1,7 +1,11 @@
-import Mathlib.RingTheory.Etale.Kaehler
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.RingTheory.Flat.TorsionFree
-import Mathlib.RingTheory.Smooth.Fiber
+module
+
+public import Mathlib.RingTheory.Etale.Kaehler
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.Flat.TorsionFree
+public import Mathlib.RingTheory.Smooth.Fiber
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 

@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.Fiber
-import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
+module
+
+public import GenMarkoff.General.Cage.Connecting.Fiber
+public import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
+
+@[expose] public section
 
 /-!
 # The connecting-fiber theorem on the second coordinate axis

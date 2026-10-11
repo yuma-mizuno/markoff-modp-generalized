@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.SemiringFunctor
+module
+
+public import BGS.Markoff.Core.SemiringFunctor
+
+@[expose] public section
 
 /-!
 # Connectivity of natural-number Markoff solutions

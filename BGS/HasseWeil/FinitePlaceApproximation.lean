@@ -1,7 +1,11 @@
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.RingTheory.Localization.Integer
-import Mathlib.Tactic
+module
+
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.RingTheory.Localization.Integer
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Weak approximation at finite places
@@ -259,7 +263,7 @@ theorem exists_fraction_approximating_at_finitePlaces_regular_elsewhere
       · have hcount :
             (normalizedFactors
               (Ideal.span ({(denominator : R)} : Set R))).count v.asIdeal = 0 := by
-          exact Multiset.count_eq_zero.mpr (by simpa using hfactor)
+          exact Multiset.count_eq_zero.mpr (fun hmem => hfactor (Multiset.mem_toFinset.mpr hmem))
         simp [hcount]
     simpa [z] using
       valuation_div_algebraMap_le_one_of_mem_denominatorPower

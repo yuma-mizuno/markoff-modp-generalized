@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.Normalization
+module
+
+public import BGS.Markoff.Core.Normalization
+
+@[expose] public section
 
 /-!
 # The real compactness lemma in the opening

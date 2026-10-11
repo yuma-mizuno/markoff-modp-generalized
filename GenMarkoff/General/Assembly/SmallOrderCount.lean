@@ -1,7 +1,11 @@
-import GenMarkoff.General.Opening.RotationBridge
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import BGS.Markoff.Assembly.NormalizedSmallOrderCount
-import BGS.Markoff.Core.TraceClassification
+module
+
+public import GenMarkoff.General.Opening.RotationBridge
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import BGS.Markoff.Assembly.NormalizedSmallOrderCount
+public import BGS.Markoff.Core.TraceClassification
+
+@[expose] public section
 
 /-!
 # Counting points with small or irregular first and second traces

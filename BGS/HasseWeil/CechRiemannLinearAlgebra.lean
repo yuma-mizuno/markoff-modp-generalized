@@ -1,5 +1,9 @@
-import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
-import Mathlib.LinearAlgebra.Isomorphisms
+module
+
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+public import Mathlib.LinearAlgebra.Isomorphisms
+
+@[expose] public section
 
 /-!
 # The linear-algebra inequality in the Cech proof of Riemann's inequality

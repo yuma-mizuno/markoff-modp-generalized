@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.DedekindLocalDerivationExtension
-import BGS.CorvajaZannier.DedekindPlaceOrder
-import Mathlib.RingTheory.Discriminant
-import Mathlib.Data.Finsupp.Order
+module
+
+public import BGS.CorvajaZannier.DedekindLocalDerivationExtension
+public import BGS.CorvajaZannier.DedekindPlaceOrder
+public import Mathlib.RingTheory.Discriminant
+public import Mathlib.Data.Finsupp.Order
+
+@[expose] public section
 
 /-!
 # The different divisor and the primitive-element derivative
@@ -42,7 +46,8 @@ def idealMultiplicityDivisor (I : Ideal R) (hI : I ≠ ⊥) :
   Finsupp.mk h.toFinset (fun v => multiplicity v.asIdeal I) (fun v => by
     rw [h.mem_toFinset, Set.mem_setOf_eq]
     simpa [Nat.pos_iff_ne_zero] using
-      (dvd_iff_multiplicity_pos (a := v.asIdeal) (b := I)).symm)
+      (dvd_iff_multiplicity_pos (a := v.asIdeal) (b := I)
+        (FiniteMultiplicity.of_prime_left v.prime hI)).symm)
 
 @[simp]
 theorem idealMultiplicityDivisor_apply (I : Ideal R) (hI : I ≠ ⊥)

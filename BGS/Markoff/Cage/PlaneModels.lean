@@ -1,7 +1,11 @@
-import BGS.Markoff.Cage.PulledRadicand
-import BGS.Markoff.Cage.BiquadraticPrimitiveQuartic
-import BGS.Markoff.TraceCurve.WeightedIrreducibility
-import BGS.External.GeneralCurveTheorems
+module
+
+public import BGS.Markoff.Cage.PulledRadicand
+public import BGS.Markoff.Cage.BiquadraticPrimitiveQuartic
+public import BGS.Markoff.TraceCurve.WeightedIrreducibility
+public import BGS.External.GeneralCurveTheorems
+
+@[expose] public section
 
 /-!
 # Direct affine-plane models for the cage

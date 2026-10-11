@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.GlobalWronskianPlaceSum
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.GlobalWronskianPlaceSum
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Degree-weighted Corvaja--Zannier Wronskian summation
@@ -17,10 +21,10 @@ namespace BGS.CorvajaZannier
 
 noncomputable section
 
-private abbrev ReplicatedPlace {ι : Type*} (weight : ι → ℕ) :=
+abbrev ReplicatedPlace {ι : Type*} (weight : ι → ℕ) :=
   Σ i, Fin (weight i)
 
-private def replicatedFinset {ι : Type*} [Fintype ι] [DecidableEq ι]
+def replicatedFinset {ι : Type*} [Fintype ι] [DecidableEq ι]
     (weight : ι → ℕ) (S : Finset ι) :
     Finset (ReplicatedPlace weight) := by
   classical

@@ -1,9 +1,13 @@
-import BGS.HasseWeil.PlaneAffineRationalPlaceComparison
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import BGS.HasseWeil.RatFuncParameterPole
-import BGS.HasseWeil.GeneralSquareFieldStepanovCount
-import Mathlib.Algebra.Polynomial.RingDivision
-import Mathlib.NumberTheory.RamificationInertia.Basic
+module
+
+public import BGS.HasseWeil.PlaneAffineRationalPlaceComparison
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import BGS.HasseWeil.RatFuncParameterPole
+public import BGS.HasseWeil.GeneralSquareFieldStepanovCount
+public import Mathlib.Algebra.Polynomial.RingDivision
+public import Mathlib.NumberTheory.RamificationInertia.Basic
+
+@[expose] public section
 
 /-!
 # Rational normalization places and affine exceptional fibers
@@ -33,7 +37,7 @@ open BGS.CorvajaZannier Polynomial
 
 variable (K : Type*) [Field K] [DecidableEq K]
 
-private def linearNormalizedPrime (a : K) : NormalizedPrimePolynomial K :=
+def linearNormalizedPrime (a : K) : NormalizedPrimePolynomial K :=
   ⟨Polynomial.X - Polynomial.C a, Polynomial.prime_X_sub_C a,
     (Polynomial.monic_X_sub_C a).normalize_eq_self⟩
 
@@ -256,7 +260,7 @@ theorem rationalBasePlace_primesOver_card_le_finrank
   let e : P.1.asIdeal.primesOver (RatFuncFiniteIntegralClosure K L) ≃
       ↥(IsDedekindDomain.primesOverFinset P.1.asIdeal
         (RatFuncFiniteIntegralClosure K L)) :=
-    Equiv.setCongr
+    Set.equivOfEq
       (IsDedekindDomain.coe_primesOverFinset P.1.ne_bot
         (RatFuncFiniteIntegralClosure K L)).symm
   calc
@@ -482,7 +486,7 @@ theorem rationalFinitePlaceBaseCoordinate_residue
       algebraMap K[X] V (Polynomial.C c) := by
     intro c
     exact (IsScalarTower.algebraMap_apply K K[X] V c).symm
-  simp only [map_sub] at hzero
+  simp only [RingHom.map_sub] at hzero
   rw [← htower a,
     ← IsScalarTower.algebraMap_apply K V m.ResidueField a] at hzero
   exact (sub_eq_zero.mp hzero).symm

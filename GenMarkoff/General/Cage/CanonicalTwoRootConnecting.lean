@@ -1,9 +1,13 @@
-import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
-import GenMarkoff.General.Cage.Connecting.TwoRoot.Endpoint
-import GenMarkoff.General.Cage.Connecting.TwoRoot.PrimitiveWitness
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
+module
+
+public import GenMarkoff.General.Assembly.CageReadyCanonicalEndgame
+public import GenMarkoff.General.Cage.Connecting.TwoRoot.Endpoint
+public import GenMarkoff.General.Cage.Connecting.TwoRoot.PrimitiveWitness
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+
+@[expose] public section
 
 /-!
 # Canonical nonsquare two-root connecting step

@@ -1,5 +1,9 @@
-import BGS.Markoff.Cage.PlaneHasseWeil
-import BGS.Markoff.Cage.WitnessEquations
+module
+
+public import BGS.Markoff.Cage.PlaneHasseWeil
+public import BGS.Markoff.Cage.WitnessEquations
+
+@[expose] public section
 
 /-!
 # The one-sided power cover of the cage witness equations

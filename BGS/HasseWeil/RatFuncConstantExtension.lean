@@ -1,10 +1,17 @@
-import Mathlib.Algebra.Polynomial.Module.TensorProduct
-import Mathlib.FieldTheory.RatFunc.Basic
-import Mathlib.LinearAlgebra.Dimension.Localization
-import Mathlib.LinearAlgebra.FiniteDimensional.Basic
-import Mathlib.RingTheory.DedekindDomain.Instances
-import Mathlib.RingTheory.Localization.LocalizationLocalization
-import Mathlib.RingTheory.TensorProduct.Finite
+module
+
+public import Mathlib.Algebra.Polynomial.Module.TensorProduct
+public import Mathlib.FieldTheory.RatFunc.Basic
+public import Mathlib.LinearAlgebra.Dimension.Localization
+public import Mathlib.LinearAlgebra.FiniteDimensional.Basic
+public import Mathlib.RingTheory.DedekindDomain.Instances
+public import Mathlib.RingTheory.Localization.LocalizationLocalization
+public import Mathlib.RingTheory.TensorProduct.Finite
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Constant extensions of rational function fields
@@ -46,7 +53,7 @@ theorem ratFuncCoefficientPolynomialAlgHom_injective :
   change Function.Injective (Polynomial.map (algebraMap K S))
   exact Polynomial.map_injective (algebraMap K S) (algebraMap K S).injective
 
-private theorem ratFuncCoefficientPolynomialAlgHom_nonZeroDivisors :
+theorem ratFuncCoefficientPolynomialAlgHom_nonZeroDivisors :
     K[X]⁰ ≤ S[X]⁰.comap (ratFuncCoefficientPolynomialAlgHom K S) :=
   nonZeroDivisors_le_comap_nonZeroDivisors_of_injective _
     (ratFuncCoefficientPolynomialAlgHom_injective K S)
@@ -109,7 +116,7 @@ local instance ratFuncConstantLocalizationScalarTower :
       (RatFuncConstantLocalization K S)]
     exact (IsLocalization.map_comp hmap).symm)
 
-private noncomputable def polynomialModuleEquivPolynomial :
+noncomputable def polynomialModuleEquivPolynomial :
     PolynomialModule K S ≃ₗ[K[X]] S[X] where
   toEquiv := (PolynomialModule.equivPolynomial (R := K)).toEquiv
   map_add' := (PolynomialModule.equivPolynomial (R := K)).map_add
@@ -147,12 +154,12 @@ noncomputable local instance ratFuncConstantLocalizationField
   (IsField.of_isDomain_of_finite (RatFunc K)
     (RatFuncConstantLocalization K S)).toField
 
-private theorem ratFuncConstantLocalizationSubmonoid_le :
+theorem ratFuncConstantLocalizationSubmonoid_le :
     Submonoid.map (algebraMap K[X] S[X]) K[X]⁰ ≤ S[X]⁰ := by
   simpa only [Algebra.algebraMapSubmonoid] using
     algebraMapSubmonoid_le_nonZeroDivisors_of_faithfulSMul S[X] le_rfl
 
-private noncomputable def ratFuncConstantLocalizationToRatFunc
+noncomputable def ratFuncConstantLocalizationToRatFunc
     [FiniteDimensional K S] :
     RatFuncConstantLocalization K S →+* RatFunc S :=
   IsLocalization.map
@@ -161,7 +168,7 @@ private noncomputable def ratFuncConstantLocalizationToRatFunc
       change Submonoid.map (algebraMap K[X] S[X]) K[X]⁰ ≤ S[X]⁰
       exact ratFuncConstantLocalizationSubmonoid_le K S)
 
-private theorem ratFuncConstantLocalizationToRatFunc_algebraMap
+theorem ratFuncConstantLocalizationToRatFunc_algebraMap
     [FiniteDimensional K S] (p : S[X]) :
     ratFuncConstantLocalizationToRatFunc K S
         (algebraMap S[X] (RatFuncConstantLocalization K S) p) =
@@ -179,14 +186,14 @@ private theorem ratFuncConstantLocalizationToRatFunc_algebraMap
     algebraMap S[X] (RatFunc S) p
   simpa only [RingHom.comp_apply, RingHom.id_apply] using h
 
-private noncomputable def ratFuncToConstantLocalization
+noncomputable def ratFuncToConstantLocalization
     [FiniteDimensional K S] :
     RatFunc S →+* RatFuncConstantLocalization K S :=
   IsFractionRing.lift (IsLocalization.injective
     (RatFuncConstantLocalization K S)
     (ratFuncConstantLocalizationSubmonoid_le K S))
 
-private theorem ratFuncToConstantLocalization_algebraMap
+theorem ratFuncToConstantLocalization_algebraMap
     [FiniteDimensional K S] (p : S[X]) :
     ratFuncToConstantLocalization K S (algebraMap S[X] (RatFunc S) p) =
       algebraMap S[X] (RatFuncConstantLocalization K S) p := by

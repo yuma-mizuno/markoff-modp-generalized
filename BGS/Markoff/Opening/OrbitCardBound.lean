@@ -1,5 +1,12 @@
-import BGS.Markoff.Opening.RotationOrbitCard
-import BGS.Markoff.Opening.TraceOrderBound
+module
+
+public import BGS.Markoff.Opening.RotationOrbitCard
+public import BGS.Markoff.Opening.TraceOrderBound
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Bounding the opening orders by the full Gamma orbit
@@ -243,7 +250,7 @@ theorem eigenvalueOrder_le_normalizedGammaOrbit_ncard
         _ ≤ (normalizedGammaOrbit x).ncard :=
           normalizedRotationCycle_card_le_normalizedGammaOrbit_ncard x
 
-private theorem three_ne_zero_zmod_of_prime_ne_three
+theorem three_ne_zero_zmod_of_prime_ne_three
     (p : ℕ) [Fact p.Prime] (hpThree : p ≠ 3) : (3 : ZMod p) ≠ 0 := by
   intro hzero
   have hpDvd : p ∣ 3 := (ZMod.natCast_eq_zero_iff 3 p).1 hzero

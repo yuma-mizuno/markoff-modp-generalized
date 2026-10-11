@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantExtensionInfinityPlaceDegreeTower
+module
+
+public import BGS.HasseWeil.ConstantExtensionInfinityPlaceDegreeTower
+
+@[expose] public section
 
 /-!
 # Closed-place splitting formula for an exact extension of constants
@@ -152,7 +156,7 @@ section InfinityPresentation
 set_option synthInstance.maxHeartbeats 400000
 set_option maxHeartbeats 800000
 
-private theorem splittingFormulaReciprocalPolynomialAlgebra_map
+theorem splittingFormulaReciprocalPolynomialAlgebra_map
     (K L : Type*) [Field K] [Field L]
     [DecidableEq K] [DecidableEq (RatFunc K)]
     [Algebra (RatFunc K) L] (p : K[X]) :

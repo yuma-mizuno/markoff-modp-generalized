@@ -1,8 +1,12 @@
-import BGS.HasseWeil.OnePointIncrement
-import BGS.HasseWeil.OnePointStepanovGrid
-import BGS.HasseWeil.StepanovLinearAlgebra
-import Mathlib.LinearAlgebra.Dimension.Constructions
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointIncrement
+public import BGS.HasseWeil.OnePointStepanovGrid
+public import BGS.HasseWeil.StepanovLinearAlgebra
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Stepanov restriction maps on a finite coefficient grid

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.PowerSum
-import BGS.HasseWeil.ZetaTrace
+module
+
+public import BGS.HasseWeil.PowerSum
+public import BGS.HasseWeil.ZetaTrace
+
+@[expose] public section
 
 /-!
 # Spectral bounds from even power-sum asymptotics

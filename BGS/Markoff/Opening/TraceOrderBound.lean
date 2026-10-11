@@ -1,7 +1,14 @@
-import BGS.Markoff.Core.ConicParametrization
-import BGS.Markoff.Opening.AlgebraicClosureTransport
-import BGS.Markoff.Opening.CyclotomicBound
-import BGS.Markoff.Core.TraceClassification
+module
+
+public import BGS.Markoff.Core.ConicParametrization
+public import BGS.Markoff.Opening.AlgebraicClosureTransport
+public import BGS.Markoff.Opening.CyclotomicBound
+public import BGS.Markoff.Core.TraceClassification
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # From residue traces to the concrete cyclotomic opening bound

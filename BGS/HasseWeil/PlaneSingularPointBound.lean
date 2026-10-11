@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveFiniteDifferentBound
-import BGS.CorvajaZannier.TorsionBidegreeCount
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveFiniteDifferentBound
+public import BGS.CorvajaZannier.TorsionBidegreeCount
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # A coarse affine singular-point bound for plane curves

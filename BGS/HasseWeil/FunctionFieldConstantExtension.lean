@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.PlaneCurveFunctionField
-import Mathlib.FieldTheory.LinearDisjoint
-import Mathlib.RingTheory.Flat.Basic
-import Mathlib.RingTheory.Localization.BaseChange
-import Mathlib.RingTheory.TensorProduct.MvPolynomial
-import Mathlib.RingTheory.TensorProduct.Quotient
+module
+
+public import BGS.CorvajaZannier.PlaneCurveFunctionField
+public import Mathlib.FieldTheory.LinearDisjoint
+public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.RingTheory.Localization.BaseChange
+public import Mathlib.RingTheory.TensorProduct.MvPolynomial
+public import Mathlib.RingTheory.TensorProduct.Quotient
+
+@[expose] public section
 
 /-!
 # Constant extensions of plane-curve function fields
@@ -67,7 +71,7 @@ instance tensorBaseTensorFractionScalarTower :
 
 variable [IsDomain A] [IsDomain (TensorBase K E A)]
 
-private theorem tensorBase_nonZero_map :
+theorem tensorBase_nonZero_map :
     A⁰.map (Algebra.TensorProduct.includeRight (R := K) (A := E) (B := A)) ≤
       (TensorBase K E A)⁰ := by
   intro z hz
@@ -110,7 +114,7 @@ noncomputable local instance tensorFractionField [Algebra.IsAlgebraic K E] :
     (.inl inferInstance)).toField
 
 omit [IsDomain A] [IsDomain (TensorBase K E A)] in
-private theorem tensorProduct_map_id_injective
+theorem tensorProduct_map_id_injective
     {B : Type*} [CommRing B] [Algebra K B]
     (F : A →ₐ[K] B) (hF : Function.Injective F) :
     Function.Injective

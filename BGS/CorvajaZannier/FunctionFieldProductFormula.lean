@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.RatFunc.Ostrowski
-import Mathlib.RingTheory.DedekindDomain.Factorization
-import Mathlib.RingTheory.Ideal.IsPrincipal
-import Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors
-import Mathlib.Algebra.Polynomial.BigOperators
+module
+
+public import Mathlib.NumberTheory.RatFunc.Ostrowski
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+public import Mathlib.RingTheory.Ideal.IsPrincipal
+public import Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors
+public import Mathlib.Algebra.Polynomial.BigOperators
+
+@[expose] public section
 
 /-!
 # A normalized-factor product formula for the rational function field

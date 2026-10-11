@@ -1,10 +1,14 @@
-import BGS.HasseWeil.ConstantExtensionClosedPlaceCount
-import BGS.HasseWeil.ExactConstantExtensionConstants
-import BGS.HasseWeil.FiniteExtensionIndexedZetaRationalityAutomatic
-import BGS.HasseWeil.FiniteExtensionZetaDegreeExtensionIdentity
-import BGS.HasseWeil.FiniteExtensionZetaNumeratorNoncancellation
-import BGS.HasseWeil.FormalZetaDegreeIndexOneIndexed
-import BGS.HasseWeil.RatFuncExactConstantExtension
+module
+
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceCount
+public import BGS.HasseWeil.ExactConstantExtensionConstants
+public import BGS.HasseWeil.FiniteExtensionIndexedZetaRationalityAutomatic
+public import BGS.HasseWeil.FiniteExtensionZetaDegreeExtensionIdentity
+public import BGS.HasseWeil.FiniteExtensionZetaNumeratorNoncancellation
+public import BGS.HasseWeil.FormalZetaDegreeIndexOneIndexed
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+
+@[expose] public section
 
 /-!
 # The geometric F. K. Schmidt composition

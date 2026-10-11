@@ -1,11 +1,15 @@
-import GenMarkoff.General.MiddleGame.ActualDiagonalization
-import GenMarkoff.General.MiddleGame.ActualMoveWiring
-import GenMarkoff.General.MiddleGame.ActualParameters
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedCorvajaZannier
-import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
-import GenMarkoff.General.MiddleGame.RotationEigenvalueOrder
-import GenMarkoff.ShiftedTrace.MiddleGame.WeightedShiftedCorvajaZannier
-import BGS.Markoff.MiddleGame.OrderEscape
+module
+
+public import GenMarkoff.General.MiddleGame.ActualDiagonalization
+public import GenMarkoff.General.MiddleGame.ActualMoveWiring
+public import GenMarkoff.General.MiddleGame.ActualParameters
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedCorvajaZannier
+public import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
+public import GenMarkoff.General.MiddleGame.RotationEigenvalueOrder
+public import GenMarkoff.ShiftedTrace.MiddleGame.WeightedShiftedCorvajaZannier
+public import BGS.Markoff.MiddleGame.OrderEscape
+
+@[expose] public section
 
 /-!
 # Candidate regularity under field maps and parabolic rotation orders

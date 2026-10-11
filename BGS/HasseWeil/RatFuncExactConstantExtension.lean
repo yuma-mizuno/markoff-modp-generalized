@@ -1,10 +1,14 @@
-import BGS.HasseWeil.ExactConstantExtensionAutomorphism
-import BGS.HasseWeil.FiniteFieldConstantExtensionNormalization
-import BGS.HasseWeil.FinitePlaceNormalizationTransport
-import BGS.HasseWeil.PolynomialTensorCancel
-import BGS.HasseWeil.RatFuncConstantExtension
-import Mathlib.FieldTheory.RatFunc.AsPolynomial
-import Mathlib.RingTheory.Flat.Stability
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionAutomorphism
+public import BGS.HasseWeil.FiniteFieldConstantExtensionNormalization
+public import BGS.HasseWeil.FinitePlaceNormalizationTransport
+public import BGS.HasseWeil.PolynomialTensorCancel
+public import BGS.HasseWeil.RatFuncConstantExtension
+public import Mathlib.FieldTheory.RatFunc.AsPolynomial
+public import Mathlib.RingTheory.Flat.Stability
+
+@[expose] public section
 
 /-!
 # The rational-function field in an exact constant extension
@@ -40,7 +44,7 @@ local instance constantAlgebra : Algebra C N :=
     (algebraMap C (RatFunc C)))
 
 -- Save these instances before installing the competing `C[X]`-algebra on `N`.
-@[reducible] private noncomputable def canonicalRatFuncPolynomialAlgebra :
+@[reducible] noncomputable def canonicalRatFuncPolynomialAlgebra :
     Algebra C[X] (RatFunc C) := inferInstance
 
 private theorem canonicalRatFuncFractionRing :
@@ -84,7 +88,7 @@ local instance targetPolynomialAlgebra :
   polynomialTensorCancelTargetPolynomialExtensionAlgebra C S N
 
 omit [FiniteDimensional C S] in
-private theorem targetPolynomialAlgebraMap_injective :
+theorem targetPolynomialAlgebraMap_injective :
     Function.Injective
       (algebraMap S[X] (ExactConstantExtension C N S)) := by
   intro p q hpq

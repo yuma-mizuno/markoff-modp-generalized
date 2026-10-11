@@ -1,5 +1,9 @@
-import BGS.Markoff.Cage.HasseWeilAssumption
-import BGS.Markoff.Endgame.LargeOrderToMaximal
+module
+
+public import BGS.Markoff.Cage.HasseWeilAssumption
+public import BGS.Markoff.Endgame.LargeOrderToMaximal
+
+@[expose] public section
 
 /-!
 # Connectivity of the selected split cage
@@ -162,7 +166,7 @@ theorem sameNormalizedComponent_of_mem_same_splitMaximalFiber
         (sameNormalizedComponent_trans
           (sameNormalizedComponent_symm hy12) (sameNormalizedComponent_symm hy23)))
 
-private theorem three_ne_zero_zmod_of_prime_ne_three
+theorem cageConnectivity_three_ne_zero_zmod_of_prime_ne_three
     (p : ℕ) [Fact p.Prime] (hpThree : p ≠ 3) : (3 : ZMod p) ≠ 0 := by
   intro hzero
   have hpDvd : p ∣ 3 := (ZMod.natCast_eq_zero_iff 3 p).mp hzero
@@ -176,7 +180,7 @@ theorem exists_threshold_splitCage_connected
     (coefficient : ℕ) (hHasse : CageWitnessPointEstimate coefficient) :
     ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] → ∀ hpThree : p ≠ 3,
       letI : Invertible (3 : ZMod p) :=
-        invertibleOfNonzero (three_ne_zero_zmod_of_prime_ne_three p hpThree)
+        invertibleOfNonzero (cageConnectivity_three_ne_zero_zmod_of_prime_ne_three p hpThree)
       ∀ x y : NormalizedMarkoffSurface (ZMod p),
         IsInSplitCage p x → IsInSplitCage p y → SameNormalizedComponent x y := by
   obtain ⟨bridgeThreshold, hbridge⟩ :=
@@ -184,7 +188,7 @@ theorem exists_threshold_splitCage_connected
   refine ⟨max bridgeThreshold 7, ?_⟩
   intro p hp _ hpThree
   letI : Invertible (3 : ZMod p) :=
-    invertibleOfNonzero (three_ne_zero_zmod_of_prime_ne_three p hpThree)
+    invertibleOfNonzero (cageConnectivity_three_ne_zero_zmod_of_prime_ne_three p hpThree)
   intro x y hxCage hyCage
   rcases hxCage with ⟨axis, hxi⟩
   rcases hyCage with ⟨other, heta⟩
@@ -227,7 +231,7 @@ theorem exists_threshold_largeOrder_to_splitCage
     {δ : ℝ} (hδ : 0 < δ) :
     ∃ threshold : ℕ, ∀ p : ℕ, threshold ≤ p → [Fact p.Prime] → ∀ hpThree : p ≠ 3,
       letI : Invertible (3 : ZMod p) :=
-        invertibleOfNonzero (three_ne_zero_zmod_of_prime_ne_three p hpThree)
+        invertibleOfNonzero (cageConnectivity_three_ne_zero_zmod_of_prime_ne_three p hpThree)
       ∀ x : NormalizedMarkoffSurface (ZMod p),
         ((p : ℝ) ^ ((1 : ℝ) / 2 + δ) ≤ rotationOrder x.1.u1 ∨
           (p : ℝ) ^ ((1 : ℝ) / 2 + δ) ≤ rotationOrder x.1.u2 ∨
@@ -240,7 +244,7 @@ theorem exists_threshold_largeOrder_to_splitCage
   refine ⟨threshold, ?_⟩
   intro p hp _ hpThree
   letI : Invertible (3 : ZMod p) :=
-    invertibleOfNonzero (three_ne_zero_zmod_of_prime_ne_three p hpThree)
+    invertibleOfNonzero (cageConnectivity_three_ne_zero_zmod_of_prime_ne_three p hpThree)
   intro x hlarge
   obtain ⟨y, hxy, hyOrder⟩ := hendgame p hp hpThree x hlarge
   refine ⟨y, hxy, .second, ?_⟩

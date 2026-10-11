@@ -1,4 +1,8 @@
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedCorvajaZannier
+module
+
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedCorvajaZannier
+
+@[expose] public section
 
 /-!
 # Corvaja--Zannier bound for the shifted weighted trace equation

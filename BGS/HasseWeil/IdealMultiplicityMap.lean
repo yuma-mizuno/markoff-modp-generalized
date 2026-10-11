@@ -1,4 +1,8 @@
-import Mathlib.RingTheory.RamificationInertia.Ramification
+module
+
+public import Mathlib.RingTheory.RamificationInertia.Ramification
+
+@[expose] public section
 
 /-!
 # Multiplicity after extending an ideal

@@ -1,6 +1,10 @@
-import BGS.Markoff.Core.RotationTorus
-import Mathlib.RingTheory.Polynomial.Eisenstein.Basic
-import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
+module
+
+public import BGS.Markoff.Core.RotationTorus
+public import Mathlib.RingTheory.Polynomial.Eisenstein.Basic
+public import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
+
+@[expose] public section
 
 /-!
 # Split trace curves: an exact polynomial model and the first irreducibility wall

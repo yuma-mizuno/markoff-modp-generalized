@@ -18,6 +18,7 @@ scope recorded in `formalization.yaml`.
 Before committing, run:
 
 ```text
+python scripts/check-lean-sources.py
 lake build
 lake env lean scripts/AxiomAudit.lean
 ruby scripts/validate-formalization.rb
@@ -26,3 +27,7 @@ git diff --check
 
 On Linux, also run `./scripts/verify-comparator.sh`. Stage only the intended
 paths and commit the resulting verified milestone locally.
+
+Every Lean source must use the module system and contain at most 10,000
+physical lines. Keep public imports and expose definitions whose bodies are
+needed by other modules. Challenge also has the 1,000-line and 100-KiB limits.

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionRiemannRoch
-import BGS.HasseWeil.OnePointDivisorSplit
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannRoch
+public import BGS.HasseWeil.OnePointDivisorSplit
+
+@[expose] public section
 
 /-!
 # One-point Riemann lower bounds from the intrinsic genus

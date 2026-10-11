@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteFieldPolynomialNormalization
-import BGS.HasseWeil.PolynomialTensorCancel
+module
+
+public import BGS.HasseWeil.FiniteFieldPolynomialNormalization
+public import BGS.HasseWeil.PolynomialTensorCancel
+
+@[expose] public section
 
 /-!
 # Normalization in a finite constant extension

@@ -1,5 +1,9 @@
-import GenMarkoff.TraceCurve.ShiftedCover.ResidueBlocks
-import BGS.Markoff.TraceCurve.WeightedOddCoprimeIrreducibility
+module
+
+public import GenMarkoff.TraceCurve.ShiftedCover.ResidueBlocks
+public import BGS.Markoff.TraceCurve.WeightedOddCoprimeIrreducibility
+
+@[expose] public section
 
 /-!
 # Arbitrary-weight shifted trace covers

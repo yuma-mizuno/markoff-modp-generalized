@@ -1,4 +1,8 @@
-import BGS.Markoff.Core.ConicParametrization
+module
+
+public import BGS.Markoff.Core.ConicParametrization
+
+@[expose] public section
 
 /-!
 # Parabolic fibers are aperiodic in characteristic zero

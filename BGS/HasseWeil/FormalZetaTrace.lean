@@ -1,9 +1,13 @@
-import BGS.HasseWeil.ZetaNumeratorSpectral
-import Mathlib.RingTheory.PowerSeries.Derivative
-import Mathlib.RingTheory.PowerSeries.Exp
-import Mathlib.RingTheory.PowerSeries.Inverse
-import Mathlib.RingTheory.PowerSeries.Substitution
-import Mathlib.RingTheory.PowerSeries.WellKnown
+module
+
+public import BGS.HasseWeil.ZetaNumeratorSpectral
+public import Mathlib.RingTheory.PowerSeries.Derivative
+public import Mathlib.RingTheory.PowerSeries.Exp
+public import Mathlib.RingTheory.PowerSeries.Inverse
+public import Mathlib.RingTheory.PowerSeries.Substitution
+public import Mathlib.RingTheory.PowerSeries.WellKnown
+
+@[expose] public section
 
 namespace BGS.HasseWeil
 
@@ -13,7 +17,7 @@ open scoped BigOperators PowerSeries
 noncomputable section
 
 def negativeXLogDerivative (f : PowerSeries ℂ) : PowerSeries ℂ :=
-  -PowerSeries.X * PowerSeries.derivative ℂ f * f⁻¹
+  -PowerSeries.X * PowerSeries.derivative f * f⁻¹
 
 def linearPowerSeriesFactor (a : ℂ) : PowerSeries ℂ :=
   1 - PowerSeries.C a * PowerSeries.X
@@ -31,7 +35,7 @@ theorem linearPowerSeriesFactor_inv (a : ℂ) :
   simpa [linearPowerSeriesFactor, mul_comm] using h
 
 theorem derivative_linearPowerSeriesFactor (a : ℂ) :
-    PowerSeries.derivative ℂ (linearPowerSeriesFactor a) = -PowerSeries.C a := by
+    PowerSeries.derivative (linearPowerSeriesFactor a) = -PowerSeries.C a := by
   change PowerSeries.derivativeFun (linearPowerSeriesFactor a) = -PowerSeries.C a
   rw [linearPowerSeriesFactor, sub_eq_add_neg]
   rw [show -(PowerSeries.C a * PowerSeries.X) =
@@ -41,7 +45,7 @@ theorem derivative_linearPowerSeriesFactor (a : ℂ) :
   have hX : PowerSeries.derivativeFun (PowerSeries.X : PowerSeries ℂ) = 1 :=
     PowerSeries.derivative_X
   have hC : PowerSeries.derivativeFun (PowerSeries.C a) = 0 :=
-    PowerSeries.derivative_C a
+    PowerSeries.derivative_C
   rw [hX, hC]
   simp
 
@@ -122,7 +126,7 @@ def pointCountDerivativeSeries (pointCount : ℕ → ℕ) : PowerSeries ℂ :=
 /-- Euler's logarithmic-derivative identity for a point-count zeta series. -/
 def HasFormalZetaPointCountDerivative
     (Z : PowerSeries ℂ) (pointCount : ℕ → ℕ) : Prop :=
-  PowerSeries.derivative ℂ Z = Z * pointCountDerivativeSeries pointCount
+  PowerSeries.derivative Z = Z * pointCountDerivativeSeries pointCount
 
 /-- The formal logarithm `∑ₙ Nₙ Tⁿ/n` attached to extension point counts. -/
 def pointCountLogSeries (pointCount : ℕ → ℕ) : PowerSeries ℂ :=
@@ -144,7 +148,7 @@ def formalPointCountZeta (pointCount : ℕ → ℕ) : PowerSeries ℂ :=
   (PowerSeries.exp ℂ).subst (pointCountLogSeries pointCount)
 
 theorem derivative_pointCountLogSeries (pointCount : ℕ → ℕ) :
-    PowerSeries.derivative ℂ (pointCountLogSeries pointCount) =
+    PowerSeries.derivative (pointCountLogSeries pointCount) =
       pointCountDerivativeSeries pointCount := by
   ext n
   rw [PowerSeries.coeff_derivative]
@@ -157,7 +161,7 @@ theorem formalPointCountZeta_hasPointCountDerivative
     HasFormalZetaPointCountDerivative
       (formalPointCountZeta pointCount) pointCount := by
   rw [HasFormalZetaPointCountDerivative, formalPointCountZeta,
-    PowerSeries.derivative_subst ℂ (pointCountLogSeries_hasSubst pointCount),
+    PowerSeries.derivative_subst (pointCountLogSeries_hasSubst pointCount),
     PowerSeries.derivative_exp, derivative_pointCountLogSeries]
 
 /-- The denominator `(1 - T)(1 - qT)` of the zeta function of a curve over

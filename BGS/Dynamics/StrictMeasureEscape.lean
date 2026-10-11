@@ -1,6 +1,10 @@
-import Mathlib.Logic.Relation
-import Mathlib.Data.Nat.Order.Lemmas
-import Mathlib.Tactic
+module
+
+public import Mathlib.Logic.Relation
+public import Mathlib.Data.Nat.Order.Lemmas
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS
 

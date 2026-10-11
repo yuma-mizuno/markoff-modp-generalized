@@ -1,5 +1,9 @@
-import BGS.NumberTheory.ExplicitDivisorBound
-import Mathlib.Tactic.IntervalCases
+module
+
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import Mathlib.Tactic.IntervalCases
+
+@[expose] public section
 
 /-!
 # An elementary tenth-moment divisor bound

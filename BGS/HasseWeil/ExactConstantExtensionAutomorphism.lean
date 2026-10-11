@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ExactConstantExtension
-import BGS.HasseWeil.ConstantFieldAutomorphism
-import Mathlib.GroupTheory.NoncommCoprod
+module
+
+public import BGS.HasseWeil.ExactConstantExtension
+public import BGS.HasseWeil.ConstantFieldAutomorphism
+public import Mathlib.GroupTheory.NoncommCoprod
+
+@[expose] public section
 
 /-!
 # Galois groups of exact constant extensions

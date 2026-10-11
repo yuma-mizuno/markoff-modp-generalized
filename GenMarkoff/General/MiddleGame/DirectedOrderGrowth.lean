@@ -1,4 +1,8 @@
-import GenMarkoff.General.MiddleGame.ActualOrderGrowth
+module
+
+public import GenMarkoff.General.MiddleGame.ActualOrderGrowth
+
+@[expose] public section
 
 /-!
 # Second-axis move wiring and reverse-frame parameters

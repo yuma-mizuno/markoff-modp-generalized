@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FrobeniusRestriction
-import BGS.HasseWeil.OnePointStepanovGrid
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.FrobeniusRestriction
+public import BGS.HasseWeil.OnePointStepanovGrid
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # One-point Stepanov grids from a full Riemann-space basis

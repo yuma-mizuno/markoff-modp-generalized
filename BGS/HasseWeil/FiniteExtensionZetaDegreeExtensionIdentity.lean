@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteExtensionDivisorDegreeIndex
-import BGS.HasseWeil.ClosedPlaceEulerRecurrence
-import BGS.HasseWeil.FormalZetaConstantExtensionIdentity
+module
+
+public import BGS.HasseWeil.FiniteExtensionDivisorDegreeIndex
+public import BGS.HasseWeil.ClosedPlaceEulerRecurrence
+public import BGS.HasseWeil.FormalZetaConstantExtensionIdentity
+
+@[expose] public section
 
 /-!
 # Degree support and the constant-extension zeta identity

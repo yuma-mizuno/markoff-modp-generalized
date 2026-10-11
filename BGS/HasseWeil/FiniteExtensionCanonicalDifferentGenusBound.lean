@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveCanonicalDegreeBound
-import BGS.HasseWeil.FiniteExtensionRiemannRoch
-import BGS.HasseWeil.PlaneOnePointRiemannLower
+module
+
+public import BGS.CorvajaZannier.PlaneCurveCanonicalDegreeBound
+public import BGS.HasseWeil.FiniteExtensionRiemannRoch
+public import BGS.HasseWeil.PlaneOnePointRiemannLower
+
+@[expose] public section
 
 /-!
 # Canonical-different genus bridge

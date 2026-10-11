@@ -1,6 +1,10 @@
-import GenMarkoff.Core.Statements
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Algebra.Category.Ring.Basic
+module
+
+public import GenMarkoff.Core.Statements
+public import Mathlib.Data.ZMod.Basic
+public import Mathlib.Algebra.Category.Ring.Basic
+
+@[expose] public section
 
 /-!
 # Reduction surjectivity from Vieta connectedness

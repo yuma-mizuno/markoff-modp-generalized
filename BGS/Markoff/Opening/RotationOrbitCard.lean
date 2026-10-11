@@ -1,5 +1,9 @@
-import BGS.Markoff.Opening.FiniteOrbit
-import BGS.Markoff.Core.ConicParametrization
+module
+
+public import BGS.Markoff.Opening.FiniteOrbit
+public import BGS.Markoff.Core.ConicParametrization
+
+@[expose] public section
 
 namespace BGS.Markoff
 

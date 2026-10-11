@@ -1,7 +1,11 @@
-import GenMarkoff.General.Assembly.ReductionSurjectivity
-import GenMarkoff.General.Assembly.UnifiedRegularEndgame
-import GenMarkoff.General.Assembly.Vieta.RotationEquivalence
-import GenMarkoff.General.Cage.Connecting.Fiber
+module
+
+public import GenMarkoff.General.Assembly.ReductionSurjectivity
+public import GenMarkoff.General.Assembly.UnifiedRegularEndgame
+public import GenMarkoff.General.Assembly.Vieta.RotationEquivalence
+public import GenMarkoff.General.Cage.Connecting.Fiber
+
+@[expose] public section
 
 /-!
 # Vieta transitivity from a connecting cage

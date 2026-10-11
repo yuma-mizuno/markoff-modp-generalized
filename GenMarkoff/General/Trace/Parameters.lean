@@ -1,5 +1,9 @@
-import GenMarkoff.General.FiberDynamics
-import GenMarkoff.TraceCurve.ExceptionalRouting
+module
+
+public import GenMarkoff.General.FiberDynamics
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+
+@[expose] public section
 
 /-!
 # Shifted-trace parameters on a rotation fiber

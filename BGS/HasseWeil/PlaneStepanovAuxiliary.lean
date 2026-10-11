@@ -1,7 +1,11 @@
-import BGS.HasseWeil.PlaneOnePointRiemannLower
-import BGS.HasseWeil.OnePointSectionSelection
-import BGS.HasseWeil.StepanovRestrictionMaps
-import BGS.HasseWeil.StepanovParameters
+module
+
+public import BGS.HasseWeil.PlaneOnePointRiemannLower
+public import BGS.HasseWeil.OnePointSectionSelection
+public import BGS.HasseWeil.StepanovRestrictionMaps
+public import BGS.HasseWeil.StepanovParameters
+
+@[expose] public section
 
 /-!
 # The degree-one plane Stepanov auxiliary

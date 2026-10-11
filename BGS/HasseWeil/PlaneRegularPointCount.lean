@@ -1,6 +1,10 @@
-import BGS.HasseWeil.AffinePointPlace
-import BGS.HasseWeil.PlaneSingularPointBound
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.AffinePointPlace
+public import BGS.HasseWeil.PlaneSingularPointBound
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Regular affine points in the second-coordinate direction

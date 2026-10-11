@@ -1,5 +1,9 @@
-import BGS.Markoff.TraceCurve.Kummer
-import Mathlib.RingTheory.Localization.Away.Basic
+module
+
+public import BGS.Markoff.TraceCurve.Kummer
+public import Mathlib.RingTheory.Localization.Away.Basic
+
+@[expose] public section
 
 /-!
 # The Laurent split trace cover inside its Kummer function field
@@ -110,15 +114,16 @@ lemma splitTraceAffineToKummerTop_coordinate (i : Fin 2) :
     splitTraceAffineToKummerTop sigma hsigma e d heOdd hdOdd hde
         (Ideal.Quotient.mk _ (MvPolynomial.X i)) =
       ![splitTraceXiRoot sigma e d, splitTraceEtaRootInXiField sigma e d] i := by
-  let hBaseIrred := splitTraceBaseKummerPolynomial_irreducible sigma hsigma
-  letI : Fact (Irreducible (splitTraceBaseKummerPolynomial sigma)) := ⟨hBaseIrred⟩
-  let hEtaIrred := splitTraceEtaKummerPolynomial_irreducible' sigma hsigma e heOdd
-  letI : Fact (Irreducible (splitTraceEtaKummerPolynomial sigma e)) := ⟨hEtaIrred⟩
-  let hXiIrred :=
-    splitTraceXiKummerPolynomial_irreducible sigma hsigma e d heOdd hdOdd hde
-  letI : Fact (Irreducible (splitTraceXiKummerPolynomial sigma e d)) := ⟨hXiIrred⟩
-  simp [splitTraceAffineToKummerTop, splitTracePolynomialToKummerTop]
-
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+      let hBaseIrred := splitTraceBaseKummerPolynomial_irreducible sigma hsigma
+      letI : Fact (Irreducible (splitTraceBaseKummerPolynomial sigma)) := ⟨hBaseIrred⟩
+      let hEtaIrred := splitTraceEtaKummerPolynomial_irreducible' sigma hsigma e heOdd
+      letI : Fact (Irreducible (splitTraceEtaKummerPolynomial sigma e)) := ⟨hEtaIrred⟩
+      let hXiIrred :=
+        splitTraceXiKummerPolynomial_irreducible sigma hsigma e d heOdd hdOdd hde
+      letI : Fact (Irreducible (splitTraceXiKummerPolynomial sigma e d)) := ⟨hXiIrred⟩
+      simp [splitTraceAffineToKummerTop, splitTracePolynomialToKummerTop]
 lemma splitTraceBaseV_sq :
     splitTraceBaseV sigma ^ 2 =
       algebraMap (RatFunc K) (SplitTraceBaseFunctionField K sigma)

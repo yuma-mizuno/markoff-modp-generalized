@@ -1,4 +1,8 @@
-import BGS.Markoff.PreliminaryNumerics
+module
+
+public import BGS.Markoff.PreliminaryNumerics
+
+@[expose] public section
 
 /-!
 # The uniform analytic cutoff

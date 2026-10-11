@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistConstants
-import BGS.HasseWeil.GeneralFiniteExtensionRiemannLower
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistConstants
+public import BGS.HasseWeil.GeneralFiniteExtensionRiemannLower
+
+@[expose] public section
 
 /-!
 # A common Riemann budget for Frobenius-twist fields

@@ -1,4 +1,8 @@
-import BGS.HasseWeil.PolynomialSpectral
+module
+
+public import BGS.HasseWeil.PolynomialSpectral
+
+@[expose] public section
 
 /-!
 # From a zeta numerator to a rank-bounded spectral formula

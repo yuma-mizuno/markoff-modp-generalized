@@ -1,6 +1,10 @@
-import GenMarkoff.General.MiddleGame.ActualParameters
-import BGS.Markoff.Core.RotationTorus
-import BGS.Markoff.Core.ConicParametrization
+module
+
+public import GenMarkoff.General.MiddleGame.ActualParameters
+public import BGS.Markoff.Core.RotationTorus
+public import BGS.Markoff.Core.ConicParametrization
+
+@[expose] public section
 
 /-!
 # Diagonalizing an ordered general affine fiber

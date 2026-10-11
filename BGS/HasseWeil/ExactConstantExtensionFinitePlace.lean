@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionQuotient
-import BGS.HasseWeil.FrobeniusPlaceCardinality
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionQuotient
+public import BGS.HasseWeil.FrobeniusPlaceCardinality
+
+@[expose] public section
 
 /-!
 # Finite places of an exact constant extension
@@ -33,7 +37,7 @@ variable (hExact : algebraicClosure C N =
   (⊥ : IntermediateField C N))
 
 omit [FiniteDimensional C S] [IsGalois C S] in
-private theorem exactConstantExtension_polynomialTower :
+theorem exactConstantExtension_polynomialTower :
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
       exactConstantExtensionBaseAlgebra C (RatFunc C) N S
     letI : Algebra C[X] (ExactConstantExtension C N S) :=
@@ -131,7 +135,7 @@ omit [IsScalarTower C (RatFunc C) N]
   [FiniteDimensional (RatFunc C) L]
   [Algebra.IsSeparable (RatFunc C) L]
   [FiniteDimensional L N] [IsGalois L N] in
-private theorem exactConstantExtension_ratFuncBaseTower :
+theorem exactConstantExtension_ratFuncBaseTower :
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
       exactConstantExtensionBaseAlgebra C (RatFunc C) N S
     letI : Algebra L (ExactConstantExtension C N S) :=

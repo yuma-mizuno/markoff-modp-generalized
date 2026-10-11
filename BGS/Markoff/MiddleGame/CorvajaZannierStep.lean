@@ -1,4 +1,8 @@
-import BGS.Markoff.MiddleGame.UnionBound
+module
+
+public import BGS.Markoff.MiddleGame.UnionBound
+
+@[expose] public section
 
 /-!
 # The Corvaja--Zannier middle-game escape step

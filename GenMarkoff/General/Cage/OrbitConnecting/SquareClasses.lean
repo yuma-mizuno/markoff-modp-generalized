@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.OrbitConnecting.ThreeRootEstimate
-import GenMarkoff.General.Cage.Connecting.GeometricSquareClasses
+module
+
+public import GenMarkoff.General.Cage.OrbitConnecting.ThreeRootEstimate
+public import GenMarkoff.General.Cage.Connecting.GeometricSquareClasses
+
+@[expose] public section
 
 /-!
 # Square classes for the orbit-connecting radicands

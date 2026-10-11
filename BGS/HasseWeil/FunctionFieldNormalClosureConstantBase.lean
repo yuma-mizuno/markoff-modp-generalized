@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FunctionFieldNormalClosureConstants
-import BGS.HasseWeil.ExactConstantExtensionQuotient
+module
+
+public import BGS.HasseWeil.FunctionFieldNormalClosureConstants
+public import BGS.HasseWeil.ExactConstantExtensionQuotient
+
+@[expose] public section
 
 /-!
 # The constant-base field inside the function-field normal closure

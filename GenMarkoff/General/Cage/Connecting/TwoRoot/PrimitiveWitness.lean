@@ -1,6 +1,10 @@
-import GenMarkoff.General.Cage.Connecting.TwoRoot.Estimate
-import GenMarkoff.General.Cage.Connecting.DirectedRelay
-import GenMarkoff.General.Cage.Connecting.PrimitiveWitness
+module
+
+public import GenMarkoff.General.Cage.Connecting.TwoRoot.Estimate
+public import GenMarkoff.General.Cage.Connecting.DirectedRelay
+public import GenMarkoff.General.Cage.Connecting.PrimitiveWitness
+
+@[expose] public section
 
 /-!
 # Primitive connecting two-root witnesses
@@ -207,7 +211,7 @@ abbrev connectingGoodTwoRootPowerRangeSolutions
       w.1.middle)
     (splitTorusTrace : Kˣ → K) d
 
-private def connectingGoodTwoRootPowerCoverEquivRestrictedCover
+def connectingGoodTwoRootPowerCoverEquivRestrictedCover
     (a : Coefficients K) (xi omegaInv : K) (d : ℕ) :
     connectingGoodTwoRootPowerCoverSolutions a xi omegaInv d ≃
       {z : connectingTwoRootPowerCoverSolutions
@@ -220,7 +224,7 @@ private def connectingGoodTwoRootPowerCoverEquivRestrictedCover
   left_inv _ := rfl
   right_inv _ := rfl
 
-private def connectingRestrictedTwoRootPowerCoverEquivGoodPulled
+def connectingRestrictedTwoRootPowerCoverEquivGoodPulled
     (a : Coefficients K) (xi omegaInv : K) (d : ℕ) :
     {z : connectingTwoRootPowerCoverSolutions
         a xi omegaInv d //

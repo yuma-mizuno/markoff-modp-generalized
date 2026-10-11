@@ -1,4 +1,8 @@
-import GenMarkoff.General.Cage.Connecting.DirectedRelay
+module
+
+public import GenMarkoff.General.Cage.Connecting.DirectedRelay
+
+@[expose] public section
 
 /-!
 # Cyclic transport of full-Vieta strong approximation

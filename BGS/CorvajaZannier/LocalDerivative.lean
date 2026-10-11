@@ -1,4 +1,8 @@
-import Mathlib.RingTheory.LaurentSeries
+module
+
+public import Mathlib.RingTheory.LaurentSeries
+
+@[expose] public section
 
 /-!
 # Local derivative estimates for Corvaja--Zannier

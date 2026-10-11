@@ -1,6 +1,10 @@
-import Mathlib.RingTheory.PolynomialAlgebra
-import Mathlib.RingTheory.Smooth.Field
-import Mathlib.RingTheory.Smooth.IntegralClosure
+module
+
+public import Mathlib.RingTheory.PolynomialAlgebra
+public import Mathlib.RingTheory.Smooth.Field
+public import Mathlib.RingTheory.Smooth.IntegralClosure
+
+@[expose] public section
 
 /-!
 # Normalization after finite constant extension

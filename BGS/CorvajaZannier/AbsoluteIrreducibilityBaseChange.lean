@@ -1,7 +1,13 @@
-import BGS.CorvajaZannier.PerfectConstants
-import Mathlib.Algebra.MvPolynomial.Nilpotent
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
-import Mathlib.RingTheory.Nullstellensatz
+module
+
+public import BGS.CorvajaZannier.PerfectConstants
+public import Mathlib.Algebra.MvPolynomial.Nilpotent
+public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
+public import Mathlib.RingTheory.Nullstellensatz
+
+public import Mathlib.Algebra.MvPolynomial.CommRing
+
+@[expose] public section
 
 /-!
 # Base change of absolutely irreducible multivariate polynomials
@@ -173,7 +179,7 @@ theorem irreducible_map_of_irreducible_map_isAlgClosed
       have hDzero : MvPolynomial.map θ D = 0 := by
         ext m
         rw [MvPolynomial.coeff_map]
-        simp only [coeff_zero]
+        simp only [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
         exact hker_specialize (hcoeffD m)
       simp only [D, map_sub, map_mul] at hDzero
       have hmapfAE : MvPolynomial.map θ fA =
@@ -196,12 +202,14 @@ theorem irreducible_map_of_irreducible_map_isAlgClosed
         MvPolynomial.X (gVar mg) * MvPolynomial.X invG - 1
       have hqG : qG ∈ RingHom.ker ψ := by
         change ψ qG = 0
-        simp [qG, ψ, val, gVar, invG, hmg]
+        simp [qG, ψ, val, gVar, invG, hmg, MvPolynomial.eval₂_sub,
+          MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X, MvPolynomial.eval₂_one]
       have hqGE := hker_specialize hqG
       have hxG : x (gVar mg) ≠ 0 := by
         have hprod : x (gVar mg) * x invG = 1 := by
           apply sub_eq_zero.mp
-          simpa [qG, θ] using hqGE
+          simpa [qG, θ, MvPolynomial.eval₂_sub, MvPolynomial.eval₂_mul,
+            MvPolynomial.eval₂_X, MvPolynomial.eval₂_one] using hqGE
         exact left_ne_zero_of_mul_eq_one hprod
       have hcoeffFormula : gE.coeff mg = x (gVar mg) := by
         simp [gE, G, MvPolynomial.coeff_sum,
@@ -215,12 +223,14 @@ theorem irreducible_map_of_irreducible_map_isAlgClosed
         MvPolynomial.X (hVar mh) * MvPolynomial.X invH - 1
       have hqH : qH ∈ RingHom.ker ψ := by
         change ψ qH = 0
-        simp [qH, ψ, val, hVar, invH, hmh]
+        simp [qH, ψ, val, hVar, invH, hmh, MvPolynomial.eval₂_sub,
+          MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X, MvPolynomial.eval₂_one]
       have hqHE := hker_specialize hqH
       have hxH : x (hVar mh) ≠ 0 := by
         have hprod : x (hVar mh) * x invH = 1 := by
           apply sub_eq_zero.mp
-          simpa [qH, θ] using hqHE
+          simpa [qH, θ, MvPolynomial.eval₂_sub, MvPolynomial.eval₂_mul,
+            MvPolynomial.eval₂_X, MvPolynomial.eval₂_one] using hqHE
         exact left_ne_zero_of_mul_eq_one hprod
       have hcoeffFormula : hE'.coeff mh = x (hVar mh) := by
         simp [hE', H, MvPolynomial.coeff_sum,

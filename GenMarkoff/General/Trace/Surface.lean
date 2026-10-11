@@ -1,4 +1,8 @@
-import GenMarkoff.General.Axis
+module
+
+public import GenMarkoff.General.Axis
+
+@[expose] public section
 
 /-!
 # The generalized surface in trace coordinates

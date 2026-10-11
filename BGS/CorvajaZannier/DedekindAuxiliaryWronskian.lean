@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.DedekindLocalWronskian
-import BGS.CorvajaZannier.LocalAuxiliaryWronskian
+module
+
+public import BGS.CorvajaZannier.DedekindLocalWronskian
+public import BGS.CorvajaZannier.LocalAuxiliaryWronskian
+
+@[expose] public section
 
 /-!
 # Auxiliary-family Wronskian estimates at a Dedekind place

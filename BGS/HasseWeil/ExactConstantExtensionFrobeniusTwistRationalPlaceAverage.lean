@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistDegree
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceAverage
-import BGS.HasseWeil.GaloisAverage
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistDegree
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceAverage
+public import BGS.HasseWeil.GaloisAverage
+
+@[expose] public section
 
 /-!
 # Complete rational-place averaging for Frobenius twists

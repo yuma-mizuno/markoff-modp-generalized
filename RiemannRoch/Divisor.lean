@@ -67,7 +67,7 @@ theorem count_ofDivisor (D : Divisor R) (v : HeightOneSpectrum R) :
   classical
   simpa [ofDivisor] using count_finsuppProd K v D
 
-private theorem eq_of_count_eq {I J : FractionalIdeal R⁰ K} (hI : I ≠ 0) (hJ : J ≠ 0)
+theorem eq_of_count_eq {I J : FractionalIdeal R⁰ K} (hI : I ≠ 0) (hJ : J ≠ 0)
     (h : ∀ v, count K v I = count K v J) : I = J := by
   rw [← finprod_heightOneSpectrum_factorization' K hI,
     ← finprod_heightOneSpectrum_factorization' K hJ]

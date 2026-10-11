@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.FinitePlaceCompletion
-import BGS.CorvajaZannier.PlaneCurveSeparability
-import BGS.External.GeneralCurveTheorems
-import Mathlib.RingTheory.Ideal.GoingUp
-import Mathlib.RingTheory.Localization.Integral
+module
+
+public import BGS.CorvajaZannier.FinitePlaceCompletion
+public import BGS.CorvajaZannier.PlaneCurveSeparability
+public import BGS.External.GeneralCurveTheorems
+public import Mathlib.RingTheory.Ideal.GoingUp
+public import Mathlib.RingTheory.Localization.Integral
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 
@@ -286,7 +290,7 @@ theorem second_torsionFunction_mem_normalizationBranch
 
 /-- An integral-closure model of the plane-curve function field has that
 function field as its fraction field. -/
-private noncomputable instance planeCurveIntegralClosureIsFractionRing
+noncomputable instance planeCurveIntegralClosureIsFractionRing
     {B : Type*} [CommRing B] [IsDomain B]
     [Algebra (PlaneCurveCoordinateRing f) B]
     [Algebra B (PlaneCurveFunctionField f)]

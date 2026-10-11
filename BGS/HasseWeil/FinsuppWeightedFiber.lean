@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantExtensionClosedPlaceCount
+module
+
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceCount
+
+@[expose] public section
 
 /-!
 # Weighted degree cancellation over finite-support fibers

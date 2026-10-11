@@ -1,5 +1,9 @@
-import BGS.HasseWeil.LocalPoleFiltration
-import BGS.CorvajaZannier.DedekindPlaceOrder
+module
+
+public import BGS.HasseWeil.LocalPoleFiltration
+public import BGS.CorvajaZannier.DedekindPlaceOrder
+
+@[expose] public section
 
 /-!
 # Local pole spaces and valuation order

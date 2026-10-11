@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.GlobalWronskianWeightedPlaceSum
-import BGS.CorvajaZannier.FiniteExtensionCanonicalWronskian
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.GlobalWronskianWeightedPlaceSum
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalWronskian
+public import Mathlib.Tactic
+
+@[expose] public section
 
 open scoped BigOperators
 

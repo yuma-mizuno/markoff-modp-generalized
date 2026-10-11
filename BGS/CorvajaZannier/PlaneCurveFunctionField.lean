@@ -1,11 +1,15 @@
-import Mathlib.Algebra.MvPolynomial.Equiv
-import Mathlib.Algebra.MvPolynomial.PDeriv
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
-import Mathlib.FieldTheory.Minpoly.Field
-import Mathlib.RingTheory.Localization.FractionRing
-import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
-import Mathlib.RingTheory.AlgebraicIndependent.Transcendental
+module
+
+public import Mathlib.Algebra.MvPolynomial.Equiv
+public import Mathlib.Algebra.MvPolynomial.PDeriv
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
+public import Mathlib.FieldTheory.Minpoly.Field
+public import Mathlib.RingTheory.Localization.FractionRing
+public import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
+public import Mathlib.RingTheory.AlgebraicIndependent.Transcendental
+
+@[expose] public section
 
 /-!
 # Function fields of irreducible affine plane curves

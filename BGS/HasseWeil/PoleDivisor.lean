@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+
+@[expose] public section
 
 /-!
 # Pole divisors in the exhaustive finite-extension place model

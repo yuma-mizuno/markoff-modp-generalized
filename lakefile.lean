@@ -21,14 +21,11 @@ lean_lib BGS where
 @[default_target]
 lean_lib GenMarkoff where
 
--- Comparator and lean4export consume legacy `.olean` declarations. The
--- deliberate Challenge placeholder is isolated from the proof library.
+-- The deliberate Challenge placeholder is isolated from the proof library.
 @[default_target]
 lean_lib Challenge where
   roots := #[`Challenge]
-  leanOptions := #[⟨`experimental.module, false⟩]
 
 @[default_target]
 lean_lib Solution where
   roots := #[`Solution]
-  leanOptions := #[⟨`experimental.module, false⟩]

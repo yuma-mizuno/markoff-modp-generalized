@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
-import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOneFromAllCounts
-import BGS.HasseWeil.FiniteExtensionStandardZetaRationality
+module
+
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
+public import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOneFromAllCounts
+public import BGS.HasseWeil.FiniteExtensionStandardZetaRationality
+
+@[expose] public section
 
 /-!
 # Automatic divisor-degree index one

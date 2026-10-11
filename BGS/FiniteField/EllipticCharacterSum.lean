@@ -1,6 +1,10 @@
-import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
-import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
-import Mathlib.SetTheory.Cardinal.NatCard
+module
+
+public import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
+public import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
+public import Mathlib.SetTheory.Cardinal.NatCard
+
+@[expose] public section
 
 /-!
 # The explicit elliptic character sum needed by the incidence argument

@@ -1,20 +1,24 @@
-import GenMarkoff.General.MiddleGame.ActualOrderGrowth
-import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
-import GenMarkoff.Core.Statements
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import BGS.Markoff.Core.RotationTorus
-import Mathlib.Analysis.Complex.Norm
-import BGS.Markoff.Opening.UnitCircle
-import BGS.Markoff.Opening.CyclotomicBound
-import BGS.Markoff.Core.FiniteRotationEigenvalues
-import BGS.Markoff.Opening.PeriodicSemisimple
-import Mathlib.Algebra.CharP.Reduced
-import Mathlib.GroupTheory.Perm.Cycle.Factors
-import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
-import GenMarkoff.ShiftedTrace.MiddleGame.WeightedShiftedCorvajaZannier
-import BGS.Markoff.MiddleGame.OrderEscape
-import BGS.Dynamics.StrictMeasureEscape
-import BGS.Markoff.MiddleGame.DivisorRange
+module
+
+public import GenMarkoff.General.MiddleGame.ActualOrderGrowth
+public import GenMarkoff.ShiftedTrace.MiddleGame.ShiftedTraceEquation
+public import GenMarkoff.Core.Statements
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import BGS.Markoff.Core.RotationTorus
+public import Mathlib.Analysis.Complex.Norm
+public import BGS.Markoff.Opening.UnitCircle
+public import BGS.Markoff.Opening.CyclotomicBound
+public import BGS.Markoff.Core.FiniteRotationEigenvalues
+public import BGS.Markoff.Opening.PeriodicSemisimple
+public import Mathlib.Algebra.CharP.Reduced
+public import Mathlib.GroupTheory.Perm.Cycle.Factors
+public import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
+public import GenMarkoff.ShiftedTrace.MiddleGame.WeightedShiftedCorvajaZannier
+public import BGS.Markoff.MiddleGame.OrderEscape
+public import BGS.Dynamics.StrictMeasureEscape
+public import BGS.Markoff.MiddleGame.DivisorRange
+
+@[expose] public section
 
 /-!
 # Parity-closed candidate orders for the actual-order escape

@@ -1,5 +1,12 @@
-import BGS.Markoff.Opening.FiniteOrbit
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
+module
+
+public import BGS.Markoff.Opening.FiniteOrbit
+public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Transporting the characteristic-zero opening through an algebraic closure
@@ -68,15 +75,15 @@ theorem normalizedSurfaceMap_injective {R : Type u} {S : Type v}
   · exact hf (congrArg NormalizedPoint.u2 (congrArg Subtype.val hxy))
   · exact hf (congrArg NormalizedPoint.u3 (congrArg Subtype.val hxy))
 
-private def normalizedVieta1Surface {R : Type u} [CommRing R]
+def normalizedVieta1Surface {R : Type u} [CommRing R]
     (x : NormalizedMarkoffSurface R) : NormalizedMarkoffSurface R :=
   ⟨normalizedVieta1 x.1, (isNormalizedMarkoff_vieta1 x.1).2 x.property⟩
 
-private def normalizedVieta2Surface {R : Type u} [CommRing R]
+def normalizedVieta2Surface {R : Type u} [CommRing R]
     (x : NormalizedMarkoffSurface R) : NormalizedMarkoffSurface R :=
   ⟨normalizedVieta2 x.1, (isNormalizedMarkoff_vieta2 x.1).2 x.property⟩
 
-private def normalizedVieta3Surface {R : Type u} [CommRing R]
+def normalizedVieta3Surface {R : Type u} [CommRing R]
     (x : NormalizedMarkoffSurface R) : NormalizedMarkoffSurface R :=
   ⟨normalizedVieta3 x.1, (isNormalizedMarkoff_vieta3 x.1).2 x.property⟩
 

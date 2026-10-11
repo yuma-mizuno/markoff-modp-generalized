@@ -1,4 +1,8 @@
-import GenMarkoff.General.Cage.ThreeRootPowerCover
+module
+
+public import GenMarkoff.General.Cage.ThreeRootPowerCover
+
+@[expose] public section
 
 /-!
 # Good connecting three-root power covers
@@ -51,7 +55,7 @@ abbrev connectingGoodThreeRootPowerRangeSolutions
 
 /-- Repackage a cover whose witness type is already restricted as a subtype
 of the unrestricted witness cover. -/
-private def connectingGoodPowerCoverEquivRestrictedCover
+def connectingGoodPowerCoverEquivRestrictedCover
     (a : Coefficients K) (xi eta omegaInv : K) (d : ℕ) :
     connectingGoodThreeRootPowerCoverSolutions
         a xi eta omegaInv d ≃
@@ -67,7 +71,7 @@ private def connectingGoodPowerCoverEquivRestrictedCover
 
 /-- The unrestricted pulled-cover equivalence preserves nonvanishing of the
 third root because its scaling factor is a nonzero power of a unit. -/
-private def connectingRestrictedPowerCoverEquivGoodPulled
+def connectingRestrictedPowerCoverEquivGoodPulled
     (a : Coefficients K) (xi eta omegaInv : K) (d : ℕ) :
     {z : connectingThreeRootPowerCoverSolutions
         a xi eta omegaInv d //

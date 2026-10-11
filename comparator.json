@@ -5,6 +5,5 @@
     "Challenge.generalizedMarkoff_reduction_surjective_of_large_prime"
   ],
   "definition_names": [],
-  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
-  "enable_nanoda": true
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
 }

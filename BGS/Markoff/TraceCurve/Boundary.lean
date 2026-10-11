@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.Geometry
+module
+
+public import BGS.Markoff.TraceCurve.Geometry
+
+@[expose] public section
 
 /-!
 # Affine boundary of the split trace cover

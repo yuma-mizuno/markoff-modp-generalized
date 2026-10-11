@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.PlaneCurveSupportRank
-import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
-import BGS.CorvajaZannier.PoweredImageBaseChange
-import BGS.CorvajaZannier.PoweredImageGaloisBound
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveSupportRank
+public import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
+public import BGS.CorvajaZannier.PoweredImageBaseChange
+public import BGS.CorvajaZannier.PoweredImageGaloisBound
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The Corvaja--Zannier source-to-powered-image index bound

@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.PlaneCurveExhaustiveGcdEndpoint
-import BGS.CorvajaZannier.PlaneCurveCanonicalDegreeBound
-import BGS.CorvajaZannier.PropositionTwoDegreeMonotonicity
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveExhaustiveGcdEndpoint
+public import BGS.CorvajaZannier.PlaneCurveCanonicalDegreeBound
+public import BGS.CorvajaZannier.PropositionTwoDegreeMonotonicity
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # From actual plane-curve degrees to the public Proposition 2 certificate

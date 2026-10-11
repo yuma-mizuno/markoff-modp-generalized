@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.PlaneCurveInfinityDifferentBound
+module
+
+public import BGS.CorvajaZannier.PlaneCurveInfinityDifferentBound
+
+@[expose] public section
 
 open Polynomial
 

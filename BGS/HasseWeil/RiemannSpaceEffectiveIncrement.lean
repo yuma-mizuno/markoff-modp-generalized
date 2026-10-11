@@ -1,7 +1,11 @@
-import BGS.HasseWeil.OnePointDivisorSplit
-import BGS.HasseWeil.RiemannSpaceInfinityPlaceIncrement
-import BGS.HasseWeil.RiemannSpaceConstants
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointDivisorSplit
+public import BGS.HasseWeil.RiemannSpaceInfinityPlaceIncrement
+public import BGS.HasseWeil.RiemannSpaceConstants
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Effective increments of exhaustive Riemann spaces

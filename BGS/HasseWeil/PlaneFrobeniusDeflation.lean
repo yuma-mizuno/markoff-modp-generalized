@@ -1,7 +1,11 @@
-import BGS.HasseWeil.PlaneCoordinateShear
-import Mathlib.Algebra.MvPolynomial.Equiv
-import Mathlib.Algebra.Polynomial.Expand
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.PlaneCoordinateShear
+public import Mathlib.Algebra.MvPolynomial.Equiv
+public import Mathlib.Algebra.Polynomial.Expand
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Frobenius deflation for affine plane curves
@@ -102,7 +106,7 @@ theorem derivative_finSuccEquiv_eq_finSuccEquiv_pderiv_zero
     MvPolynomial.finSuccEquiv_coeff_coeff,
     coeff_pderiv, nsmul_eq_mul, mul_comm]
   congr 1
-  · apply congrArg (coeff · f)
+  · apply congrArg (fun m => f.coeff m)
     apply Finsupp.ext
     intro i
     refine Fin.cases ?_ (fun j => ?_) i <;> simp

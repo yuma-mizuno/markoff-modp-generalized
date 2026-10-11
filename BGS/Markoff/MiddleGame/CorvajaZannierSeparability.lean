@@ -1,6 +1,10 @@
-import BGS.Markoff.MiddleGame.CorvajaZannierGeometry
-import Mathlib.FieldTheory.Separable
-import Mathlib.RingTheory.Derivation.Basic
+module
+
+public import BGS.Markoff.MiddleGame.CorvajaZannierGeometry
+public import Mathlib.FieldTheory.Separable
+public import Mathlib.RingTheory.Derivation.Basic
+
+@[expose] public section
 
 /-!
 # Prime-to-characteristic torsion exponents for Corvaja--Zannier

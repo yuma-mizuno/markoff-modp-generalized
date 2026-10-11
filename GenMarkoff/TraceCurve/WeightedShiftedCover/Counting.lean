@@ -1,6 +1,10 @@
-import GenMarkoff.TraceCurve.WeightedShiftedCover.Basic
-import GenMarkoff.TraceCurve.ShiftedCover.Weil
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+module
+
+public import GenMarkoff.TraceCurve.WeightedShiftedCover.Basic
+public import GenMarkoff.TraceCurve.ShiftedCover.Weil
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+
+@[expose] public section
 
 /-!
 # Counting arbitrary-weight shifted trace power covers

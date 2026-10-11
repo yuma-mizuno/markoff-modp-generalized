@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
+module
+
+public import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
+
+@[expose] public section
 
 /-!
 # A discrete simple-pole witness for the divisor zeta series

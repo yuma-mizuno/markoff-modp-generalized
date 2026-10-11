@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionGcdOutsideHeight
-import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionGcdOutsideHeight
+public import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 

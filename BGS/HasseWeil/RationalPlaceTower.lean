@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionPlaceTower
-import BGS.HasseWeil.RationalPlace
+module
+
+public import BGS.HasseWeil.FiniteExtensionPlaceTower
+public import BGS.HasseWeil.RationalPlace
+
+@[expose] public section
 
 /-!
 # Restriction of rational places in a function-field tower

@@ -1,6 +1,10 @@
-import BGS.Markoff.Cage.WitnessEquations
-import BGS.Markoff.Incidence.CoordinateRing
-import BGS.Markoff.MiddleGame.Diagonalization
+module
+
+public import BGS.Markoff.Cage.WitnessEquations
+public import BGS.Markoff.Incidence.CoordinateRing
+public import BGS.Markoff.MiddleGame.Diagonalization
+
+@[expose] public section
 
 /-!
 # Geometry of the normalized cage incidence curve

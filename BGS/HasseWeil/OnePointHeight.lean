@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
-import BGS.HasseWeil.FiniteExtensionZeroCounting
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+
+@[expose] public section
 
 /-!
 # Heights and zero counts in a one-point Riemann space

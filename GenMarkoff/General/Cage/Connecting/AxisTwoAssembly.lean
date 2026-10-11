@@ -1,8 +1,12 @@
-import GenMarkoff.General.Cage.Connecting.DirectedRelay
-import GenMarkoff.General.Cage.Connecting.PrimitiveWitness
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
+module
+
+public import GenMarkoff.General.Cage.Connecting.DirectedRelay
+public import GenMarkoff.General.Cage.Connecting.PrimitiveWitness
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+
+@[expose] public section
 
 /-!
 # Assembly of the directed second-axis connecting relay

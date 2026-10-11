@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.DedekindPlaceOrder
-import BGS.CorvajaZannier.WronskianChangeParameter
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+module
+
+public import BGS.CorvajaZannier.DedekindPlaceOrder
+public import BGS.CorvajaZannier.WronskianChangeParameter
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+
+@[expose] public section
 
 /-!
 # Wronskian order estimates at a Dedekind DVR place

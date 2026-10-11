@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.BivariateResultant
-import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
+module
+
+public import BGS.CorvajaZannier.BivariateResultant
+public import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
+
+@[expose] public section
 
 /-!
 # A sharp degree bound for a bivariate discriminant

@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantFieldFinitePlace
+module
+
+public import BGS.HasseWeil.ConstantFieldFinitePlace
+
+@[expose] public section
 
 /-!
 # The rational-function place at infinity under coefficient extension

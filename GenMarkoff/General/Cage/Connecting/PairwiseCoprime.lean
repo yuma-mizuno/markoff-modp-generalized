@@ -1,4 +1,8 @@
-import GenMarkoff.General.Cage.CenteredReducedPulledRadicand
+module
+
+public import GenMarkoff.General.Cage.CenteredReducedPulledRadicand
+
+@[expose] public section
 
 /-!
 # Branch separation after the connecting-cage power pullback

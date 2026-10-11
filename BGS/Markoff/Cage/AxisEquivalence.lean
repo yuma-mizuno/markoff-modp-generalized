@@ -1,4 +1,8 @@
-import BGS.Markoff.Cage.HasseWeilAssumption
+module
+
+public import BGS.Markoff.Cage.HasseWeilAssumption
+
+@[expose] public section
 
 /-!
 # Coordinate-axis invariance of cage witnesses
@@ -16,7 +20,7 @@ namespace BGS.Markoff
 noncomputable section
 
 /-- Swapping the first two normalized coordinates as an equivalence. -/
-private def normalizedSwap12Equiv (R : Type*) :
+def normalizedSwap12Equiv (R : Type*) :
     NormalizedPoint R ≃ NormalizedPoint R where
   toFun := normalizedSwap12
   invFun := normalizedSwap12
@@ -24,7 +28,7 @@ private def normalizedSwap12Equiv (R : Type*) :
   right_inv x := by ext <;> rfl
 
 /-- Swapping the last two normalized coordinates as an equivalence. -/
-private def normalizedSwap23Equiv (R : Type*) :
+def normalizedSwap23Equiv (R : Type*) :
     NormalizedPoint R ≃ NormalizedPoint R where
   toFun := normalizedSwap23
   invFun := normalizedSwap23
@@ -33,7 +37,7 @@ private def normalizedSwap23Equiv (R : Type*) :
 
 /-- Permute the first incidence point so that its outer coordinate is first
 and its bridge coordinate is third. -/
-private def cageFirstPointCanonicalEquiv (R : Type*)
+def cageFirstPointCanonicalEquiv (R : Type*)
     (axis other : NormalizedCoordinateAxis) :
     NormalizedPoint R ≃ NormalizedPoint R :=
   match axis, other with
@@ -56,7 +60,7 @@ private def cageFirstPointCanonicalEquiv (R : Type*)
 
 /-- Permute the second incidence point so that its outer coordinate is second
 and its bridge coordinate is third. -/
-private def cageSecondPointCanonicalEquiv (R : Type*)
+def cageSecondPointCanonicalEquiv (R : Type*)
     (axis other : NormalizedCoordinateAxis) :
     NormalizedPoint R ≃ NormalizedPoint R :=
   match axis, other with
@@ -78,7 +82,7 @@ private def cageSecondPointCanonicalEquiv (R : Type*)
   | .third, .third =>
       (normalizedSwap12Equiv R).trans (normalizedSwap23Equiv R)
 
-private theorem cageFirstPointCanonical_mem
+theorem cageFirstPointCanonical_mem
     {R : Type*} [CommRing R]
     (axis other : NormalizedCoordinateAxis) (xi middle : R)
     {x : NormalizedPoint R}
@@ -103,7 +107,7 @@ private theorem cageFirstPointCanonical_mem
       exact hSurface
     · exact hMiddle
 
-private theorem cageSecondPointCanonical_mem
+theorem cageSecondPointCanonical_mem
     {R : Type*} [CommRing R]
     (axis other : NormalizedCoordinateAxis) (eta middle : R)
     {x : NormalizedPoint R}

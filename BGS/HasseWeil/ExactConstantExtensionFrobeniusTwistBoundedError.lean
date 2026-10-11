@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRationalPlaceAverage
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRationalPlaceAverage
+
+@[expose] public section
 
 /-!
 # Two-sided Frobenius-twist errors from the bounded average

@@ -1,6 +1,10 @@
-import BGS.Markoff.MiddleGame.Diagonalization
-import BGS.Markoff.MiddleGame.WeightedTraceBound
-import BGS.Markoff.MiddleGame.TraceCurveWeights
+module
+
+public import BGS.Markoff.MiddleGame.Diagonalization
+public import BGS.Markoff.MiddleGame.WeightedTraceBound
+public import BGS.Markoff.MiddleGame.TraceCurveWeights
+
+@[expose] public section
 
 /-!
 # Feeding the geometric Corvaja--Zannier estimate into a Markoff move

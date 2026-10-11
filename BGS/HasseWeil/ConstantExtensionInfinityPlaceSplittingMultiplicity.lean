@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantExtensionPlaceSplittingMultiplicity
+module
+
+public import BGS.HasseWeil.ConstantExtensionPlaceSplittingMultiplicity
+
+@[expose] public section
 
 /-!
 # Splitting multiplicity at infinity in an exact extension of constants
@@ -23,7 +27,7 @@ open BGS.CorvajaZannier IsDedekindDomain
 set_option synthInstance.maxHeartbeats 400000
 set_option maxHeartbeats 2000000
 
-private noncomputable def infinitySplittingHeightOneResidueFieldRingEquiv
+noncomputable def infinitySplittingHeightOneResidueFieldRingEquiv
     {A B : Type*} [CommRing A] [CommRing B]
     (e : A ≃+* B) (q : IsDedekindDomain.HeightOneSpectrum A) :
     q.asIdeal.ResidueField ≃+*
@@ -34,7 +38,7 @@ private noncomputable def infinitySplittingHeightOneResidueFieldRingEquiv
       change q.asIdeal = (q.asIdeal.comap e.symm).comap e
       exact (Ideal.comap_of_equiv e).symm)
 
-private theorem infinitySplittingMappedPrimeCompl_disjoint_of_under_eq
+theorem infinitySplittingMappedPrimeCompl_disjoint_of_under_eq
     (R A : Type*) [CommRing R] [CommRing A] [Algebra R A]
     (p : Ideal R) [p.IsPrime] (q : Ideal A)
     (hq : q.under R = p) :
@@ -46,7 +50,7 @@ private theorem infinitySplittingMappedPrimeCompl_disjoint_of_under_eq
   obtain ⟨r, hr, rfl⟩ := hxM
   exact hr (hq ▸ hxq)
 
-private noncomputable def infinitySplittingLocalizationResidueFieldRingEquiv
+noncomputable def infinitySplittingLocalizationResidueFieldRingEquiv
     (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
     (M : Submonoid A) [IsLocalization M B]
     (q : Ideal A) [q.IsPrime]
@@ -250,7 +254,7 @@ private theorem ratFuncCoefficientAlgHom_reciprocalPolynomialRingHom
 
 /-- The reciprocal polynomial algebra map is the composite through the
 rational-function field. -/
-private theorem ratFuncExtensionReciprocalPolynomialAlgebra_map
+theorem ratFuncExtensionReciprocalPolynomialAlgebra_map
     (K L : Type*) [Field K] [Field L]
     [DecidableEq K] [DecidableEq (RatFunc K)]
     [Algebra (RatFunc K) L] (p : K[X]) :
@@ -308,7 +312,7 @@ private theorem exactConstantExtensionSReciprocalPolynomialAlgebra_eq :
 omit [Fintype C] [Finite S] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] in
 /-- The transported reciprocal `C[X]`-action is the actual action induced by
 the canonical embedding of `C(X)` into the exact constant extension. -/
-private theorem exactConstantExtensionCReciprocalPolynomialAlgebra_eq :
+theorem exactConstantExtensionCReciprocalPolynomialAlgebra_eq :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
@@ -500,7 +504,7 @@ noncomputable def exactConstantExtensionCReciprocalPrimesEquivInfinityPlace :
   exact (IsDedekindDomain.primesOverEquivPrimesOver o V B ho).toEquiv
 
 omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] in
-private theorem exactConstantExtensionPresentedReciprocalPolynomialTower :
+theorem exactConstantExtensionPresentedReciprocalPolynomialTower :
     IsScalarTower C[X] S[X]
       (S ⊗[C] integralClosure C[X] N) := by
   apply IsScalarTower.of_algebraMap_eq
@@ -511,7 +515,7 @@ private theorem exactConstantExtensionPresentedReciprocalPolynomialTower :
 
 /-- The old reciprocal normalization maps into the reciprocal normalization
 of the exact constant extension through the right tensor factor. -/
-private noncomputable def exactConstantExtensionOldToCReciprocalNormalizationMap :
+noncomputable def exactConstantExtensionOldToCReciprocalNormalizationMap :
     integralClosure C[X] N →ₐ[C[X]]
       integralClosure C[X] (ExactConstantExtension C N S) := by
   letI : Algebra N (ExactConstantExtension C N S) :=
@@ -559,7 +563,7 @@ private theorem
 omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional C S] [IsGalois C S] in
 /-- The reciprocal origin is the unique prime of `S[X]` above the reciprocal
 origin of `C[X]`. -/
-private theorem primeUnderReciprocalOrigin_eq_origin
+theorem primeUnderReciprocalOrigin_eq_origin
     (p : Ideal S[X]) [p.IsPrime]
     (hunder : p.under C[X] =
       Ideal.span ({Polynomial.X} : Set C[X])) :
@@ -611,7 +615,7 @@ private theorem
   rw [polynomialTensorCancel_algebraMap_coefficient C S N p]
   rfl
 
-private noncomputable def
+noncomputable def
     exactConstantExtensionPresentedToCReciprocalNormalizationHeightOneEquiv :
     HeightOneSpectrum (S ⊗[C] integralClosure C[X] N) ≃
       HeightOneSpectrum
@@ -620,7 +624,7 @@ private noncomputable def
     (exactConstantExtensionPresentedToCReciprocalNormalizationRingEquiv C S N)
 
 omit [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] in
-private theorem
+theorem
     exactConstantExtensionPresentedToCReciprocalNormalizationHeightOneEquiv_under
     (q : HeightOneSpectrum (S ⊗[C] integralClosure C[X] N)) :
     ((exactConstantExtensionPresentedToCReciprocalNormalizationHeightOneEquiv
@@ -639,7 +643,7 @@ private theorem
       C S N p]
   simp only [e, RingEquiv.symm_apply_apply]
 
-private noncomputable def
+noncomputable def
     exactConstantExtensionPresentedInfinityHeightOneEquiv :
     ExactConstantExtensionPresentedInfinityPlace C S N ≃
       {q : HeightOneSpectrum
@@ -682,7 +686,7 @@ private noncomputable def
       p.under C[X] = q.asIdeal.under C[X] := Ideal.under_under q.asIdeal
       _ = Ideal.span ({Polynomial.X} : Set C[X]) := hqC
 
-private noncomputable def
+noncomputable def
     exactConstantExtensionCReciprocalHeightOneEquivPrimesOver :
     {q : HeightOneSpectrum
         (integralClosure C[X] (ExactConstantExtension C N S)) //
@@ -765,7 +769,7 @@ private noncomputable def
 
 /-- Presented infinity places, before changing the transported reciprocal
 action to the actual one, are precisely the affine primes above `(X)`. -/
-private noncomputable def
+noncomputable def
     exactConstantExtensionPresentedInfinityPlaceEquivCReciprocalPrimes :
     ExactConstantExtensionPresentedInfinityPlace C S N ≃
       (Ideal.span ({Polynomial.X} : Set C[X])).primesOver
@@ -808,7 +812,7 @@ private theorem
 
 /-- Changing from the transported reciprocal action to the actual action does
 not change the affine prime fiber. -/
-private noncomputable def integralClosureAlgHomOfAlgebraEq
+noncomputable def integralClosureAlgHomOfAlgebraEq
     (R L A : Type*) [CommRing R] [Field L] [CommRing A] [Algebra R A]
     (a b : Algebra R L) (h : a = b)
     (f : A →ₐ[R] @integralClosure R L _ _ a) :
@@ -816,7 +820,7 @@ private noncomputable def integralClosureAlgHomOfAlgebraEq
   rw [← h]
   exact f
 
-private noncomputable def primesOverEquivOfAlgebraEq
+noncomputable def primesOverEquivOfAlgebraEq
     (R L : Type*) [CommRing R] [Field L]
     (a b : Algebra R L) (h : a = b) (p : Ideal R) :
     @Ideal.primesOver R _ p (@integralClosure R L _ _ a) _ _ ≃
@@ -836,7 +840,7 @@ private theorem primesOverEquivOfAlgebraEq_under
   subst b
   rfl
 
-private noncomputable def
+noncomputable def
     exactConstantExtensionCReciprocalPrimesEquivActual :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact
@@ -1091,7 +1095,8 @@ private theorem infinitySplitting_eq_of_algebraMap_sub_mem_prime
   have hne : a - b ≠ 0 := sub_ne_zero.mpr hab
   have hunit : IsUnit (algebraMap K R (a - b)) :=
     (isUnit_iff_ne_zero.mpr hne).map (algebraMap K R)
-  have hmem : algebraMap K R (a - b) ∈ P := by simpa using h
+  have hmem : algebraMap K R (a - b) ∈ P := by
+    simpa only [RingHom.map_sub] using h
   exact (inferInstance : P.IsPrime).ne_top
     (P.eq_top_of_isUnit_mem hmem hunit)
 

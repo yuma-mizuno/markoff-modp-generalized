@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.InfinityInertiaDegree
-import Mathlib.Algebra.Polynomial.Reverse
-import Mathlib.RingTheory.Localization.AtPrime.Basic
-import Mathlib.RingTheory.Localization.Integral
+module
+
+public import BGS.CorvajaZannier.InfinityInertiaDegree
+public import Mathlib.Algebra.Polynomial.Reverse
+public import Mathlib.RingTheory.Localization.AtPrime.Basic
+public import Mathlib.RingTheory.Localization.Integral
+
+@[expose] public section
 
 /-!
 # The infinity valuation ring as a reciprocal localization
@@ -324,7 +328,7 @@ local instance infinityLocalizationBase :
       (RatFuncInfinityIntegers K) :=
   ratFuncInfinityIntegers_isLocalization_reciprocal K
 
-private theorem extensionReciprocalPolynomialAlgMap_injective :
+theorem extensionReciprocalPolynomialAlgMap_injective :
     Function.Injective (algebraMap K[X] N) := by
   intro p q hpq
   apply reciprocalPolynomialRingHom_injective K
@@ -337,7 +341,7 @@ local instance infinityLocalizationExtensionPolynomialFaithful :
   rw [faithfulSMul_iff_algebraMap_injective]
   exact extensionReciprocalPolynomialAlgMap_injective K N
 
-private theorem extensionReciprocalPrimeCompl_maps_nonzero :
+theorem extensionReciprocalPrimeCompl_maps_nonzero :
     (0 : N) ∉ Algebra.algebraMapSubmonoid N
       (Ideal.span ({Polynomial.X} : Set K[X])).primeCompl := by
   intro h0
@@ -345,7 +349,7 @@ private theorem extensionReciprocalPrimeCompl_maps_nonzero :
     N (Ideal.span ({Polynomial.X} : Set K[X])).primeCompl_le_nonZeroDivisors
   exact (nonZeroDivisors.ne_zero (hle h0)) rfl
 
-private theorem fieldSelf_isLocalization (M : Submonoid N)
+theorem fieldSelf_isLocalization (M : Submonoid N)
     (hM : (0 : N) ∉ M) : IsLocalization M N := by
   rw [isLocalization_iff]
   constructor

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.RiemannSpaceEffectiveIncrement
-import Mathlib.LinearAlgebra.Projectivization.Cardinality
+module
+
+public import BGS.HasseWeil.RiemannSpaceEffectiveIncrement
+public import Mathlib.LinearAlgebra.Projectivization.Cardinality
+
+@[expose] public section
 
 /-!
 # Projectivized Riemann-space counts

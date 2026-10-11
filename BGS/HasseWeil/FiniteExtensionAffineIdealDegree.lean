@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionExhaustiveProductFormula
-import Mathlib.NumberTheory.ClassNumber.FunctionField
-import Mathlib.RingTheory.Ideal.Quotient.HasFiniteQuotients
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionExhaustiveProductFormula
+public import Mathlib.NumberTheory.ClassNumber.FunctionField
+public import Mathlib.RingTheory.Ideal.Quotient.HasFiniteQuotients
+
+@[expose] public section
 
 /-!
 # Affine ideal degrees in a finite function field

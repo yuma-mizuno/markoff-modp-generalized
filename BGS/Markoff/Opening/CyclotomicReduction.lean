@@ -1,8 +1,15 @@
-import BGS.Markoff.Opening.CompatibleRoots
-import BGS.Markoff.Opening.CyclotomicNorm
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
-import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
-import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+module
+
+public import BGS.Markoff.Opening.CompatibleRoots
+public import BGS.Markoff.Opening.CyclotomicNorm
+public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
+public import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
+public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # A compatible prime and reduction for the cyclotomic opening
@@ -28,7 +35,7 @@ abbrev OpeningCyclotomicIntegers (n : ℕ) :=
 /-- The algebraic closure in which the prescribed characteristic-`p` roots live. -/
 abbrev OpeningResidueClosure (p : ℕ) [Fact p.Prime] := AlgebraicClosure (ZMod p)
 
-private theorem neZero_ratCast (n : ℕ) [NeZero n] : (n : ℚ) ≠ 0 := by
+theorem neZero_ratCast (n : ℕ) [NeZero n] : (n : ℚ) ≠ 0 := by
   exact_mod_cast (NeZero.ne n)
 
 /-- Coprimality with the characteristic makes `n` nonzero in the chosen residue closure. -/
@@ -98,7 +105,7 @@ theorem openingCyclotomicIntegralPowerBasis_gen (n : ℕ) [NeZero n] :
     CyclotomicField.isCyclotomicExtension n ℚ
   exact (openingCyclotomicRoot_isPrimitive n).integralPowerBasis_gen
 
-private theorem primitiveRoot_isRoot_integralPowerBasis_minpoly
+theorem primitiveRoot_isRoot_integralPowerBasis_minpoly
     (p n : ℕ) [Fact p.Prime] [NeZero n] (_hcoprime : Nat.Coprime p n)
     (ω : OpeningResidueClosure p) (hω : IsPrimitiveRoot ω n) :
     aeval ω (minpoly ℤ (openingCyclotomicIntegralPowerBasis n).gen) = 0 := by

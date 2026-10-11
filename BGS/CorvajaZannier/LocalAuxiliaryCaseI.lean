@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.LocalAuxiliaryWronskian
-import Mathlib.Algebra.Order.Group.Int.Sum
-import Mathlib.LinearAlgebra.Matrix.Transvection
+module
+
+public import BGS.CorvajaZannier.LocalAuxiliaryWronskian
+public import Mathlib.Algebra.Order.Group.Int.Sum
+public import Mathlib.LinearAlgebra.Matrix.Transvection
+
+@[expose] public section
 
 /-!
 # Corvaja--Zannier local case (i)

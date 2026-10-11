@@ -1,7 +1,11 @@
-import BGS.Markoff.MiddleGame.CorvajaZannierGeometry
-import Mathlib.Algebra.MvPolynomial.Equiv
-import Mathlib.Algebra.Polynomial.Bivariate
-import Mathlib.RingTheory.Polynomial.GaussLemma
+module
+
+public import BGS.Markoff.MiddleGame.CorvajaZannierGeometry
+public import Mathlib.Algebra.MvPolynomial.Equiv
+public import Mathlib.Algebra.Polynomial.Bivariate
+public import Mathlib.RingTheory.Polynomial.GaussLemma
+
+@[expose] public section
 
 /-!
 # Absolute irreducibility of the weighted middle-game trace curve

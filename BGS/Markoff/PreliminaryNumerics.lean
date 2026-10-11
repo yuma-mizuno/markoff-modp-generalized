@@ -1,5 +1,9 @@
-import BGS.Markoff.ExplicitNumericCertificates
-import BGS.NumberTheory.PreliminaryDivisorBound
+module
+
+public import BGS.Markoff.ExplicitNumericCertificates
+public import BGS.NumberTheory.PreliminaryDivisorBound
+
+@[expose] public section
 
 /-!
 # Elementary numerical certificates for the paper's preliminary route

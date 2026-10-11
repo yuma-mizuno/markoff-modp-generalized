@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FunctionFieldConstantExtension
-import Mathlib.FieldTheory.Finite.Extension
-import Mathlib.FieldTheory.Galois.Basic
+module
+
+public import BGS.HasseWeil.FunctionFieldConstantExtension
+public import Mathlib.FieldTheory.Finite.Extension
+public import Mathlib.FieldTheory.Galois.Basic
+
+@[expose] public section
 
 /-!
 # Automorphisms of plane-curve constant extensions

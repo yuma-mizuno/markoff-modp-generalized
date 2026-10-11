@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.PlaneCurvePoweredImageDegreeBudget
-import BGS.CorvajaZannier.PlaneCurvePoweredHeightBounds
-import BGS.CorvajaZannier.PropositionTwoDegreeMonotonicity
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurvePoweredImageDegreeBudget
+public import BGS.CorvajaZannier.PlaneCurvePoweredHeightBounds
+public import BGS.CorvajaZannier.PropositionTwoDegreeMonotonicity
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Numerical assembly of plane-curve Proposition 2

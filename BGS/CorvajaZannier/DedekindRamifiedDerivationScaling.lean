@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.DedekindDifferentDivisor
-import Mathlib.RingTheory.Conductor
-import Mathlib.RingTheory.Derivation.MapCoeffs
-import Mathlib.RingTheory.RamificationInertia.Ramification
+module
+
+public import BGS.CorvajaZannier.DedekindDifferentDivisor
+public import Mathlib.RingTheory.Conductor
+public import Mathlib.RingTheory.Derivation.MapCoeffs
+public import Mathlib.RingTheory.RamificationInertia.Ramification
+
+@[expose] public section
 
 /-!
 # Scaling derivations at ramified Dedekind places

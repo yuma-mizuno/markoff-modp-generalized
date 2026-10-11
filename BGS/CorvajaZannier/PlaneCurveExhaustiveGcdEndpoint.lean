@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.EndpointComposition
-import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+module
+
+public import BGS.CorvajaZannier.EndpointComposition
+public import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+
+@[expose] public section
 
 /-!
 # Exhaustive gcd divisor at the plane-curve endpoint

@@ -1,7 +1,11 @@
-import GenMarkoff.Core.Basic
-import Mathlib.Algebra.Group.Subgroup.Actions
-import Mathlib.Algebra.Group.Action.End
-import Mathlib.GroupTheory.GroupAction.Defs
+module
+
+public import GenMarkoff.Core.Basic
+public import Mathlib.Algebra.Group.Subgroup.Actions
+public import Mathlib.Algebra.Group.Action.End
+public import Mathlib.GroupTheory.GroupAction.Defs
+
+@[expose] public section
 
 /-!
 # Vieta and rotation-group actions

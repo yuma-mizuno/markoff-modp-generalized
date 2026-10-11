@@ -1,6 +1,10 @@
-import BGS.Markoff.Endgame.PrimitiveTraceCount
-import BGS.Markoff.MiddleGame.DivisorRange
-import Mathlib.NumberTheory.ArithmeticFunction.Moebius
+module
+
+public import BGS.Markoff.Endgame.PrimitiveTraceCount
+public import BGS.Markoff.MiddleGame.DivisorRange
+public import Mathlib.NumberTheory.ArithmeticFunction.Moebius
+
+@[expose] public section
 
 /-!
 # Möbius inclusion--exclusion for primitive endgame traces

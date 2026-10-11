@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.BivariateGauss
-import BGS.CorvajaZannier.AbsoluteIrreducibilityBaseChange
-import BGS.CorvajaZannier.PerfectConstants
-import BGS.CorvajaZannier.PlaneCurveSeparability
-import BGS.CorvajaZannier.SeparatingCoordinateNotFrobenius
+module
+
+public import BGS.CorvajaZannier.BivariateGauss
+public import BGS.CorvajaZannier.AbsoluteIrreducibilityBaseChange
+public import BGS.CorvajaZannier.PerfectConstants
+public import BGS.CorvajaZannier.PlaneCurveSeparability
+public import BGS.CorvajaZannier.SeparatingCoordinateNotFrobenius
+
+@[expose] public section
 
 /-!
 # The plane-curve auxiliary family over the Frobenius subfield

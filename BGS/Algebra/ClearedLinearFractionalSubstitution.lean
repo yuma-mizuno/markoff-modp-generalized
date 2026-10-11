@@ -1,4 +1,8 @@
-import BGS.Algebra.RatFuncLinearFractionalEquiv
+module
+
+public import BGS.Algebra.RatFuncLinearFractionalEquiv
+
+@[expose] public section
 
 /-!
 # Cleared linear-fractional substitution

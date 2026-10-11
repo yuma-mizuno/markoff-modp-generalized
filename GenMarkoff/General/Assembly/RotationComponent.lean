@@ -1,4 +1,8 @@
-import GenMarkoff.General.Axis
+module
+
+public import GenMarkoff.General.Axis
+
+@[expose] public section
 
 /-!
 # Rotation components and punctured orbits

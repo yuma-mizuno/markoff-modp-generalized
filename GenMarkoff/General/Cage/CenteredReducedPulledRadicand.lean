@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.PulledRadicands
-import GenMarkoff.General.Cage.Connecting.Quartic
+module
+
+public import GenMarkoff.General.Cage.Connecting.PulledRadicands
+public import GenMarkoff.General.Cage.Connecting.Quartic
+
+@[expose] public section
 
 /-!
 # Removing the forced squares from the centered connecting radicand

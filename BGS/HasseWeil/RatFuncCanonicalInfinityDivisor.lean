@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionRiemannRoch
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannRoch
+
+@[expose] public section
 
 /-!
 # The canonical divisor `-2∞` on the rational function field

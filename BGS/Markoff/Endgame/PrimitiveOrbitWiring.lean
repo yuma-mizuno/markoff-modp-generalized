@@ -1,5 +1,9 @@
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import BGS.Markoff.MiddleGame.MoveWiring
+module
+
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import BGS.Markoff.MiddleGame.MoveWiring
+
+@[expose] public section
 
 /-!
 # Transporting primitive trace pairs back to rotation orbits

@@ -1,4 +1,8 @@
-import GenMarkoff.General.Assembly.ExplicitStrongApproximation
+module
+
+public import GenMarkoff.General.Assembly.ExplicitStrongApproximation
+
+@[expose] public section
 
 /-!
 # Strong approximation for generalized Markoff surfaces

@@ -1,6 +1,10 @@
-import BGS.Markoff.Core.ConicParametrization
-import BGS.Markoff.MiddleGame.CorvajaZannierStep
-import BGS.Markoff.TraceCurve.Geometry
+module
+
+public import BGS.Markoff.Core.ConicParametrization
+public import BGS.Markoff.MiddleGame.CorvajaZannierStep
+public import BGS.Markoff.TraceCurve.Geometry
+
+@[expose] public section
 
 /-!
 # Wiring the middle-game trace escape to Markoff moves

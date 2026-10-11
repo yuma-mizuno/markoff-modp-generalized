@@ -1,7 +1,11 @@
-import BGS.HasseWeil.DVRLocalPoleOrder
-import BGS.HasseWeil.FiniteExtensionLocalPoleSpace
-import BGS.HasseWeil.LocalPoleCumulativeQuotient
-import BGS.HasseWeil.RiemannSpaceInfinityPlaceIncrement
+module
+
+public import BGS.HasseWeil.DVRLocalPoleOrder
+public import BGS.HasseWeil.FiniteExtensionLocalPoleSpace
+public import BGS.HasseWeil.LocalPoleCumulativeQuotient
+public import BGS.HasseWeil.RiemannSpaceInfinityPlaceIncrement
+
+@[expose] public section
 
 /-!
 # Exact local principal-part dimensions at exhaustive places
@@ -282,14 +286,14 @@ local instance localQuotientInfinityClosureConstantTowerToField :
   rw [IsScalarTower.algebraMap_apply K (RatFunc K) L]
   rfl
 
-private noncomputable def localQuotientInfinityResidueFieldAlgEquivOfIdealEq
+noncomputable def localQuotientInfinityResidueFieldAlgEquivOfIdealEq
     {I J : Ideal (RatFuncInfinityIntegralClosure K L)}
     [I.IsPrime] [J.IsPrime] (h : I = J) :
     I.ResidueField ≃ₐ[K] J.ResidueField := by
   subst J
   exact AlgEquiv.refl
 
-private noncomputable def localQuotientInfinityResidueFieldAlgEquiv
+noncomputable def localQuotientInfinityResidueFieldAlgEquiv
     (P : FiniteExtensionInfinityPlace K L) :
     (primeOverHeightOne (ratFuncInfinityPlace K) P).asIdeal.ResidueField
       ≃ₐ[K] P.1.ResidueField :=

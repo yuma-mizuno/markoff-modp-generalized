@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.PlaneCurveFunctionField
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveFunctionField
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Rank-two support certificates for a plane curve

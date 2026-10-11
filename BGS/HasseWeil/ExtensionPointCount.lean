@@ -1,6 +1,10 @@
-import BGS.HasseWeil.PlaneConstantField
-import Mathlib.FieldTheory.Finite.Extension
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.PlaneConstantField
+public import Mathlib.FieldTheory.Finite.Extension
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Affine point counts over canonical finite-field extensions

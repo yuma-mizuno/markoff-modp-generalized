@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.RotationTorus
-import Mathlib.FieldTheory.PrimeField
+module
+
+public import BGS.Markoff.Core.RotationTorus
+public import Mathlib.FieldTheory.PrimeField
+
+@[expose] public section
 
 /-!
 # Split and nonsplit trace classification

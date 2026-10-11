@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceBridge
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceBridge
+
+@[expose] public section
 
 /-!
 # Unramified finite places over Frobenius-twist fields
@@ -592,7 +596,7 @@ theorem frobeniusTwistField_finitePlace_ramificationIdx_eq_one
             calc
               algebraMap S A ((frob ^ k) s - s) =
                   algebraMap S A ((frob ^ k) s) - algebraMap S A s :=
-                map_sub (algebraMap S A) _ _
+                RingHom.map_sub (algebraMap S A) _ _
               _ = algebraMap S A ((frob ^ k) s) - a := rfl
               _ = tau • a - a := congrArg (fun z : A => z - a) haction.symm
           exact heq.symm ▸ hmem
@@ -621,10 +625,9 @@ theorem frobeniusTwistField_finitePlace_ramificationIdx_eq_one
           (h.1 : T ≃ₐ[RatFunc C] T) = sigma ^ k := hk.symm
           _ = 1 := hsigma
       have hh : h = 1 := Subtype.ext hambient
-      calc
-        tau = e h := (e.apply_symm_apply tau).symm
-        _ = e 1 := congrArg e hh
-        _ = 1 := map_one e
+      have htauEq : e h = tau := e.apply_symm_apply tau
+      rw [hh, e.map_one] at htauEq
+      exact htauEq.symm
     · intro htau
       rw [Subgroup.mem_bot] at htau
       simp [htau]

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionFiniteDifferent
-import BGS.HasseWeil.FiniteFieldInfinityDifferent
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFiniteDifferent
+public import BGS.HasseWeil.FiniteFieldInfinityDifferent
+
+@[expose] public section
 
 /-!
 # The infinity different after exact constant extension
@@ -37,7 +41,7 @@ local instance exactConstantExtensionInfinityDifferentDecidableEqBaseRatFunc :
 local instance exactConstantExtensionInfinityDifferentDecidableEqExtendedRatFunc :
     DecidableEq (RatFunc S) := Classical.decEq _
 
-@[reducible] private noncomputable def
+@[reducible] noncomputable def
     exactConstantExtensionInfinityDifferentCanonicalFractionRingAlgebra
     (R : Type*) [CommRing R] [IsDomain R] :
     Algebra R (FractionRing R) := inferInstance
@@ -52,7 +56,7 @@ private theorem exactConstantExtensionInfinityDifferentCanonicalFractionRing
 variable (hExact : algebraicClosure C N =
   (⊥ : IntermediateField C N))
 
-private noncomputable def
+noncomputable def
     exactConstantExtensionInfinityDifferentNormalizationRingHom
     [Fintype C] [Finite S] :
     let L := ExactConstantExtension C N S

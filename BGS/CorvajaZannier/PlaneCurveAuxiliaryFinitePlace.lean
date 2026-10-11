@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.DedekindAuxiliaryLocalCases
-import BGS.CorvajaZannier.DedekindLocalDerivationExtension
-import BGS.CorvajaZannier.DedekindLocalizationOrder
-import BGS.CorvajaZannier.PlaneCurveLocalReciprocalDiscriminant
-import Mathlib.NumberTheory.FunctionField
+module
+
+public import BGS.CorvajaZannier.DedekindAuxiliaryLocalCases
+public import BGS.CorvajaZannier.DedekindLocalDerivationExtension
+public import BGS.CorvajaZannier.DedekindLocalizationOrder
+public import BGS.CorvajaZannier.PlaneCurveLocalReciprocalDiscriminant
+public import Mathlib.NumberTheory.FunctionField
+
+@[expose] public section
 
 /-!
 # Auxiliary Wronskian bounds at finite plane-curve places

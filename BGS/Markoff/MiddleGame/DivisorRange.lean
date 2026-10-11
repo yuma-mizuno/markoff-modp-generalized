@@ -1,4 +1,8 @@
-import BGS.Markoff.MiddleGame.CorvajaZannierStep
+module
+
+public import BGS.Markoff.MiddleGame.CorvajaZannierStep
+
+@[expose] public section
 
 namespace BGS.Markoff
 

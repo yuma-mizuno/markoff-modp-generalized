@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteExtensionDivisorDegreeIndex
-import BGS.HasseWeil.FiniteExtensionEffectiveDivisorSplit
-import BGS.HasseWeil.FiniteExtensionRiemannSpaceProjectivization
+module
+
+public import BGS.HasseWeil.FiniteExtensionDivisorDegreeIndex
+public import BGS.HasseWeil.FiniteExtensionEffectiveDivisorSplit
+public import BGS.HasseWeil.FiniteExtensionRiemannSpaceProjectivization
+
+@[expose] public section
 
 /-!
 # Divisor classes and the indexed eventual recurrence
@@ -77,7 +81,7 @@ theorem finiteExtensionDivisorClassMap_principal
   exact QuotientAddGroup.eq_zero_iff _ |>.2 ⟨x, hx, rfl⟩
 
 omit [Fintype K] in
-private theorem finiteExtensionPrincipalDivisorSubgroup_le_degreeKernel :
+theorem finiteExtensionPrincipalDivisorSubgroup_le_degreeKernel :
     finiteExtensionPrincipalDivisorSubgroup K L ≤
       (finiteExtensionDivisorDegreeHom K L).ker := by
   rintro D ⟨x, hx, rfl⟩
@@ -173,7 +177,7 @@ abbrev FiniteExtensionEffectiveDivisorClassFiber (n : ℕ)
     finiteExtensionEffectiveDivisorClassOfDegree K L n D = c}
 
 omit [Fintype K] [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
-private theorem finiteExtensionEffectiveDivisorToDivisor_of_symm
+theorem finiteExtensionEffectiveDivisorToDivisor_of_symm
     (D : {D : FiniteExtensionDivisor K L // ∀ P, 0 ≤ D P}) :
     finiteExtensionEffectiveDivisorToDivisor K L
         ((finiteExtensionEffectiveDivisorEquivEffectiveIntegralDivisor K L).symm D) =

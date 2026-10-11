@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteExtensionCanonicalDifferentLocalMaximality
-import BGS.HasseWeil.ExactConstantExtensionConstants
-import BGS.HasseWeil.RatFuncExactConstantExtension
+module
+
+public import BGS.HasseWeil.FiniteExtensionCanonicalDifferentLocalMaximality
+public import BGS.HasseWeil.ExactConstantExtensionConstants
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+
+@[expose] public section
 
 /-!
 # Genus and extension degree under exact constant extension

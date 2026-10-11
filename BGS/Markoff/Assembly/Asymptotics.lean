@@ -1,4 +1,8 @@
-import BGS.Markoff.Assembly.PuncturedSmallOrderCount
+module
+
+public import BGS.Markoff.Assembly.PuncturedSmallOrderCount
+
+@[expose] public section
 
 /-!
 # The elementary asymptotic in the giant-orbit assembly

@@ -1,7 +1,11 @@
-import BGS.HasseWeil.OnePointIncrement
-import BGS.HasseWeil.OnePointStepanovGrid
-import BGS.HasseWeil.RiemannSpaceConstants
-import Mathlib.Data.Fintype.EquivFin
+module
+
+public import BGS.HasseWeil.OnePointIncrement
+public import BGS.HasseWeil.OnePointStepanovGrid
+public import BGS.HasseWeil.RiemannSpaceConstants
+public import Mathlib.Data.Fintype.EquivFin
+
+@[expose] public section
 
 /-!
 # Selecting one-point sections with distinct pole orders

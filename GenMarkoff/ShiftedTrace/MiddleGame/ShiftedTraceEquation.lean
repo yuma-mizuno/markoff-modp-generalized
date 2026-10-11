@@ -1,4 +1,8 @@
-import BGS.Markoff.MiddleGame.WeightedTraceEquation
+module
+
+public import BGS.Markoff.MiddleGame.WeightedTraceEquation
+
+@[expose] public section
 
 /-!
 # The shifted weighted trace equation

@@ -1,7 +1,11 @@
-import BGS.HasseWeil.ConstantFieldAutomorphism
-import BGS.CorvajaZannier.PoweredImageBaseChange
-import BGS.CorvajaZannier.PlaneCurveRatFuncModel
-import BGS.HasseWeil.RatFuncConstantExtension
+module
+
+public import BGS.HasseWeil.ConstantFieldAutomorphism
+public import BGS.CorvajaZannier.PoweredImageBaseChange
+public import BGS.CorvajaZannier.PlaneCurveRatFuncModel
+public import BGS.HasseWeil.RatFuncConstantExtension
+
+@[expose] public section
 
 /-!
 # Rational-function models under constant extension
@@ -52,6 +56,8 @@ theorem planeCurveCoordinateRingBaseChangeAlgEquiv_includeRight
   apply Ideal.Quotient.algHom_ext K
   apply MvPolynomial.algHom_ext
   intro i
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
   simp [Φ, planeCurveCoordinateRingBaseChangeAlgEquiv,
     planeCurveCoordinateRingMap]
 

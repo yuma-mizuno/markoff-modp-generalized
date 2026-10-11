@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
-import BGS.HasseWeil.FinsuppWeightedFiber
-import BGS.HasseWeil.FiniteExtensionTotalDifferentEffectiveDivisor
+module
+
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
+public import BGS.HasseWeil.FinsuppWeightedFiber
+public import BGS.HasseWeil.FiniteExtensionTotalDifferentEffectiveDivisor
+
+@[expose] public section
 
 /-!
 # Total different degree under exact constant extension

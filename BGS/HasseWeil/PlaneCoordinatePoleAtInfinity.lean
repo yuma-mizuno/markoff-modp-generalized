@@ -1,4 +1,8 @@
-import BGS.HasseWeil.PlaneCoordinatePole
+module
+
+public import BGS.HasseWeil.PlaneCoordinatePole
+
+@[expose] public section
 
 /-!
 # The first plane coordinate only has poles above infinity

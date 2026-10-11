@@ -1,10 +1,14 @@
-import GenMarkoff.General.Axis
-import GenMarkoff.General.MiddleGame.ParityClosedOrderEscape
-import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
-import GenMarkoff.Core.Statements
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
-import BGS.Dynamics.StrictMeasureEscape
+module
+
+public import GenMarkoff.General.Axis
+public import GenMarkoff.General.MiddleGame.ParityClosedOrderEscape
+public import GenMarkoff.General.MiddleGame.DirectedOrderGrowth
+public import GenMarkoff.Core.Statements
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import GenMarkoff.ShiftedTrace.MiddleGame.ActualOrderEscape
+public import BGS.Dynamics.StrictMeasureEscape
+
+@[expose] public section
 
 /-!
 # Regular middle-game iteration for a fixed coefficient triple

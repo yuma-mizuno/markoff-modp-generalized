@@ -1,4 +1,8 @@
-import GenMarkoff.General.Trace.Parameters
+module
+
+public import GenMarkoff.General.Trace.Parameters
+
+@[expose] public section
 
 /-!
 # The third Vieta involution on a first-axis torus chart

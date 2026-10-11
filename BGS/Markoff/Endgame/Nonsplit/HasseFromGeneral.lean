@@ -1,5 +1,9 @@
-import BGS.Markoff.Endgame.Nonsplit.DescendedIrreducibility
-import BGS.Markoff.Endgame.WeilBoundAssumption
+module
+
+public import BGS.Markoff.Endgame.Nonsplit.DescendedIrreducibility
+public import BGS.Markoff.Endgame.WeilBoundAssumption
+
+@[expose] public section
 
 /-!
 # The nonsplit endgame estimate from the general affine Hasse--Weil theorem

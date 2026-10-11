@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.DedekindAuxiliaryCaseI
-import Mathlib.FieldTheory.Perfect
+module
+
+public import BGS.CorvajaZannier.DedekindAuxiliaryCaseI
+public import Mathlib.FieldTheory.Perfect
+
+@[expose] public section
 
 /-!
 # Corvaja--Zannier case (i) over a perfect residue field

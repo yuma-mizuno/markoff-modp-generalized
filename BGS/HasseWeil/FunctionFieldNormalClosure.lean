@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteExtensionPlaceTower
-import Mathlib.FieldTheory.Galois.GaloisClosure
-import Mathlib.FieldTheory.IsSepClosed
+module
+
+public import BGS.HasseWeil.FiniteExtensionPlaceTower
+public import Mathlib.FieldTheory.Galois.GaloisClosure
+public import Mathlib.FieldTheory.IsSepClosed
+
+@[expose] public section
 
 /-!
 # A finite Galois closure for a one-variable function field

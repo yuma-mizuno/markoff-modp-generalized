@@ -1,7 +1,11 @@
-import GenMarkoff.Core.Action
-import Mathlib.Data.ZMod.Defs
-import Mathlib.Data.Set.Card
-import Mathlib.Data.Nat.Prime.Defs
+module
+
+public import GenMarkoff.Core.Action
+public import Mathlib.Data.ZMod.Defs
+public import Mathlib.Data.Set.Card
+public import Mathlib.Data.Nat.Prime.Defs
+
+@[expose] public section
 
 /-!
 # Formal statements for generalized strong approximation

@@ -1,6 +1,10 @@
-import BGS.NumberTheory.ExplicitDivisorBound
-import BGS.Markoff.MiddleGame.DivisorRange
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+module
+
+public import BGS.NumberTheory.ExplicitDivisorBound
+public import BGS.Markoff.MiddleGame.DivisorRange
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+
+@[expose] public section
 
 /-!
 # Closed numerical bounds for explicit strong approximation

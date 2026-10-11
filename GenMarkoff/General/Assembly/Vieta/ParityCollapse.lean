@@ -1,5 +1,9 @@
-import GenMarkoff.Assembly.RotationDivisibility
-import GenMarkoff.General.Axis
+module
+
+public import GenMarkoff.Assembly.RotationDivisibility
+public import GenMarkoff.General.Axis
+
+@[expose] public section
 
 /-!
 # Vieta components and collapsing Vieta parity
@@ -20,7 +24,7 @@ namespace GenMarkoff.General.Assembly
 
 universe u
 
-private abbrev SurfacePerm
+abbrev SurfacePerm
     {R : Type u} [CommRing R] (a : Coefficients R) :=
   Equiv.Perm (SolutionSurface a)
 

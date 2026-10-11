@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionGenusDegree
-import BGS.HasseWeil.ExactConstantExtensionTotalDifferentDegree
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionGenusDegree
+public import BGS.HasseWeil.ExactConstantExtensionTotalDifferentDegree
+
+@[expose] public section
 
 /-!
 # Genus invariance under exact constant extension

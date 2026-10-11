@@ -1,5 +1,9 @@
-import BGS.Markoff.Endgame.Nonsplit.DescendedTraceCurve
-import BGS.Algebra.ClearedLinearFractionalSubstitution
+module
+
+public import BGS.Markoff.Endgame.Nonsplit.DescendedTraceCurve
+public import BGS.Algebra.ClearedLinearFractionalSubstitution
+
+@[expose] public section
 
 /-!
 # Absolute irreducibility of the descended nonsplit trace curve
@@ -131,9 +135,6 @@ theorem descendedIteratedPolynomial_isPrimitive_of_isCoprime
 section DescendedFormula
 
 variable (p : ℕ) [Fact p.Prime]
-
-private abbrev F := ZMod p
-private abbrev E := quadraticFiniteField p
 
 def extendedCayleyNumeratorFactor : Polynomial (E p) :=
   X - C (quadraticNonbaseElement p ^ p)

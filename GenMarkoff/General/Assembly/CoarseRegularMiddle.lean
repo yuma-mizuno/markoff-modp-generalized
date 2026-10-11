@@ -1,5 +1,9 @@
-import GenMarkoff.General.Assembly.CoarseRegularStartup
-import GenMarkoff.General.Assembly.RegularMiddleThreshold
+module
+
+public import GenMarkoff.General.Assembly.CoarseRegularStartup
+public import GenMarkoff.General.Assembly.RegularMiddleThreshold
+
+@[expose] public section
 
 /-!
 # Middle game from the coarse threshold to `p ^ (3/4)`

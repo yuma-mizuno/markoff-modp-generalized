@@ -1,4 +1,8 @@
-import GenMarkoff.General.FiberDynamics
+module
+
+public import GenMarkoff.General.FiberDynamics
+
+@[expose] public section
 
 /-!
 # Explicit axes for the fixed-coefficient general surface

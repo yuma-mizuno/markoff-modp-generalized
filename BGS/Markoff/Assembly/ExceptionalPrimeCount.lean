@@ -1,6 +1,10 @@
-import BGS.Markoff.Assembly.DivisibleOrbitTransitivity
-import BGS.Markoff.Assembly.GiantOrbit
-import BGS.Markoff.Assembly.TransitivitySurjectivity
+module
+
+public import BGS.Markoff.Assembly.DivisibleOrbitTransitivity
+public import BGS.Markoff.Assembly.GiantOrbit
+public import BGS.Markoff.Assembly.TransitivitySurjectivity
+
+@[expose] public section
 
 /-!
 # Exceptional-prime consequences of Chen orbit divisibility

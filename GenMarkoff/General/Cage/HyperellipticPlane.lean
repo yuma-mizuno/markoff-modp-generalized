@@ -1,7 +1,11 @@
-import GenMarkoff.General.Cage.ThreeSquareRootCount
-import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
-import BGS.Markoff.Cage.PlaneModels
-import Mathlib.FieldTheory.Perfect
+module
+
+public import GenMarkoff.General.Cage.ThreeSquareRootCount
+public import BGS.HasseWeil.GeneralBivariateAffineHasseWeil
+public import BGS.Markoff.Cage.PlaneModels
+public import Mathlib.FieldTheory.Perfect
+
+@[expose] public section
 
 /-!
 # Generic hyperelliptic plane models

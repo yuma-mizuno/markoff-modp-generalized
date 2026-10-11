@@ -1,8 +1,12 @@
-import BGS.HasseWeil.FinitePlaceApproximation
-import BGS.HasseWeil.FiniteExtensionLocalPoleQuotient
-import BGS.HasseWeil.PlaneInfinityRiemannLower
-import BGS.HasseWeil.FiniteExtensionPrincipalParts
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.FinitePlaceApproximation
+public import BGS.HasseWeil.FiniteExtensionLocalPoleQuotient
+public import BGS.HasseWeil.PlaneInfinityRiemannLower
+public import BGS.HasseWeil.FiniteExtensionPrincipalParts
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Riemann's inequality at finite plane-curve places

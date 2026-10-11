@@ -1,6 +1,10 @@
-import GenMarkoff.General.Cage.Connecting.GoodPowerCover
-import GenMarkoff.General.Cage.DirectedConnectingFiber
-import GenMarkoff.General.Cage.Incidence.Algebra
+module
+
+public import GenMarkoff.General.Cage.Connecting.GoodPowerCover
+public import GenMarkoff.General.Cage.DirectedConnectingFiber
+public import GenMarkoff.General.Cage.Incidence.Algebra
+
+@[expose] public section
 
 /-!
 # Turning a three-root witness into a full-Vieta relay

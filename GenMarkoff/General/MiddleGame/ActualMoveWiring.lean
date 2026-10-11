@@ -1,5 +1,9 @@
-import GenMarkoff.General.Trace.Parameters
-import BGS.Markoff.TraceCurve.Geometry
+module
+
+public import GenMarkoff.General.Trace.Parameters
+public import BGS.Markoff.TraceCurve.Geometry
+
+@[expose] public section
 
 /-!
 # Wiring a general first-coordinate fiber to the actual rotation

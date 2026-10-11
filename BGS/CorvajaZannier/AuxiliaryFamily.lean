@@ -1,8 +1,12 @@
-import Mathlib.Algebra.Algebra.Basic
-import Mathlib.Algebra.Polynomial.OfFn
-import Mathlib.Algebra.Polynomial.Eval.Degree
-import Mathlib.LinearAlgebra.LinearIndependent.Defs
-import Mathlib.Tactic.FieldSimp
+module
+
+public import Mathlib.Algebra.Algebra.Basic
+public import Mathlib.Algebra.Polynomial.OfFn
+public import Mathlib.Algebra.Polynomial.Eval.Degree
+public import Mathlib.LinearAlgebra.LinearIndependent.Defs
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
 
 /-!
 # The Corvaja--Zannier auxiliary family

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FinitePlaceNormalizationTransport
-import BGS.HasseWeil.RationalPlace
+module
+
+public import BGS.HasseWeil.FinitePlaceNormalizationTransport
+public import BGS.HasseWeil.RationalPlace
+
+@[expose] public section
 
 /-!
 # Transporting function-field places across algebra equivalences
@@ -278,7 +282,7 @@ theorem finiteExtensionFinitePlace_degree_eq_residue_finrank
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver P.asIdeal Q.asIdeal
   letI : Localization.AtPrime.IsLiesOverAlgebra P.asIdeal Q.asIdeal :=
-    ⟨rfl⟩
+    inferInstance
   rw [finiteExtensionPlaceDegree, Ideal.inertiaDeg_eq P.asIdeal Q.asIdeal]
   rw [ratFuncFinitePlaceDegree_eq_finrank_residueField K P]
   rw [mul_comm, Module.finrank_mul_finrank]
@@ -292,7 +296,7 @@ theorem finiteExtensionInfinityPlace_degree_eq_residue_finrank
       Module.finrank K P.1.ResidueField := by
   let p := (ratFuncInfinityPlace K).asIdeal
   letI hLocalAlg := Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra p.ResidueField P.1.ResidueField :=
     IsLocalRing.ResidueField.instAlgebra
   letI : IsScalarTower K p.ResidueField P.1.ResidueField := inferInstance

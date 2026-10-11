@@ -1,4 +1,8 @@
-import BGS.Markoff.Cage.IncidenceGeometry
+module
+
+public import BGS.Markoff.Cage.IncidenceGeometry
+
+@[expose] public section
 
 /-!
 # The shifted cage trace cover

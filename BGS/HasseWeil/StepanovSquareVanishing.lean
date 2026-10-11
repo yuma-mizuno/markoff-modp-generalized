@@ -1,9 +1,13 @@
-import BGS.HasseWeil.FrobeniusRestriction
-import BGS.HasseWeil.StepanovRestrictionMaps
-import BGS.CorvajaZannier.DedekindLeadingTermCancellation
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlacePrincipalDivisor
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.FrobeniusRestriction
+public import BGS.HasseWeil.StepanovRestrictionMaps
+public import BGS.CorvajaZannier.DedekindLeadingTermCancellation
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlacePrincipalDivisor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The quadratic Frobenius vanishing step
@@ -260,7 +264,7 @@ theorem onePointStepanovFirstRestrictionMap_eq_zero_or_principalDivisor_pos_at_f
   let eResidue :
       (RatFuncFiniteIntegralClosure K L ⧸ q.asIdeal) ≃+*
         IsLocalRing.ResidueField R :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal q.asIdeal R
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal q.asIdeal R).toRingEquiv
   let eQuotientResidue :
       (RatFuncFiniteIntegralClosure K L ⧸ q.asIdeal) ≃+*
         q.asIdeal.ResidueField :=

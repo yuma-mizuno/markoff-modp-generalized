@@ -1,6 +1,10 @@
-import BGS.Markoff.Opening.UnitCircle
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Complex.Norm
+module
+
+public import BGS.Markoff.Opening.UnitCircle
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.Complex.Norm
+
+@[expose] public section
 
 /-!
 # The cyclotomic defect in the opening

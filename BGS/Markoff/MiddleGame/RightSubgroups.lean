@@ -1,6 +1,13 @@
-import BGS.Markoff.MiddleGame.WeightedTraceEquation
-import BGS.Markoff.Core.TraceClassification
-import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
+module
+
+public import BGS.Markoff.MiddleGame.WeightedTraceEquation
+public import BGS.Markoff.Core.TraceClassification
+public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Concrete right subgroups for the middle game

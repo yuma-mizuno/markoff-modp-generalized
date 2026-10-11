@@ -1,5 +1,9 @@
-import GenMarkoff.Cage.QuadraticResultant
-import GenMarkoff.General.Cage.Incidence.Geometry
+module
+
+public import GenMarkoff.Cage.QuadraticResultant
+public import GenMarkoff.General.Cage.Incidence.Geometry
+
+@[expose] public section
 
 /-!
 # Pair resultants for the unequal incidence quadratics
@@ -33,13 +37,13 @@ noncomputable section
 
 variable {K : Type u} [Field K]
 
-private def pairObstructionCoefficientZero
+def pairObstructionCoefficientZero
     (a : Coefficients K) : K :=
   16 * a.a1 ^ 2 *
     (-a.a1 ^ 2 * a.a2 ^ 2 +
       4 * a.a2 ^ 2 + 4 * a.a3 ^ 2 - 16)
 
-private def pairObstructionCoefficientSum
+def pairObstructionCoefficientSum
     (a : Coefficients K) : K :=
   8 * a.a1 *
     (-a.a1 ^ 3 * a.a2 * a.a3 -
@@ -49,14 +53,14 @@ private def pairObstructionCoefficientSum
       8 * a.a1 ^ 2 + 8 * a.a2 ^ 2 +
       8 * a.a3 ^ 2 - 32)
 
-private def pairObstructionCoefficientSumSq
+def pairObstructionCoefficientSumSq
     (a : Coefficients K) : K :=
   (-a.a1 ^ 2 * a.a2 - 2 * a.a1 ^ 2 +
       4 * a.a1 * a.a3 + 4 * a.a2 - 8) *
     (-a.a1 ^ 2 * a.a2 + 2 * a.a1 ^ 2 +
       4 * a.a1 * a.a3 + 4 * a.a2 + 8)
 
-private def pairObstructionCoefficientProduct
+def pairObstructionCoefficientProduct
     (a : Coefficients K) : K :=
   4 *
     (-a.a1 ^ 4 * a.a2 ^ 2 +
@@ -64,14 +68,14 @@ private def pairObstructionCoefficientProduct
       4 * a.a1 ^ 2 * a.a3 ^ 2 -
       32 * a.a1 ^ 2 + 16 * a.a3 ^ 2)
 
-private def pairObstructionCoefficientProductSum
+def pairObstructionCoefficientProductSum
     (a : Coefficients K) : K :=
   8 *
     (-a.a1 ^ 2 * a.a2 * a.a3 -
       2 * a.a1 ^ 3 + 4 * a.a1 * a.a3 ^ 2 +
       4 * a.a2 * a.a3 - 8 * a.a1)
 
-private def pairObstructionCoefficientProductSq
+def pairObstructionCoefficientProductSq
     (a : Coefficients K) : K :=
   -16 * (a.a1 - a.a3) * (a.a1 + a.a3)
 

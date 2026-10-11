@@ -1,8 +1,12 @@
-import BGS.HasseWeil.RationalPlace
-import BGS.HasseWeil.SquareFieldResidue
-import BGS.HasseWeil.SquareFieldStepanovZeroCount
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.RationalPlace
+public import BGS.HasseWeil.SquareFieldResidue
+public import BGS.HasseWeil.SquareFieldStepanovZeroCount
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # A square-field Stepanov bound for arbitrary function fields
@@ -57,8 +61,11 @@ local instance generalSquareFieldInfinityIntegral :
 
 local instance generalSquareFieldInfinityTorsionFree :
     Module.IsTorsionFree (RatFuncInfinityIntegers S)
-      (RatFuncInfinityIntegralClosure S L) :=
-  IsIntegralClosure.isTorsionFree (RatFuncInfinityIntegers S) L
+      (RatFuncInfinityIntegralClosure S L) := by
+  letI : Module.IsTorsionFree (RatFuncInfinityIntegers S) L :=
+    Module.IsTorsionFree.trans_faithfulSMul
+      (RatFuncInfinityIntegers S) (RatFunc S) L
+  exact Subalgebra.instIsTorsionFree (RatFuncInfinityIntegralClosure S L)
 
 local instance generalSquareFieldInfinityDedekind :
     IsDedekindDomain (RatFuncInfinityIntegralClosure S L) :=

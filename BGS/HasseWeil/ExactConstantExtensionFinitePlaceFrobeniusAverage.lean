@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ExactConstantExtensionFinitePlaceCompatibility
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFinitePlaceCompatibility
+
+@[expose] public section
 
 /-!
 # Frobenius-coset averaging at finite places of an exact constant extension
@@ -92,7 +96,7 @@ local instance averageConstantIntermediateTopTower :
 set_option linter.unusedSectionVars false in
 /-- The rational-function base, the intermediate field, and the exact
 constant extension form the tower used by the finite-place action. -/
-private theorem exactConstantExtensionFrobeniusAverage_ratFuncBaseTower :
+theorem exactConstantExtensionFrobeniusAverage_ratFuncBaseTower :
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
       exactConstantExtensionBaseAlgebra C (RatFunc C) N S
     letI : Algebra L (ExactConstantExtension C N S) :=
@@ -126,7 +130,7 @@ private theorem exactConstantExtensionFrobeniusAverage_ratFuncBaseTower :
 set_option linter.unusedSectionVars false in
 /-- The exact constant extension is finite-dimensional over the chosen
 intermediate field. -/
-private theorem finiteDimensional_exactConstantExtension_over_intermediate
+theorem finiteDimensional_exactConstantExtension_over_intermediate
     (hExact : algebraicClosure C N = (⊥ : IntermediateField C N)) :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact

@@ -1,6 +1,10 @@
-import BGS.Markoff.MiddleGame.CorvajaZannierSourceBound
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.RingTheory.MvPolynomial.Basic
+module
+
+public import BGS.Markoff.MiddleGame.CorvajaZannierSourceBound
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+public import Mathlib.RingTheory.MvPolynomial.Basic
+
+@[expose] public section
 
 /-!
 # General curve-theorem interfaces

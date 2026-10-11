@@ -1,5 +1,9 @@
-import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
-import BGS.Markoff.Endgame.PowerCoverCounting
+module
+
+public import BGS.Markoff.Endgame.PrimitiveInclusionExclusion
+public import BGS.Markoff.Endgame.PowerCoverCounting
+
+@[expose] public section
 
 /-!
 # One-sided primitive extraction with witness multiplicities

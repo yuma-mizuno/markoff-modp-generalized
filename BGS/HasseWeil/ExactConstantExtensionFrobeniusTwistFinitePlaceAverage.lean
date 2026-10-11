@@ -1,11 +1,15 @@
-import BGS.HasseWeil.ConstantExtensionPlaceSplittingMultiplicity
-import BGS.HasseWeil.ConstantExtensionRationalPlace
-import BGS.HasseWeil.ExactConstantExtensionFinitePlaceFrobeniusAverage
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceUnramified
-import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCotrace
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import BGS.HasseWeil.PlaneRationalPlaceAffineComparison
-import BGS.HasseWeil.RationalPlaceTower
+module
+
+public import BGS.HasseWeil.ConstantExtensionPlaceSplittingMultiplicity
+public import BGS.HasseWeil.ConstantExtensionRationalPlace
+public import BGS.HasseWeil.ExactConstantExtensionFinitePlaceFrobeniusAverage
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceUnramified
+public import BGS.HasseWeil.FiniteExtensionCanonicalDifferentCotrace
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import BGS.HasseWeil.PlaneRationalPlaceAffineComparison
+public import BGS.HasseWeil.RationalPlaceTower
+
+@[expose] public section
 
 /-!
 # Global finite-place averaging for Frobenius twists
@@ -146,7 +150,7 @@ private theorem finiteExtensionPlaceDegree_inl_eq_finrank_residueField_ratFunc
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver P.asIdeal Q.asIdeal
   letI : Localization.AtPrime.IsLiesOverAlgebra P.asIdeal Q.asIdeal :=
-    ⟨rfl⟩
+    inferInstance
   rw [finiteExtensionPlaceDegree, Ideal.inertiaDeg_eq P.asIdeal Q.asIdeal]
   rw [ratFuncFinitePlaceDegree_eq_finrank_residueField C P]
   rw [mul_comm, Module.finrank_mul_finrank]

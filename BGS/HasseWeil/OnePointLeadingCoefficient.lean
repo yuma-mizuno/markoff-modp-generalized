@@ -1,9 +1,13 @@
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
-import BGS.HasseWeil.OnePointStrictLevels
-import BGS.CorvajaZannier.DedekindLeadingTermCancellation
-import BGS.CorvajaZannier.DedekindLocalizationOrder
-import BGS.CorvajaZannier.FiniteExtensionResidueSurjectivity
-import Mathlib.FieldTheory.Finiteness
+module
+
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+public import BGS.HasseWeil.OnePointStrictLevels
+public import BGS.CorvajaZannier.DedekindLeadingTermCancellation
+public import BGS.CorvajaZannier.DedekindLocalizationOrder
+public import BGS.CorvajaZannier.FiniteExtensionResidueSurjectivity
+public import Mathlib.FieldTheory.Finiteness
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 
@@ -12,7 +16,7 @@ noncomputable section
 open scoped nonZeroDivisors Polynomial
 open IsDedekindDomain
 
-private noncomputable def residueFieldAlgEquivOfIdealEqOver
+noncomputable def residueFieldAlgEquivOfIdealEqOver
     {C A : Type*} [CommRing C] [CommRing A] [Algebra C A]
     {I J : Ideal A} [I.IsPrime] [J.IsPrime] (h : I = J) :
     I.ResidueField ≃ₐ[C] J.ResidueField := by
@@ -30,7 +34,7 @@ private theorem constantResidue_surjective_of_ideal_eq
   refine ⟨c, e.injective ?_⟩
   simpa [e] using hc
 
-@[reducible] private noncomputable def canonicalFractionRingAlgebra
+@[reducible] noncomputable def canonicalFractionRingAlgebra
     (A : Type*) [CommRing A] [IsDomain A] :
     Algebra A (FractionRing A) := inferInstance
 
@@ -137,7 +141,7 @@ local instance onePointInfinityClosureConstantTower :
       (RatFuncInfinityIntegralClosure K L) :=
   IsScalarTower.of_algebraMap_eq' rfl
 
-private noncomputable def onePointResidueFieldAlgEquivOfIdealEq
+noncomputable def onePointResidueFieldAlgEquivOfIdealEq
     {I J : Ideal K[X]} [I.IsPrime] [J.IsPrime] (h : I = J) :
     I.ResidueField ≃ₐ[K] J.ResidueField := by
   subst J
@@ -195,7 +199,7 @@ theorem finiteExtensionFinitePlace_degree_eq_finrank_residueField
   letI : q.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
-  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := inferInstance
   rw [finiteExtensionPlaceDegree, Ideal.inertiaDeg_eq p.asIdeal q.asIdeal]
   rw [ratFuncFinitePlaceDegree_eq_finrank_residueField K p]
   rw [mul_comm, Module.finrank_mul_finrank]
@@ -210,7 +214,7 @@ theorem finiteExtensionInfinityPlace_degree_eq_finrank_residueField
       Module.finrank K P.1.ResidueField := by
   let p := (ratFuncInfinityPlace K).asIdeal
   letI hLocalAlg := Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra p.ResidueField P.1.ResidueField :=
     IsLocalRing.ResidueField.instAlgebra
   letI : IsScalarTower K p.ResidueField P.1.ResidueField := inferInstance

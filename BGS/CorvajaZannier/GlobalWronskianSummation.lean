@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.ParameterizedBound
+module
+
+public import BGS.CorvajaZannier.ParameterizedBound
+
+@[expose] public section
 
 /-!
 # Global Wronskian summation for Corvaja--Zannier Proposition 2

@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.PlaneCurvePoweredHeightBounds
-import BGS.HasseWeil.FiniteExtensionZeroCounting
-import BGS.HasseWeil.PoleDivisor
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurvePoweredHeightBounds
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+public import BGS.HasseWeil.PoleDivisor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # A controlled pole place for the first plane coordinate

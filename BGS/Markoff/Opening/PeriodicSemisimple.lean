@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.ConicParametrization
-import BGS.Markoff.Core.FiniteRotationEigenvalues
+module
+
+public import BGS.Markoff.Core.ConicParametrization
+public import BGS.Markoff.Core.FiniteRotationEigenvalues
+
+@[expose] public section
 
 /-!
 # Periodic points on semisimple fibers

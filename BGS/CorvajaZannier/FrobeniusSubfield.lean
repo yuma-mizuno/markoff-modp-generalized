@@ -1,12 +1,16 @@
-import Mathlib.Algebra.CharP.Frobenius
-import Mathlib.Algebra.Field.Subfield.Basic
-import Mathlib.Algebra.Polynomial.Derivation
-import Mathlib.Algebra.Polynomial.Expand
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra
-import Mathlib.FieldTheory.KummerPolynomial
-import Mathlib.FieldTheory.PurelyInseparable.Basic
-import Mathlib.RingTheory.Adjoin.PowerBasis
-import Mathlib.RingTheory.Derivation.Basic
+module
+
+public import Mathlib.Algebra.CharP.Frobenius
+public import Mathlib.Algebra.Field.Subfield.Basic
+public import Mathlib.Algebra.Polynomial.Derivation
+public import Mathlib.Algebra.Polynomial.Expand
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra
+public import Mathlib.FieldTheory.KummerPolynomial
+public import Mathlib.FieldTheory.PurelyInseparable.Basic
+public import Mathlib.RingTheory.Adjoin.PowerBasis
+public import Mathlib.RingTheory.Derivation.Basic
+
+@[expose] public section
 
 /-!
 # The Frobenius subfield

@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FrobeniusSubfield
-import BGS.CorvajaZannier.PlaneCurveSeparability
-import Mathlib.FieldTheory.PurelyInseparable.PerfectClosure
+module
+
+public import BGS.CorvajaZannier.FrobeniusSubfield
+public import BGS.CorvajaZannier.PlaneCurveSeparability
+public import Mathlib.FieldTheory.PurelyInseparable.PerfectClosure
+
+@[expose] public section
 
 /-!
 # Separating coordinates are not Frobenius powers

@@ -1,5 +1,12 @@
-import BGS.Markoff.Core.ParabolicFibers
-import BGS.Markoff.Core.RotationTorus
+module
+
+public import BGS.Markoff.Core.ParabolicFibers
+public import BGS.Markoff.Core.RotationTorus
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Finite-order Markoff rotations have torsion eigenvalues

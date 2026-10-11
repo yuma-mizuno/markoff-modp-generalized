@@ -1,6 +1,10 @@
-import GenMarkoff.General.Trace.Surface
-import GenMarkoff.TraceCurve.ExceptionalRouting
-import Mathlib.RingTheory.Polynomial.Resultant.Basic
+module
+
+public import GenMarkoff.General.Trace.Surface
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+public import Mathlib.RingTheory.Polynomial.Resultant.Basic
+
+@[expose] public section
 
 /-!
 # Coefficient-ordered incidence geometry for the unequal trace surface

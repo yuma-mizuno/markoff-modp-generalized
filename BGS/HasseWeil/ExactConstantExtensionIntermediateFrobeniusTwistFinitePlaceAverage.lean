@@ -1,7 +1,11 @@
-import BGS.HasseWeil.ConstantExtensionPlaceSplittingMultiplicity
-import BGS.HasseWeil.ExactConstantExtensionFinitePlaceFrobeniusAverage
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceUnramified
-import BGS.HasseWeil.RationalPlaceTower
+module
+
+public import BGS.HasseWeil.ConstantExtensionPlaceSplittingMultiplicity
+public import BGS.HasseWeil.ExactConstantExtensionFinitePlaceFrobeniusAverage
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistFinitePlaceUnramified
+public import BGS.HasseWeil.RationalPlaceTower
+
+@[expose] public section
 
 /-!
 # Finite-place Frobenius-twist averaging over an intermediate base
@@ -70,7 +74,7 @@ local instance intermediateAverageRationalFinitePlaceFintype :
 set_option linter.unusedSectionVars false in
 /-- The exact constant extension is finite-dimensional over every
 intermediate function field `L`. -/
-private theorem finiteDimensional_exactConstantExtension_over_intermediateBase
+theorem finiteDimensional_exactConstantExtension_over_intermediateBase
     (hExact : algebraicClosure C N =
       (⊥ : IntermediateField C N)) :
     letI : Field (ExactConstantExtension C N S) :=
@@ -99,7 +103,7 @@ private theorem finiteDimensional_exactConstantExtension_over_intermediateBase
 set_option linter.unusedSectionVars false in
 /-- Compatibility of the rational-function and intermediate-base algebra
 maps on the exact constant extension. -/
-private theorem exactConstantExtensionIntermediate_ratFuncBaseTower :
+theorem exactConstantExtensionIntermediate_ratFuncBaseTower :
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
       exactConstantExtensionBaseAlgebra C (RatFunc C) N S
     letI : SMul (RatFunc C) (ExactConstantExtension C N S) :=
@@ -150,7 +154,7 @@ noncomputable def intermediateFrobeniusTwistFieldRatFuncAlgebra
 
 /-- The induced rational-function algebra is compatible with the inclusion
 of the twist field into the exact constant extension. -/
-private theorem intermediateFrobeniusTwistField_ratFunc_tower
+theorem intermediateFrobeniusTwistField_ratFunc_tower
     (g : N ≃ₐ[L] N) :
     letI : Field (ExactConstantExtension C N S) :=
       exactConstantExtensionField C N S hExact
@@ -579,7 +583,7 @@ theorem intermediateFrobeniusTwistField_finitePlace_ramificationIdx_eq_one
             calc
               algebraMap S A ((frob ^ k) s - s) =
                   algebraMap S A ((frob ^ k) s) - algebraMap S A s :=
-                map_sub (algebraMap S A) _ _
+                RingHom.map_sub (algebraMap S A) _ _
               _ = algebraMap S A ((frob ^ k) s) - a := rfl
               _ = tau • a - a := congrArg (fun z : A => z - a) haction.symm
           exact heq.symm ▸ hmem
@@ -608,10 +612,9 @@ theorem intermediateFrobeniusTwistField_finitePlace_ramificationIdx_eq_one
           (h.1 : T ≃ₐ[L] T) = sigma ^ k := hk.symm
           _ = 1 := hsigma
       have hh : h = 1 := Subtype.ext hambient
-      calc
-        tau = e h := (e.apply_symm_apply tau).symm
-        _ = e 1 := congrArg e hh
-        _ = 1 := map_one e
+      have htauEq : e h = tau := e.apply_symm_apply tau
+      rw [hh, e.map_one] at htauEq
+      exact htauEq.symm
     · intro htau
       rw [Subgroup.mem_bot] at htau
       simp [htau]
@@ -1203,7 +1206,7 @@ noncomputable def
 
 /-- Restriction through an intermediate Frobenius-twist field agrees with
 direct restriction to `L`. -/
-private theorem finitePlaceUnder_intermediateFrobeniusTwist_under
+theorem finitePlaceUnder_intermediateFrobeniusTwist_under
     (g : N ≃ₐ[L] N) :
     let T := ExactConstantExtension C N S
     letI : Field T := exactConstantExtensionField C N S hExact

@@ -26,6 +26,9 @@ The partial order on `DivisorA` is the pointwise order on `Finsupp` from Mathlib
 
 @[expose] public section
 
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
+
 open scoped nonZeroDivisors Polynomial RatFunc
 
 noncomputable section

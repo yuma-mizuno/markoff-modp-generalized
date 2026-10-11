@@ -1,5 +1,9 @@
-import BGS.HasseWeil.RatFuncExactConstantExtension
-import BGS.HasseWeil.RatFuncInfinityLocalization
+module
+
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+public import BGS.HasseWeil.RatFuncInfinityLocalization
+
+@[expose] public section
 
 /-!
 # Normalization at infinity in an exact constant extension

@@ -1,10 +1,14 @@
-import BGS.HasseWeil.FiniteExtensionStandardZetaRationality
-import BGS.HasseWeil.FormalZetaHasseBound
-import BGS.HasseWeil.PlaneAffineCountTransfer
-import BGS.HasseWeil.PlaneAffineFiberBound
-import BGS.HasseWeil.PlaneAffineRationalPlaceComparison
-import BGS.HasseWeil.PlaneRationalPlaceAffineComparison
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.FiniteExtensionStandardZetaRationality
+public import BGS.HasseWeil.FormalZetaHasseBound
+public import BGS.HasseWeil.PlaneAffineCountTransfer
+public import BGS.HasseWeil.PlaneAffineFiberBound
+public import BGS.HasseWeil.PlaneAffineRationalPlaceComparison
+public import BGS.HasseWeil.PlaneRationalPlaceAffineComparison
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Affine plane Hasse bounds from the standard zeta package

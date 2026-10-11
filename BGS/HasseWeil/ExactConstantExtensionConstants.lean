@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionAutomorphism
-import Mathlib.FieldTheory.Finite.Extension
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionAutomorphism
+public import Mathlib.FieldTheory.Finite.Extension
+
+@[expose] public section
 
 /-!
 # Exact constants after a finite constant extension

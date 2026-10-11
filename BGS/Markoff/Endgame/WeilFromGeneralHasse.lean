@@ -1,6 +1,10 @@
-import BGS.External.GeneralCurveTheorems
-import BGS.Markoff.Endgame.WeilBoundAssumption
-import BGS.Markoff.TraceCurve.Boundary
+module
+
+public import BGS.External.GeneralCurveTheorems
+public import BGS.Markoff.Endgame.WeilBoundAssumption
+public import BGS.Markoff.TraceCurve.Boundary
+
+@[expose] public section
 
 /-!
 # Applying the general affine Hasse--Weil theorem to split trace covers

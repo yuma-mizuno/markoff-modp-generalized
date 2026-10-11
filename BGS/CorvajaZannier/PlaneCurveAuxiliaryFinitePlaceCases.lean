@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
-import BGS.CorvajaZannier.DedekindPerfectResidueCaseI
-import BGS.CorvajaZannier.RatFuncExhaustiveProductFormula
+module
+
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
+public import BGS.CorvajaZannier.DedekindPerfectResidueCaseI
+public import BGS.CorvajaZannier.RatFuncExhaustiveProductFormula
+
+@[expose] public section
 
 /-!
 # Cases I and II at actual finite extension places
@@ -118,7 +122,7 @@ theorem finiteExtensionFinitePlace_residueField_finite [Fintype K]
   letI : q.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
-  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal := inferInstance
   letI : Algebra.QuasiFiniteAt K[X] q.asIdeal := inferInstance
   letI : Module.Finite p.asIdeal.ResidueField q.asIdeal.ResidueField :=
     inferInstance

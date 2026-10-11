@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalGlobalNormalizedAutomatic
-import BGS.CorvajaZannier.PlaneCurvePoweredHeightBounds
-import BGS.CorvajaZannier.PoweredCoordinates
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalGlobalNormalizedAutomatic
+public import BGS.CorvajaZannier.PlaneCurvePoweredHeightBounds
+public import BGS.CorvajaZannier.PoweredCoordinates
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The canonical Corvaja--Zannier bound for powered plane coordinates

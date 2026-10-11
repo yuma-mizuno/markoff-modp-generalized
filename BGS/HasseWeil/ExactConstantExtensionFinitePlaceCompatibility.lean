@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ConstantExtensionFinitePlaceBridge
-import BGS.HasseWeil.ExactConstantExtensionFinitePlace
-import BGS.HasseWeil.FiniteExtensionZeroCounting
+module
+
+public import BGS.HasseWeil.ConstantExtensionFinitePlaceBridge
+public import BGS.HasseWeil.ExactConstantExtensionFinitePlace
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+
+@[expose] public section
 
 /-!
 # Compatibility of the two finite-place models in a constant extension
@@ -332,7 +336,6 @@ theorem exactConstantExtensionUpstairsFinitePlace_eq_compatibleNormalizationTran
       normalizationAlgEquivRatFuncFiniteOfAlgebraMap,
       integralClosureAlgEquivRatFuncFiniteOfAlgebraMap]
     rw [integralClosureAlgEquivRatFuncFiniteOfEq_coe]
-    rfl
   apply IsDedekindDomain.HeightOneSpectrum.ext
   have hActualIdeal :
       (exactConstantExtensionUpstairsFinitePlace
@@ -649,7 +652,6 @@ theorem exactConstantExtensionCompatibleBaseFinitePlace_under_original
       normalizationAlgEquivRatFuncFiniteOfAlgebraMap,
       integralClosureAlgEquivRatFuncFiniteOfAlgebraMap]
     rw [integralClosureAlgEquivRatFuncFiniteOfEq_coe]
-    rfl
   have hNormalizationMapsAgree
       (z : S ⊗[C] integralClosure C[X] N) :
       ((eTensor z : integralClosure S[X] (ExactConstantExtension C N S)) :
@@ -738,7 +740,7 @@ local instance compatibilityConstantIntermediateTopTower :
 omit [Fintype C] [Finite S] [DecidableEq C] [DecidableEq S] [DecidableEq (RatFunc C)] [DecidableEq (RatFunc S)] [FiniteDimensional (RatFunc C) N] [Algebra.IsSeparable (RatFunc C) N] [FiniteDimensional C S] [IsGalois C S] hExact [FiniteDimensional (RatFunc C) L] [Algebra.IsSeparable (RatFunc C) L] [FiniteDimensional L N] [IsGalois L N] in
 /-- The rational-function base, an intermediate field, and the exact
 constant extension form the tower used by the relative Galois action. -/
-private theorem exactConstantExtensionCompatibility_ratFuncBaseTower :
+theorem exactConstantExtensionCompatibility_ratFuncBaseTower :
     letI : Algebra (RatFunc C) (ExactConstantExtension C N S) :=
       exactConstantExtensionBaseAlgebra C (RatFunc C) N S
     letI : Algebra L (ExactConstantExtension C N S) :=

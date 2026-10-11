@@ -1,8 +1,12 @@
-import BGS.HasseWeil.FiniteExtensionHasseWeil
-import BGS.HasseWeil.PlaneAffineHasseWeilFromZeta
-import BGS.HasseWeil.PlaneConstantField
-import BGS.HasseWeil.PlaneCurveGenusBoundAutomatic
-import BGS.HasseWeil.PlaneFrobeniusReduction
+module
+
+public import BGS.HasseWeil.FiniteExtensionHasseWeil
+public import BGS.HasseWeil.PlaneAffineHasseWeilFromZeta
+public import BGS.HasseWeil.PlaneConstantField
+public import BGS.HasseWeil.PlaneCurveGenusBoundAutomatic
+public import BGS.HasseWeil.PlaneFrobeniusReduction
+
+@[expose] public section
 
 /-!
 # The general affine bivariate Hasse--Weil theorem

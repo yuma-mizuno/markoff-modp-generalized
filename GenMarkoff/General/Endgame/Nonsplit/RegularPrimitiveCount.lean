@@ -1,5 +1,9 @@
-import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedPrimitiveCount
-import GenMarkoff.TraceCurve.ExceptionalRouting
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedPrimitiveCount
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+
+@[expose] public section
 
 /-!
 # Candidate-regular primitive traces on descended nonsplit covers

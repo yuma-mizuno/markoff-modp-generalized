@@ -1,4 +1,11 @@
-import Mathlib
+module
+
+public import Mathlib
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Growth of finite weighted power sums
@@ -26,7 +33,7 @@ def weightedPowerSum (s : Finset ℂ) (weight : ℂ → ℂ) (n : ℕ) : ℂ :=
   ∑ z ∈ s, weight z * z ^ n
 
 /-- The polynomial that vanishes at every member of `s` other than `z`. -/
-private def isolatePolynomial (s : Finset ℂ) (z : ℂ) : Polynomial ℂ :=
+def isolatePolynomial (s : Finset ℂ) (z : ℂ) : Polynomial ℂ :=
   ∏ w ∈ s.erase z, (Polynomial.X - Polynomial.C w)
 
 private lemma isolatePolynomial_eval_self_ne_zero {s : Finset ℂ} {z : ℂ} :
@@ -120,11 +127,11 @@ theorem norm_le_of_mem_of_weightedPowerSum_isBigO
       (fun n : ℕ ↦ (isolatePolynomial s z).sum
         (fun k a ↦ a * weightedPowerSum s weight (n + k))) =O[atTop]
           fun n : ℕ ↦ ρ ^ n := by
-    simpa only [Polynomial.sum_def] using
-      (IsBigO.sum fun k hk ↦
+    simpa only [Polynomial.sum_def, Finset.sum_fn] using
+      (IsBigO.sum (s := (isolatePolynomial s z).support) fun k hk ↦
         (hshift k).const_mul_left ((isolatePolynomial s z).coeff k) :
-          (fun n : ℕ ↦ ∑ k ∈ (isolatePolynomial s z).support,
-            (isolatePolynomial s z).coeff k *
+          (∑ k ∈ (isolatePolynomial s z).support,
+            fun n : ℕ ↦ (isolatePolynomial s z).coeff k *
               weightedPowerSum s weight (n + k)) =O[atTop]
             fun n : ℕ ↦ ρ ^ n)
   have hisolated :

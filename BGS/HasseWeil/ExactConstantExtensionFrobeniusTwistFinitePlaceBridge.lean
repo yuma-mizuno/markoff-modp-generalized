@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionFinitePlaceFrobeniusAverage
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRiemannLower
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFinitePlaceFrobeniusAverage
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRiemannLower
+
+@[expose] public section
 
 /-!
 # Finite places of Frobenius-twist fields

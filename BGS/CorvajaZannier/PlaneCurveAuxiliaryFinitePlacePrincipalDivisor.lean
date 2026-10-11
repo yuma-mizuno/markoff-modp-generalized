@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
+
+@[expose] public section
 
 /-!
 # Actual finite-place auxiliary orders in the exhaustive divisor model

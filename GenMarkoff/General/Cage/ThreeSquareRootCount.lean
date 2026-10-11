@@ -1,4 +1,8 @@
-import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
+module
+
+public import Mathlib.NumberTheory.LegendreSymbol.QuadraticChar.Basic
+
+@[expose] public section
 
 /-!
 # Counting three simultaneous square roots

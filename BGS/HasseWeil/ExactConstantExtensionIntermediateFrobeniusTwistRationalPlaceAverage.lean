@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionIntermediateFrobeniusTwistFinitePlaceAverage
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRationalPlaceAverage
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionIntermediateFrobeniusTwistFinitePlaceAverage
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRationalPlaceAverage
+
+@[expose] public section
 
 /-!
 # Complete rational-place averaging over an intermediate base

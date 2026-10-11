@@ -1,5 +1,9 @@
-import GenMarkoff.Core.Basic
-import GenMarkoff.TraceCurve.ShiftedCover.Basic
+module
+
+public import GenMarkoff.Core.Basic
+public import GenMarkoff.TraceCurve.ShiftedCover.Basic
+
+@[expose] public section
 
 /-!
 # Exceptional traces for the shifted trace curve

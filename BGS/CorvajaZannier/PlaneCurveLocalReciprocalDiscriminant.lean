@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.LocalReciprocalDiscriminant
-import BGS.CorvajaZannier.PlaneCurveRatFuncModel
-import BGS.CorvajaZannier.PlaneCurveDiscriminantBound
-import Mathlib.Algebra.Polynomial.Roots
-import Mathlib.RingTheory.Localization.LocalizationLocalization
-import Mathlib.RingTheory.Polynomial.ContentIdeal
+module
+
+public import BGS.CorvajaZannier.LocalReciprocalDiscriminant
+public import BGS.CorvajaZannier.PlaneCurveRatFuncModel
+public import BGS.CorvajaZannier.PlaneCurveDiscriminantBound
+public import Mathlib.Algebra.Polynomial.Roots
+public import Mathlib.RingTheory.Localization.LocalizationLocalization
+public import Mathlib.RingTheory.Polynomial.ContentIdeal
+
+@[expose] public section
 
 /-!
 # Local reciprocal normalization for an irreducible plane curve

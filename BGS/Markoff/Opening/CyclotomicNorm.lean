@@ -1,6 +1,13 @@
-import BGS.Markoff.Opening.CyclotomicDefect
-import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
-import Mathlib.RingTheory.Ideal.Int
+module
+
+public import BGS.Markoff.Opening.CyclotomicDefect
+public import Mathlib.NumberTheory.NumberField.Cyclotomic.Basic
+public import Mathlib.RingTheory.Ideal.Int
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The norm and reduction bridge in the cyclotomic opening
@@ -163,7 +170,7 @@ theorem cyclotomicDefect_integerNorm_natAbs_pos
   apply integerNorm_natAbs_pos
   intro hzero
   apply hη
-  simpa using congrArg (fun x : 𝓞 K ↦ (x : K)) hzero
+  exact congrArg (fun x : 𝓞 K ↦ (x : K)) hzero
 
 /-- The completed norm-and-reduction implication: if the nonzero cyclotomic defect reduces to zero
 at an ideal above `(p)`, then `p ≤ 20 ^ φ(n)`.  Constructing the compatible reduction data is the
@@ -187,7 +194,7 @@ theorem modulus_le_twenty_pow_totient_of_cyclotomicDefect_reduction
   have hηne : η ≠ 0 := by
     intro hzero
     apply hη
-    simpa [η] using congrArg (fun x : 𝓞 K ↦ (x : K)) hzero
+    exact congrArg (fun x : 𝓞 K ↦ (x : K)) hzero
   have hp_le : p ≤ (Algebra.norm ℤ η).natAbs :=
     modulus_le_integerNorm_natAbs_of_quotient_eq_zero P p η hP (by simpa [η] using hred) hηne
   exact hp_le.trans <| by

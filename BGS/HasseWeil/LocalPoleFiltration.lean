@@ -1,5 +1,9 @@
-import BGS.HasseWeil.RiemannSpaceFinitePlaceIncrement
-import Mathlib.LinearAlgebra.Isomorphisms
+module
+
+public import BGS.HasseWeil.RiemannSpaceFinitePlaceIncrement
+public import Mathlib.LinearAlgebra.Isomorphisms
+
+@[expose] public section
 
 /-!
 # The local pole filtration of a discrete valuation ring
@@ -65,7 +69,7 @@ theorem localPoleSpace_mono (π : R) (n : ℕ) :
     _ = algebraMap R L (π * r) := by rw [map_mul]
 
 omit [IsDedekindDomain R] [IsDiscreteValuationRing R] [IsFractionRing R L] in
-private theorem localPoleSpace_regular
+theorem localPoleSpace_regular
     (π : R) (n : ℕ) :
     ∀ x : localPoleSpace (K := K) (L := L) π n,
       ∃ r : R, algebraMap R L (π ^ n) * x.1 = algebraMap R L r := by

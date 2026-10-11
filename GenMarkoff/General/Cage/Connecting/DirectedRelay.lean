@@ -1,4 +1,8 @@
-import GenMarkoff.General.Cage.Connecting.Relay
+module
+
+public import GenMarkoff.General.Cage.Connecting.Relay
+
+@[expose] public section
 
 /-!
 # Directed connecting relays

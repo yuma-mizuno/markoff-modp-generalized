@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteExtensionAffineIdealDivisor
-import BGS.HasseWeil.FiniteExtensionZeroCounting
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import Mathlib.Data.Finsupp.Fintype
+module
+
+public import BGS.HasseWeil.FiniteExtensionAffineIdealDivisor
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import Mathlib.Data.Finsupp.Fintype
+
+@[expose] public section
 
 /-!
 # Splitting effective exhaustive divisors at infinity
@@ -201,33 +205,33 @@ theorem finiteExtensionEffectiveDivisorDegree_eq_affine_add_infinity
   rw [finiteExtensionAffineIdealDegree_eq_divisorDegree]
   simp [finiteExtensionEffectiveDivisorAffineInfinityEquiv]
 
-private local instance effectiveDivisorInfinityClosureModuleFinite :
+local instance effectiveDivisorInfinityClosureModuleFinite :
     Module.Finite (RatFuncInfinityIntegers K)
       (RatFuncInfinityIntegralClosure K L) :=
   IsIntegralClosure.finite (RatFuncInfinityIntegers K) (RatFunc K) L
     (RatFuncInfinityIntegralClosure K L)
 
-private local instance effectiveDivisorInfinityClosureIntegral :
+local instance effectiveDivisorInfinityClosureIntegral :
     Algebra.IsIntegral (RatFuncInfinityIntegers K)
       (RatFuncInfinityIntegralClosure K L) :=
   IsIntegralClosure.isIntegral_algebra (RatFuncInfinityIntegers K) L
 
-private local instance effectiveDivisorInfinityTorsionFreeTop :
+local instance effectiveDivisorInfinityTorsionFreeTop :
     Module.IsTorsionFree (RatFuncInfinityIntegers K) L :=
   Module.IsTorsionFree.trans_faithfulSMul
     (RatFuncInfinityIntegers K) (RatFunc K) L
 
-private local instance effectiveDivisorInfinityClosureTorsionFree :
+local instance effectiveDivisorInfinityClosureTorsionFree :
     Module.IsTorsionFree (RatFuncInfinityIntegers K)
       (RatFuncInfinityIntegralClosure K L) :=
   IsIntegralClosure.isTorsionFree (RatFuncInfinityIntegers K) L
 
-private local instance effectiveDivisorInfinityClosureDedekind :
+local instance effectiveDivisorInfinityClosureDedekind :
     IsDedekindDomain (RatFuncInfinityIntegralClosure K L) :=
   IsIntegralClosure.isDedekindDomain (RatFuncInfinityIntegers K)
     (RatFunc K) L (RatFuncInfinityIntegralClosure K L)
 
-private noncomputable local instance effectiveDivisorInfinityPlaceFintype :
+noncomputable local instance effectiveDivisorInfinityPlaceFintype :
     Fintype (FiniteExtensionInfinityPlace K L) :=
   Set.Finite.fintype
     (IsDedekindDomain.primesOver_finite

@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.PoweredCoordinates
-import Mathlib.Algebra.Polynomial.RingDivision
+module
+
+public import BGS.CorvajaZannier.PoweredCoordinates
+public import Mathlib.Algebra.Polynomial.RingDivision
+
+@[expose] public section
 
 /-!
 # An explicit relation between powered plane-curve coordinates

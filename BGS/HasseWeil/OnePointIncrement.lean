@@ -1,6 +1,10 @@
-import BGS.HasseWeil.OnePointBase
-import BGS.HasseWeil.RiemannSpaceFinitePlaceIncrement
-import BGS.HasseWeil.RiemannSpaceInfinityPlaceIncrement
+module
+
+public import BGS.HasseWeil.OnePointBase
+public import BGS.HasseWeil.RiemannSpaceFinitePlaceIncrement
+public import BGS.HasseWeil.RiemannSpaceInfinityPlaceIncrement
+
+@[expose] public section
 
 /-!
 # Successive growth of one-point Riemann spaces

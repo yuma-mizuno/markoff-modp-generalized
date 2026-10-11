@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.OddCoprimeIrreducibility
+module
+
+public import BGS.Markoff.TraceCurve.OddCoprimeIrreducibility
+
+@[expose] public section
 
 /-!
 # Irreducibility of positive coprime split trace covers
@@ -104,7 +108,9 @@ lemma splitTraceEtaFunctionField_finrank_of_sqrt_neg_one
     sigma hsigma i hi e he
   letI : Fact (Irreducible (splitTraceEtaKummerPolynomial sigma e)) := ⟨hEtaIrred⟩
   rw [PowerBasis.finrank (AdjoinRoot.powerBasis hEtaIrred.ne_zero)]
-  simp [splitTraceEtaKummerPolynomial]
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+  simp [AdjoinRoot.powerBasis_dim, splitTraceEtaKummerPolynomial]
 
 /-- The norm-degree obstruction for the second radicand does not depend on parity.  It applies
 to every prime not dividing the first exponent. -/
@@ -207,7 +213,7 @@ section PositiveCoprimeCover
 variable (sigma : K) (hsigma : sigma ≠ 0) (i : K) (hi : i ^ 2 = -1)
   (e d : ℕ) (he : 0 < e) (hd : 0 < d) (hde : d.Coprime e)
 
-private theorem generalSplitTraceEtaKummerPolynomial_natDegree
+theorem generalSplitTraceEtaKummerPolynomial_natDegree
     (sigma : K) (hsigma : sigma ≠ 0) (e : ℕ) :
     letI : Fact (Irreducible (splitTraceBaseKummerPolynomial sigma)) :=
       ⟨splitTraceBaseKummerPolynomial_irreducible sigma hsigma⟩
@@ -217,7 +223,7 @@ private theorem generalSplitTraceEtaKummerPolynomial_natDegree
   change (X ^ e - C (splitTraceBaseV sigma)).natDegree = e
   exact natDegree_X_pow_sub_C
 
-private theorem generalSplitTraceXiKummerPolynomial_natDegree
+theorem generalSplitTraceXiKummerPolynomial_natDegree
     (sigma : K) (hsigma : sigma ≠ 0) (i : K) (hi : i ^ 2 = -1)
     (e : ℕ) (he : 0 < e) (d : ℕ) :
     letI : Fact (Irreducible (splitTraceBaseKummerPolynomial sigma)) :=

@@ -1,8 +1,13 @@
-import BGS.Markoff.Endgame.Nonsplit.CayleyParametrization
-import BGS.Markoff.Endgame.Nonsplit.SeededCover
-import BGS.Markoff.Endgame.WeilBoundAssumption
-import BGS.External.GeneralCurveTheorems
-import Mathlib.Algebra.Polynomial.Eval.Degree
+module
+
+public import BGS.Markoff.Endgame.Nonsplit.CayleyParametrization
+public import BGS.Markoff.Endgame.Nonsplit.SeededCover
+public import BGS.Markoff.Endgame.WeilBoundAssumption
+public import BGS.External.GeneralCurveTheorems
+public import Mathlib.Algebra.MvPolynomial.CommRing
+public import Mathlib.Algebra.Polynomial.Eval.Degree
+
+@[expose] public section
 
 /-!
 # The descended seeded nonsplit trace curve
@@ -18,9 +23,6 @@ namespace BGS.Markoff
 noncomputable section
 
 variable (p : ℕ) [Fact p.Prime]
-
-private abbrev F := ZMod p
-private abbrev E := quadraticFiniteField p
 
 noncomputable local instance : Fintype (E p) := Fintype.ofFinite (E p)
 noncomputable local instance : DecidableEq (quadraticNormOneTorus p) := Classical.decEq _
@@ -264,7 +266,10 @@ theorem eval_seededNonsplitDescendedPolynomial
     MvPolynomial.eval ![z, u] (seededNonsplitDescendedPolynomial p s d e) =
       (seededCayleyTraceNumeratorPolynomial p s d).eval z * u ^ e -
         (quadraticCayleyNormPolynomial p).eval z ^ d * (u ^ (2 * e) + 1) := by
-  simp [seededNonsplitDescendedPolynomial]
+  simp only [seededNonsplitDescendedPolynomial, MvPolynomial.eval_sub,
+    MvPolynomial.eval_mul, MvPolynomial.eval_pow, MvPolynomial.eval_add,
+    map_one (MvPolynomial.eval ![z, u]), MvPolynomial.eval_X, Matrix.cons_val_one,
+    Matrix.cons_val_zero, eval_univariateInFirstCoordinate]
 
 private theorem degreeOf_first_X_one_pow_le {K : Type*} [CommSemiring K]
     [Nontrivial K] (n : ℕ) :
@@ -502,6 +507,8 @@ theorem eval_seededNonsplitDescendedPolynomial_zero_second_ne_zero
   have he0 : e ≠ 0 := Nat.ne_of_gt he
   have htwoe0 : 2 * e ≠ 0 := by omega
   rw [zero_pow he0, zero_pow htwoe0]
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
   simp only [mul_zero, zero_add, mul_one, zero_sub, neg_ne_zero]
   exact pow_ne_zero d (quadraticCayleyNormPolynomial_eval_ne_zero p z)
 
@@ -710,10 +717,11 @@ theorem existingConicSeedNonsplitTraceCurveSolutions_eq_seeded
     existingConicSeedNonsplitTraceCurveSolutions p t ht ht0 s d e =
       seededNonsplitTraceCurveSolutions p
         (quadraticFiberProductUnit p t ht ht0) s d e := by
-  ext z
-  simp [existingConicSeedNonsplitTraceCurveSolutions,
-    seededNonsplitTraceCurveSolutions, ExistingConicSeedNonsplitTraceCoverEquation]
-
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+    ext z
+    simp [existingConicSeedNonsplitTraceCurveSolutions,
+      seededNonsplitTraceCurveSolutions, ExistingConicSeedNonsplitTraceCoverEquation]
 /-- Exact existing-conic count comparison with both affine boundaries exposed:
 `u = 0` contributes nothing when the second exponent is positive, while
 `w = 1` is the displayed boundary term. -/
@@ -726,10 +734,11 @@ theorem existingConicSeedNonsplitTraceCurveSolutions_card_eq_affine_add_identity
         (seededNonsplitDescendedPolynomial p s.1 d e)).card +
       (seededNonsplitIdentityBoundarySolutions p
         (quadraticFiberProductUnit p t ht ht0) s d e).card := by
-  rw [existingConicSeedNonsplitTraceCurveSolutions_eq_seeded]
-  rw [seededNonsplitTraceCurveSolutions_card_eq_descended_add_identityBoundary]
-  rw [← affinePlaneCurveZeros_seededNonsplitDescendedPolynomial_card_eq p s.1 d e he]
-
+  set_option backward.isDefEq.respectTransparency false in
+  set_option backward.isDefEq.respectTransparency.types false in
+    rw [existingConicSeedNonsplitTraceCurveSolutions_eq_seeded]
+    rw [seededNonsplitTraceCurveSolutions_card_eq_descended_add_identityBoundary]
+    rw [← affinePlaneCurveZeros_seededNonsplitDescendedPolynomial_card_eq p s.1 d e he]
 end
 
 end BGS.Markoff

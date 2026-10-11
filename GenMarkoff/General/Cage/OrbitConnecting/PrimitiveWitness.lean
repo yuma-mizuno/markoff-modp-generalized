@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.PrimitiveWitness
-import GenMarkoff.General.Cage.OrbitConnecting.ThreeRootEstimate
+module
+
+public import GenMarkoff.General.Cage.Connecting.PrimitiveWitness
+public import GenMarkoff.General.Cage.OrbitConnecting.ThreeRootEstimate
+
+@[expose] public section
 
 /-!
 # Exact-order orbit-connecting witness pairs

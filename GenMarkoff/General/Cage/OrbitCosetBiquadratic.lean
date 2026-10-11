@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.IncidenceAlgebra
-import BGS.Markoff.TraceCurve.Geometry
+module
+
+public import GenMarkoff.General.Cage.Connecting.IncidenceAlgebra
+public import BGS.Markoff.TraceCurve.Geometry
+
+@[expose] public section
 
 /-!
 # A biquadratic model for a square-product orbit coset

@@ -1,6 +1,10 @@
-import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedHasseFromGeneral
-import GenMarkoff.ShiftedTrace.Endgame.RegularPrimitiveCount
-import BGS.Markoff.Endgame.PrimitiveTraceCount
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedHasseFromGeneral
+public import GenMarkoff.ShiftedTrace.Endgame.RegularPrimitiveCount
+public import BGS.Markoff.Endgame.PrimitiveTraceCount
+
+@[expose] public section
 
 /-!
 # Primitive traces on shifted nonsplit covers

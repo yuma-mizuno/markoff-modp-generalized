@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
-import BGS.HasseWeil.FiniteExtensionHasseBoundFromEvenConstantExtensions
+module
+
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
+public import BGS.HasseWeil.FiniteExtensionHasseBoundFromEvenConstantExtensions
+
+@[expose] public section
 
 /-!
 # Divisible-even errors from one enlarged constant field

@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.Localization
+module
+
+public import BGS.Markoff.TraceCurve.Localization
+
+@[expose] public section
 
 /-!
 # Normal forms in the split trace-cover Kummer tower

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ConstantExtensionClosedPlaceCount
-import BGS.HasseWeil.ExactConstantExtensionFinitePlaceCompatibility
+module
+
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceCount
+public import BGS.HasseWeil.ExactConstantExtensionFinitePlaceCompatibility
+
+@[expose] public section
 
 /-!
 # Splitting multiplicity in an exact extension of constants

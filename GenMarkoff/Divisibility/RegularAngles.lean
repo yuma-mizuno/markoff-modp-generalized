@@ -1,7 +1,11 @@
-import GenMarkoff.Core.Basic
-import Mathlib.Tactic.LinearCombination
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Algebra.Field.Basic
+module
+
+public import GenMarkoff.Core.Basic
+public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Algebra.Field.Basic
+
+@[expose] public section
 
 /-!
 # Regular angle identities

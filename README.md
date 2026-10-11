@@ -71,7 +71,7 @@ every prime beyond that bound.
 
 ## Reproducible environment
 
-- Lean: `leanprover/lean4:v4.32.0`
+- Lean: `leanprover/lean4:v4.35.0-rc2`
 - Mathlib: resolved and pinned in `lake-manifest.json`
 - Vendored BGS/markoff-modp source revision:
   `ac8e9ec37a3d56dddb55870d379f53e5526dc0c7`
@@ -84,6 +84,7 @@ revisions.
 From the repository root:
 
 ```text
+python scripts/check-lean-sources.py
 lake exe cache get
 lake build
 lake env lean scripts/AxiomAudit.lean
@@ -97,8 +98,8 @@ cd docbuild
 lake build GenMarkoff:docs
 ```
 
-On Linux with Git, Go, Ruby, Rust/Cargo, Python 3, and Landrun available, run
-the complete independent comparison and NanoDa replay:
+On Linux with Python 3 and bubblewrap available, run the toolchain-bundled
+Comparator, Lean kernel check, and independent NanoDa and con-ron replay:
 
 ```text
 ./scripts/verify-comparator.sh

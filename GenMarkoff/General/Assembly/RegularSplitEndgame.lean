@@ -1,5 +1,9 @@
-import GenMarkoff.General.Endgame.ActualSplitRotation
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
+module
+
+public import GenMarkoff.General.Endgame.ActualSplitRotation
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+
+@[expose] public section
 
 /-!
 # Canonical first-axis regular split endgame

@@ -1,4 +1,11 @@
-import BGS.Markoff.MiddleGame.OrderEscape
+module
+
+public import BGS.Markoff.MiddleGame.OrderEscape
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Diagonalizing an arbitrary nonzero nonparabolic Markoff fiber

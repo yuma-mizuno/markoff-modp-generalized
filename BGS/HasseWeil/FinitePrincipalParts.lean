@@ -1,6 +1,10 @@
-import BGS.HasseWeil.CechRiemannLinearAlgebra
-import BGS.HasseWeil.LocalPoleFiltration
-import Mathlib.LinearAlgebra.Dimension.Constructions
+module
+
+public import BGS.HasseWeil.CechRiemannLinearAlgebra
+public import BGS.HasseWeil.LocalPoleFiltration
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+
+@[expose] public section
 
 /-!
 # Finite principal parts

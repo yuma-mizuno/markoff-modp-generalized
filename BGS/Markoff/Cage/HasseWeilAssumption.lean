@@ -1,5 +1,9 @@
-import BGS.NumberTheory.OneSidedPrimitiveWitness
-import BGS.Markoff.Incidence.NormalizedGraph
+module
+
+public import BGS.NumberTheory.OneSidedPrimitiveWitness
+public import BGS.Markoff.Incidence.NormalizedGraph
+
+@[expose] public section
 
 /-!
 # Explicit Hasse--Weil interface for the cage

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRiemannLower
-import BGS.HasseWeil.GeneralSquareFieldStepanovCount
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwistRiemannLower
+public import BGS.HasseWeil.GeneralSquareFieldStepanovCount
+
+@[expose] public section
 
 /-!
 # Degrees of exact-constant Frobenius twists

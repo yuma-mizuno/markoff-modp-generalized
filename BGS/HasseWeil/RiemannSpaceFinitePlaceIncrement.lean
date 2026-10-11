@@ -1,9 +1,13 @@
-import BGS.HasseWeil.OnePointBase
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlacePrincipalDivisor
-import Mathlib.RingTheory.Finiteness.Finsupp
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointBase
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlaceCases
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlacePrincipalDivisor
+public import Mathlib.RingTheory.Finiteness.Finsupp
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS.HasseWeil
 

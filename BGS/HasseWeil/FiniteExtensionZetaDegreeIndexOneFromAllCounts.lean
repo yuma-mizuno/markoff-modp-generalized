@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOne
-import Mathlib.FieldTheory.Finite.Extension
+module
+
+public import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOne
+public import Mathlib.FieldTheory.Finite.Extension
+
+@[expose] public section
 
 /-!
 # Choosing the constant extension of divisor-index degree

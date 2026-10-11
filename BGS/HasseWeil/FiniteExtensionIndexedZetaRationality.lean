@@ -1,6 +1,10 @@
-import BGS.HasseWeil.ClosedPlaceEulerRecurrence
-import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
-import BGS.HasseWeil.FormalZetaEuler
+module
+
+public import BGS.HasseWeil.ClosedPlaceEulerRecurrence
+public import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
+public import BGS.HasseWeil.FormalZetaEuler
+
+@[expose] public section
 
 /-!
 # Indexed zeta rationality for an exact-constant function field

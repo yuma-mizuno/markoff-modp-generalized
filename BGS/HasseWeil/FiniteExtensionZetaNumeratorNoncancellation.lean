@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteExtensionIndexedZetaRationality
-import BGS.HasseWeil.FiniteExtensionZetaSimplePole
-import Mathlib.Algebra.Polynomial.Expand
-import Mathlib.RingTheory.PowerSeries.Expand
+module
+
+public import BGS.HasseWeil.FiniteExtensionIndexedZetaRationality
+public import BGS.HasseWeil.FiniteExtensionZetaSimplePole
+public import Mathlib.Algebra.Polynomial.Expand
+public import Mathlib.RingTheory.PowerSeries.Expand
+
+@[expose] public section
 
 /-!
 # Noncancellation of the indexed zeta numerator

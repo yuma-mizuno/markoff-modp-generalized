@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FormalZetaRationality
+module
+
+public import BGS.HasseWeil.FormalZetaRationality
+
+@[expose] public section
 
 /-!
 # Degree bounds in formal zeta rationality

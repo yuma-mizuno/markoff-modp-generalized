@@ -1,4 +1,8 @@
-import BGS.Markoff.Cage.PowerCover
+module
+
+public import BGS.Markoff.Cage.PowerCover
+
+@[expose] public section
 
 /-!
 # The small prime in the cage estimate
@@ -14,7 +18,7 @@ noncomputable section
 
 local instance cageSmallPrime_factPrimeFive : Fact (Nat.Prime 5) := ⟨by norm_num⟩
 
-private def cageRangeCoordinatesAtFive
+def cageRangeCoordinatesAtFive
     (axis other : NormalizedCoordinateAxis) (xi eta : ZMod 5) (d : ℕ) :
     cageMiddleWitnessPowerRangeSolutions 5 axis other xi eta d →
       Fin 7 → ZMod 5 := fun z i =>

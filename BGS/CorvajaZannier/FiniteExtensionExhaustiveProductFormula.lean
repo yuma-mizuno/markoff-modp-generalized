@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.InfinityPlace
-import BGS.CorvajaZannier.RatFuncExhaustiveProductFormula
-import Mathlib.NumberTheory.FunctionField
+module
+
+public import BGS.CorvajaZannier.InfinityPlace
+public import BGS.CorvajaZannier.RatFuncExhaustiveProductFormula
+public import Mathlib.NumberTheory.FunctionField
+
+@[expose] public section
 
 /-!
 # Exhaustive product formula in a finite extension of `K(X)`

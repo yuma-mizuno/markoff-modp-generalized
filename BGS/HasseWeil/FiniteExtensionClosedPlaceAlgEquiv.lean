@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ClosedPlaceEulerRecurrence
-import BGS.HasseWeil.FiniteExtensionPlaceAlgEquiv
+module
+
+public import BGS.HasseWeil.ClosedPlaceEulerRecurrence
+public import BGS.HasseWeil.FiniteExtensionPlaceAlgEquiv
+
+@[expose] public section
 
 /-!
 # Closed-place counts across function-field equivalences

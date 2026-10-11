@@ -1,12 +1,16 @@
-import BGS.CorvajaZannier.AuxiliaryFamilyIndexing
-import BGS.CorvajaZannier.DedekindCanonicalDifferentScaling
-import BGS.CorvajaZannier.DedekindLocalizationDerivationPreservation
-import BGS.CorvajaZannier.DedekindAuxiliaryLocalCases
-import BGS.CorvajaZannier.DedekindPerfectResidueCaseI
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
-import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
-import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.AuxiliaryFamilyIndexing
+public import BGS.CorvajaZannier.DedekindCanonicalDifferentScaling
+public import BGS.CorvajaZannier.DedekindLocalizationDerivationPreservation
+public import BGS.CorvajaZannier.DedekindAuxiliaryLocalCases
+public import BGS.CorvajaZannier.DedekindPerfectResidueCaseI
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+public import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
+public import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Canonical auxiliary bounds at infinity places
@@ -914,7 +918,7 @@ theorem finiteExtensionInfinityPlace_residueField_finite [Fintype K]
     simpa [p] using Ideal.primesOver.liesOver
       (ratFuncInfinityPlace K).asIdeal P
   letI hLocalAlg := Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra.QuasiFiniteAt (RatFuncInfinityIntegers K) P.1 := inferInstance
   letI : Module.Finite p.ResidueField P.1.ResidueField := inferInstance
   exact Module.finite_of_finite p.ResidueField

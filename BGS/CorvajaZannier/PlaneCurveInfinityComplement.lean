@@ -1,4 +1,8 @@
-import BGS.CorvajaZannier.PlaneCurveInfinityDifferentDegree
+module
+
+public import BGS.CorvajaZannier.PlaneCurveInfinityDifferentDegree
+
+@[expose] public section
 
 /-!
 # The complementary different bound above infinity

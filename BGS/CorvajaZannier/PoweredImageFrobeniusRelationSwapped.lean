@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PoweredImageFrobeniusRelation
-import BGS.CorvajaZannier.PoweredCoordinateRelation
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PoweredImageFrobeniusRelation
+public import BGS.CorvajaZannier.PoweredCoordinateRelation
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The powered-image auxiliary family with exchanged coordinates

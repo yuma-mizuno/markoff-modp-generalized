@@ -1,5 +1,9 @@
-import BGS.Markoff.Endgame.WeilBoundAssumption
-import BGS.Markoff.Endgame.PowerCoverCounting
+module
+
+public import BGS.Markoff.Endgame.WeilBoundAssumption
+public import BGS.Markoff.Endgame.PowerCoverCounting
+
+@[expose] public section
 
 /-!
 # Endgame point estimates after quotienting by the power maps

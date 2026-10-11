@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FilteredDimension
-import BGS.HasseWeil.FiniteExtensionRiemannSpace
+module
+
+public import BGS.HasseWeil.FilteredDimension
+public import BGS.HasseWeil.FiniteExtensionRiemannSpace
+
+@[expose] public section
 
 /-!
 # Strict levels in one-point filtrations

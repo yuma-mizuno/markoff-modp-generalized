@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteFieldPolynomialDifferent
-import BGS.HasseWeil.RatFuncExactConstantExtension
-import Mathlib.RingTheory.DedekindDomain.LinearDisjoint
+module
+
+public import BGS.HasseWeil.FiniteFieldPolynomialDifferent
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+public import Mathlib.RingTheory.DedekindDomain.LinearDisjoint
+
+@[expose] public section
 
 /-!
 # The finite different after exact constant extension
@@ -22,18 +26,18 @@ noncomputable section
 set_option synthInstance.maxHeartbeats 400000
 set_option maxHeartbeats 2000000
 
-@[reducible] private noncomputable def
+@[reducible] noncomputable def
     finiteDifferentCanonicalRatFuncPolynomialAlgebra
     (K : Type*) [Field K] : Algebra K[X] (RatFunc K) := inferInstance
 
-private theorem finiteDifferentCanonicalRatFuncPolynomialFractionRing
+theorem finiteDifferentCanonicalRatFuncPolynomialFractionRing
     (K : Type*) [Field K] :
     letI := finiteDifferentCanonicalRatFuncPolynomialAlgebra K
     IsFractionRing K[X] (RatFunc K) := by
   letI := finiteDifferentCanonicalRatFuncPolynomialAlgebra K
   infer_instance
 
-@[reducible] private noncomputable def
+@[reducible] noncomputable def
     finiteDifferentCanonicalFractionRingAlgebra
     (R : Type*) [CommRing R] [IsDomain R] :
     Algebra R (FractionRing R) := inferInstance
@@ -493,6 +497,8 @@ theorem exactConstantExtension_finiteDifferent_eq_map
         rfl }
   letI : Module.Finite R₂ B :=
     Module.Finite.equiv eNormR₂.toLinearEquiv
+  letI : Algebra C R₂ :=
+    RingHom.toAlgebra ((algebraMap C[X] R₂).comp (algebraMap C C[X]))
   letI : Module.IsTorsionFree R₂ B := by
     rw [Module.isTorsionFree_iff_algebraMap_injective]
     change Function.Injective

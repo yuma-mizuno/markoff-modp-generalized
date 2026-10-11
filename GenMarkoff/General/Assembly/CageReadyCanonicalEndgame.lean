@@ -1,6 +1,10 @@
-import GenMarkoff.General.Assembly.RegularSplitEndgame
-import GenMarkoff.General.Endgame.CageReady.ActualSplitRotation
-import GenMarkoff.General.Arithmetic.ReasonableCutoff
+module
+
+public import GenMarkoff.General.Assembly.RegularSplitEndgame
+public import GenMarkoff.General.Endgame.CageReady.ActualSplitRotation
+public import GenMarkoff.General.Arithmetic.ReasonableCutoff
+
+@[expose] public section
 
 /-!
 # Cage-ready canonical first-axis split points

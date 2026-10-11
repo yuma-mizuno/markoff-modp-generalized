@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.FinitePlaceCompletion
-import Mathlib.RingTheory.DiscreteValuationRing.Basic
-import Mathlib.RingTheory.Derivation.Basic
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FinitePlaceCompletion
+public import Mathlib.RingTheory.DiscreteValuationRing.Basic
+public import Mathlib.RingTheory.Derivation.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 open scoped nonZeroDivisors
 open IsDedekindDomain Multiplicative WithZero

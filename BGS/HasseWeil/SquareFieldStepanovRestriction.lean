@@ -1,5 +1,9 @@
-import BGS.HasseWeil.StepanovSquareVanishing
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.StepanovSquareVanishing
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Stepanov restrictions over a square constant field
@@ -349,7 +353,7 @@ theorem squareFieldStepanovFirstRestriction_eq_zero_or_principalDivisor_pos_at_f
   let eResidue :
       (RatFuncFiniteIntegralClosure S L ⧸ q.asIdeal) ≃+*
         IsLocalRing.ResidueField R :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal q.asIdeal R
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal q.asIdeal R).toRingEquiv
   let eQuotientResidue :
       (RatFuncFiniteIntegralClosure S L ⧸ q.asIdeal) ≃+*
         q.asIdeal.ResidueField :=

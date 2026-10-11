@@ -1,4 +1,8 @@
-import BGS.Markoff.TraceCurve.SyntacticNormalForm
+module
+
+public import BGS.Markoff.TraceCurve.SyntacticNormalForm
+
+@[expose] public section
 
 /-!
 # The degenerate split trace cover has no principal syntactic division theorem

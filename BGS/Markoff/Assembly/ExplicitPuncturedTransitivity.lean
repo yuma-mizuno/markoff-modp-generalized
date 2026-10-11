@@ -1,8 +1,12 @@
-import BGS.Markoff.Assembly.GiantOrbit
-import BGS.Markoff.Assembly.OrbitDivisibility
-import BGS.Markoff.ExplicitEndgame
-import BGS.Markoff.ExplicitNumericCertificates
-import BGS.Markoff.PreliminaryEndgame
+module
+
+public import BGS.Markoff.Assembly.GiantOrbit
+public import BGS.Markoff.Assembly.OrbitDivisibility
+public import BGS.Markoff.ExplicitEndgame
+public import BGS.Markoff.ExplicitNumericCertificates
+public import BGS.Markoff.PreliminaryEndgame
+
+@[expose] public section
 
 /-!
 # Explicit punctured transitivity
@@ -18,7 +22,7 @@ namespace BGS.Markoff
 noncomputable section
 
 /-- The normalized surface point underlying an original punctured point. -/
-private def normalizedPuncturedPoint
+def normalizedPuncturedPoint
     {R : Type*} [Field R] [Invertible (3 : R)]
     (x : PuncturedMarkoffSurface R) : NormalizedMarkoffSurface R :=
   normalizedSurfaceOfPunctured (puncturedNormalizationEquiv R x)

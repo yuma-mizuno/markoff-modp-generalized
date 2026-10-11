@@ -1,10 +1,14 @@
-import BGS.CorvajaZannier.PlaneCurvePropositionTwoAssembly
-import BGS.CorvajaZannier.PlaneCurveCanonicalGcdBound
-import BGS.CorvajaZannier.PlaneCurveCanonicalEulerBound
-import BGS.CorvajaZannier.PlaneCurveCharacteristicCardinality
-import BGS.CorvajaZannier.EndpointComposition
-import BGS.CorvajaZannier.PoweredImageFrobeniusRelation
-import BGS.CorvajaZannier.PoweredImageFrobeniusRelationSwapped
+module
+
+public import BGS.CorvajaZannier.PlaneCurvePropositionTwoAssembly
+public import BGS.CorvajaZannier.PlaneCurveCanonicalGcdBound
+public import BGS.CorvajaZannier.PlaneCurveCanonicalEulerBound
+public import BGS.CorvajaZannier.PlaneCurveCharacteristicCardinality
+public import BGS.CorvajaZannier.EndpointComposition
+public import BGS.CorvajaZannier.PoweredImageFrobeniusRelation
+public import BGS.CorvajaZannier.PoweredImageFrobeniusRelationSwapped
+
+@[expose] public section
 
 /-!
 # Geometric Proposition 2 for a plane curve

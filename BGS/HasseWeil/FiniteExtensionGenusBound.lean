@@ -1,4 +1,8 @@
-import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
+module
+
+public import BGS.HasseWeil.FiniteExtensionDivisorClassRecurrence
+
+@[expose] public section
 
 /-!
 # Bounding the Riemann--Roch genus from a one-point inequality

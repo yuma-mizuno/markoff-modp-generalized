@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FiniteFieldCompositum
-import Mathlib.RingTheory.LocalRing.ResidueField.Fiber
+module
+
+public import BGS.HasseWeil.FiniteFieldCompositum
+public import Mathlib.RingTheory.LocalRing.ResidueField.Fiber
+
+@[expose] public section
 
 /-!
 # Residue fields of constant tensor extensions

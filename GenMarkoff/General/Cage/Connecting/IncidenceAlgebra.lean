@@ -1,4 +1,8 @@
-import GenMarkoff.General.Cage.Incidence.Algebra
+module
+
+public import GenMarkoff.General.Cage.Incidence.Algebra
+
+@[expose] public section
 
 /-!
 # Incidence versus connecting-fiber branch loci

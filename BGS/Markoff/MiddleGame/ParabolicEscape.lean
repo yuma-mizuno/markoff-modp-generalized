@@ -1,5 +1,12 @@
-import BGS.Markoff.Core.ConicParametrization
-import BGS.Markoff.MiddleGame.RightSubgroups
+module
+
+public import BGS.Markoff.Core.ConicParametrization
+public import BGS.Markoff.MiddleGame.RightSubgroups
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The parabolic middle-game branch

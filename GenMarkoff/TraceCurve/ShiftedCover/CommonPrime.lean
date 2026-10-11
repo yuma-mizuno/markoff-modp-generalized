@@ -1,5 +1,9 @@
-import GenMarkoff.TraceCurve.ShiftedCover.Irreducibility
-import BGS.Algebra.KummerEigencharacterDescent
+module
+
+public import GenMarkoff.TraceCurve.ShiftedCover.Irreducibility
+public import BGS.Algebra.KummerEigencharacterDescent
+
+@[expose] public section
 
 /-!
 # Common-prime Kummer independence for shifted trace covers

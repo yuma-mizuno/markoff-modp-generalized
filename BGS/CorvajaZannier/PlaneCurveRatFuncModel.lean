@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.PoweredImageCurve
-import BGS.CorvajaZannier.PlaneCurveSeparability
+module
+
+public import BGS.CorvajaZannier.PoweredImageCurve
+public import BGS.CorvajaZannier.PlaneCurveSeparability
+
+@[expose] public section
 
 /-!
 # A rational-function-field model for a plane curve

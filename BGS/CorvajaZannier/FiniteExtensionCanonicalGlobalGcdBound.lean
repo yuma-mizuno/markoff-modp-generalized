@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalGcdBound
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
-import BGS.CorvajaZannier.FiniteExtensionCanonicalPlaceSum
-import BGS.CorvajaZannier.FiniteExtensionExceptionalPlaceBounds
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalGcdBound
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalPlaceSum
+public import BGS.CorvajaZannier.FiniteExtensionExceptionalPlaceBounds
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Canonical placewise bounds imply the exhaustive gcd estimate

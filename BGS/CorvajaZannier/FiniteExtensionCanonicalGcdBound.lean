@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
-import BGS.CorvajaZannier.GlobalWronskianSummation
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
+public import BGS.CorvajaZannier.GlobalWronskianSummation
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 

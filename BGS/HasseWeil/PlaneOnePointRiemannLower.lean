@@ -1,8 +1,12 @@
-import BGS.HasseWeil.PlaneMonomialSpace
-import BGS.HasseWeil.PlaneCoordinatePoleAtInfinity
-import BGS.HasseWeil.PlaneConstantField
-import BGS.HasseWeil.RiemannSpaceEffectiveIncrement
-import BGS.HasseWeil.OnePointStrictLevels
+module
+
+public import BGS.HasseWeil.PlaneMonomialSpace
+public import BGS.HasseWeil.PlaneCoordinatePoleAtInfinity
+public import BGS.HasseWeil.PlaneConstantField
+public import BGS.HasseWeil.RiemannSpaceEffectiveIncrement
+public import BGS.HasseWeil.OnePointStrictLevels
+
+@[expose] public section
 
 /-!
 # One-point Riemann-space lower bounds for plane curves

@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.DedekindCanonicalDifferentScaling
-import BGS.CorvajaZannier.DedekindLocalizationDerivationPreservation
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
-import BGS.CorvajaZannier.PerfectConstants
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.DedekindCanonicalDifferentScaling
+public import BGS.CorvajaZannier.DedekindLocalizationDerivationPreservation
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+public import BGS.CorvajaZannier.PerfectConstants
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryFinitePlace
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Canonical derivation scalings at finite extension places

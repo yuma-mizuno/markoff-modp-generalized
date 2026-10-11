@@ -1,7 +1,11 @@
-import Mathlib.RingTheory.Derivation.Basic
-import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.Tactic.LinearCombination
+module
+
+public import Mathlib.RingTheory.Derivation.Basic
+public import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
+public import Mathlib.LinearAlgebra.Finsupp.LinearCombination
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-!
 # Ordinary Wronskians over differential fields

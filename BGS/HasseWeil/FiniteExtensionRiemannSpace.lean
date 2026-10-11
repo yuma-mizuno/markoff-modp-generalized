@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
-import Mathlib.FieldTheory.Finite.Basic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
+public import Mathlib.FieldTheory.Finite.Basic
+
+@[expose] public section
 
 /-!
 # Riemann spaces for finite extensions of a rational function field

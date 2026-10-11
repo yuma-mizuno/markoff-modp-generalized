@@ -1,8 +1,12 @@
-import BGS.Dynamics.FiniteForwardOrbit
-import BGS.Markoff.Core.NormalizedOrbit
-import BGS.Markoff.Opening.ParabolicPeriodicity
-import BGS.Markoff.Opening.PeriodicSemisimple
-import BGS.Markoff.Opening.TorsionTraces
+module
+
+public import BGS.Dynamics.FiniteForwardOrbit
+public import BGS.Markoff.Core.NormalizedOrbit
+public import BGS.Markoff.Opening.ParabolicPeriodicity
+public import BGS.Markoff.Opening.PeriodicSemisimple
+public import BGS.Markoff.Opening.TorsionTraces
+
+@[expose] public section
 
 namespace BGS.Markoff
 

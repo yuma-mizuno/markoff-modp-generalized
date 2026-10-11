@@ -1,5 +1,9 @@
-import BGS.Markoff.TraceCurve.SyntacticDivisionObstruction
-import Mathlib.RingTheory.UniqueFactorizationDomain.Basic
+module
+
+public import BGS.Markoff.TraceCurve.SyntacticDivisionObstruction
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Basic
+
+@[expose] public section
 
 /-!
 # An exact criterion for the remaining split trace-cover division theorem

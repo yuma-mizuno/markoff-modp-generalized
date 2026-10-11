@@ -1,7 +1,11 @@
-import GenMarkoff.Divisibility.RawAngle.Defect
-import GenMarkoff.Core.Action
-import Mathlib.Tactic.LinearCombination
-import Mathlib.Algebra.BigOperators.Ring.Finset
+module
+
+public import GenMarkoff.Divisibility.RawAngle.Defect
+public import GenMarkoff.Core.Action
+public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 # Summing the raw-angle defect on an invariant finite set

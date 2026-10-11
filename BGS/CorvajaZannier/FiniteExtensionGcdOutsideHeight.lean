@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalPlaceSum
-import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalPlaceSum
+public import BGS.CorvajaZannier.TorsionExhaustiveGcdDivisorBound
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-! The gcd divisor is controlled by the poles of the one-minus quotient. -/
 

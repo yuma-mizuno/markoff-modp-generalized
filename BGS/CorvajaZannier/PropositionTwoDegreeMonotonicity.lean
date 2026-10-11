@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.ParameterizedBound
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.ParameterizedBound
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Enlarging the degree data in Corvaja--Zannier Proposition 2

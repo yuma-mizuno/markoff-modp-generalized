@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ConstantExtensionInfinityPlaceSplittingMultiplicity
-import BGS.HasseWeil.ExactConstantExtensionInfinityDifferent
+module
+
+public import BGS.HasseWeil.ConstantExtensionInfinityPlaceSplittingMultiplicity
+public import BGS.HasseWeil.ExactConstantExtensionInfinityDifferent
+
+@[expose] public section
 
 /-!
 # Compatibility of infinity places with exact constant extension

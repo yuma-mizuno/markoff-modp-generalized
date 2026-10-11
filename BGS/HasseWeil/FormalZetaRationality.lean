@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FormalZetaTrace
-import Mathlib.RingTheory.PowerSeries.Trunc
+module
+
+public import BGS.HasseWeil.FormalZetaTrace
+public import Mathlib.RingTheory.PowerSeries.Trunc
+
+@[expose] public section
 
 /-!
 # Formal zeta rationality from an eventual coefficient recurrence

@@ -1,6 +1,13 @@
-import BGS.Markoff.Endgame.PrimitiveOrbitWiring
-import BGS.Markoff.MiddleGame.Diagonalization
-import BGS.Markoff.Core.ParabolicFibers
+module
+
+public import BGS.Markoff.Endgame.PrimitiveOrbitWiring
+public import BGS.Markoff.MiddleGame.Diagonalization
+public import BGS.Markoff.Core.ParabolicFibers
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The parabolic branch of the endgame

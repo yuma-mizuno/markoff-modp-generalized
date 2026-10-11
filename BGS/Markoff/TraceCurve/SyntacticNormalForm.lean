@@ -1,5 +1,9 @@
-import BGS.Markoff.TraceCurve.SemanticNormalForm
-import Mathlib.RingTheory.Ideal.Quotient.Operations
+module
+
+public import BGS.Markoff.TraceCurve.SemanticNormalForm
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+@[expose] public section
 
 /-!
 # Syntactic monomial reduction for the split trace cover
@@ -31,20 +35,6 @@ section OddCoprime
 
 variable (sigma : K) (hsigma : sigma ≠ 0) (e d : ℕ)
   (heOdd : Odd e) (hdOdd : Odd d) (hde : d.Coprime e)
-
-private lemma etaExponent_pos (e : ℕ) (heOdd : Odd e) : 0 < e := by
-  rcases heOdd with ⟨k, rfl⟩
-  omega
-
-private lemma xiExponent_pos (d : ℕ) (hdOdd : Odd d) : 0 < d := by
-  rcases hdOdd with ⟨k, rfl⟩
-  omega
-
-private lemma etaExponent_ne_zero (e : ℕ) (heOdd : Odd e) : e ≠ 0 :=
-  (etaExponent_pos e heOdd).ne'
-
-private lemma xiExponent_ne_zero (d : ℕ) (hdOdd : Odd d) : d ≠ 0 :=
-  (xiExponent_pos d hdOdd).ne'
 
 theorem splitTraceEtaKummerPolynomial_natDegree
     (sigma : K) (hsigma : sigma ≠ 0) (e : ℕ) :
@@ -80,10 +70,10 @@ def splitTraceMonomialNormalIndex (i j : ℕ) :
   letI : Fact (Irreducible (splitTraceEtaKummerPolynomial sigma e)) := ⟨hEtaIrred⟩
   exact (⟨j % e, by
       rw [splitTraceEtaKummerPolynomial_natDegree sigma hsigma e]
-      exact Nat.mod_lt _ (etaExponent_pos e heOdd)⟩,
+      exact Nat.mod_lt _ (Nat.pos_of_ne_zero (etaExponent_ne_zero e heOdd))⟩,
     ⟨i % d, by
       rw [splitTraceXiKummerPolynomial_natDegree sigma hsigma e d heOdd]
-      exact Nat.mod_lt _ (xiExponent_pos d hdOdd)⟩)
+      exact Nat.mod_lt _ (Nat.pos_of_ne_zero (xiExponent_ne_zero d hdOdd))⟩)
 
 @[simp]
 theorem splitTraceMonomialNormalIndex_fst_val (i j : ℕ) :

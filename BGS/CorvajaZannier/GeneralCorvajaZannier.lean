@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurvePropositionTwoGeometric
-import BGS.CorvajaZannier.PlaneCurvePropositionTwoDegreeBridge
-import BGS.CorvajaZannier.PoweredImageIndexBound
+module
+
+public import BGS.CorvajaZannier.PlaneCurvePropositionTwoGeometric
+public import BGS.CorvajaZannier.PlaneCurvePropositionTwoDegreeBridge
+public import BGS.CorvajaZannier.PoweredImageIndexBound
+
+@[expose] public section
 
 /-!
 # The general Corvaja--Zannier plane-curve theorem

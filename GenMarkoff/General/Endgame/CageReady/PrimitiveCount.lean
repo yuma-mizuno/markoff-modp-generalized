@@ -1,5 +1,9 @@
-import GenMarkoff.General.Endgame.RegularPrimitiveCount
-import GenMarkoff.General.Cage.Connecting.IncidenceAlgebra
+module
+
+public import GenMarkoff.General.Endgame.RegularPrimitiveCount
+public import GenMarkoff.General.Cage.Connecting.IncidenceAlgebra
+
+@[expose] public section
 
 /-!
 # Cage-ready primitive traces

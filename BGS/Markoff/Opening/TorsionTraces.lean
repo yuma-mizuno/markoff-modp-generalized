@@ -1,5 +1,9 @@
-import BGS.Markoff.Opening.CyclotomicDefect
-import BGS.Markoff.Opening.PeriodicSemisimple
+module
+
+public import BGS.Markoff.Opening.CyclotomicDefect
+public import BGS.Markoff.Opening.PeriodicSemisimple
+
+@[expose] public section
 
 /-!
 # Torsion eigenvalue traces force the complex Markoff origin

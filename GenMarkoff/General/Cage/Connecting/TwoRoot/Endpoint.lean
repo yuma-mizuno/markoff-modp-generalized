@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.Connecting.Fiber
-import GenMarkoff.General.Cage.Incidence.Geometry
+module
+
+public import GenMarkoff.General.Cage.Connecting.Fiber
+public import GenMarkoff.General.Cage.Incidence.Geometry
+
+@[expose] public section
 
 /-!
 # Pointwise reconstruction from a two-root connecting witness

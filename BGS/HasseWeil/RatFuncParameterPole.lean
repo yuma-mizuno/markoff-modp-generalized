@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.DedekindRamifiedDerivationScaling
-import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
-import BGS.HasseWeil.PoleDivisor
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.DedekindRamifiedDerivationScaling
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalDifferentDivisor
+public import BGS.HasseWeil.PoleDivisor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The rational parameter's pole divisor in a finite extension

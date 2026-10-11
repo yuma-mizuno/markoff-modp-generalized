@@ -1,6 +1,10 @@
-import BGS.HasseWeil.FiniteExtensionLocalPoleQuotient
-import BGS.HasseWeil.FinitePrincipalParts
-import BGS.HasseWeil.RiemannSpaceConstants
+module
+
+public import BGS.HasseWeil.FiniteExtensionLocalPoleQuotient
+public import BGS.HasseWeil.FinitePrincipalParts
+public import BGS.HasseWeil.RiemannSpaceConstants
+
+@[expose] public section
 
 /-!
 # Principal parts of an effective exhaustive divisor

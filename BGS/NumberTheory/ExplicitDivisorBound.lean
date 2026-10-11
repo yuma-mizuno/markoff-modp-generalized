@@ -1,4 +1,8 @@
-import BGS.NumberTheory.DivisorBound
+module
+
+public import BGS.NumberTheory.DivisorBound
+
+@[expose] public section
 
 /-!
 # An explicit divisor-counting bound
@@ -85,21 +89,19 @@ theorem card_divisors_pow_le_explicit_constant_mul
 /-- Sealed data for the closed factorization constant.  The subtype equation
 lets downstream proofs rewrite the value without asking the kernel to
 repeatedly normalize its enormous exponentiation. -/
-opaque explicitDivisorConstantData :
-    {n : ℕ // n = (32 ^ 32) ^ (2 ^ 32)} :=
-  ⟨(32 ^ 32) ^ (2 ^ 32), rfl⟩
+opaque explicitDivisorConstantData (k : ℕ) (hk : 0 < k) :
+    {n : ℕ // n = (k ^ k) ^ (2 ^ k) ∧ 0 < n} :=
+  ⟨(k ^ k) ^ (2 ^ k), rfl, pow_pos (pow_pos hk _) _⟩
 
 /-- The closed factorization constant used by the explicit Markoff proof. -/
-def explicitDivisorConstant : ℕ := explicitDivisorConstantData.1
+def explicitDivisorConstant : ℕ := (explicitDivisorConstantData 32 (by decide)).1
 
 theorem explicitDivisorConstant_eq :
     explicitDivisorConstant = (32 ^ 32) ^ (2 ^ 32) :=
-  explicitDivisorConstantData.2
+  (explicitDivisorConstantData 32 (by decide)).2.1
 
-#guard_msgs (drop warning) in
-theorem explicitDivisorConstant_pos : 0 < explicitDivisorConstant := by
-  rw [explicitDivisorConstant_eq]
-  exact pow_pos (pow_pos (by norm_num) _) _
+theorem explicitDivisorConstant_pos : 0 < explicitDivisorConstant :=
+  (explicitDivisorConstantData 32 (by decide)).2.2
 
 theorem explicitDivisorConstant_le_pow_thirtyTwo :
     explicitDivisorConstant ≤ explicitDivisorConstant ^ 32 := by

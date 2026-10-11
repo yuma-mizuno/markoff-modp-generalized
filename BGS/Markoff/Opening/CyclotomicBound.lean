@@ -1,4 +1,11 @@
-import BGS.Markoff.Opening.CyclotomicReduction
+module
+
+public import BGS.Markoff.Opening.CyclotomicReduction
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # The concrete cyclotomic opening bound

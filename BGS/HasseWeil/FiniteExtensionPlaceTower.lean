@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import BGS.HasseWeil.FixedPointAverage
-import Mathlib.NumberTheory.RamificationInertia.Galois
-import Mathlib.RingTheory.Invariant.Galois
-import Mathlib.RingTheory.RamificationInertia.Basic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import BGS.HasseWeil.FixedPointAverage
+public import Mathlib.NumberTheory.RamificationInertia.Galois
+public import Mathlib.RingTheory.Invariant.Galois
+public import Mathlib.RingTheory.RamificationInertia.Basic
+
+@[expose] public section
 
 /-!
 # Restriction of function-field places in a finite tower
@@ -1174,7 +1178,7 @@ private theorem finitePlaceResidueField_finite
     ratFuncFinitePlaceResidueField_finite K p
   letI : P.asIdeal.LiesOver p.asIdeal := ⟨rfl⟩
   letI := Localization.AtPrime.algebraOfLiesOver p.asIdeal P.asIdeal
-  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal P.asIdeal := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal P.asIdeal := inferInstance
   letI : Algebra.QuasiFiniteAt K[X] P.asIdeal := inferInstance
   letI : Module.Finite p.asIdeal.ResidueField P.asIdeal.ResidueField :=
     inferInstance
@@ -1194,7 +1198,7 @@ private theorem infinityPlaceResidueField_finite
     simpa [p] using Ideal.primesOver.liesOver
       (ratFuncInfinityPlace K).asIdeal P
   letI := Localization.AtPrime.algebraOfLiesOver p P.1
-  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := ⟨rfl⟩
+  letI : Localization.AtPrime.IsLiesOverAlgebra p P.1 := inferInstance
   letI : Algebra.QuasiFiniteAt (RatFuncInfinityIntegers K) P.1 := inferInstance
   letI : Module.Finite p.ResidueField P.1.ResidueField := inferInstance
   exact Module.finite_of_finite p.ResidueField

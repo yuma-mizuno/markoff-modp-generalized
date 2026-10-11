@@ -1,5 +1,9 @@
-import BGS.Markoff.ExplicitEndgame
-import BGS.Markoff.PreliminaryNumerics
+module
+
+public import BGS.Markoff.ExplicitEndgame
+public import BGS.Markoff.PreliminaryNumerics
+
+@[expose] public section
 
 /-!
 # Endgame wrappers for the elementary preliminary route

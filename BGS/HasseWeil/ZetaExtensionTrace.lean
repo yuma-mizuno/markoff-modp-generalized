@@ -1,4 +1,8 @@
-import BGS.HasseWeil.SpectralFromAsymptotic
+module
+
+public import BGS.HasseWeil.SpectralFromAsymptotic
+
+@[expose] public section
 
 /-!
 # Extension point counts and the zeta spectral formula

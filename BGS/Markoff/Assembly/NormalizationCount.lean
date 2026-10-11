@@ -1,5 +1,9 @@
-import BGS.Markoff.Assembly.ElementaryCounts
-import BGS.Markoff.Core.Normalization
+module
+
+public import BGS.Markoff.Assembly.ElementaryCounts
+public import BGS.Markoff.Core.Normalization
+
+@[expose] public section
 
 /-!
 # Finite counts in normalized Markoff coordinates

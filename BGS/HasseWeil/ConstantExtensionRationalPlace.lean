@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantExtensionFinitePlaceBridge
+module
+
+public import BGS.HasseWeil.ConstantExtensionFinitePlaceBridge
+
+@[expose] public section
 
 /-!
 # Rational finite places after exact constant extension

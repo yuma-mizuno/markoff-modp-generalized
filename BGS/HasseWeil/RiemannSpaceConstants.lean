@@ -1,5 +1,9 @@
-import BGS.HasseWeil.OnePointBase
-import Mathlib.FieldTheory.AlgebraicClosure
+module
+
+public import BGS.HasseWeil.OnePointBase
+public import Mathlib.FieldTheory.AlgebraicClosure
+
+@[expose] public section
 
 /-!
 # The zero-divisor Riemann space and the exact constant field
@@ -33,6 +37,14 @@ local instance regularConstantAlgebra : Algebra K L :=
 
 local instance regularConstantTower : IsScalarTower K (RatFunc K) L :=
   IsScalarTower.of_algebraMap_eq' rfl
+
+local instance (priority := 1001) regularInfinityBaseAlgebra :
+    Algebra (RatFuncInfinityIntegers K) (RatFunc K) :=
+  Algebra.ofSubsemiring (RatFunc.inftyValuation K).integer
+
+local instance regularInfinityAlgebra : Algebra (RatFuncInfinityIntegers K) L :=
+  RingHom.toAlgebra ((algebraMap (RatFunc K) L).comp
+    (algebraMap (RatFuncInfinityIntegers K) (RatFunc K)))
 
 /-- The subalgebra of functions regular at every exhaustive place. -/
 def finiteExtensionRegularSubalgebra : Subalgebra K L where

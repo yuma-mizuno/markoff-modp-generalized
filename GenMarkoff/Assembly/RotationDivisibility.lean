@@ -1,6 +1,10 @@
-import GenMarkoff.Core.Statements
-import Mathlib.GroupTheory.GroupAction.Blocks
-import Mathlib.Tactic.Group
+module
+
+public import GenMarkoff.Core.Statements
+public import Mathlib.GroupTheory.GroupAction.Blocks
+public import Mathlib.Tactic.Group
+
+@[expose] public section
 
 /-!
 # Transferring orbit divisibility to the rotation subgroup
@@ -19,7 +23,7 @@ namespace GenMarkoff
 
 universe u
 
-private abbrev SurfacePerm {R : Type u} [CommRing R] (a : Coefficients R) :=
+abbrev SurfacePerm {R : Type u} [CommRing R] (a : Coefficients R) :=
   Equiv.Perm (SolutionSurface a)
 
 @[simp]
@@ -229,7 +233,7 @@ private theorem vieta1InVietaGroup_inv {R : Type u} [CommRing R]
   exact vieta1SurfacePerm_inv a
 
 @[simp]
-private theorem vieta1InVietaGroup_smul_self {R : Type u} [CommRing R]
+theorem vieta1InVietaGroup_smul_self {R : Type u} [CommRing R]
     (a : Coefficients R) (x : PuncturedSolutionSurface a) :
     vieta1InVietaGroup a • (vieta1InVietaGroup a • x) = x := by
   simpa only [vieta1InVietaGroup_inv] using
@@ -276,7 +280,7 @@ theorem puncturedVietaOrbit_eq_rotation_union {R : Type u} [CommRing R]
       apply Subtype.ext
       rfl
 
-private theorem vieta1_smul_mem_rotationOrbit {R : Type u} [CommRing R]
+theorem vieta1_smul_mem_rotationOrbit {R : Type u} [CommRing R]
     (a : Coefficients R) (x : PuncturedSolutionSurface a)
     {y : PuncturedSolutionSurface a} (hy : y ∈ puncturedRotationOrbit x) :
     vieta1InVietaGroup a • y ∈
@@ -297,7 +301,7 @@ private theorem vieta1_smul_mem_rotationOrbit {R : Type u} [CommRing R]
   congr 1
   group
 
-private theorem vieta1_smul_mem_rotationOrbit_reverse {R : Type u} [CommRing R]
+theorem vieta1_smul_mem_rotationOrbit_reverse {R : Type u} [CommRing R]
     (a : Coefficients R) (x : PuncturedSolutionSurface a)
     {y : PuncturedSolutionSurface a}
     (hy : y ∈ puncturedRotationOrbit (vieta1InVietaGroup a • x)) :

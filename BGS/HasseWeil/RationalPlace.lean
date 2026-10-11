@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
-import Mathlib.RingTheory.Polynomial.DegreeLT
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPrincipalDivisor
+public import Mathlib.RingTheory.Polynomial.DegreeLT
+
+@[expose] public section
 
 /-!
 # Degree-one places of a finite function field
@@ -158,7 +162,7 @@ theorem finiteExtensionRationalPlaceCount_eq_natCard_subtype :
   Nat.card_congr (finiteExtensionRationalPlaceEquivSubtype K L)
 
 omit [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
-private theorem rationalFinitePlace_baseDegree_eq_one
+theorem rationalFinitePlace_baseDegree_eq_one
     (Q : FiniteExtensionRationalFinitePlace K L) :
     ratFuncFinitePlaceDegree (HeightOneSpectrum.under K[X] Q.1) = 1 := by
   have hprod :

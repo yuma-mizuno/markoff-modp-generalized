@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.PoweredImageCurve
-import BGS.CorvajaZannier.TorsionGcdDivisorBound
-import BGS.CorvajaZannier.TorsionBidegreeCount
-import BGS.CorvajaZannier.NumericalCorollary
-import BGS.CorvajaZannier.ElementaryFiniteFieldBound
-import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
+module
+
+public import BGS.CorvajaZannier.PoweredImageCurve
+public import BGS.CorvajaZannier.TorsionGcdDivisorBound
+public import BGS.CorvajaZannier.TorsionBidegreeCount
+public import BGS.CorvajaZannier.NumericalCorollary
+public import BGS.CorvajaZannier.ElementaryFiniteFieldBound
+public import BGS.CorvajaZannier.PlaneCurveBidegreeBridge
+
+@[expose] public section
 
 /-!
 # Composition of the Corvaja--Zannier plane-curve endpoint

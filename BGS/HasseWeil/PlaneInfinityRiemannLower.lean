@@ -1,5 +1,9 @@
-import BGS.HasseWeil.PlaneOnePointRiemannLower
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.PlaneOnePointRiemannLower
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Riemann's inequality for divisors supported above infinity

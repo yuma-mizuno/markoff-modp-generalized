@@ -1,5 +1,9 @@
-import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedSeededCover
-import BGS.Markoff.Endgame.Nonsplit.DescendedTraceCurve
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedSeededCover
+public import BGS.Markoff.Endgame.Nonsplit.DescendedTraceCurve
+
+@[expose] public section
 
 /-!
 # The shifted descended seeded nonsplit trace curve
@@ -30,8 +34,8 @@ noncomputable section
 
 variable (p : ℕ) [Fact p.Prime]
 
-private abbrev F := ZMod p
-private abbrev E := quadraticFiniteField p
+abbrev F := ZMod p
+abbrev E := quadraticFiniteField p
 
 /-- The numerator of the shifted seeded trace after clearing the Cayley
 denominator.  The extra term is exactly `gamma * Q ^ d`. -/
@@ -127,7 +131,10 @@ theorem eval_shiftedSeededNonsplitDescendedPolynomial
           u ^ e -
         (quadraticCayleyNormPolynomial p).eval z ^ d *
           (u ^ (2 * e) + 1) := by
-  simp [shiftedSeededNonsplitDescendedPolynomial]
+  simp only [shiftedSeededNonsplitDescendedPolynomial, MvPolynomial.eval_sub,
+    MvPolynomial.eval_mul, MvPolynomial.eval_pow, MvPolynomial.eval_add,
+    map_one (MvPolynomial.eval ![z, u]), MvPolynomial.eval_X,
+    Matrix.cons_val_one, Matrix.cons_val_zero, eval_univariateInFirstCoordinate]
 
 private theorem degreeOf_first_X_one_pow_le
     {K : Type*} [CommSemiring K] [Nontrivial K] (n : ℕ) :

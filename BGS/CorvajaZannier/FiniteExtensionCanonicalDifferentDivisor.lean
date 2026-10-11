@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalWronskian
-import BGS.CorvajaZannier.PlaneCurveInfinityDifferentDegree
-import Mathlib.RingTheory.RamificationInertia.Basic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalWronskian
+public import BGS.CorvajaZannier.PlaneCurveInfinityDifferentDegree
+public import Mathlib.RingTheory.RamificationInertia.Basic
+
+@[expose] public section
 
 /-!
 # The canonical different divisor of a finite function-field extension

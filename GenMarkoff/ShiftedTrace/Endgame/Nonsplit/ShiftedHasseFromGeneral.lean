@@ -1,4 +1,8 @@
-import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedDescended.Counting
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedDescended.Counting
+
+@[expose] public section
 
 /-!
 # The shifted nonsplit estimate from general affine Hasse--Weil

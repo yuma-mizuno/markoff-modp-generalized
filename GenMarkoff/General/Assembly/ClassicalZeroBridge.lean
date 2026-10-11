@@ -1,5 +1,9 @@
-import BGS.Markoff.Assembly.Unconditional
-import GenMarkoff.General.Assembly.Vieta.RotationEquivalence
+module
+
+public import BGS.Markoff.Assembly.Unconditional
+public import GenMarkoff.General.Assembly.Vieta.RotationEquivalence
+
+@[expose] public section
 
 /-!
 # The classical all-zero coefficient bridge
@@ -162,7 +166,7 @@ section BgsVietaOnly
 
 variable (R : Type u) [CommRing R]
 
-private abbrev BgsSurfacePerm :=
+abbrev BgsSurfacePerm :=
   Equiv.Perm (BGS.Markoff.MarkoffSurface R)
 
 /-- The three BGS Vieta involutions, without coordinate swaps. -/
@@ -674,7 +678,9 @@ theorem classicalZero_vietaStrongApproximationAt_of_BGS
   letI : Fact p.Prime := ⟨hp⟩
   letI : Fact (1 < p) := ⟨hp.one_lt⟩
   letI : Nontrivial (ZMod p) := ZMod.nontrivial p
-  rw [VietaStrongApproximationAt]
+  change ∀ x y : PuncturedSolutionSurface
+      (modCoefficients (classicalZeroCoefficients ℤ) p),
+    ∃ g : VietaGroup (modCoefficients (classicalZeroCoefficients ℤ) p), g • x = y
   rw [modCoefficients_classicalZeroCoefficients p]
   intro x y
   let xBgs : BGS.Markoff.PuncturedMarkoffSurface (ZMod p) :=

@@ -1,5 +1,9 @@
-import GenMarkoff.General.Cage.OrbitConnecting.ThreeRootEstimate
-import GenMarkoff.General.Cage.Connecting.Fiber
+module
+
+public import GenMarkoff.General.Cage.OrbitConnecting.ThreeRootEstimate
+public import GenMarkoff.General.Cage.Connecting.Fiber
+
+@[expose] public section
 
 /-!
 # Reconstructing a square-coset parameter

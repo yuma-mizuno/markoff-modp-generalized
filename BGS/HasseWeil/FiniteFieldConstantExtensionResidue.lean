@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ConstantTensorResidue
-import BGS.HasseWeil.FiniteFieldConstantExtensionNormalization
+module
+
+public import BGS.HasseWeil.ConstantTensorResidue
+public import BGS.HasseWeil.FiniteFieldConstantExtensionNormalization
+
+@[expose] public section
 
 /-!
 # Residue degrees after finite constant extension

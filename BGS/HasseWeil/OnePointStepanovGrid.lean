@@ -1,5 +1,9 @@
-import BGS.HasseWeil.OnePointStrictLevels
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointStrictLevels
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # One-point Stepanov grids

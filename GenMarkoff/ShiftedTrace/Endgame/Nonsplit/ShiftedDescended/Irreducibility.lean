@@ -1,5 +1,9 @@
-import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedDescended.TraceCurve
-import BGS.Markoff.Endgame.Nonsplit.DescendedIrreducibility
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.Nonsplit.ShiftedDescended.TraceCurve
+public import BGS.Markoff.Endgame.Nonsplit.DescendedIrreducibility
+
+@[expose] public section
 
 /-!
 # Absolute irreducibility of the shifted descended nonsplit curve
@@ -23,9 +27,6 @@ open BGS.Markoff
 noncomputable section
 
 variable (p : ℕ) [Fact p.Prime]
-
-private abbrev F := ZMod p
-private abbrev E := quadraticFiniteField p
 
 /-- The shifted split cover in the ordinary `(variable 0)`-outer iterated
 polynomial coordinates. -/

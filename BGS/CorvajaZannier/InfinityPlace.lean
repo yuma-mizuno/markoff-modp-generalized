@@ -1,9 +1,13 @@
-import BGS.CorvajaZannier.FiniteExtensionProductFormula
-import BGS.CorvajaZannier.FinitePlaceCompletion
-import BGS.CorvajaZannier.FunctionFieldProductFormula
-import Mathlib.RingTheory.DiscreteValuationRing.TFAE
-import Mathlib.RingTheory.Valuation.Archimedean
-import Mathlib.RingTheory.Valuation.Discrete.IsDiscreteValuationRing
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionProductFormula
+public import BGS.CorvajaZannier.FinitePlaceCompletion
+public import BGS.CorvajaZannier.FunctionFieldProductFormula
+public import Mathlib.RingTheory.DiscreteValuationRing.TFAE
+public import Mathlib.RingTheory.Valuation.Archimedean
+public import Mathlib.RingTheory.Valuation.Discrete.IsDiscreteValuationRing
+
+@[expose] public section
 
 /-!
 # The place at infinity and its primes in finite extensions
@@ -42,7 +46,7 @@ instance : IsDiscreteValuationRing (RatFuncInfinityIntegers K) :=
 instance : IsDedekindDomain (RatFuncInfinityIntegers K) := by
   let hnf : ¬ IsField (RatFuncInfinityIntegers K) :=
     IsDiscreteValuationRing.not_isField (RatFuncInfinityIntegers K)
-  apply ((IsDiscreteValuationRing.TFAE (RatFuncInfinityIntegers K) hnf).out 0 2).mp
+  apply ((IsDiscreteValuationRing.TFAE (RatFuncInfinityIntegers K) hnf).out 1 3).mp
   infer_instance
 
 /-- The unique height-one prime of the infinity valuation ring. -/

@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.DedekindPlaceOrder
-import Mathlib.RingTheory.Valuation.Discrete.IsDiscreteValuationRing
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.DedekindPlaceOrder
+public import Mathlib.RingTheory.Valuation.Discrete.IsDiscreteValuationRing
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Compatibility of global and localized Dedekind orders

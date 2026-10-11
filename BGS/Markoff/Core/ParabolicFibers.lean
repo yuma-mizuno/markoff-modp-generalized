@@ -1,6 +1,13 @@
-import BGS.Markoff.Core.Normalization
-import BGS.Markoff.Core.Rotation
-import Mathlib.NumberTheory.LegendreSymbol.Basic
+module
+
+public import BGS.Markoff.Core.Normalization
+public import BGS.Markoff.Core.Rotation
+public import Mathlib.NumberTheory.LegendreSymbol.Basic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Parabolic fibers of the normalized Markoff surface

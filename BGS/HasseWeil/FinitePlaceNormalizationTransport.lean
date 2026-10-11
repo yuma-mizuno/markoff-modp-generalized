@@ -1,4 +1,8 @@
-import BGS.HasseWeil.ConstantFieldFinitePlaceDegree
+module
+
+public import BGS.HasseWeil.ConstantFieldFinitePlaceDegree
+
+@[expose] public section
 
 /-!
 # Transporting normalization ideals to finite places

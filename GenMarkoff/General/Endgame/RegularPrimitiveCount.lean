@@ -1,5 +1,9 @@
-import GenMarkoff.ShiftedTrace.Endgame.RegularPrimitiveCount
-import GenMarkoff.TraceCurve.ExceptionalRouting
+module
+
+public import GenMarkoff.ShiftedTrace.Endgame.RegularPrimitiveCount
+public import GenMarkoff.TraceCurve.ExceptionalRouting
+
+@[expose] public section
 
 /-!
 # Candidate-regular primitive traces for an ordered coefficient frame

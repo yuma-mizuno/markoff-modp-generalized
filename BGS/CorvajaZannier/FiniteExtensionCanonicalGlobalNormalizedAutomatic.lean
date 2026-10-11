@@ -1,8 +1,12 @@
-import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryInfinityPlace
-import BGS.CorvajaZannier.FiniteExtensionCanonicalGlobalNormalized
-import BGS.CorvajaZannier.DedekindLocalDerivationExtension
-import BGS.CorvajaZannier.PerfectConstants
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalAuxiliaryInfinityPlace
+public import BGS.CorvajaZannier.FiniteExtensionCanonicalGlobalNormalized
+public import BGS.CorvajaZannier.DedekindLocalDerivationExtension
+public import BGS.CorvajaZannier.PerfectConstants
+public import Mathlib.Tactic
+
+@[expose] public section
 
 namespace BGS.CorvajaZannier
 
@@ -456,7 +460,10 @@ theorem probeAmbientReciprocalDerivation_extends
         (probeRatFuncDerivation K (r : RatFunc K)) =
     algebraMap (RatFunc K) L
       (probeRatFuncReciprocalDerivation K (r : RatFunc K))
-  rw [probeRatFuncReciprocalDerivation_apply, map_mul, map_neg, map_pow]
+  rw [probeRatFuncReciprocalDerivation_apply,
+    map_mul (algebraMap (RatFunc K) L),
+    RingHom.map_neg (algebraMap (RatFunc K) L) (RatFunc.X ^ 2 : RatFunc K),
+    map_pow (algebraMap (RatFunc K) L) (RatFunc.X : RatFunc K) 2]
 
 omit [DecidableEq K] [FiniteDimensional (RatFunc K) L] [Algebra.IsSeparable (RatFunc K) L] in
 theorem probeAmbientReciprocalDerivation_changeParameter

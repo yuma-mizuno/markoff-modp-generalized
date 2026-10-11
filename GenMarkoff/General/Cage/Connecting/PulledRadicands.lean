@@ -1,7 +1,11 @@
-import GenMarkoff.General.Cage.Connecting.IncidenceAlgebra
-import GenMarkoff.General.MiddleGame.ActualOrderGrowth
-import BGS.CorvajaZannier.BivariateResultant
-import Mathlib.FieldTheory.IsAlgClosed.Basic
+module
+
+public import GenMarkoff.General.Cage.Connecting.IncidenceAlgebra
+public import GenMarkoff.General.MiddleGame.ActualOrderGrowth
+public import BGS.CorvajaZannier.BivariateResultant
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+
+@[expose] public section
 
 /-!
 # Power pullbacks of the connecting-cage radicands

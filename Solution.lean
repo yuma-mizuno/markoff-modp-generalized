@@ -1,4 +1,8 @@
-import GenMarkoff.General.Assembly.ExplicitStrongApproximation
+module
+
+public import GenMarkoff.General.Assembly.ExplicitStrongApproximation
+
+@[expose] public section
 
 /-!
 # Generalized Markoff reduction solution

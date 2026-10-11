@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.DedekindPlaceOrder
-import BGS.CorvajaZannier.PerfectConstants
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.DedekindPlaceOrder
+public import BGS.CorvajaZannier.PerfectConstants
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Leading-term cancellation at a Dedekind DVR place

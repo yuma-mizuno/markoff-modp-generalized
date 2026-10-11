@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.FiniteExtensionExhaustiveProductFormula
-import BGS.CorvajaZannier.GlobalWronskianWeightedPlaceSum
-import BGS.CorvajaZannier.InfinityInertiaDegree
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionExhaustiveProductFormula
+public import BGS.CorvajaZannier.GlobalWronskianWeightedPlaceSum
+public import BGS.CorvajaZannier.InfinityInertiaDegree
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Principal divisors on the exhaustive places of a finite function field
@@ -858,7 +862,7 @@ theorem finiteExtensionFinitePlace_inertiaDeg_eq_one
   letI hLocalAlg :=
     Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
   letI : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal q.asIdeal :=
-    ⟨rfl⟩
+    inferInstance
   letI : IsAlgClosed p.asIdeal.ResidueField :=
     IsAlgClosed.of_ringEquiv K p.asIdeal.ResidueField
       (ratFuncFinitePlaceResidueEquiv K p).symm.toRingEquiv

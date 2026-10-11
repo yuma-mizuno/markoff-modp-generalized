@@ -1,5 +1,9 @@
-import BGS.CorvajaZannier.GlobalWronskianSummation
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.GlobalWronskianSummation
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Summing the four local Corvaja--Zannier Wronskian cases

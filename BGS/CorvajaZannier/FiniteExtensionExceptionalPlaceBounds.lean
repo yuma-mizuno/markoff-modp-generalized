@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
-import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionExceptionalSupport
+public import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Direct weighted bounds on exhaustive exceptional places

@@ -1,5 +1,9 @@
-import BGS.HasseWeil.ExactConstantExtensionConstants
-import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwist
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionConstants
+public import BGS.HasseWeil.ExactConstantExtensionFrobeniusTwist
+
+@[expose] public section
 
 /-!
 # Exact constants of Frobenius-twist fields

@@ -1,9 +1,13 @@
-import BGS.HasseWeil.AffinePointPlace
-import BGS.HasseWeil.ExtensionPointCount
-import BGS.HasseWeil.FiniteExtensionZeroCounting
-import BGS.HasseWeil.OnePointLeadingCoefficient
-import Mathlib.FieldTheory.Finite.GaloisField
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.AffinePointPlace
+public import BGS.HasseWeil.ExtensionPointCount
+public import BGS.HasseWeil.FiniteExtensionZeroCounting
+public import BGS.HasseWeil.OnePointLeadingCoefficient
+public import Mathlib.FieldTheory.Finite.GaloisField
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Quadratic-extension affine points and base-field places
@@ -248,7 +252,7 @@ def atPrimeResidueAlgEquiv
       (IsScalarTower.toAlgHom K (B ⧸ q) q.ResidueField)
       (Ideal.bijective_algebraMap_quotient_residueField q)
   let e : (B ⧸ q) ≃+* IsLocalRing.ResidueField R :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal q R
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal q R).toRingEquiv
   let e₂ : (B ⧸ q) ≃ₐ[K] IsLocalRing.ResidueField R :=
     { e with
       commutes' := by

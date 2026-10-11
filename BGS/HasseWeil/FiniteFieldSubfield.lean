@@ -1,4 +1,8 @@
-import Mathlib.FieldTheory.Finite.GaloisField
+module
+
+public import Mathlib.FieldTheory.Finite.GaloisField
+
+@[expose] public section
 
 /-!
 # Finite subfields in a common overfield

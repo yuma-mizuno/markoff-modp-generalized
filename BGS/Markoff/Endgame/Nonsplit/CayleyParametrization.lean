@@ -1,5 +1,9 @@
-import BGS.Markoff.Core.ConicParametrization
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
+module
+
+public import BGS.Markoff.Core.ConicParametrization
+public import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
+
+@[expose] public section
 
 /-!
 # Cayley coordinates on the nonsplit norm-one torus
@@ -21,8 +25,8 @@ section
 
 variable (p : ℕ) [Fact p.Prime]
 
-private abbrev F := ZMod p
-private abbrev E := quadraticFiniteField p
+abbrev F := ZMod p
+abbrev E := quadraticFiniteField p
 
 noncomputable local instance : Fintype (E p) := Fintype.ofFinite (E p)
 noncomputable local instance : Fintype {w : quadraticNormOneTorus p // w ≠ 1} :=
@@ -31,7 +35,7 @@ noncomputable local instance : Fintype {w : quadraticNormOneTorus p // w ≠ 1} 
 private theorem quadraticExtension_finrank : Module.finrank (F p) (E p) = 2 := by
   simpa [F, E] using GaloisField.finrank p (n := 2)
 
-private theorem exists_quadraticNonbaseElement :
+theorem exists_quadraticNonbaseElement :
     ∃ delta : E p, delta ∉ Set.range (algebraMap (F p) (E p)) := by
   classical
   have hnotSurjective : ¬ Function.Surjective (algebraMap (F p) (E p)) := by
@@ -246,7 +250,7 @@ private theorem quadraticCayleyTarget_card :
   rw [Fintype.card_eq_nat_card, quadraticNormOneTorus_natCard p]
   omega
 
-private theorem quadraticCayleyPoint_bijective :
+theorem quadraticCayleyPoint_bijective :
     Function.Bijective (fun z : F p =>
       (⟨quadraticCayleyPoint p z, quadraticCayleyPoint_ne_one p z⟩ :
         {w : quadraticNormOneTorus p // w ≠ 1})) := by

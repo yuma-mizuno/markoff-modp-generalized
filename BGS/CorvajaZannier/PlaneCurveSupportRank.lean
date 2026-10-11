@@ -1,10 +1,14 @@
-import BGS.CorvajaZannier.PlaneCurveSupportDeterminant
-import BGS.External.GeneralCurveTheorems
-import Mathlib.GroupTheory.Archimedean
-import Mathlib.Algebra.Polynomial.Homogenize
-import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
-import Mathlib.FieldTheory.IsAlgClosed.Basic
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.PlaneCurveSupportDeterminant
+public import BGS.External.GeneralCurveTheorems
+public import Mathlib.GroupTheory.Archimedean
+public import Mathlib.Algebra.Polynomial.Homogenize
+public import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Absolute irreducibility forces rank-two torus support
@@ -23,10 +27,10 @@ namespace BGS.CorvajaZannier
 
 noncomputable section
 
-private def integerVectorDet (u v : Fin 2 → ℤ) : ℤ :=
+def integerVectorDet (u v : Fin 2 → ℤ) : ℤ :=
   u 0 * v 1 - u 1 * v 0
 
-private def integerVectorLine (d : Fin 2 → ℤ) : AddSubgroup (Fin 2 → ℤ) where
+def integerVectorLine (d : Fin 2 → ℤ) : AddSubgroup (Fin 2 → ℤ) where
   carrier := {w | integerVectorDet d w = 0}
   zero_mem' := by simp [integerVectorDet]
   add_mem' := by
@@ -42,12 +46,12 @@ private def integerVectorLine (d : Fin 2 → ℤ) : AddSubgroup (Fin 2 → ℤ) 
     simp only [integerVectorDet, Pi.neg_apply]
     linear_combination -hu
 
-private def integerCoordinate (i : Fin 2) : (Fin 2 → ℤ) →+ ℤ where
+def integerCoordinate (i : Fin 2) : (Fin 2 → ℤ) →+ ℤ where
   toFun w := w i
   map_zero' := rfl
   map_add' _ _ := rfl
 
-private def integerCoordinateOnLine (d : Fin 2 → ℤ) (i : Fin 2) :
+def integerCoordinateOnLine (d : Fin 2 → ℤ) (i : Fin 2) :
     integerVectorLine d →+ (integerVectorLine d).map (integerCoordinate i) where
   toFun w := by
     refine ⟨integerCoordinate i w.1, ?_⟩
@@ -161,7 +165,7 @@ private theorem integerVectorLine_cyclic {d : Fin 2 → ℤ} (hd : d ≠ 0) :
     simpa [vL] using hk.symm
   exact congrArg Subtype.val heq
 
-private def planeExponentDifference
+def planeExponentDifference
     (r s : Fin 2 →₀ ℕ) : Fin 2 → ℤ :=
   fun i => (s i : ℤ) - (r i : ℤ)
 
@@ -204,10 +208,10 @@ theorem exists_support_direction_of_not_rankTwo
     simpa [hv0] using hk
   exact ⟨v, hvne, hparam⟩
 
-private def intVectorPositive (v : Fin 2 → ℤ) : Fin 2 →₀ ℕ :=
+def intVectorPositive (v : Fin 2 → ℤ) : Fin 2 →₀ ℕ :=
   Finsupp.equivFunOnFinite.symm (fun i => (v i).toNat)
 
-private def intVectorNegative (v : Fin 2 → ℤ) : Fin 2 →₀ ℕ :=
+def intVectorNegative (v : Fin 2 → ℤ) : Fin 2 →₀ ℕ :=
   Finsupp.equivFunOnFinite.symm (fun i => (-v i).toNat)
 
 @[simp] private theorem intVectorPositive_apply (v : Fin 2 → ℤ) (i : Fin 2) :
@@ -226,7 +230,7 @@ private theorem intVectorPositive_sub_negative (v : Fin 2 → ℤ) (i : Fin 2) :
   · simp [hvi, neg_nonpos.mpr hvi]
   · simp [hvi]
 
-private def directionalHomogenization {A : Type*} [CommSemiring A]
+def directionalHomogenization {A : Type*} [CommSemiring A]
     (v : Fin 2 → ℤ) (p : Polynomial A) (n : ℕ) :
     MvPolynomial (Fin 2) A :=
   MvPolynomial.eval₂Hom MvPolynomial.C
@@ -255,7 +259,7 @@ private theorem directionalHomogenization_mul
   rw [directionalHomogenization, Polynomial.homogenize_mul p q hp hq]
   exact map_mul _ _ _
 
-private def directionalExponent (v : Fin 2 → ℤ) (N k : ℕ) : Fin 2 →₀ ℕ :=
+def directionalExponent (v : Fin 2 → ℤ) (N k : ℕ) : Fin 2 →₀ ℕ :=
   k • intVectorPositive v + (N - k) • intVectorNegative v
 
 private theorem directionalHomogenization_not_isUnit
@@ -470,7 +474,7 @@ private theorem exists_directionalPolynomial_representation
       · exact (parameter_bounds r hr).2.trans hhile |>.trans (parameter_bounds s hs).1
     exact hsr (parameter_inj hs hr hparam_eq)
   let q : Polynomial A :=
-    ∑ s ∈ F.support, Polynomial.monomial (index s) (MvPolynomial.coeff s F)
+    ∑ s ∈ F.support, Polynomial.monomial (index s) (F.coeff s)
   have coeff_finset_sum (n : ℕ) (S : Finset (Fin 2 →₀ ℕ))
       (g : (Fin 2 →₀ ℕ) → Polynomial A) :
       (∑ s ∈ S, g s).coeff n = ∑ s ∈ S, (g s).coeff n := by
@@ -478,11 +482,11 @@ private theorem exists_directionalPolynomial_representation
     | empty => simp
     | @insert a S ha ih => simp [ha, ih, Polynomial.coeff_add]
   have coeff_q_index : ∀ s ∈ F.support,
-      q.coeff (index s) = MvPolynomial.coeff s F := by
+      q.coeff (index s) = F.coeff s := by
     intro s hs
     rw [show q.coeff (index s) =
         ∑ t ∈ F.support,
-          (Polynomial.monomial (index t) (MvPolynomial.coeff t F)).coeff (index s) by
+          (Polynomial.monomial (index t) (F.coeff t)).coeff (index s) by
       simp [q]]
     rw [Finset.sum_eq_single s]
     · rw [Polynomial.coeff_monomial, if_pos rfl]
@@ -508,7 +512,7 @@ private theorem exists_directionalPolynomial_representation
     intro n hn
     rw [show q.coeff n =
         ∑ s ∈ F.support,
-          (Polynomial.monomial (index s) (MvPolynomial.coeff s F)).coeff n by
+          (Polynomial.monomial (index s) (F.coeff s)).coeff n by
       simp [q]]
     simp only [Polynomial.coeff_monomial]
     apply Finset.sum_eq_zero
@@ -591,7 +595,7 @@ private theorem exists_directionalPolynomial_representation
   have hhomog : directionalHomogenization v q N =
       ∑ s ∈ F.support,
         directionalHomogenization v
-          (Polynomial.monomial (index s) (MvPolynomial.coeff s F)) N := by
+          (Polynomial.monomial (index s) (F.coeff s)) N := by
     simp only [q, directionalHomogenization,
       Polynomial.homogenize_finsetSum, map_sum]
   rw [hhomog, Finset.mul_sum]
@@ -600,7 +604,7 @@ private theorem exists_directionalPolynomial_representation
   rw [directionalHomogenization_monomial v (index_le s hs)]
   rw [MvPolynomial.monomial_mul]
   simp only [one_mul]
-  apply congrArg (fun e => MvPolynomial.monomial e (MvPolynomial.coeff s F))
+  apply congrArg (fun e => MvPolynomial.monomial e (F.coeff s))
   simpa [add_assoc] using exponent_eq s hs
 
 private theorem directionalPolynomial_degree_eq_one_of_irreducible
@@ -804,10 +808,10 @@ theorem planeCurveSupportHasRankTwo_of_absoluteIrreducible_notSubtorusTranslate
     have hsupp_single : F.support = {r} := by
       apply Finset.eq_singleton_iff_unique_mem.mpr
       exact ⟨hr, fun s hs => hsingle s hs⟩
-    have hFmono : F = MvPolynomial.monomial r (MvPolynomial.coeff r F) := by
+    have hFmono : F = MvPolynomial.monomial r (F.coeff r) := by
       rw [← F.support_sum_monomial_coeff, hsupp_single]
       simp
-    have hcoeff : MvPolynomial.coeff r F ≠ 0 :=
+    have hcoeff : F.coeff r ≠ 0 :=
       MvPolynomial.mem_support_iff.mp hr
     have hx₀ : (x₀ : A) ≠ 0 := Units.ne_zero x₀
     have hy₀ : (y₀ : A) ≠ 0 := Units.ne_zero y₀

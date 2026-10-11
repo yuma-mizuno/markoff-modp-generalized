@@ -1,5 +1,9 @@
-import BGS.HasseWeil.FunctionFieldConstantField
-import BGS.HasseWeil.PlaneConstantField
+module
+
+public import BGS.HasseWeil.FunctionFieldConstantField
+public import BGS.HasseWeil.PlaneConstantField
+
+@[expose] public section
 
 /-!
 # Constants and restriction for the function-field Galois closure
@@ -141,14 +145,21 @@ theorem functionFieldNormalClosureConstantField_isExact :
         (FunctionFieldNormalClosure K L)) :=
   algebraicClosure.algebraicClosure_eq_bot K (FunctionFieldNormalClosure K L)
 
+local instance normalClosureConstantsModule :
+    Module K (FunctionFieldNormalClosureConstantField K L) := Algebra.toModule
+
+set_option backward.isDefEq.respectTransparency false in
+set_option backward.isDefEq.respectTransparency.types false in
+open scoped Classical in
 omit [DecidableEq (RatFunc K)] in
 /-- Frobenius on the finite algebraic constant field has order equal to its
 degree over `K`. -/
 theorem orderOf_functionFieldNormalClosureConstantFrobenius :
     orderOf (FiniteField.frobeniusAlgEquivOfAlgebraic K
       (FunctionFieldNormalClosureConstantField K L)) =
-      Module.finrank K (FunctionFieldNormalClosureConstantField K L) :=
-  FiniteField.orderOf_frobeniusAlgEquivOfAlgebraic K
+      Module.finrank K (FunctionFieldNormalClosureConstantField K L) := by
+  classical
+  exact FiniteField.orderOf_frobeniusAlgEquivOfAlgebraic K
     (FunctionFieldNormalClosureConstantField K L)
 
 end

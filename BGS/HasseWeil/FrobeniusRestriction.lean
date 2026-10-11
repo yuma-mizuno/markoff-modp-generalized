@@ -1,7 +1,11 @@
-import BGS.HasseWeil.PoleDivisor
-import BGS.HasseWeil.TensorRestriction
-import Mathlib.FieldTheory.Finite.Basic
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.PoleDivisor
+public import BGS.HasseWeil.TensorRestriction
+public import Mathlib.FieldTheory.Finite.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Frobenius restriction over a finite constant field

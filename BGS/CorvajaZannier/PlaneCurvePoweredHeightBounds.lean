@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.FiniteExtensionPositiveDegreePower
-import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
-import BGS.CorvajaZannier.PlaneCurveBoundarySupport
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.FiniteExtensionPositiveDegreePower
+public import BGS.CorvajaZannier.FiniteExtensionOneSubGcdHeight
+public import BGS.CorvajaZannier.PlaneCurveBoundarySupport
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Powered coordinate heights in the first-coordinate place model

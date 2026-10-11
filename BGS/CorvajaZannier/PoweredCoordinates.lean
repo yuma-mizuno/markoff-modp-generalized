@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.PlaneCurveAuxiliaryIndependence
-import BGS.External.GeneralCurveTheorems
-import Mathlib.RingTheory.Coprime.Lemmas
+module
+
+public import BGS.CorvajaZannier.PlaneCurveAuxiliaryIndependence
+public import BGS.External.GeneralCurveTheorems
+public import Mathlib.RingTheory.Coprime.Lemmas
+
+@[expose] public section
 
 /-!
 # Prime-to-characteristic powers of plane-curve coordinates

@@ -1,6 +1,10 @@
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.NumberTheory.ArithmeticFunction.Misc
+module
+
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.NumberTheory.ArithmeticFunction.Misc
+
+@[expose] public section
 
 /-!
 # Subpolynomial growth of the divisor-counting function

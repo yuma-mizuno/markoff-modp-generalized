@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteExtensionEffectiveDivisorSplit
-import BGS.HasseWeil.FiniteExtensionPlaceDegreeFiniteness
-import BGS.HasseWeil.FormalZetaEuler
-import Mathlib.Data.Finsupp.Weight
+module
+
+public import BGS.HasseWeil.FiniteExtensionEffectiveDivisorSplit
+public import BGS.HasseWeil.FiniteExtensionPlaceDegreeFiniteness
+public import BGS.HasseWeil.FormalZetaEuler
+public import Mathlib.Data.Finsupp.Weight
+
+@[expose] public section
 
 /-!
 # The closed-place Euler recurrence
@@ -27,16 +31,16 @@ section FiniteWeightedFamily
 
 variable {I : Type*} [Fintype I] [DecidableEq I]
 
-private abbrev WeightedEffectiveDivisor (w : I → ℕ) (n : ℕ) :=
+abbrev WeightedEffectiveDivisor (w : I → ℕ) (n : ℕ) :=
   {D : I →₀ ℕ // Finsupp.weight w D = n}
 
-@[reducible] private noncomputable def weightedEffectiveDivisorFintype
+@[reducible] noncomputable def weightedEffectiveDivisorFintype
     (w : I → ℕ) (hw : ∀ i, w i ≠ 0) (n : ℕ) :
     Fintype (WeightedEffectiveDivisor w n) :=
   Set.Finite.fintype (Finsupp.finite_of_nat_weight_eq w hw n)
 
 @[ext]
-private structure WeightedMarkedEffectiveDivisor (w : I → ℕ) (n : ℕ) where
+structure WeightedMarkedEffectiveDivisor (w : I → ℕ) (n : ℕ) where
   divisor : I →₀ ℕ
   place : I
   occurrence : ℕ
@@ -46,7 +50,7 @@ private structure WeightedMarkedEffectiveDivisor (w : I → ℕ) (n : ℕ) where
   label_lt : label < w place
 
 @[ext]
-private structure WeightedEulerDecomposition (w : I → ℕ) (n : ℕ) where
+structure WeightedEulerDecomposition (w : I → ℕ) (n : ℕ) where
   leftDegree : ℕ
   rightDegree : ℕ
   split_eq : leftDegree + rightDegree = n
@@ -57,7 +61,7 @@ private structure WeightedEulerDecomposition (w : I → ℕ) (n : ℕ) where
   label : ℕ
   label_lt : label < w place
 
-private def weightedMarkedToEulerDecomposition
+def weightedMarkedToEulerDecomposition
     (w : I → ℕ) (hw : ∀ i, 0 < w i) (n : ℕ) :
     WeightedMarkedEffectiveDivisor w (n + 1) →
       WeightedEulerDecomposition w n := by
@@ -94,7 +98,7 @@ private def weightedMarkedToEulerDecomposition
   · rw [Nat.sub_add_cancel hrpos]
     simp [r, Nat.mul_comm]
 
-private def weightedEulerDecompositionToMarked
+def weightedEulerDecompositionToMarked
     (w : I → ℕ) (_hw : ∀ i, 0 < w i) (n : ℕ) :
     WeightedEulerDecomposition w n →
       WeightedMarkedEffectiveDivisor w (n + 1) := by
@@ -128,7 +132,7 @@ private def weightedEulerDecompositionToMarked
     occurrence_lt := htD
     label_lt := x.label_lt }
 
-private def weightedMarkedEffectiveDivisorEquivEulerDecomposition
+def weightedMarkedEffectiveDivisorEquivEulerDecomposition
     (w : I → ℕ) (hw : ∀ i, 0 < w i) (n : ℕ) :
     WeightedMarkedEffectiveDivisor w (n + 1) ≃
       WeightedEulerDecomposition w n where
@@ -178,7 +182,7 @@ private def weightedMarkedEffectiveDivisorEquivEulerDecomposition
     · rfl
     · rfl
 
-private def weightedMarkedEffectiveDivisorEquivSigma
+def weightedMarkedEffectiveDivisorEquivSigma
     (w : I → ℕ) (n : ℕ) :
     WeightedMarkedEffectiveDivisor w n ≃
       Σ D : WeightedEffectiveDivisor w n,
@@ -198,7 +202,7 @@ private def weightedMarkedEffectiveDivisorEquivSigma
   left_inv := by intro x; ext <;> rfl
   right_inv := by intro x; rcases x with ⟨D, P, k, l⟩; rfl
 
-@[reducible] private noncomputable def weightedMarkedEffectiveDivisorFintype
+@[reducible] noncomputable def weightedMarkedEffectiveDivisorFintype
     (w : I → ℕ) (hw : ∀ i, w i ≠ 0) (n : ℕ) :
     Fintype (WeightedMarkedEffectiveDivisor w n) := by
   letI := weightedEffectiveDivisorFintype w hw n
@@ -232,7 +236,7 @@ private theorem weightedMarkedEffectiveDivisor_card
       _ = n := D.2]
   simp [weightedEffectiveDivisorCount]
 
-private def weightedEulerDecompositionEquivSigma
+def weightedEulerDecompositionEquivSigma
     (w : I → ℕ) (n : ℕ) :
     WeightedEulerDecomposition w n ≃
       Σ ij : {ij : ℕ × ℕ //
@@ -258,7 +262,7 @@ private def weightedEulerDecompositionEquivSigma
   left_inv := by intro x; ext <;> rfl
   right_inv := by intro x; rcases x with ⟨ij, D, P, l⟩; rfl
 
-@[reducible] private noncomputable def weightedEulerDecompositionFintype
+@[reducible] noncomputable def weightedEulerDecompositionFintype
     (w : I → ℕ) (hw : ∀ i, w i ≠ 0) (n : ℕ) :
     Fintype (WeightedEulerDecomposition w n) := by
   letI (m : ℕ) := weightedEffectiveDivisorFintype w hw m
@@ -336,7 +340,7 @@ section LocalRestriction
 variable {J : Type*} [DecidableEq J]
 
 omit [DecidableEq J] in
-private theorem weightedEffectiveDivisor_support_subset_degreeLE
+theorem weightedEffectiveDivisor_support_subset_degreeLE
     (w : J → ℕ) (n bound : ℕ) (hn : n ≤ bound)
     (D : WeightedEffectiveDivisor w n) :
     (D.1.support : Set J) ⊆
@@ -352,7 +356,7 @@ private theorem weightedEffectiveDivisor_support_subset_degreeLE
   exact ⟨⟨P, hle⟩, rfl⟩
 
 omit [DecidableEq J] in
-private theorem weightedEffectiveDivisor_embDomain_weight
+theorem weightedEffectiveDivisor_embDomain_weight
     (w : J → ℕ) (bound : ℕ)
     (E : {P : J // w P ≤ bound} →₀ ℕ) :
     Finsupp.weight w
@@ -365,7 +369,7 @@ private theorem weightedEffectiveDivisor_embDomain_weight
   intro P _
   rfl
 
-private def weightedEffectiveDivisorRestrictEquiv
+def weightedEffectiveDivisorRestrictEquiv
     (w : J → ℕ) (n bound : ℕ) (hn : n ≤ bound) :
     WeightedEffectiveDivisor w n ≃
       WeightedEffectiveDivisor
@@ -419,7 +423,7 @@ theorem finiteExtensionEffectiveDivisorDegree_eq_weight
   intro P _
   simp
 
-private def finiteExtensionEffectiveDivisorWeightEquiv (n : ℕ) :
+def finiteExtensionEffectiveDivisorWeightEquiv (n : ℕ) :
     {D : FiniteExtensionEffectiveDivisor K L //
       finiteExtensionEffectiveDivisorDegree K L D = n} ≃
       WeightedEffectiveDivisor (finiteExtensionPlaceDegree K L) n where
@@ -430,7 +434,7 @@ private def finiteExtensionEffectiveDivisorWeightEquiv (n : ℕ) :
   left_inv D := by apply Subtype.ext; rfl
   right_inv D := by apply Subtype.ext; rfl
 
-private def finiteExtensionEffectiveDivisorRestrictEquiv
+def finiteExtensionEffectiveDivisorRestrictEquiv
     (n bound : ℕ) (hn : n ≤ bound) :
     {D : FiniteExtensionEffectiveDivisor K L //
       finiteExtensionEffectiveDivisorDegree K L D = n} ≃

@@ -1,7 +1,11 @@
-import BGS.HasseWeil.FiniteFieldConstantExtensionResidue
-import BGS.HasseWeil.FinitePlaceNormalizationTransport
-import BGS.HasseWeil.FunctionFieldConstantField
-import BGS.HasseWeil.RatFuncExactConstantExtension
+module
+
+public import BGS.HasseWeil.FiniteFieldConstantExtensionResidue
+public import BGS.HasseWeil.FinitePlaceNormalizationTransport
+public import BGS.HasseWeil.FunctionFieldConstantField
+public import BGS.HasseWeil.RatFuncExactConstantExtension
+
+@[expose] public section
 
 /-!
 # Finite places in an exact constant extension
@@ -70,7 +74,7 @@ variable (hExact : algebraicClosure C N =
   (⊥ : IntermediateField C N))
 
 /-- A ring equivalence transports the residue field of a height-one ideal. -/
-private noncomputable def heightOneResidueFieldRingEquiv
+noncomputable def heightOneResidueFieldRingEquiv
     {A B : Type*} [CommRing A] [CommRing B]
     (e : A ≃+* B) (q : IsDedekindDomain.HeightOneSpectrum A) :
     q.asIdeal.ResidueField ≃+*

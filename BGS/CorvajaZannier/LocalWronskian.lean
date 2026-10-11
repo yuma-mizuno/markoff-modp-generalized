@@ -1,6 +1,10 @@
-import BGS.CorvajaZannier.LocalDerivative
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.RingTheory.HahnSeries.Valuation
+module
+
+public import BGS.CorvajaZannier.LocalDerivative
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.RingTheory.HahnSeries.Valuation
+
+@[expose] public section
 
 /-!
 # Local Wronskian order estimates

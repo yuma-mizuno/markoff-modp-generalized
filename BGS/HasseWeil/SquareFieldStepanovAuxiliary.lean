@@ -1,7 +1,11 @@
-import BGS.HasseWeil.OnePointStepanovDegreeTwoAuxiliary
-import BGS.HasseWeil.PlaneStepanovAuxiliary
-import BGS.HasseWeil.SquareFieldStepanovRestriction
-import Mathlib.Tactic
+module
+
+public import BGS.HasseWeil.OnePointStepanovDegreeTwoAuxiliary
+public import BGS.HasseWeil.PlaneStepanovAuxiliary
+public import BGS.HasseWeil.SquareFieldStepanovRestriction
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # A sharp one-point Stepanov auxiliary over a square constant field

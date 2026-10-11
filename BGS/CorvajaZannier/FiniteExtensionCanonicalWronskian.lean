@@ -1,7 +1,11 @@
-import BGS.CorvajaZannier.DedekindDifferentDivisor
-import BGS.CorvajaZannier.DedekindLocalWronskian
-import BGS.CorvajaZannier.FiniteExtensionPolynomialHeight
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.DedekindDifferentDivisor
+public import BGS.CorvajaZannier.DedekindLocalWronskian
+public import BGS.CorvajaZannier.FiniteExtensionPolynomialHeight
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The global Wronskian divisor and the finite different degree

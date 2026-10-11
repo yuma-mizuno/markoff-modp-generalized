@@ -1,4 +1,8 @@
-import Mathlib.FieldTheory.RatFunc.IntermediateField
+module
+
+public import Mathlib.FieldTheory.RatFunc.IntermediateField
+
+@[expose] public section
 
 /-!
 # Linear-fractional automorphisms of a rational function field

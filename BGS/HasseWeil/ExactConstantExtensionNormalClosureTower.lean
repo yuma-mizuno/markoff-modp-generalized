@@ -1,10 +1,14 @@
-import BGS.HasseWeil.ExactConstantExtensionConstants
-import BGS.HasseWeil.ExactConstantExtensionRationalPlaceCount
-import BGS.HasseWeil.ExactConstantExtensionTower
-import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
-import BGS.HasseWeil.FiniteExtensionClosedPlaceAlgEquiv
-import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOne
-import BGS.HasseWeil.FunctionFieldNormalClosureOriginalCompositum
+module
+
+public import BGS.HasseWeil.ExactConstantExtensionConstants
+public import BGS.HasseWeil.ExactConstantExtensionRationalPlaceCount
+public import BGS.HasseWeil.ExactConstantExtensionTower
+public import BGS.HasseWeil.ConstantExtensionClosedPlaceSplittingFormula
+public import BGS.HasseWeil.FiniteExtensionClosedPlaceAlgEquiv
+public import BGS.HasseWeil.FiniteExtensionZetaDegreeIndexOne
+public import BGS.HasseWeil.FunctionFieldNormalClosureOriginalCompositum
+
+@[expose] public section
 
 /-!
 # The exact constant-extension tower of a function-field normal closure
@@ -875,6 +879,9 @@ theorem
     (exactConstantExtensionClosedPlaceExtensionCount_one_eq_rationalPlaceCount
       C S M hExactM).symm
 
+set_option backward.isDefEq.respectTransparency false in
+set_option backward.isDefEq.respectTransparency.types false in
+set_option maxHeartbeats 2400000 in
 /-- Combining the exact splitting formula with the canonical
 `C(X)`-equivalence `C ⊗[K] F ≃ CF` identifies the same rational-place count
 with the packaged exact-extension count of the original function field at
@@ -884,9 +891,11 @@ theorem
     (hExact : algebraicClosure K F = (⊥ : IntermediateField K F)) :
     let N := FunctionFieldNormalClosure K F
     letI : Algebra K N := functionFieldNormalClosureConstantAlgebra K F
+    letI : Module K N := Algebra.toModule
     let C := FunctionFieldNormalClosureConstantField K F
     letI : Algebra K C :=
       SubalgebraClass.toAlgebra (algebraicClosure K N)
+    letI : Module K C := Algebra.toModule
     letI : Module.Finite K C :=
       functionFieldConstantField_finiteDimensional K N
     letI : IsGalois K C := functionFieldConstantField_isGalois K N
@@ -925,9 +934,11 @@ theorem
   classical
   let N := FunctionFieldNormalClosure K F
   letI : Algebra K N := functionFieldNormalClosureConstantAlgebra K F
+  letI : Module K N := Algebra.toModule
   let C := FunctionFieldNormalClosureConstantField K F
   letI : Algebra K C :=
     SubalgebraClass.toAlgebra (algebraicClosure K N)
+  letI : Module K C := Algebra.toModule
   letI : Module.Finite K C :=
     functionFieldConstantField_finiteDimensional K N
   letI : IsGalois K C := functionFieldConstantField_isGalois K N

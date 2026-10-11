@@ -1,5 +1,9 @@
-import Mathlib.RingTheory.Ideal.Norm.RelNorm
-import Mathlib.FieldTheory.IsSepClosed
+module
+
+public import Mathlib.RingTheory.Ideal.Norm.RelNorm
+public import Mathlib.FieldTheory.IsSepClosed
+
+@[expose] public section
 
 /-!
 # Finite-extension norm and place-count formula

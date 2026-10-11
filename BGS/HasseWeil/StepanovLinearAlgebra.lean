@@ -1,6 +1,10 @@
-import BGS.HasseWeil.OnePointHeight
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.LinearAlgebra.Dimension.Constructions
+module
+
+public import BGS.HasseWeil.OnePointHeight
+public import Mathlib.LinearAlgebra.Dimension.Finite
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+
+@[expose] public section
 
 /-!
 # Linear-algebra core of the Bombieri--Stepanov argument

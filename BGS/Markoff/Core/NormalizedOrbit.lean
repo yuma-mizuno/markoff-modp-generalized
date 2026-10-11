@@ -1,5 +1,12 @@
-import BGS.Markoff.Core.Action
-import BGS.Markoff.Core.Normalization
+module
+
+public import BGS.Markoff.Core.Action
+public import BGS.Markoff.Core.Normalization
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Markoff components in normalized coordinates

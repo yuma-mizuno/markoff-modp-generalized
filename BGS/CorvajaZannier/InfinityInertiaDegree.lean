@@ -1,5 +1,12 @@
-import BGS.CorvajaZannier.InfinityPlace
-import Mathlib.Tactic
+module
+
+public import BGS.CorvajaZannier.InfinityPlace
+public import Mathlib.Tactic
+
+@[expose] public section
+
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
 
 /-!
 # Residue degree one above the rational-function place at infinity
@@ -204,7 +211,7 @@ theorem finiteExtensionInfinityPlace_inertiaDeg_eq_one
     Localization.AtPrime.algebraOfLiesOver
       (ratFuncInfinityPlace K).asIdeal P.1
   letI : Localization.AtPrime.IsLiesOverAlgebra
-      (ratFuncInfinityPlace K).asIdeal P.1 := ⟨rfl⟩
+      (ratFuncInfinityPlace K).asIdeal P.1 := inferInstance
   letI : IsAlgClosed (ratFuncInfinityPlace K).asIdeal.ResidueField :=
     IsAlgClosed.of_ringEquiv K
       (ratFuncInfinityPlace K).asIdeal.ResidueField

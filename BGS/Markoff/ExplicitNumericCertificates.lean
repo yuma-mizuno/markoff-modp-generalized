@@ -1,4 +1,8 @@
-import BGS.Markoff.ExplicitNumerics
+module
+
+public import BGS.Markoff.ExplicitNumerics
+
+@[expose] public section
 
 /-!
 # Numerical certificates for the explicit strong-approximation cutoff
