@@ -2,6 +2,7 @@ module
 
 public import BGS.NumberTheory.ExplicitDivisorBound
 public import Mathlib.Tactic.IntervalCases
+public import Mathlib.Tactic.NormNum.Prime
 
 @[expose] public section
 
@@ -324,6 +325,151 @@ private theorem factorization_succ_pow_ten_le
                               exact
                                 (pow_ten_le_base_oneThousandTwentyFour a).trans <|
                                   Nat.pow_le_pow_left hpLower a
+/-- Split a finite sum into blocks, keeping each numerical certificate small. -/
+private theorem sum_range_blocks (f : ℕ → ℕ) (blocks width : ℕ) :
+    (∑ p ∈ Finset.range (blocks * width), f p) =
+      ∑ b ∈ Finset.range blocks, ∑ p ∈ Finset.range width, f (b * width + p) := by
+  induction blocks with
+  | zero => simp
+  | succ b ih =>
+      rw [Nat.succ_mul, Finset.sum_range_add, Finset.sum_range_succ, ih]
+
+private def smallPrimePenaltySummand (p : ℕ) : ℕ :=
+  if p.Prime then preliminaryPrimePenalty p else 0
+
+private def smallPrimePenaltyBlock (b : ℕ) : ℕ :=
+  ∑ p ∈ Finset.range 32, smallPrimePenaltySummand (b * 32 + p)
+
+/- Certify each block separately so kernel replay never reduces the entire
+   prime filter and sum at once. The block totals add to 447. -/
+private theorem smallPrimePenaltyBlock_0 : smallPrimePenaltyBlock 0 = 128 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_1 : smallPrimePenaltyBlock 1 = 37 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_2 : smallPrimePenaltyBlock 2 = 24 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_3 : smallPrimePenaltyBlock 3 = 28 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_4 : smallPrimePenaltyBlock 4 = 18 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_5 : smallPrimePenaltyBlock 5 = 18 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_6 : smallPrimePenaltyBlock 6 = 15 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_7 : smallPrimePenaltyBlock 7 = 18 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_8 : smallPrimePenaltyBlock 8 = 14 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_9 : smallPrimePenaltyBlock 9 = 10 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_10 : smallPrimePenaltyBlock 10 = 8 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_11 : smallPrimePenaltyBlock 11 = 12 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_12 : smallPrimePenaltyBlock 12 = 8 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_13 : smallPrimePenaltyBlock 13 = 12 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_14 : smallPrimePenaltyBlock 14 = 12 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_15 : smallPrimePenaltyBlock 15 = 10 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_16 : smallPrimePenaltyBlock 16 = 3 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_17 : smallPrimePenaltyBlock 17 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_18 : smallPrimePenaltyBlock 18 = 6 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_19 : smallPrimePenaltyBlock 19 = 4 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_20 : smallPrimePenaltyBlock 20 = 6 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_21 : smallPrimePenaltyBlock 21 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_22 : smallPrimePenaltyBlock 22 = 4 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_23 : smallPrimePenaltyBlock 23 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_24 : smallPrimePenaltyBlock 24 = 4 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_25 : smallPrimePenaltyBlock 25 = 6 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_26 : smallPrimePenaltyBlock 26 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_27 : smallPrimePenaltyBlock 27 = 4 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_28 : smallPrimePenaltyBlock 28 = 3 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_29 : smallPrimePenaltyBlock 29 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_30 : smallPrimePenaltyBlock 30 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
+private theorem smallPrimePenaltyBlock_31 : smallPrimePenaltyBlock 31 = 5 := by
+  norm_num [smallPrimePenaltyBlock, smallPrimePenaltySummand,
+    Finset.sum_range_succ, preliminaryPrimePenalty]
+
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 2000000 in
 private theorem sum_preliminaryPrimePenalty_le (n : ℕ) :
@@ -355,7 +501,20 @@ private theorem sum_preliminaryPrimePenalty_le (n : ℕ) :
       (fun _ _ _ ↦ Nat.zero_le _)
   have htotal :
       (∑ p ∈ allSmallPrimes, preliminaryPrimePenalty p) ≤ 447 := by
-    decide
+    dsimp [allSmallPrimes]
+    rw [Finset.sum_filter]
+    change (∑ p ∈ Finset.range (32 * 32), smallPrimePenaltySummand p) ≤ 447
+    rw [sum_range_blocks]
+    change (∑ b ∈ Finset.range 32, smallPrimePenaltyBlock b) ≤ 447
+    norm_num [Finset.sum_range_succ,
+      smallPrimePenaltyBlock_0, smallPrimePenaltyBlock_1, smallPrimePenaltyBlock_2, smallPrimePenaltyBlock_3,
+      smallPrimePenaltyBlock_4, smallPrimePenaltyBlock_5, smallPrimePenaltyBlock_6, smallPrimePenaltyBlock_7,
+      smallPrimePenaltyBlock_8, smallPrimePenaltyBlock_9, smallPrimePenaltyBlock_10, smallPrimePenaltyBlock_11,
+      smallPrimePenaltyBlock_12, smallPrimePenaltyBlock_13, smallPrimePenaltyBlock_14, smallPrimePenaltyBlock_15,
+      smallPrimePenaltyBlock_16, smallPrimePenaltyBlock_17, smallPrimePenaltyBlock_18, smallPrimePenaltyBlock_19,
+      smallPrimePenaltyBlock_20, smallPrimePenaltyBlock_21, smallPrimePenaltyBlock_22, smallPrimePenaltyBlock_23,
+      smallPrimePenaltyBlock_24, smallPrimePenaltyBlock_25, smallPrimePenaltyBlock_26, smallPrimePenaltyBlock_27,
+      smallPrimePenaltyBlock_28, smallPrimePenaltyBlock_29, smallPrimePenaltyBlock_30, smallPrimePenaltyBlock_31]
   rw [← hsumEq]
   exact hle.trans htotal
 
