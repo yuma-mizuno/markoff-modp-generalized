@@ -366,7 +366,7 @@ theorem card_divisors_pow_ten_le_preliminary_constant_mul
     (∏ p ∈ n.primeFactors, (n.factorization p + 1) ^ 10) ≤
         ∏ p ∈ n.primeFactors,
           (2 ^ preliminaryPrimePenalty p * p ^ n.factorization p) :=
-      Finset.prod_le_prod (fun _ _ ↦ Nat.zero_le _)
+      Finset.prod_le_prod₀ (fun _ _ ↦ Nat.zero_le _)
         (fun p hp ↦ factorization_succ_pow_ten_le
           (Nat.prime_of_mem_primeFactors hp))
     _ = 2 ^ (∑ p ∈ n.primeFactors, preliminaryPrimePenalty p) * n := by

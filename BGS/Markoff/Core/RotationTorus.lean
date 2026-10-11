@@ -99,7 +99,8 @@ theorem splitDiagonalSLHom_injective :
   apply Units.ext
   have hentry := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) F =>
     (A : Matrix (Fin 2) (Fin 2) F) 0 0) h
-  simpa [splitDiagonalSLHom, splitDiagonalSL_coe] using hentry
+  simpa [splitDiagonalSLHom, splitDiagonalSL_coe, MonoidHom.coe_mk, OneHom.coe_mk] using
+    hentry
 
 /-- The diagonal `SL₂` element has exactly the multiplicative order of its first eigenvalue. -/
 theorem splitDiagonalSL_orderOf (w : Fˣ) :

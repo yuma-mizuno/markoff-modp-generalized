@@ -213,8 +213,9 @@ theorem admissible_of_not_mem_forbiddenIntermediateCoordinates
         (eq_div_iff h3).2 (by simpa [mul_comm] using hpositive)
       exact hy (by simp [forbiddenIntermediateCoordinates, hyvalue])
     · have hyvalue : y = -(2 / 3) := by
-        rw [← neg_div]
-        exact (eq_div_iff h3).2 (by simpa [mul_comm] using hnegative)
+        have h : y = -2 / 3 := (eq_div_iff h3).2 (by simpa [mul_comm] using hnegative)
+        rw [h]
+        ring
       exact hy (by simp [forbiddenIntermediateCoordinates, hyvalue])
 
 /-- The exact auxiliary-point conclusion, including the condition that the new fiber remains a

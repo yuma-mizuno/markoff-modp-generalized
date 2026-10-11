@@ -6,7 +6,7 @@ open Lake DSL
 -- markoff-modp commit ac8e9ec37a3d56dddb55870d379f53e5526dc0c7.
 -- Its Blueprint modules and Verso dependency are intentionally absent.
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "v4.32.0"
+  "https://github.com/leanprover-community/mathlib4.git" @ "v4.35.0-rc2"
 
 package GenMarkoff where
   precompileModules := false

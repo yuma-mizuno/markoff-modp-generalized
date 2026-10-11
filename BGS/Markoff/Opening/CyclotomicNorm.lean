@@ -36,7 +36,7 @@ theorem algebraNorm_norm_le_pow_of_embeddings
     _ = ‖∏ σ : K →ₐ[ℚ] ℂ, σ x‖ := by rw [Algebra.norm_eq_prod_embeddings]
     _ ≤ ∏ σ : K →ₐ[ℚ] ℂ, ‖σ x‖ := Finset.norm_prod_le _ _
     _ ≤ ∏ _σ : K →ₐ[ℚ] ℂ, B := by
-      exact Finset.prod_le_prod (fun _ _ ↦ norm_nonneg _) (fun σ _ ↦ hB σ)
+      exact Finset.prod_le_prod₀ (fun _ _ ↦ norm_nonneg _) (fun σ _ ↦ hB σ)
     _ = B ^ Module.finrank ℚ K := by simp [AlgHom.card]
 
 /-- Integral version of `algebraNorm_norm_le_pow_of_embeddings`, with an integer-valued bound. -/

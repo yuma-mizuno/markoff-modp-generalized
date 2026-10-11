@@ -22,7 +22,10 @@ inductive Axis
   | first
   | second
   | third
-deriving DecidableEq, Fintype, Repr
+deriving DecidableEq, Repr
+
+instance : Fintype Axis :=
+  ⟨{.first, .second, .third}, fun x ↦ by cases x <;> simp⟩
 
 /-- Coordinate selected by an axis. -/
 def coordinateAt {R : Type u} (axis : Axis) (x : Point R) : R :=
